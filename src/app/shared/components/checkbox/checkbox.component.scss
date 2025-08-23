@@ -1,0 +1,97 @@
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+
+  .form-check-input {
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:checked {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      transform: scale(1.1);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      border-color: var(--primary-color);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+  }
+
+  .form-check-label {
+    cursor: pointer;
+    color: var(--gray-700);
+    font-weight: 500;
+    margin: 0;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: var(--primary-color);
+    }
+  }
+
+  // Size variations
+  .form-check-input-sm {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .form-check-input-lg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .form-check-label-sm {
+    font-size: 0.875rem;
+  }
+
+  .form-check-label-lg {
+    font-size: 1.125rem;
+  }
+}
+
+// Custom checkbox styling
+.form-check-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--gray-400);
+  border-radius: 0.25rem;
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+
+  &:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+
+    &::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--primary-color);
+  }
+}

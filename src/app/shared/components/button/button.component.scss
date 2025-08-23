@@ -1,0 +1,98 @@
+.custom-button {
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  // Primary button styles
+  &.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+
+    &:hover:not(:disabled) {
+      box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+    }
+  }
+
+  // Outline button styles
+  &.btn-outline-primary,
+  &.btn-outline-secondary,
+  &.btn-outline-success,
+  &.btn-outline-danger,
+  &.btn-outline-warning,
+  &.btn-outline-info,
+  &.btn-outline-light,
+  &.btn-outline-dark {
+    background: transparent;
+    border: 2px solid;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  // Social button styles
+  &.btn-outline-dark {
+    &:hover:not(:disabled) {
+      background-color: #343a40;
+      color: white;
+    }
+  }
+
+  // Loading state
+  &:has(.pi-spinner) {
+    pointer-events: none;
+  }
+
+  .pi-spinner {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 576px) {
+  .custom-button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+
+    &.btn-lg {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    &.btn-sm {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+    }
+  }
+}

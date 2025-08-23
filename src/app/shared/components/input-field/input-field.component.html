@@ -1,0 +1,43 @@
+<div class="form-group mb-3">
+  <!-- Label -->
+  <label *ngIf="label" [for]="'input-' + label" class="form-label">
+    <i *ngIf="icon" [class]="icon + ' me-2'"></i>
+    {{ label }}
+    <span *ngIf="required" class="text-danger">*</span>
+  </label>
+
+  <!-- Input Group -->
+  <div class="input-group">
+    <!-- Icon prefix -->
+    <span *ngIf="icon" class="input-group-text">
+      <i [class]="icon"></i>
+    </span>
+
+    <!-- Input field -->
+    <input
+      [id]="'input-' + label"
+      [type]="inputType"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      [class]="inputClasses"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    />
+
+    <!-- Password toggle button -->
+    <button
+      *ngIf="showPasswordToggle && type === 'password'"
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="togglePasswordVisibility()"
+    >
+      <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+    </button>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="hasError" class="invalid-feedback d-block">
+    {{ errorMessage }}
+  </div>
+</div>

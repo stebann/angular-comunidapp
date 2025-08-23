@@ -1,0 +1,25 @@
+<button
+  type="button"
+  [class]="buttonClasses"
+  [disabled]="disabled || loading"
+  (click)="onClick()"
+  class="custom-button"
+>
+  <!-- Loading spinner -->
+  <span *ngIf="loading" class="d-flex align-items-center justify-content-center">
+    <i class="pi pi-spinner me-2"></i>
+    {{ buttonContent }}
+  </span>
+
+  <!-- Normal content -->
+  <span *ngIf="!loading">
+    <!-- Left icon -->
+    <i *ngIf="showLeftIcon" [class]="iconClasses"></i>
+
+    <!-- Button content (projected content) -->
+    <ng-content></ng-content>
+
+    <!-- Right icon -->
+    <i *ngIf="showRightIcon" [class]="iconClasses"></i>
+  </span>
+</button>
