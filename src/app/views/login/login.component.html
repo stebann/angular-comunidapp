@@ -1,1 +1,90 @@
-<p>login works!</p>
+<div class="login-container">
+  <div class="login-background">
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+    </div>
+  </div>
+
+  <div class="container-fluid h-100">
+    <div class="row h-100 align-items-center justify-content-center">
+      <div class="col-lg-4 col-md-6 col-sm-8">
+        <div class="login-card shadow-custom border-radius-custom">
+          <div class="login-header text-center mb-4">
+            <div class="logo-container mb-3">
+              <div class="logo-circle gradient-bg">
+                <i
+                  class="pi pi-users"
+                  style="font-size: 2rem; color: white"
+                ></i>
+              </div>
+            </div>
+            <h2 class="login-title">Bienvenido a ComunidApp</h2>
+            <p class="login-subtitle text-muted">Inicia sesión en tu cuenta</p>
+          </div>
+
+          <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+            class="login-form"
+          >
+            <app-input-field
+              label="Correo electrónico"
+              placeholder="tu@email.com"
+              type="email"
+              icon="pi pi-envelope"
+              [required]="true"
+              formControlName="usuario"
+            >
+            </app-input-field>
+
+            <app-input-field
+              label="Contraseña"
+              placeholder="••••••••"
+              type="password"
+              icon="pi pi-lock"
+              [required]="true"
+              [showPasswordToggle]="true"
+              formControlName="contrasena"
+            >
+            </app-input-field>
+
+            <div class="form-group mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <app-checkbox label="Recordarme" formControlName="recordar">
+                </app-checkbox>
+                <a href="#" class="text-decoration-none forgot-password">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
+            </div>
+
+            <div class="form-group mb-4">
+              <app-button
+                type="primary"
+                [loading]="isLoading"
+                [disabled]="loginForm.invalid"
+                icon="pi pi-sign-in"
+                [fullWidth]="true"
+                (clicked)="onSubmit()"
+              >
+                Iniciar Sesión
+              </app-button>
+            </div>
+
+            <div class="text-center">
+              <p class="mb-0">
+                ¿No tienes una cuenta?
+                <a href="#" class="text-decoration-none register-link">
+                  Regístrate aquí
+                </a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
