@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginService } from './services/login.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { LoginService } from './services/login.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LoginService, private router: Router) {}
 
   get loginForm() {
     return this.loginService.loginForm;
@@ -16,6 +17,8 @@ export class LoginComponent {
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.loginService.login();
+
+      this.router.navigate(['/']);
     }
   }
 }

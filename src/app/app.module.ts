@@ -5,8 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LayoutComponent } from './layout/layout.component';
-import { MenuComponent } from './layout/menu/menu.component';
+import { LayoutModule } from './layout/layout.module';
+import { SharedModule } from './shared/shared.module';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -16,21 +16,14 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { LoadingInterceptor } from './core/interceptors/loading-interceptor';
 import { SpinnerComponent } from './layout/spinner/spinner.component';
-import { TopbarComponent } from './layout/topbar/topbar.component';
-import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LayoutComponent,
-    MenuComponent,
-    TopbarComponent,
-    SpinnerComponent,
-  ],
+  declarations: [AppComponent, SpinnerComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    LayoutModule,
     SharedModule,
     HttpClientModule,
     ToastModule,

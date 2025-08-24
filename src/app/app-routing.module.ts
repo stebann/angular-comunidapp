@@ -9,8 +9,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'auth',
-    pathMatch: 'full',
+    loadChildren: () =>
+      import('./layout/layout.module').then((m) => m.LayoutModule),
   },
 ];
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { AuthAPI } from 'src/app/core/routes-api/auth_api';
 import { HttpService } from 'src/app/core/services/http.service';
 import { LoginRepository } from '../repositories/login-repository';
