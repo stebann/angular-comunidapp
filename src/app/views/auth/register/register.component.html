@@ -1,0 +1,96 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <div class="logo-container">
+        <i class="pi pi-users"></i>
+      </div>
+      <h1>ComunidApp</h1>
+      <p>Crea tu cuenta</p>
+    </div>
+
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form"
+    >
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <app-input-field
+            formControlName="name"
+            label="Nombre completo"
+            placeholder="Ingresa tu nombre completo"
+            type="text"
+            icon="pi pi-user"
+            [required]="true"
+          ></app-input-field>
+        </div>
+        <div class="col-md-6">
+          <app-input-field
+            formControlName="email"
+            label="Correo electrónico"
+            placeholder="Ingresa tu correo electrónico"
+            type="email"
+            icon="pi pi-envelope"
+            [required]="true"
+          ></app-input-field>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <app-input-field
+            formControlName="password"
+            label="Contraseña"
+            placeholder="Crea una contraseña"
+            type="password"
+            icon="pi pi-lock"
+            [required]="true"
+            [showPasswordToggle]="true"
+          ></app-input-field>
+        </div>
+        <div class="col-md-6">
+          <app-input-field
+            formControlName="confirmPassword"
+            label="Confirmar contraseña"
+            placeholder="Confirma tu contraseña"
+            type="password"
+            icon="pi pi-lock"
+            [required]="true"
+            [showPasswordToggle]="true"
+          ></app-input-field>
+        </div>
+      </div>
+
+      <!-- Campo de términos -->
+      <div class="mb-4">
+        <app-checkbox
+          formControlName="acceptTerms"
+          label="Acepto los términos y condiciones de uso"
+        ></app-checkbox>
+      </div>
+
+      <!-- Botón de registro -->
+      <div class="mb-4">
+        <app-button
+          type="primary"
+          [fullWidth]="true"
+          [disabled]="registerForm.invalid"
+          icon="pi pi-user-plus"
+          (clicked)="onSubmit()"
+        >
+          Crear Cuenta
+        </app-button>
+      </div>
+    </form>
+
+    <div class="register-footer">
+      <div class="divider">
+        <span>o</span>
+      </div>
+      <p class="text-center">
+        ¿Ya tienes una cuenta?
+        <a routerLink="/auth/login" class="login-link">Inicia sesión aquí</a>
+      </p>
+    </div>
+  </div>
+</div>

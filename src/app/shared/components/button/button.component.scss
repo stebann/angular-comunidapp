@@ -1,40 +1,81 @@
 .custom-button {
   transition: all 0.3s ease;
-  font-weight: 500;
+  font-weight: 600;
   border: none;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  min-height: 48px;
+  padding: 12px 24px;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   }
 
   &:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   }
 
   &:disabled {
-    opacity: 0.7;
+    opacity: 0.6;
     cursor: not-allowed;
     transform: none !important;
     box-shadow: none !important;
   }
 
-  // Primary button styles
+
   &.btn-primary {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-600) 100%);
+    color: white;
 
     &:hover:not(:disabled) {
-      box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+      background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-color) 100%);
+      box-shadow: 0 10px 30px rgba(var(--primary-color-rgb), 0.3);
     }
   }
 
-  // Outline button styles
+
+  &.btn-secondary {
+    background: #6c757d;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: #5a6268;
+      box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
+    }
+  }
+
+
+  &.btn-success {
+    background: #28a745;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: #218838;
+      box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    }
+  }
+
+
+  &.btn-danger {
+    background: #dc3545;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: #c82333;
+      box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+    }
+  }
+
+
   &.btn-outline-primary,
   &.btn-outline-secondary,
   &.btn-outline-success,
@@ -52,21 +93,45 @@
     }
   }
 
-  // Social button styles
-  &.btn-outline-dark {
+  &.btn-outline-primary {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+
     &:hover:not(:disabled) {
-      background-color: #343a40;
+      background-color: var(--primary-color);
       color: white;
     }
   }
 
-  // Loading state
+
+  &.btn-sm {
+    min-height: 36px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+  }
+
+  &.btn-lg {
+    min-height: 56px;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+  }
+
+
+  &.w-100 {
+    width: 100%;
+  }
+
   &:has(.pi-spinner) {
     pointer-events: none;
   }
 
   .pi-spinner {
     animation: spin 1s linear infinite;
+  }
+
+
+  i {
+    font-size: 1rem;
   }
 }
 
@@ -79,20 +144,23 @@
   }
 }
 
-// Responsive adjustments
+
 @media (max-width: 576px) {
   .custom-button {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    min-height: 44px;
 
     &.btn-lg {
-      padding: 0.75rem 1.5rem;
+      padding: 14px 28px;
       font-size: 1rem;
+      min-height: 52px;
     }
 
     &.btn-sm {
-      padding: 0.25rem 0.75rem;
+      padding: 6px 14px;
       font-size: 0.8rem;
+      min-height: 32px;
     }
   }
 }

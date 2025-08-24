@@ -4,46 +4,50 @@ import { MessageService } from 'primeng/api';
 @Injectable({
   providedIn: 'root',
 })
-export class ToastService {
+export class AppMessagesServices {
   constructor(private messageService: MessageService) {}
 
-  exito(detalle: string, resumen: string = 'Éxito') {
+  exito(detalle: string, title: string = 'Éxito') {
     this.messageService.add({
       key: 'toastPrincipal',
       severity: 'success',
-      summary: resumen,
+      summary: title,
       detail: detalle,
       life: 3000,
+      icon: 'pi pi-check-circle',
     });
   }
 
-  error(detalle: string, resumen: string = 'Error') {
+  error(detalle: string, title: string = 'Error') {
     this.messageService.add({
       key: 'toastPrincipal',
       severity: 'error',
-      summary: resumen,
+      summary: title,
       detail: detalle,
       life: 3000,
+      icon: 'pi pi-times-circle',
     });
   }
 
-  info(detalle: string, resumen: string = 'Información') {
+  info(detalle: string, title: string = 'Información') {
     this.messageService.add({
       key: 'toastPrincipal',
       severity: 'info',
-      summary: resumen,
+      summary: title,
       detail: detalle,
       life: 3000,
+      icon: 'pi pi-info-circle',
     });
   }
 
-  advertencia(detalle: string, resumen: string = 'Advertencia') {
+  advertencia(detalle: string, title: string = 'Advertencia') {
     this.messageService.add({
       key: 'toastPrincipal',
       severity: 'warn',
-      summary: resumen,
+      summary: title,
       detail: detalle,
       life: 3000,
+      icon: 'pi pi-exclamation-triangle',
     });
   }
 

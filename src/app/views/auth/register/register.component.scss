@@ -1,0 +1,163 @@
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+
+  .register-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    padding: 50px;
+    width: 100%;
+    max-width: 1000px;
+    animation: slideUp 0.6s ease-out;
+
+    .register-header {
+      text-align: center;
+      margin-bottom: 35px;
+
+      .logo-container {
+        margin-bottom: 18px;
+
+        i {
+          font-size: 3.5rem;
+          background: linear-gradient(135deg, var(--primary-color), var(--primary-600));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      }
+
+      h1 {
+        color: var(--text-color);
+        font-size: 2.3rem;
+        font-weight: 700;
+        margin: 0 0 10px 0;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-600));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      p {
+        color: var(--text-color-secondary);
+        font-size: 1rem;
+        margin: 0;
+        font-weight: 500;
+      }
+    }
+
+    .register-footer {
+      text-align: center;
+
+      .divider {
+        position: relative;
+        margin: 28px 0;
+        text-align: center;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: var(--surface-border);
+        }
+
+        span {
+          background: white;
+          padding: 0 20px;
+          color: var(--text-color-secondary);
+          font-size: 0.9rem;
+          font-weight: 500;
+          position: relative;
+          z-index: 1;
+        }
+      }
+
+      p {
+        color: var(--text-color-secondary);
+        margin: 18px 0 0 0;
+        font-size: 1rem;
+
+        .login-link {
+          color: var(--primary-color);
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: var(--primary-600);
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .register-container {
+    .register-card {
+      max-width: 900px;
+      padding: 45px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: 16px;
+
+    .register-card {
+      padding: 35px;
+      max-width: 600px;
+
+      .register-header {
+        h1 {
+          font-size: 2.1rem;
+        }
+
+        p {
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    .register-card {
+      padding: 25px;
+      max-width: 100%;
+
+      .register-header {
+        .logo-container i {
+          font-size: 3rem;
+        }
+
+        h1 {
+          font-size: 1.9rem;
+        }
+      }
+    }
+  }
+}
+
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

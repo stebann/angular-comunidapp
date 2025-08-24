@@ -20,19 +20,16 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() icon: string = '';
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
-  @Input() errorMessage: string = '';
   @Input() showPasswordToggle: boolean = false;
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
 
   value: string = '';
   showPassword: boolean = false;
-  touched: boolean = false;
 
   onChange = (value: string) => {};
   onTouched = () => {};
 
   writeValue(value: string): void {
-    this.value = value;
+    this.value = value || '';
   }
 
   registerOnChange(fn: any): void {
@@ -54,7 +51,6 @@ export class InputFieldComponent implements ControlValueAccessor {
   }
 
   onBlur(): void {
-    this.touched = true;
     this.onTouched();
   }
 
@@ -69,19 +65,7 @@ export class InputFieldComponent implements ControlValueAccessor {
     return this.type;
   }
 
-  get hasError(): boolean {
-    return this.touched && !!this.errorMessage;
-  }
-
   get inputClasses(): string {
-    const baseClasses = 'form-control';
-    const sizeClasses = {
-      sm: 'form-control-sm',
-      md: '',
-      lg: 'form-control-lg',
-    };
-    const errorClass = this.hasError ? 'is-invalid' : '';
-
-    return `${baseClasses} ${sizeClasses[this.size]} ${errorClass}`.trim();
+    return 'form-control';
   }
 }
