@@ -13,6 +13,11 @@ const routes: Routes = [
           import('../views/home/home.module').then((m) => m.HomeModule),
       },
       {
+        path: 'events',
+        loadChildren: () =>
+          import('../views/events/events.module').then((m) => m.EventsModule),
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',

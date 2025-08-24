@@ -6,44 +6,19 @@
         <i class="pi pi-users"></i>
         <span *ngIf="!isSidebarCollapsed">ComunidApp</span>
       </div>
-      <button class="sidebar-toggle" (click)="toggleSidebar()">
-        <i
-          class="pi"
-          [class]="isSidebarCollapsed ? 'pi-angle-right' : 'pi-angle-left'"
-        ></i>
-      </button>
     </div>
 
     <nav class="sidebar-nav">
       <ul class="nav-list">
-        <li class="nav-item">
-          <a routerLink="/home" routerLinkActive="active" class="nav-link">
-            <i class="pi pi-home"></i>
-            <span *ngIf="!isSidebarCollapsed">Inicio</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/events" routerLinkActive="active" class="nav-link">
-            <i class="pi pi-calendar"></i>
-            <span *ngIf="!isSidebarCollapsed">Eventos</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/community" routerLinkActive="active" class="nav-link">
-            <i class="pi pi-users"></i>
-            <span *ngIf="!isSidebarCollapsed">Comunidad</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/messages" routerLinkActive="active" class="nav-link">
-            <i class="pi pi-comments"></i>
-            <span *ngIf="!isSidebarCollapsed">Mensajes</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a routerLink="/profile" routerLinkActive="active" class="nav-link">
-            <i class="pi pi-user"></i>
-            <span *ngIf="!isSidebarCollapsed">Perfil</span>
+        <li class="nav-item" *ngFor="let item of menuItems">
+          <a
+            (click)="onMenuItemClick(item)"
+            [class.active]="item.active"
+            class="nav-link"
+            [title]="item.label"
+          >
+            <i [class]="item.icon"></i>
+            <span *ngIf="!isSidebarCollapsed">{{ item.label }}</span>
           </a>
         </li>
       </ul>
@@ -65,7 +40,7 @@
         <button class="menu-toggle" (click)="toggleSidebar()">
           <i class="pi pi-bars"></i>
         </button>
-        <h1 class="page-title">Dashboard</h1>
+        <h1 class="page-title"></h1>
       </div>
 
       <div class="topbar-right">
@@ -94,7 +69,6 @@
       </div>
     </header>
 
-    <!-- Page Content -->
     <div class="page-content">
       <router-outlet></router-outlet>
     </div>
