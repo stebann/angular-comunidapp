@@ -12,10 +12,10 @@ export class LayoutComponent {
   isUserMenuOpen = false;
 
   menuItems: MenuItem[] = [
-    { label: 'Inicio', route: '/home', icon: 'pi pi-home', active: false },
+    { label: 'Inicio', route: '/inicio', icon: 'pi pi-home', active: false },
     {
       label: 'Eventos',
-      route: '/events',
+      route: '/eventos',
       icon: 'pi pi-calendar',
       active: false,
     },

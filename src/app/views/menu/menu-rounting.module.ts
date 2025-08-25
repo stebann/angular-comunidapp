@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EventsComponent } from './components/events/events.component';
-import { HomeComponent } from './components/home/home.component';
+import { EventosComponent } from './components/eventos/eventos.component';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'events', component: EventsComponent },
+  { path: 'inicio', component: InicioComponent },
+  { path: 'eventos', component: EventosComponent },
 
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // ruta por defecto
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // ruta por defecto
 ];
 
 @NgModule({
