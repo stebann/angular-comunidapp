@@ -8,19 +8,9 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: 'home',
-        loadChildren: () =>
-          import('../views/home/home.module').then((m) => m.HomeModule),
-      },
-      {
-        path: 'events',
-        loadChildren: () =>
-          import('../views/events/events.module').then((m) => m.EventsModule),
-      },
-      {
         path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
+        loadChildren: () =>
+          import('../views/menu/menu.module').then((m) => m.MenuModule),
       },
     ],
   },

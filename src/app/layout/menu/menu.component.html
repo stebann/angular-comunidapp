@@ -1,1 +1,31 @@
-<p>menu works!</p>
+<aside class="sidebar" [class.sidebar-collapsed]="isCollapsed">
+  <div class="sidebar-header">
+    <div class="logo">
+      <i class="pi pi-users"></i>
+      <span *ngIf="!isCollapsed">ComunidApp</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <li class="nav-item" *ngFor="let item of menuItems">
+        <a
+          (click)="onMenuItemClick(item)"
+          [class.active]="item.active"
+          class="nav-link"
+          [title]="item.label"
+        >
+          <i [class]="item.icon"></i>
+          <span *ngIf="!isCollapsed">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="logout-btn" (click)="logout()">
+      <i class="pi pi-sign-out"></i>
+      <span *ngIf="!isCollapsed">Cerrar Sesión</span>
+    </button>
+  </div>
+</aside>

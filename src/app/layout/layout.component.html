@@ -1,73 +1,18 @@
 <div class="layout-container">
-  <!-- Sidebar -->
-  <aside class="sidebar" [class.sidebar-collapsed]="isSidebarCollapsed">
-    <div class="sidebar-header">
-      <div class="logo">
-        <i class="pi pi-users"></i>
-        <span *ngIf="!isSidebarCollapsed">ComunidApp</span>
-      </div>
-    </div>
+  <app-menu
+    [isCollapsed]="isSidebarCollapsed"
+    [menuItems]="menuItems"
+    (menuItemClick)="onMenuItemClick($event)"
+    (logoutClick)="logout()"
+  ></app-menu>
 
-    <nav class="sidebar-nav">
-      <ul class="nav-list">
-        <li class="nav-item" *ngFor="let item of menuItems">
-          <a
-            (click)="onMenuItemClick(item)"
-            [class.active]="item.active"
-            class="nav-link"
-            [title]="item.label"
-          >
-            <i [class]="item.icon"></i>
-            <span *ngIf="!isSidebarCollapsed">{{ item.label }}</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="sidebar-footer">
-      <button class="logout-btn" (click)="logout()">
-        <i class="pi pi-sign-out"></i>
-        <span *ngIf="!isSidebarCollapsed">Cerrar Sesión</span>
-      </button>
-    </div>
-  </aside>
-
-  <!-- Main Content -->
   <main class="main-content">
-    <!-- Topbar -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <button class="menu-toggle" (click)="toggleSidebar()">
-          <i class="pi pi-bars"></i>
-        </button>
-        <h1 class="page-title"></h1>
-      </div>
-
-      <div class="topbar-right">
-        <div class="user-menu">
-          <button class="user-button" (click)="toggleUserMenu()">
-            <i class="pi pi-user"></i>
-            <span>Usuario</span>
-            <i class="pi pi-chevron-down"></i>
-          </button>
-          <div class="user-dropdown" [class.show]="isUserMenuOpen">
-            <a routerLink="/profile" class="dropdown-item">
-              <i class="pi pi-user"></i>
-              Mi Perfil
-            </a>
-            <a routerLink="/settings" class="dropdown-item">
-              <i class="pi pi-cog"></i>
-              Configuración
-            </a>
-            <div class="dropdown-divider"></div>
-            <a (click)="logout()" class="dropdown-item">
-              <i class="pi pi-sign-out"></i>
-              Cerrar Sesión
-            </a>
-          </div>
-        </div>
-      </div>
-    </header>
+    <app-topbar
+      [isUserMenuOpen]="isUserMenuOpen"
+      (toggleSidebarClick)="toggleSidebar()"
+      (toggleUserMenuClick)="toggleUserMenu()"
+      (logoutClick)="logout()"
+    ></app-topbar>
 
     <div class="page-content">
       <router-outlet></router-outlet>
