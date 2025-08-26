@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 import { MenuItem } from './menu/menu.component';
 
 @Component({
@@ -21,7 +22,7 @@ export class LayoutComponent {
     },
   ];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
     this.updateActiveMenuItem();
   }
 
@@ -34,7 +35,7 @@ export class LayoutComponent {
   }
 
   logout() {
-    this.router.navigate(['/auth/login']);
+    this.authService.logout();
   }
 
   onMenuItemClick(item: MenuItem) {

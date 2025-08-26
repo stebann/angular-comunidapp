@@ -1,4 +1,4 @@
 export enum AuthAPI {
-  Ingresar = 'ingresar',
-  Registrar = 'registrar',
+  Ingresar = 'auth/ingresar',
+  Registrar = 'auth/registrar',
 }

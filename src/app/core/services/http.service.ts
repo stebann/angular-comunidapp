@@ -8,8 +8,12 @@ import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { environment } from 'src/env/environment';
-import { IHttpModel, IoptionModel, ItypeGeneric } from '../models/IHttp-model';
-import { EnvResolver } from '../utils/env-resolver';
+
+import {
+  IHttpModel,
+  IoptionModel,
+  ItypeGeneric,
+} from '../interceptors/models/IHttp-model';
 import { Validators } from '../utils/validators';
 import { AuthService } from './auth.service';
 
@@ -18,7 +22,7 @@ import { AuthService } from './auth.service';
 })
 export class HttpService {
   public params = new HttpParams();
-  public basePatch: string = EnvResolver.getEnvValueByKey(environment.apiUrl);
+  public basePatch: string = environment.apiUrl;
   public headers$: HttpHeaders | undefined;
   private token: string | undefined;
 
