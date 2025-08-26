@@ -20,6 +20,38 @@ export class LayoutComponent {
       icon: 'pi pi-calendar',
       active: false,
     },
+    {
+      label: 'Comunidad',
+      icon: 'pi pi-users',
+      active: false,
+      expanded: false,
+      children: [
+        {
+          label: 'Miembros',
+          route: '/comunidad/miembros',
+          icon: 'pi pi-user',
+          active: false,
+        },
+        {
+          label: 'Grupos',
+          route: '/comunidad/grupos',
+          icon: 'pi pi-users',
+          active: false,
+        },
+        {
+          label: 'Foros',
+          route: '/comunidad/foros',
+          icon: 'pi pi-comments',
+          active: false,
+        },
+        {
+          label: 'Recursos',
+          route: '/comunidad/recursos',
+          icon: 'pi pi-file',
+          active: false,
+        },
+      ],
+    },
   ];
 
   constructor(private router: Router, private authService: AuthService) {
@@ -39,15 +71,36 @@ export class LayoutComponent {
   }
 
   onMenuItemClick(item: MenuItem) {
-    this.menuItems.forEach((i) => (i.active = false));
-    item.active = true;
-    this.router.navigate([item.route]);
+    if (item.children) {
+      // Si tiene hijos, solo expandir/contraer
+      item.expanded = !item.expanded;
+    } else {
+      // Si no tiene hijos, navegar y marcar como activo
+      this.menuItems.forEach((i) => {
+        i.active = false;
+        // También desactivar todos los hijos
+        if (i.children) {
+          i.children.forEach((child) => (child.active = false));
+        }
+      });
+      item.active = true;
+      this.router.navigate([item.route]);
+    }
   }
 
   private updateActiveMenuItem() {
     const currentRoute = this.router.url;
     this.menuItems.forEach((item) => {
-      item.active = currentRoute.includes(item.route ?? '');
+      if (item.children) {
+        // Para elementos con hijos, verificar si algún hijo está activo
+        item.children.forEach((child) => {
+          child.active = currentRoute.includes(child.route ?? '');
+        });
+        // Si algún hijo está activo, expandir el padre
+        item.expanded = item.children.some((child) => child.active);
+      } else {
+        item.active = currentRoute.includes(item.route ?? '');
+      }
     });
   }
 }

@@ -11,21 +11,38 @@
       <li class="nav-item" *ngFor="let item of menuItems">
         <a
           (click)="onMenuItemClick(item)"
-          [class.active]="item.active"
+          [class.active]="isItemActive(item)"
+          [class.has-children]="item.children"
           class="nav-link"
           [title]="item.label"
         >
           <i [class]="item.icon"></i>
           <span *ngIf="!isCollapsed">{{ item.label }}</span>
+          <i
+            *ngIf="item.children && !isCollapsed"
+            class="pi pi-chevron-down expand-icon"
+            [class.rotate]="item.expanded"
+          ></i>
         </a>
+
+        <!-- Submenú desplegable -->
+        <ul
+          *ngIf="item.children && item.expanded && !isCollapsed"
+          class="sub-nav-list"
+        >
+          <li class="nav-item" *ngFor="let child of item.children">
+            <a
+              (click)="onMenuItemClick(child)"
+              [class.active]="child.active"
+              class="nav-link sub-nav-link"
+              [title]="child.label"
+            >
+              <i [class]="child.icon"></i>
+              <span>{{ child.label }}</span>
+            </a>
+          </li>
+        </ul>
       </li>
     </ul>
   </nav>
-
-  <div class="sidebar-footer">
-    <button class="logout-btn" (click)="logout()">
-      <i class="pi pi-sign-out"></i>
-      <span *ngIf="!isCollapsed">Cerrar Sesión</span>
-    </button>
-  </div>
 </aside>

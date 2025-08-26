@@ -35,4 +35,12 @@ export class MenuComponent {
   logout() {
     this.logoutClick.emit();
   }
+
+  isItemActive(item: MenuItem): boolean {
+    if (item.active) return true;
+    if (item.children) {
+      return item.children.some((child) => child.active || false);
+    }
+    return false;
+  }
 }
