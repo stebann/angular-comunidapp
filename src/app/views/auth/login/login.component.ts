@@ -18,7 +18,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.loginService.login();
 
-      this.router.navigate(['/']);
+      this.router.navigate(['/app']);
     }
   }
 }

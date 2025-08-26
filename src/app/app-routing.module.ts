@@ -8,9 +8,14 @@ const routes: Routes = [
       import('./views/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: '',
+    path: 'app',
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),
+  },
+  {
+    path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full',
   },
 ];
 
