@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SESSION_KEY, TOKEN_KEY, USER_KEY } from '../constanst/keys';
 import { PersistenceService } from './persistence.service';
 
@@ -20,6 +22,17 @@ export class AuthService {
   };
 
   private readonly initialState: AuthState = { ...this.state };
+  private userSubject = new BehaviorSubject<AuthState>(this.state);
+
+  get user$(): Observable<AuthState> {
+    return this.userSubject.asObservable();
+  }
+
+  get getDisplayName(): Observable<string> {
+    return this.userSubject
+      .asObservable()
+      .pipe(map((user: AuthState) => user.nombre || 'Usuario'));
+  }
 
   constructor(
     private persistence$: PersistenceService,
@@ -40,11 +53,13 @@ export class AuthService {
       ...this.state,
       ...partial,
     };
+    this.userSubject.next(this.state);
   }
 
   /** Guarda usuario*/
   setUser(user: AuthState) {
     this.persistence$.save(USER_KEY, user);
+    this.setAuth(user);
   }
 
   /** Guarda token */
@@ -75,6 +90,7 @@ export class AuthService {
   /** Logout */
   logout() {
     Object.assign(this.state, this.initialState);
+    this.userSubject.next(this.state);
 
     this.persistence$.delete(USER_KEY);
     this.persistence$.delete(TOKEN_KEY);

@@ -10,23 +10,34 @@
     <div class="user-menu">
       <button class="user-button" (click)="toggleUserMenu()">
         <i class="pi pi-user"></i>
-        <span>Usuario</span>
+        <span>{{ userName }}</span>
         <i class="pi pi-chevron-down"></i>
       </button>
+
       <div class="user-dropdown" [class.show]="isUserMenuOpen">
-        <a routerLink="/profile" class="dropdown-item">
-          <i class="pi pi-user"></i>
-          Mi Perfil
-        </a>
-        <a routerLink="/settings" class="dropdown-item">
-          <i class="pi pi-cog"></i>
-          Configuración
-        </a>
-        <div class="dropdown-divider"></div>
-        <a (click)="logout()" class="dropdown-item">
-          <i class="pi pi-sign-out"></i>
-          Cerrar Sesión
-        </a>
+        <ng-container *ngFor="let item of userMenuItems; let last = last">
+          <a
+            *ngIf="item.route"
+            [routerLink]="item.route"
+            class="dropdown-item"
+            [ngClass]="{ 'text-red': item.type === 'danger' }"
+          >
+            <i [class]="item.icon"></i>
+            {{ item.label }}
+          </a>
+
+          <a
+            *ngIf="item.action && !item.route"
+            (click)="item.action()"
+            class="dropdown-item"
+            [ngClass]="{ 'text-red': item.type === 'danger' }"
+          >
+            <i [class]="item.icon"></i>
+            {{ item.label }}
+          </a>
+
+          <div *ngIf="!last" class="dropdown-divider"></div>
+        </ng-container>
       </div>
     </div>
   </div>
