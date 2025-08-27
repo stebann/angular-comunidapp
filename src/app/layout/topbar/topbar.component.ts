@@ -1,12 +1,14 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 
 interface UserMenuItem {
@@ -28,20 +30,23 @@ export class TopbarComponent implements OnInit, OnDestroy {
   @Output() toggleUserMenuClick = new EventEmitter<void>();
   @Output() logoutClick = new EventEmitter<void>();
 
-  userName: string = 'Usuario';
+  nombreUsuario: string = 'Usuario';
+  emailUsuario: string = 'usuario@email.com';
   private destroy$ = new Subject<void>();
 
   // Lista de items del menú
   userMenuItems: UserMenuItem[] = [];
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnInit() {
-    this.authService.getDisplayName
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((name) => {
-        this.userName = name;
-      });
+    this.authService.state$.subscribe((state) => {
+      this.nombreUsuario = this.formatName(state.nombre);
+      this.emailUsuario = state.email;
+    });
 
     // Inicializar los items del menú
     this.userMenuItems = [
@@ -61,15 +66,69 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (this.isUserMenuOpen) {
+      const clickedInside = this.elementRef.nativeElement.contains(
+        event.target
+      );
+      if (!clickedInside) {
+        this.closeUserMenu();
+      }
+    }
+  }
+
   toggleSidebar() {
     this.toggleSidebarClick.emit();
   }
 
   toggleUserMenu() {
+    if (this.isUserMenuOpen) {
+      this.closeUserMenu();
+    } else {
+      this.openUserMenu();
+    }
+  }
+
+  openUserMenu() {
+    this.isUserMenuOpen = true;
+    this.toggleUserMenuClick.emit();
+  }
+
+  closeUserMenu() {
+    this.isUserMenuOpen = false;
     this.toggleUserMenuClick.emit();
   }
 
   logout() {
+    this.closeUserMenu();
     this.logoutClick.emit();
+  }
+
+  private formatName(name: string): string {
+    if (!name || typeof name !== 'string') {
+      return 'Usuario';
+    }
+
+    return name
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
+  getUserInitials(): string {
+    if (!this.nombreUsuario || this.nombreUsuario === 'Usuario') {
+      return 'U';
+    }
+
+    const names = this.nombreUsuario.split(' ');
+    if (names.length === 1) {
+      return names[0].charAt(0).toUpperCase();
+    }
+
+    return (
+      names[0].charAt(0) + names[names.length - 1].charAt(0)
+    ).toUpperCase();
   }
 }

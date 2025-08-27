@@ -12,7 +12,7 @@
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     padding: 50px;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1100px;
     animation: slideUp 0.6s ease-out;
 
     .register-header {
@@ -24,7 +24,11 @@
 
         i {
           font-size: 3.5rem;
-          background: linear-gradient(135deg, var(--primary-color), var(--primary-600));
+          background: linear-gradient(
+            135deg,
+            var(--primary-color),
+            var(--primary-600)
+          );
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -36,7 +40,11 @@
         font-size: 2.3rem;
         font-weight: 700;
         margin: 0 0 10px 0;
-        background: linear-gradient(135deg, var(--primary-color), var(--primary-600));
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-600)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -59,7 +67,7 @@
         text-align: center;
 
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 50%;
           left: 0;
@@ -149,7 +157,6 @@
     }
   }
 }
-
 
 @keyframes slideUp {
   from {

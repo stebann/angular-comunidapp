@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { SESSION_KEY, TOKEN_KEY, USER_KEY } from '../constanst/keys';
 import { PersistenceService } from './persistence.service';
 
 interface AuthState {
   id: number;
   nombre: string;
+  email: string;
   enSesion: boolean;
 }
 
@@ -18,20 +18,21 @@ export class AuthService {
   private state: AuthState = {
     id: 0,
     nombre: '',
+    email: '',
     enSesion: false,
   };
 
   private readonly initialState: AuthState = { ...this.state };
   private userSubject = new BehaviorSubject<AuthState>(this.state);
 
-  get user$(): Observable<AuthState> {
+  // Único observable para todo el estado
+  get state$(): Observable<AuthState> {
     return this.userSubject.asObservable();
   }
 
-  get getDisplayName(): Observable<string> {
-    return this.userSubject
-      .asObservable()
-      .pipe(map((user: AuthState) => user.nombre || 'Usuario'));
+  // Getter sincrónico para el estado actual
+  get currentState(): AuthState {
+    return this.userSubject.getValue();
   }
 
   constructor(
@@ -43,6 +44,7 @@ export class AuthService {
       this.setAuth({
         id: storedUser.id,
         nombre: storedUser.nombre,
+        email: storedUser.email,
         enSesion: storedUser.enSesion,
       });
     }
@@ -72,7 +74,7 @@ export class AuthService {
     return this.persistence$.get(TOKEN_KEY) || '';
   }
 
-  /** Obtiene token sin observable (método legacy) */
+  /** Obtiene token */
   getTokenWithoutObs(): string {
     return this.getToken();
   }

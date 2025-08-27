@@ -3,18 +3,35 @@
     <button class="menu-toggle" (click)="toggleSidebar()">
       <i class="pi pi-bars"></i>
     </button>
+
     <h1 class="page-title"></h1>
   </div>
 
   <div class="topbar-right">
     <div class="user-menu">
       <button class="user-button" (click)="toggleUserMenu()">
-        <i class="pi pi-user"></i>
-        <span>{{ userName }}</span>
+        <!-- Avatar y flecha juntos -->
+        <div class="user-avatar-small">
+          {{ getUserInitials() }}
+        </div>
         <i class="pi pi-chevron-down"></i>
       </button>
 
       <div class="user-dropdown" [class.show]="isUserMenuOpen">
+        <!-- Header con información del usuario -->
+        <div class="dropdown-header">
+          <div class="user-avatar-large">
+            {{ getUserInitials() }}
+          </div>
+          <div class="user-info">
+            <div class="user-name-large">{{ nombreUsuario }}</div>
+            <div class="user-email">{{ emailUsuario }}</div>
+          </div>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
+        <!-- Items del menú -->
         <ng-container *ngFor="let item of userMenuItems; let last = last">
           <a
             *ngIf="item.route"

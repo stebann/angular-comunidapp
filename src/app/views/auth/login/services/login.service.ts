@@ -31,7 +31,8 @@ export class LoginService extends LoginRepository {
   private loginSuccess(user: IAuthUser): void {
     this.authService.setAuth({
       id: user.id,
-      nombre: user.nombre,
+      email: user.email,
+      nombre: user.nombreCompleto,
       enSesion: true,
     });
 

@@ -14,9 +14,9 @@
       class="register-form"
     >
       <div class="row g-3 mb-3">
-        <div class="col-md-6">
+        <div class="col-md-5">
           <app-input-field
-            formControlName="name"
+            formControlName="nombreCompleto"
             label="Nombre completo"
             placeholder="Ingresa tu nombre completo"
             type="text"
@@ -24,6 +24,29 @@
             [required]="true"
           ></app-input-field>
         </div>
+        <div class="col-md-4">
+          <app-input-field
+            formControlName="nombreUsuario"
+            label="Usuario"
+            placeholder="Elige un usuario"
+            type="text"
+            icon="pi pi-at"
+            [required]="true"
+          ></app-input-field>
+        </div>
+        <div class="col-md-3">
+          <app-input-field
+            formControlName="telefono"
+            label="Teléfono"
+            placeholder="Número de teléfono"
+            type="tel"
+            icon="pi pi-phone"
+            [required]="true"
+          ></app-input-field>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
         <div class="col-md-6">
           <app-input-field
             formControlName="email"
@@ -34,12 +57,22 @@
             [required]="true"
           ></app-input-field>
         </div>
+        <div class="col-md-6">
+          <app-input-field
+            formControlName="direccion"
+            label="Dirección"
+            placeholder="Ingresa tu dirección"
+            type="text"
+            icon="pi pi-home"
+            [required]="true"
+          ></app-input-field>
+        </div>
       </div>
 
       <div class="row g-3 mb-3">
         <div class="col-md-6">
           <app-input-field
-            formControlName="password"
+            formControlName="contrasena"
             label="Contraseña"
             placeholder="Crea una contraseña"
             type="password"
@@ -50,7 +83,7 @@
         </div>
         <div class="col-md-6">
           <app-input-field
-            formControlName="confirmPassword"
+            formControlName="confirmarContrasena"
             label="Confirmar contraseña"
             placeholder="Confirma tu contraseña"
             type="password"
@@ -61,16 +94,14 @@
         </div>
       </div>
 
-      <!-- Campo de términos -->
-      <div class="mb-4">
+      <div class="mb-3">
         <app-checkbox
-          formControlName="acceptTerms"
+          formControlName="aceptarTerminos"
           label="Acepto los términos y condiciones de uso"
         ></app-checkbox>
       </div>
 
-      <!-- Botón de registro -->
-      <div class="mb-4">
+      <div class="mb-3">
         <app-button
           type="primary"
           [fullWidth]="true"
