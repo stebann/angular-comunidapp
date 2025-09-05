@@ -29,7 +29,7 @@ export class LoginService extends LoginRepository {
   }
 
   private loginSuccess(user: IAuthUser): void {
-    this.authService.setAuth({
+    this.authService.setUser({
       id: user.id,
       email: user.email,
       nombre: user.nombreCompleto,

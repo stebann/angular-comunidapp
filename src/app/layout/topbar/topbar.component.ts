@@ -30,8 +30,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
   @Output() toggleUserMenuClick = new EventEmitter<void>();
   @Output() logoutClick = new EventEmitter<void>();
 
-  nombreUsuario: string = 'Usuario';
-  emailUsuario: string = 'usuario@email.com';
+  nombreUsuario: string = '';
+  emailUsuario: string = '';
   private destroy$ = new Subject<void>();
 
   // Lista de items del menú
@@ -43,9 +43,12 @@ export class TopbarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    // Cargar datos inmediatamente del estado actual
+    this.updateUserData(this.authService.currentState);
+
+    // Suscribirse a cambios futuros
     this.authService.state$.subscribe((state) => {
-      this.nombreUsuario = this.formatName(state.nombre);
-      this.emailUsuario = state.email;
+      this.updateUserData(state);
     });
 
     // Inicializar los items del menú
@@ -105,6 +108,16 @@ export class TopbarComponent implements OnInit, OnDestroy {
     this.logoutClick.emit();
   }
 
+  private updateUserData(state: { nombre?: string; email?: string }): void {
+    if (state.nombre && state.email) {
+      this.nombreUsuario = this.formatName(state.nombre);
+      this.emailUsuario = state.email;
+    } else {
+      this.nombreUsuario = 'Usuario';
+      this.emailUsuario = 'usuario@email.com';
+    }
+  }
+
   private formatName(name: string): string {
     if (!name || typeof name !== 'string') {
       return 'Usuario';
@@ -118,7 +131,11 @@ export class TopbarComponent implements OnInit, OnDestroy {
   }
 
   getUserInitials(): string {
-    if (!this.nombreUsuario || this.nombreUsuario === 'Usuario') {
+    if (
+      !this.nombreUsuario ||
+      this.nombreUsuario === '' ||
+      this.nombreUsuario === 'Usuario'
+    ) {
       return 'U';
     }
 

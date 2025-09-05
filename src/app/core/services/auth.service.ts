@@ -39,8 +39,12 @@ export class AuthService {
     private persistence$: PersistenceService,
     private router$: Router
   ) {
+    this.loadStoredUser();
+  }
+
+  private loadStoredUser() {
     const storedUser = this.persistence$.get(USER_KEY) as AuthState;
-    if (storedUser) {
+    if (storedUser && storedUser.nombre && storedUser.email) {
       this.setAuth({
         id: storedUser.id,
         nombre: storedUser.nombre,
@@ -86,7 +90,16 @@ export class AuthService {
 
   /** Verifica si hay sesión activa */
   isAuthenticated(): boolean {
-    return Boolean(this.persistence$.get(SESSION_KEY));
+    const hasSession = Boolean(this.persistence$.get(SESSION_KEY));
+    const hasUser = Boolean(this.state.nombre && this.state.email);
+    return hasSession && hasUser;
+  }
+
+  /** Verifica si hay datos de usuario válidos */
+  hasValidUserData(): boolean {
+    return Boolean(
+      this.state.nombre && this.state.email && this.state.nombre !== ''
+    );
   }
 
   /** Logout */

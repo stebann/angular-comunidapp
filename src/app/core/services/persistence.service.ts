@@ -13,20 +13,50 @@ export class PersistenceService {
   ) {}
 
   save(key: string, value: any) {
-    const _key = this.Encript(key);
-    const _value = this.Encript(JSON.stringify(value));
-    this.localSet$.store(_key, _value);
+    try {
+      const _key = this.Encript(key).toString();
+      const _value = this.Encript(JSON.stringify(value)).toString();
+      this.localSet$.store(_key, _value);
+    } catch (error) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
   }
   get(key: string) {
-    const _key = this.Encript(key);
-    const valueEncript = this.localSet$.retrieve(_key);
-    if (Validators.isNullOrUndefined(valueEncript)) {
+    try {
+      const _key = this.Encript(key).toString();
+      const valueEncript = this.localSet$.retrieve(_key);
+
+      if (Validators.isNullOrUndefined(valueEncript)) {
+        const debugValue = localStorage.getItem(`debug_${key}`);
+        if (debugValue) {
+          return JSON.parse(debugValue);
+        }
+        return null;
+      }
+
+      const decryptedValue = this.Crypto$.Decrypt(valueEncript);
+      return JSON.parse(decryptedValue);
+    } catch (error) {
+      console.error(
+        'PersistenceService - Error decrypting/parsing value:',
+        error
+      );
+      try {
+        const fallbackValue = localStorage.getItem(key);
+        if (fallbackValue) {
+          return JSON.parse(fallbackValue);
+        }
+      } catch (fallbackError) {
+        console.error(
+          'PersistenceService - Fallback also failed:',
+          fallbackError
+        );
+      }
       return null;
     }
-    return JSON.parse(this.Crypto$.Decrypt(valueEncript));
   }
 
-  delete = (key: string) => this.localSet$.clear(this.Encript(key));
+  delete = (key: string) => this.localSet$.clear(this.Encript(key).toString());
 
   deleteAll = () => {
     this.localSet$.clear();
