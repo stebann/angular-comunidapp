@@ -15,42 +15,40 @@ export class LayoutComponent {
   menuItems: MenuItem[] = [
     { label: 'Inicio', route: '/inicio', icon: 'pi pi-home', active: false },
     {
-      label: 'Eventos',
-      route: '/eventos',
-      icon: 'pi pi-calendar',
+      label: 'Artículos',
+      route: '/articulos',
+      icon: 'pi pi-search',
       active: false,
     },
     {
-      label: 'Comunidad',
-      icon: 'pi pi-users',
+      label: 'Estadísticas',
+      route: '/estadisticas',
+      icon: 'pi pi-chart-bar',
       active: false,
-      expanded: false,
-      children: [
-        {
-          label: 'Miembros',
-          route: '/comunidad/miembros',
-          icon: 'pi pi-user',
-          active: false,
-        },
-        {
-          label: 'Grupos',
-          route: '/comunidad/grupos',
-          icon: 'pi pi-users',
-          active: false,
-        },
-        {
-          label: 'Foros',
-          route: '/comunidad/foros',
-          icon: 'pi pi-comments',
-          active: false,
-        },
-        {
-          label: 'Recursos',
-          route: '/comunidad/recursos',
-          icon: 'pi pi-file',
-          active: false,
-        },
-      ],
+    },
+    {
+      label: 'Mis Artículos',
+      route: '/mis-articulos',
+      icon: 'pi pi-box',
+      active: false,
+    },
+    {
+      label: 'Solicitudes',
+      route: '/solicitudes',
+      icon: 'pi pi-envelope',
+      active: false,
+    },
+    {
+      label: 'Préstamos',
+      route: '/prestamos',
+      icon: 'pi pi-send',
+      active: false,
+    },
+    {
+      label: 'Locales',
+      route: '/locales',
+      icon: 'pi pi-building',
+      active: false,
     },
   ];
 
