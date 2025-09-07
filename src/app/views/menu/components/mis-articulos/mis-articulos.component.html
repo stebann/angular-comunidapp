@@ -1,8 +1,176 @@
 <div class="mis-articulos-container">
-  <h2>Mis Artículos</h2>
-  <p>
-    Aquí podrás ver todos tus artículos, tanto los que prestaste como los que te
-    prestaron.
-  </p>
-  <!-- Contenido pendiente de implementar -->
+  <!-- Barra superior -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <h1 class="page-title">Mis Artículos</h1>
+    </div>
+
+    <div class="top-bar-center">
+      <div class="search-container">
+        <i class="pi pi-search search-icon"></i>
+        <input
+          type="text"
+          placeholder="Buscar artículos..."
+          class="search-input"
+        />
+      </div>
+
+      <div class="filters-container">
+        <select class="filter-select">
+          <option value="">Todas las categorías</option>
+          <option value="electronica">Electrónica</option>
+          <option value="hogar">Hogar</option>
+          <option value="deportes">Deportes</option>
+        </select>
+
+        <select class="filter-select">
+          <option value="">Todos los tipos</option>
+          <option value="venta">Venta</option>
+          <option value="prestamo">Préstamo</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="top-bar-right">
+      <button class="btn-add">
+        <i class="pi pi-plus"></i>
+        Agregar Artículo
+      </button>
+    </div>
+  </div>
+
+  <!-- Grid de cards -->
+  <div class="articles-grid">
+    <!-- Card 1 -->
+    <div class="article-card">
+      <div class="card-header">
+        <div class="card-image">
+          <img
+            src="https://via.placeholder.com/300x200/4f46e5/ffffff?text=Laptop"
+            alt="Laptop Gaming"
+          />
+        </div>
+        <div class="card-menu">
+          <button class="menu-btn" (click)="toggleMenu($event)">
+            <i class="pi pi-ellipsis-v"></i>
+          </button>
+          <div class="menu-dropdown" [class.show]="showMenu">
+            <a href="#" class="menu-item">
+              <i class="pi pi-eye"></i>
+              Ver
+            </a>
+            <a href="#" class="menu-item">
+              <i class="pi pi-pencil"></i>
+              Editar
+            </a>
+            <a href="#" class="menu-item danger">
+              <i class="pi pi-trash"></i>
+              Eliminar
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="article-title">Laptop Gaming ASUS</h3>
+        <p class="article-description">
+          Laptop gaming de alto rendimiento con procesador Intel i7 y tarjeta
+          gráfica RTX 3060. Perfecta para gaming y trabajo profesional.
+        </p>
+
+        <div class="card-footer">
+          <span class="category">Electrónica</span>
+          <span class="type sale">Venta</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="article-card">
+      <div class="card-header">
+        <div class="card-image">
+          <img
+            src="https://via.placeholder.com/300x200/10b981/ffffff?text=Bicicleta"
+            alt="Bicicleta"
+          />
+        </div>
+        <div class="card-menu">
+          <button class="menu-btn" (click)="toggleMenu($event)">
+            <i class="pi pi-ellipsis-v"></i>
+          </button>
+          <div class="menu-dropdown" [class.show]="showMenu">
+            <a href="#" class="menu-item">
+              <i class="pi pi-eye"></i>
+              Ver
+            </a>
+            <a href="#" class="menu-item">
+              <i class="pi pi-pencil"></i>
+              Editar
+            </a>
+            <a href="#" class="menu-item danger">
+              <i class="pi pi-trash"></i>
+              Eliminar
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="article-title">Bicicleta de Montaña</h3>
+        <p class="article-description">
+          Bicicleta de montaña en excelente estado, ideal para rutas de montaña
+          y paseos urbanos. Incluye casco y candado.
+        </p>
+
+        <div class="card-footer">
+          <span class="category">Deportes</span>
+          <span class="type loan">Préstamo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="article-card">
+      <div class="card-header">
+        <div class="card-image">
+          <img
+            src="https://via.placeholder.com/300x200/f59e0b/ffffff?text=Libros"
+            alt="Libros"
+          />
+        </div>
+        <div class="card-menu">
+          <button class="menu-btn" (click)="toggleMenu($event)">
+            <i class="pi pi-ellipsis-v"></i>
+          </button>
+          <div class="menu-dropdown" [class.show]="showMenu">
+            <a href="#" class="menu-item">
+              <i class="pi pi-eye"></i>
+              Ver
+            </a>
+            <a href="#" class="menu-item">
+              <i class="pi pi-pencil"></i>
+              Editar
+            </a>
+            <a href="#" class="menu-item danger">
+              <i class="pi pi-trash"></i>
+              Eliminar
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="article-title">Colección de Libros</h3>
+        <p class="article-description">
+          Colección de 15 libros de programación y desarrollo web. Incluye
+          títulos de JavaScript, React, Angular y Node.js.
+        </p>
+
+        <div class="card-footer">
+          <span class="category">Educación</span>
+          <span class="type sale">Venta</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

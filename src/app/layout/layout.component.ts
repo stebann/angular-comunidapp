@@ -45,8 +45,8 @@ export class LayoutComponent {
       active: false,
     },
     {
-      label: 'Locales',
-      route: '/locales',
+      label: 'Comercios',
+      route: '/comercios',
       icon: 'pi pi-building',
       active: false,
     },
