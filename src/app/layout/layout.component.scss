@@ -14,9 +14,18 @@
 
 .page-content {
   flex: 1;
-  padding: 0;
+  padding: 1rem;
   overflow-y: auto;
   background: #f8fafc;
+}
+
+.content-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0;
+  min-height: calc(100vh - 120px);
 }
 
 // Responsive general para layout
@@ -26,6 +35,11 @@
   }
 
   .page-content {
+    padding: 0.5rem;
+  }
+
+  .content-card {
     padding: 0;
+    border-radius: 8px;
   }
 }

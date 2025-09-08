@@ -1,37 +1,46 @@
 <div class="mis-articulos-container">
-  <!-- Barra superior -->
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <h1 class="page-title">Mis Artículos</h1>
-    </div>
-
-    <div class="top-bar-center">
+  <!-- Topbar con buscador, filtros y botón agregar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <!-- Buscador -->
       <div class="search-container">
         <i class="pi pi-search search-icon"></i>
         <input
           type="text"
-          placeholder="Buscar artículos..."
           class="search-input"
+          placeholder="Buscar artículos..."
         />
       </div>
+    </div>
 
+    <div class="topbar-center">
+      <!-- Filtros -->
       <div class="filters-container">
         <select class="filter-select">
           <option value="">Todas las categorías</option>
-          <option value="electronica">Electrónica</option>
+          <option value="tecnologia">Tecnología</option>
           <option value="hogar">Hogar</option>
           <option value="deportes">Deportes</option>
+          <option value="libros">Libros</option>
         </select>
 
         <select class="filter-select">
-          <option value="">Todos los tipos</option>
-          <option value="venta">Venta</option>
-          <option value="prestamo">Préstamo</option>
+          <option value="">Todos los estados</option>
+          <option value="disponible">Disponible</option>
+          <option value="prestado">Prestado</option>
+          <option value="vendido">Vendido</option>
+        </select>
+
+        <select class="filter-select">
+          <option value="">Ordenar por</option>
+          <option value="fecha">Fecha de creación</option>
+          <option value="nombre">Nombre</option>
+          <option value="categoria">Categoría</option>
         </select>
       </div>
     </div>
 
-    <div class="top-bar-right">
+    <div class="topbar-right">
       <button class="btn-add">
         <i class="pi pi-plus"></i>
         Agregar Artículo
@@ -39,138 +48,47 @@
     </div>
   </div>
 
-  <!-- Grid de cards -->
   <div class="articles-grid">
-    <!-- Card 1 -->
-    <div class="article-card">
-      <div class="card-header">
-        <div class="card-image">
-          <img
-            src="https://via.placeholder.com/300x200/4f46e5/ffffff?text=Laptop"
-            alt="Laptop Gaming"
-          />
-        </div>
-        <div class="card-menu">
-          <button class="menu-btn" (click)="toggleMenu($event)">
-            <i class="pi pi-ellipsis-v"></i>
-          </button>
-          <div class="menu-dropdown" [class.show]="showMenu">
-            <a href="#" class="menu-item">
-              <i class="pi pi-eye"></i>
-              Ver
-            </a>
-            <a href="#" class="menu-item">
-              <i class="pi pi-pencil"></i>
-              Editar
-            </a>
-            <a href="#" class="menu-item danger">
-              <i class="pi pi-trash"></i>
-              Eliminar
-            </a>
-          </div>
-        </div>
+    <div class="article-card" *ngFor="let articulo of articulos">
+      <div class="card-image">
+        <img src="articulo.imagen" alt="Laptop MacBook" />
       </div>
-
       <div class="card-content">
-        <h3 class="article-title">Laptop Gaming ASUS</h3>
+        <h3 class="article-title">{{ articulo.titulo }}</h3>
         <p class="article-description">
-          Laptop gaming de alto rendimiento con procesador Intel i7 y tarjeta
-          gráfica RTX 3060. Perfecta para gaming y trabajo profesional.
+          {{ articulo.descripcion }}
         </p>
-
-        <div class="card-footer">
-          <span class="category">Electrónica</span>
-          <span class="type sale">Venta</span>
+        <div class="card-tags">
+          <span class="tag category">{{ articulo.categoria }}</span>
+          <span class="tag type prestamo">{{ articulo.tipo }}</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Card 2 -->
-    <div class="article-card">
-      <div class="card-header">
-        <div class="card-image">
-          <img
-            src="https://via.placeholder.com/300x200/10b981/ffffff?text=Bicicleta"
-            alt="Bicicleta"
-          />
-        </div>
-        <div class="card-menu">
-          <button class="menu-btn" (click)="toggleMenu($event)">
-            <i class="pi pi-ellipsis-v"></i>
-          </button>
-          <div class="menu-dropdown" [class.show]="showMenu">
-            <a href="#" class="menu-item">
-              <i class="pi pi-eye"></i>
-              Ver
-            </a>
-            <a href="#" class="menu-item">
-              <i class="pi pi-pencil"></i>
-              Editar
-            </a>
-            <a href="#" class="menu-item danger">
-              <i class="pi pi-trash"></i>
-              Eliminar
-            </a>
-          </div>
-        </div>
+  <div class="pagination-container">
+    <div class="pagination">
+      <button class="pagination-btn prev" disabled>
+        <i class="pi pi-chevron-left"></i>
+        Anterior
+      </button>
+
+      <div class="pagination-pages">
+        <button class="pagination-page active">1</button>
+        <button class="pagination-page">2</button>
+        <button class="pagination-page">3</button>
+        <span class="pagination-dots">...</span>
+        <button class="pagination-page">10</button>
       </div>
 
-      <div class="card-content">
-        <h3 class="article-title">Bicicleta de Montaña</h3>
-        <p class="article-description">
-          Bicicleta de montaña en excelente estado, ideal para rutas de montaña
-          y paseos urbanos. Incluye casco y candado.
-        </p>
-
-        <div class="card-footer">
-          <span class="category">Deportes</span>
-          <span class="type loan">Préstamo</span>
-        </div>
-      </div>
+      <button class="pagination-btn next">
+        Siguiente
+        <i class="pi pi-chevron-right"></i>
+      </button>
     </div>
 
-    <!-- Card 3 -->
-    <div class="article-card">
-      <div class="card-header">
-        <div class="card-image">
-          <img
-            src="https://via.placeholder.com/300x200/f59e0b/ffffff?text=Libros"
-            alt="Libros"
-          />
-        </div>
-        <div class="card-menu">
-          <button class="menu-btn" (click)="toggleMenu($event)">
-            <i class="pi pi-ellipsis-v"></i>
-          </button>
-          <div class="menu-dropdown" [class.show]="showMenu">
-            <a href="#" class="menu-item">
-              <i class="pi pi-eye"></i>
-              Ver
-            </a>
-            <a href="#" class="menu-item">
-              <i class="pi pi-pencil"></i>
-              Editar
-            </a>
-            <a href="#" class="menu-item danger">
-              <i class="pi pi-trash"></i>
-              Eliminar
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="card-content">
-        <h3 class="article-title">Colección de Libros</h3>
-        <p class="article-description">
-          Colección de 15 libros de programación y desarrollo web. Incluye
-          títulos de JavaScript, React, Angular y Node.js.
-        </p>
-
-        <div class="card-footer">
-          <span class="category">Educación</span>
-          <span class="type sale">Venta</span>
-        </div>
-      </div>
+    <div class="pagination-info">
+      <span>Mostrando 1-9 de 90 artículos</span>
     </div>
   </div>
 </div>
