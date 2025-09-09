@@ -1,23 +1,25 @@
 <div class="layout-container">
-  <app-menu
-    [isCollapsed]="isSidebarCollapsed"
-    [menuItems]="menuItems"
-    (menuItemClick)="onMenuItemClick($event)"
+  <app-topbar
+    [isUserMenuOpen]="isUserMenuOpen"
+    (toggleSidebarClick)="toggleSidebar()"
+    (toggleUserMenuClick)="toggleUserMenu()"
     (logoutClick)="logout()"
-  ></app-menu>
+  ></app-topbar>
 
-  <main class="main-content">
-    <app-topbar
-      [isUserMenuOpen]="isUserMenuOpen"
-      (toggleSidebarClick)="toggleSidebar()"
-      (toggleUserMenuClick)="toggleUserMenu()"
+  <div class="content-wrapper">
+    <app-menu
+      [isCollapsed]="isSidebarCollapsed"
+      [menuItems]="menuItems"
+      (menuItemClick)="onMenuItemClick($event)"
       (logoutClick)="logout()"
-    ></app-topbar>
+    ></app-menu>
 
-    <div class="page-content">
-      <div class="content-card">
-        <router-outlet></router-outlet>
+    <main class="main-content">
+      <div class="page-content">
+        <div class="content-card">
+          <router-outlet></router-outlet>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </div>

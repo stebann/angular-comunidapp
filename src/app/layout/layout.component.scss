@@ -1,12 +1,20 @@
 .layout-container {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   background-color: var(--surface-ground);
 }
 
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 3.75rem); // Restar la altura del topbar
+  overflow: hidden;
+}
+
 .main-content {
   flex: 1;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -21,17 +29,17 @@
 
 .content-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.08);
+  border: 0.0625rem solid rgba(0, 0, 0, 0.06);
   padding: 0;
   min-height: 100%;
 }
 
 // Responsive general para layout
 @media (max-width: 768px) {
-  .main-content {
-    margin-left: 0;
+  .content-wrapper {
+    height: calc(100vh - 3.75rem);
   }
 
   .page-content {
@@ -40,6 +48,6 @@
 
   .content-card {
     padding: 0;
-    border-radius: 8px;
+    border-radius: 0.5rem;
   }
 }

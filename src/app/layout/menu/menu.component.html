@@ -1,11 +1,4 @@
 <aside class="sidebar" [class.sidebar-collapsed]="isCollapsed">
-  <div class="sidebar-header">
-    <div class="logo">
-      <i class="pi pi-users"></i>
-      <span *ngIf="!isCollapsed">ComunidApp</span>
-    </div>
-  </div>
-
   <nav class="sidebar-nav">
     <ul class="nav-list">
       <li class="nav-item" *ngFor="let item of menuItems">
