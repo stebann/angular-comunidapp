@@ -15,17 +15,12 @@ export class LayoutComponent {
   menuItems: MenuItem[] = [
     { label: 'Inicio', route: '/inicio', icon: 'pi pi-home', active: false },
     {
-      label: 'Artículos',
+      label: 'Explorar',
       route: '/articulos',
-      icon: 'pi pi-search',
+      icon: 'pi pi-compass',
       active: false,
     },
-    {
-      label: 'Estadísticas',
-      route: '/estadisticas',
-      icon: 'pi pi-chart-bar',
-      active: false,
-    },
+
     {
       label: 'Mis Artículos',
       route: '/mis-articulos',
@@ -48,6 +43,12 @@ export class LayoutComponent {
       label: 'Comercios',
       route: '/comercios',
       icon: 'pi pi-building',
+      active: false,
+    },
+    {
+      label: 'Estadísticas',
+      route: '/estadisticas',
+      icon: 'pi pi-chart-bar',
       active: false,
     },
   ];

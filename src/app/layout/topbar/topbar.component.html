@@ -12,11 +12,14 @@
   <div class="topbar-right">
     <div class="user-menu">
       <button class="user-button" (click)="toggleUserMenu()">
-        <!-- Avatar y flecha juntos -->
+        <!-- Avatar para futuras fotos -->
         <div class="user-avatar-small">
           {{ getUserInitials() }}
         </div>
-        <i class="pi pi-chevron-down"></i>
+        <!-- Nombre del usuario -->
+        <span class="user-name">{{ nombreUsuario }}</span>
+        <!-- Flecha indicadora -->
+        <i class="pi pi-chevron-down chevron-icon"></i>
       </button>
 
       <div class="user-dropdown" [class.show]="isUserMenuOpen">

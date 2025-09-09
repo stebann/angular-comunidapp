@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ArticulosComponent } from './components/articulos/articulos.component';
 import { ComerciosComponent } from './components/comercios/comercios.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
+import { ExplorarComponent } from './components/explorar/explorar.component';
 import { InicioComponent } from './components/inicio/inicio.component';
 import { MisArticulosComponent } from './components/mis-articulos/mis-articulos.component';
 import { PrestamosComponent } from './components/prestamos/prestamos.component';
@@ -10,7 +10,7 @@ import { SolicitudesComponent } from './components/solicitudes/solicitudes.compo
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
-  { path: 'articulos', component: ArticulosComponent },
+  { path: 'explorar', component: ExplorarComponent },
   { path: 'estadisticas', component: EstadisticasComponent },
   { path: 'mis-articulos', component: MisArticulosComponent },
   { path: 'solicitudes', component: SolicitudesComponent },
