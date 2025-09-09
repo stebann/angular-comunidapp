@@ -6,7 +6,7 @@
 
 .main-content {
   flex: 1;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -25,7 +25,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.06);
   padding: 0;
-  min-height: calc(100vh - 120px);
+  min-height: 100%;
 }
 
 // Responsive general para layout
