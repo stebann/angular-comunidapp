@@ -34,5 +34,9 @@
   <div class="content-area"></div>
 
   <!-- Sidebar de filtros -->
-  <app-filters-sidebar></app-filters-sidebar>
+  <app-filters-sidebar
+    #filtersSidebar
+    (filtersApplied)="onFiltersApplied($event)"
+  >
+  </app-filters-sidebar>
 </div>

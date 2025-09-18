@@ -1,6 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { ArticuloFilter, FilterState } from '../../models/filter-models';
+import { ArticuloFilter } from '../../models/filter-models';
 import { FiltersService } from '../../services/filters.service';
 import { DropdownOption } from '../dropdown-field/dropdown-field.component';
 
@@ -12,18 +18,10 @@ import { DropdownOption } from '../dropdown-field/dropdown-field.component';
 export class FiltersSidebarComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
-  filterState: FilterState = {
-    isOpen: false,
-    filters: {},
-    hasActiveFilters: false,
-  };
+  @Output() filtersApplied = new EventEmitter<any[]>();
 
+  isOpen: boolean = false;
   currentFilters: ArticuloFilter = {};
-  filterOptions = {
-    categorias: [] as string[],
-    estados: [] as string[],
-    tipos: [] as string[],
-  };
 
   // Opciones para los dropdowns
   categoriaOptions: DropdownOption[] = [];
@@ -33,39 +31,69 @@ export class FiltersSidebarComponent implements OnInit, OnDestroy {
   constructor(private filtersService: FiltersService) {}
 
   ngOnInit(): void {
-    // Suscribirse a los cambios del estado del filtro
+    // Suscribirse al estado de apertura/cierre del sidebar
     this.filtersService
-      .getFilterState()
+      .isOpen$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe((state) => {
-        this.filterState = state;
-        this.currentFilters = { ...state.filters };
+      .subscribe((isOpen) => {
+        this.isOpen = isOpen;
       });
 
-    // Obtener opciones de filtros
-    this.filterOptions = this.filtersService.getFilterOptions();
+    // Suscribirse a los filtros actuales
+    this.filtersService
+      .getCurrentFilters$()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((filters) => {
+        this.currentFilters = { ...filters };
+      });
 
-    // Convertir las opciones al formato del dropdown
-    this.categoriaOptions = this.filterOptions.categorias.map((categoria) => ({
-      value: categoria,
-      label: categoria,
-    }));
-
-    this.estadoOptions = this.filterOptions.estados.map((estado) => ({
-      value: estado,
-      label: estado,
-    }));
-
-    this.tipoOptions = this.filterOptions.tipos.map((tipo) => ({
-      value: tipo,
-      label:
-        tipo === 'prestamo' ? 'Préstamo' : tipo === 'venta' ? 'Venta' : 'Todos',
-    }));
+    // Cargar opciones de filtros desde la API
+    this.loadFilterOptions();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private loadFilterOptions(): void {
+    // Cargar categorías desde la API
+    this.filtersService
+      .getCategorias()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((categorias) => {
+        this.categoriaOptions = categorias.map((categoria) => ({
+          value: categoria,
+          label: categoria,
+        }));
+      });
+
+    // Cargar estados desde la API
+    this.filtersService
+      .getEstados()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((estados) => {
+        this.estadoOptions = estados.map((estado) => ({
+          value: estado,
+          label: estado,
+        }));
+      });
+
+    // Cargar tipos desde la API
+    this.filtersService
+      .getTipos()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((tipos) => {
+        this.tipoOptions = tipos.map((tipo) => ({
+          value: tipo,
+          label:
+            tipo === 'prestamo'
+              ? 'Préstamo'
+              : tipo === 'venta'
+              ? 'Venta'
+              : 'Todos',
+        }));
+      });
   }
 
   onFilterChange(
@@ -98,21 +126,29 @@ export class FiltersSidebarComponent implements OnInit, OnDestroy {
   }
 
   applyFilters(): void {
-    this.filtersService.setFilterState({
-      filters: this.currentFilters,
-      isOpen: false,
-    });
+    // Llamar a la API con los filtros
+    this.filtersService
+      .filtrarArticulos(this.currentFilters)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (filteredData) => {
+          // Emitir los datos filtrados que devuelve la API
+          this.filtersApplied.emit(filteredData);
+          // Cerrar el sidebar
+          this.filtersService.close();
+        },
+        error: (error) => {
+          console.error('Error al filtrar artículos:', error);
+        },
+      });
   }
 
   clearFilters(): void {
-    this.filtersService.clearFilters();
     this.currentFilters = {};
   }
 
   closeSidebar(): void {
-    this.filtersService.setFilterState({
-      isOpen: false,
-    });
+    this.filtersService.close();
   }
 
   getFilterDisplayValue(filterType: keyof ArticuloFilter): string {

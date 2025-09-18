@@ -1,138 +1,50 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  ArticuloFilter,
-  FilterResult,
-  FilterState,
-} from '../models/filter-models';
-import { FiltersRepository } from '../repositories/filters-repository';
+import { FiltersAPI } from '../../core/routes-api/filters_api';
+import { HttpService } from '../../core/services/http.service';
+import { ArticuloFilter } from '../models/filter-models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FiltersService extends FiltersRepository {
-  private filterStateSubject = new BehaviorSubject<FilterState>({
-    isOpen: false,
-    filters: {},
-    hasActiveFilters: false,
-  });
+export class FiltersService {
+  private isOpenSubject = new BehaviorSubject<boolean>(false);
+  private currentFiltersSubject = new BehaviorSubject<ArticuloFilter>({});
 
-  constructor() {
-    super();
+  constructor(private httpService: HttpService) {}
+
+  // Métodos de control del sidebar
+  open(): void {
+    this.isOpenSubject.next(true);
   }
 
-  getFilterState(): Observable<FilterState> {
-    return this.filterStateSubject.asObservable();
+  close(): void {
+    this.isOpenSubject.next(false);
   }
 
-  setFilterState(state: Partial<FilterState>): void {
-    const currentState = this.filterStateSubject.value;
-    const newState = { ...currentState, ...state };
-
-    // Actualizar hasActiveFilters basado en si hay filtros activos
-    newState.hasActiveFilters = this.hasActiveFilters(newState.filters);
-
-    this.filterStateSubject.next(newState);
+  isOpen$(): Observable<boolean> {
+    return this.isOpenSubject.asObservable();
   }
 
-  applyFilters<T>(data: T[], filters: ArticuloFilter): FilterResult<T> {
-    let filteredData = [...data];
-
-    // Aplicar filtros
-    if (filters.categoria && filters.categoria !== 'todos') {
-      filteredData = filteredData.filter((item: any) =>
-        item.categoria?.toLowerCase().includes(filters.categoria!.toLowerCase())
-      );
-    }
-
-    if (filters.estado && filters.estado !== 'todos') {
-      filteredData = filteredData.filter((item: any) =>
-        item.estado?.toLowerCase().includes(filters.estado!.toLowerCase())
-      );
-    }
-
-    if (filters.nombre) {
-      filteredData = filteredData.filter(
-        (item: any) =>
-          item.titulo?.toLowerCase().includes(filters.nombre!.toLowerCase()) ||
-          item.descripcion
-            ?.toLowerCase()
-            .includes(filters.nombre!.toLowerCase())
-      );
-    }
-
-    if (filters.tipo && filters.tipo !== 'todos') {
-      filteredData = filteredData.filter(
-        (item: any) => item.tipo === filters.tipo
-      );
-    }
-
-    if (filters.fechaCreacionInicio) {
-      filteredData = filteredData.filter((item: any) => {
-        if (!item.fechaCreacion) return false;
-        const itemDate = new Date(item.fechaCreacion);
-        return itemDate >= filters.fechaCreacionInicio!;
-      });
-    }
-
-    if (filters.fechaCreacionFin) {
-      filteredData = filteredData.filter((item: any) => {
-        if (!item.fechaCreacion) return false;
-        const itemDate = new Date(item.fechaCreacion);
-        return itemDate <= filters.fechaCreacionFin!;
-      });
-    }
-
-    return {
-      data: filteredData,
-      totalCount: filteredData.length,
-      appliedFilters: filters,
-    };
+  // Método para filtrar artículos llamando a la API
+  filtrarArticulos(filters: ArticuloFilter): Observable<any[]> {
+    return this.httpService.post<any[]>(FiltersAPI.FiltrarArticulos, filters);
   }
 
-  clearFilters(): void {
-    this.setFilterState({
-      filters: {},
-      hasActiveFilters: false,
-    });
+  getCurrentFilters$(): Observable<ArticuloFilter> {
+    return this.currentFiltersSubject.asObservable();
   }
 
-  getFilterOptions(): {
-    categorias: string[];
-    estados: string[];
-    tipos: string[];
-  } {
-    return {
-      categorias: [
-        'Tecnología',
-        'Libros',
-        'Deportes',
-        'Música',
-        'Hogar',
-        'Ropa',
-        'Herramientas',
-        'Juguetes',
-        'Otros',
-      ],
-      estados: [
-        'Disponible',
-        'Prestado',
-        'Vendido',
-        'En reparación',
-        'Reservado',
-      ],
-      tipos: ['prestamo', 'venta', 'todos'],
-    };
+  // Métodos de API para obtener opciones de dropdowns
+  getCategorias(): Observable<string[]> {
+    return this.httpService.get<string[]>(FiltersAPI.Categorias);
   }
 
-  private hasActiveFilters(filters: ArticuloFilter): boolean {
-    return !!(
-      filters.categoria ||
-      filters.estado ||
-      filters.nombre ||
-      filters.tipo ||
-      filters.fechaCreacionInicio ||
-      filters.fechaCreacionFin
-    );
+  getEstados(): Observable<string[]> {
+    return this.httpService.get<string[]>(FiltersAPI.Estados);
+  }
+
+  getTipos(): Observable<string[]> {
+    return this.httpService.get<string[]>(FiltersAPI.Tipos);
   }
 }
