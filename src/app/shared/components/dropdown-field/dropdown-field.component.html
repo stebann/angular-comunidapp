@@ -1,0 +1,28 @@
+<div
+  class="dropdown-field-container"
+  [class.error]="errorMessage"
+  [class.success]="success"
+>
+  <label *ngIf="label" class="dropdown-label">
+    <i class="pi pi-tag"></i>
+    {{ label }}
+  </label>
+
+  <p-dropdown
+    [options]="options"
+    [placeholder]="placeholder"
+    [disabled]="isDisabled || disabled"
+    [ngModel]="value"
+    (onChange)="onSelectionChange($event)"
+    [style]="{ width: '100%' }"
+    [showClear]="true"
+    [filter]="false"
+    [panelStyleClass]="'custom-dropdown-panel'"
+    [styleClass]="'custom-dropdown'"
+  ></p-dropdown>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="pi pi-exclamation-triangle"></i>
+    {{ errorMessage }}
+  </div>
+</div>

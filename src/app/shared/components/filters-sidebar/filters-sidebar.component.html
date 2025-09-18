@@ -1,0 +1,79 @@
+<!-- Overlay para cerrar el sidebar -->
+<div
+  class="sidebar-overlay"
+  [class.active]="filterState.isOpen"
+  (click)="closeSidebar()"
+></div>
+
+<!-- Sidebar de filtros -->
+<div class="filters-sidebar" [class.open]="filterState.isOpen">
+  <!-- Header del sidebar -->
+  <div class="sidebar-header">
+    <h3 class="sidebar-title">
+      <i class="pi pi-filter"></i>
+      Filtros de Artículos
+    </h3>
+    <button class="close-btn" (click)="closeSidebar()">
+      <i class="pi pi-times"></i>
+    </button>
+  </div>
+
+  <!-- Contenido del sidebar -->
+  <div class="sidebar-content">
+    <!-- Filtro por Categoría -->
+    <div class="filter-group">
+      <app-dropdown-field
+        label="Categoría"
+        [options]="categoriaOptions"
+        placeholder="Todas las categorías"
+        [ngModel]="currentFilters.categoria || 'todos'"
+        (selectionChange)="onFilterChange('categoria', $event)"
+      ></app-dropdown-field>
+    </div>
+
+    <!-- Filtro por Estado -->
+    <div class="filter-group">
+      <app-dropdown-field
+        label="Estado"
+        [options]="estadoOptions"
+        placeholder="Todos los estados"
+        [ngModel]="currentFilters.estado || 'todos'"
+        (selectionChange)="onFilterChange('estado', $event)"
+      ></app-dropdown-field>
+    </div>
+
+    <!-- Filtro por Tipo -->
+    <div class="filter-group">
+      <app-dropdown-field
+        label="Tipo"
+        [options]="tipoOptions"
+        placeholder="Todos los tipos"
+        [ngModel]="currentFilters.tipo || 'todos'"
+        (selectionChange)="onFilterChange('tipo', $event)"
+      ></app-dropdown-field>
+    </div>
+
+    <!-- Filtro por Nombre -->
+    <div class="filter-group">
+      <app-input-field
+        label="Buscar por nombre"
+        placeholder="Buscar en título o descripción..."
+        [ngModel]="currentFilters.nombre || ''"
+        (valueChange)="onFilterChange('nombre', $event)"
+        icon="pi pi-search"
+      ></app-input-field>
+    </div>
+  </div>
+
+  <!-- Footer con botones -->
+  <div class="sidebar-footer">
+    <button class="btn btn-secondary" (click)="clearFilters()">
+      <i class="pi pi-trash"></i>
+      Limpiar
+    </button>
+    <button class="btn btn-primary" (click)="applyFilters()">
+      <i class="pi pi-search"></i>
+      Buscar/Filtrar
+    </button>
+  </div>
+</div>

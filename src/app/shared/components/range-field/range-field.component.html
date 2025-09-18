@@ -1,0 +1,37 @@
+<div class="range-field-container">
+  <label *ngIf="label" class="range-label">{{ label }}</label>
+
+  <div class="range-wrapper">
+    <div class="range-inputs">
+      <input
+        type="number"
+        class="range-input min-input"
+        [value]="value.min"
+        [disabled]="isDisabled || disabled"
+        [min]="minValue"
+        [max]="maxValue"
+        [step]="step"
+        placeholder="Mínimo"
+        (change)="onMinChange($event)"
+      />
+
+      <span class="range-separator">-</span>
+
+      <input
+        type="number"
+        class="range-input max-input"
+        [value]="value.max"
+        [disabled]="isDisabled || disabled"
+        [min]="minValue"
+        [max]="maxValue"
+        [step]="step"
+        placeholder="Máximo"
+        (change)="onMaxChange($event)"
+      />
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+</div>

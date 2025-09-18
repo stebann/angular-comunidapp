@@ -1,0 +1,279 @@
+.dropdown-field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  .dropdown-label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    i {
+      color: var(--primary-color);
+      font-size: 0.8rem;
+    }
+  }
+
+  .error-message {
+    color: #f44336;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+
+    i {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+// Estilos personalizados para PrimeNG Dropdown
+::ng-deep .custom-dropdown {
+  .p-dropdown {
+    width: 100%;
+    background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-section) 100%);
+    border: 1px solid var(--surface-border);
+    border-radius: 0.75rem;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0.125rem;
+      background: linear-gradient(90deg, var(--primary-color), var(--primary-600));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.12);
+      border-color: var(--primary-200);
+
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    &:focus-within {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.125rem rgba(var(--primary-color-rgb), 0.1);
+
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    .p-dropdown-label {
+      padding: 1rem 3rem 1rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+
+      &.p-placeholder {
+        color: var(--text-color-secondary);
+      }
+    }
+
+    .p-dropdown-trigger {
+      width: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      transition: all 0.3s ease;
+
+      .p-dropdown-trigger-icon {
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+      }
+    }
+
+    &:hover .p-dropdown-trigger {
+      color: var(--primary-600);
+
+      .p-dropdown-trigger-icon {
+        transform: scale(1.1);
+      }
+    }
+
+    &:focus-within .p-dropdown-trigger {
+      color: var(--primary-600);
+
+      .p-dropdown-trigger-icon {
+        transform: rotate(180deg);
+      }
+    }
+
+    &.p-disabled {
+      background: var(--surface-hover);
+      opacity: 0.6;
+      cursor: not-allowed;
+
+      .p-dropdown-label {
+        color: var(--text-color-secondary);
+      }
+
+      .p-dropdown-trigger {
+        color: var(--text-color-secondary);
+      }
+    }
+  }
+}
+
+// Panel del dropdown
+::ng-deep .custom-dropdown-panel {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+  margin-top: 0.25rem;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+
+  .p-dropdown-items {
+    padding: 0.5rem 0;
+
+    .p-dropdown-item {
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-color);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+
+      &:hover {
+        background: var(--primary-50);
+        color: var(--primary-700);
+      }
+
+      &.p-highlight {
+        background: var(--primary-color);
+        color: white;
+
+        &:hover {
+          background: var(--primary-600);
+          color: white;
+        }
+      }
+
+      .p-dropdown-item-icon {
+        font-size: 0.8rem;
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+// Animación para el panel
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Estados de error
+.dropdown-field-container.error {
+  ::ng-deep .custom-dropdown .p-dropdown {
+    border-color: #f44336;
+    box-shadow: 0 0.125rem 0.5rem rgba(244, 67, 54, 0.2);
+
+    &::before {
+      background: linear-gradient(90deg, #f44336, #d32f2f);
+      opacity: 1;
+    }
+
+    .p-dropdown-trigger {
+      color: #f44336;
+    }
+  }
+}
+
+// Estados de éxito
+.dropdown-field-container.success {
+  ::ng-deep .custom-dropdown .p-dropdown {
+    border-color: var(--green-400);
+    box-shadow: 0 0.125rem 0.5rem rgba(76, 175, 80, 0.2);
+
+    &::before {
+      background: linear-gradient(90deg, var(--green-400), var(--green-600));
+      opacity: 1;
+    }
+
+    .p-dropdown-trigger {
+      color: var(--green-600);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .dropdown-field-container {
+    gap: 0.5rem;
+
+    .dropdown-label {
+      font-size: 0.85rem;
+    }
+  }
+
+  ::ng-deep .custom-dropdown .p-dropdown {
+    border-radius: 0.5rem;
+
+    .p-dropdown-label {
+      padding: 0.875rem 2.5rem 0.875rem 0.875rem;
+      font-size: 0.85rem;
+    }
+
+    .p-dropdown-trigger {
+      width: 2.5rem;
+
+      .p-dropdown-trigger-icon {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .dropdown-field-container {
+    .dropdown-label {
+      font-size: 0.8rem;
+    }
+  }
+
+  ::ng-deep .custom-dropdown .p-dropdown {
+    .p-dropdown-label {
+      padding: 0.75rem 2.25rem 0.75rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .p-dropdown-trigger {
+      width: 2.25rem;
+
+      .p-dropdown-trigger-icon {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}

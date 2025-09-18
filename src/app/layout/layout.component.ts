@@ -16,7 +16,7 @@ export class LayoutComponent {
     { label: 'Inicio', route: '/inicio', icon: 'pi pi-home', active: false },
     {
       label: 'Explorar',
-      route: '/articulos',
+      route: '/explorar',
       icon: 'pi pi-compass',
       active: false,
     },

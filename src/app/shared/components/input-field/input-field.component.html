@@ -1,38 +1,40 @@
-<div class="form-group mb-3">
-  <!-- Label -->
-  <label *ngIf="label" [for]="'input-' + label" class="form-label">
-    <i *ngIf="icon" [class]="icon + ' me-2'"></i>
+<div
+  class="input-field-container"
+  [class.error]="errorMessage"
+  [class.success]="success"
+>
+  <label *ngIf="label" class="input-label">
+    <i *ngIf="icon" [class]="icon"></i>
     {{ label }}
-    <span *ngIf="required" class="text-danger">*</span>
+    <span *ngIf="required" class="required-asterisk">*</span>
   </label>
 
-  <!-- Input Group -->
-  <div class="input-group">
-    <!-- Icon prefix -->
-    <span *ngIf="icon" class="input-group-text">
-      <i [class]="icon"></i>
-    </span>
-
-    <!-- Input field -->
+  <div class="input-wrapper">
     <input
-      [id]="'input-' + label"
-      [type]="inputType"
+      pInputText
+      [ngModel]="value"
       [placeholder]="placeholder"
-      [value]="value"
-      [disabled]="disabled"
-      [class]="inputClasses"
-      (input)="onInput($event)"
+      [disabled]="disabled || isDisabled"
+      [type]="inputType"
+      (ngModelChange)="onValueChange($event)"
       (blur)="onBlur()"
+      class="custom-input"
+      style="width: 100%"
     />
 
     <!-- Password toggle button -->
     <button
       *ngIf="showPasswordToggle && type === 'password'"
       type="button"
-      class="btn btn-outline-secondary"
+      class="password-toggle-btn"
       (click)="togglePasswordVisibility()"
     >
       <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
     </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="pi pi-exclamation-triangle"></i>
+    {{ errorMessage }}
   </div>
 </div>

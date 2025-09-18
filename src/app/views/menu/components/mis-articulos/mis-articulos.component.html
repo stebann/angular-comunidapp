@@ -1,1 +1,38 @@
-<div class="mis-articulos-container"></div>
+<div class="mis-articulos-container">
+  <!-- Cabecera con controles -->
+  <div class="page-header">
+    <div class="header-left">
+      <!-- Buscador -->
+      <div class="search-container">
+        <i class="pi pi-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Buscar mis artículos..."
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+        />
+      </div>
+    </div>
+
+    <div class="header-right">
+      <!-- Botón de filtros -->
+      <button class="filters-btn" (click)="openFilters()">
+        <i class="pi pi-filter"></i>
+        <span>Filtros</span>
+      </button>
+
+      <!-- Botón agregar artículo -->
+      <button class="add-article-btn" (click)="addArticle()">
+        <i class="pi pi-plus"></i>
+        <span>Agregar Artículo</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content-area"></div>
+
+  <!-- Sidebar de filtros -->
+  <app-filters-sidebar></app-filters-sidebar>
+</div>

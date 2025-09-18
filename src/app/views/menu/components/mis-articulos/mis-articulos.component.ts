@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { FilterState } from '../../../../shared/models/filter-models';
+import { FiltersService } from '../../../../shared/services/filters.service';
 
 interface Articulo {
   id: number;
@@ -8,6 +11,8 @@ interface Articulo {
   categoria: string;
   tipo: 'prestamo' | 'venta';
   alt: string;
+  estado?: string;
+  fechaCreacion?: Date;
 }
 
 @Component({
@@ -15,10 +20,30 @@ interface Articulo {
   templateUrl: './mis-articulos.component.html',
   styleUrls: ['./mis-articulos.component.scss'],
 })
-export class MisArticulosComponent implements OnInit {
+export class MisArticulosComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
   articulos: Articulo[] = [];
+  filteredArticulos: Articulo[] = [];
+  searchTerm: string = '';
+
+  filterState: FilterState = {
+    isOpen: false,
+    filters: {},
+    hasActiveFilters: false,
+  };
+
+  constructor(private filtersService: FiltersService) {}
 
   ngOnInit(): void {
+    // Suscribirse a los cambios del estado del filtro
+    this.filtersService
+      .getFilterState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((state) => {
+        this.filterState = state;
+        this.applyFilters();
+      });
     this.articulos = [
       {
         id: 1,
@@ -30,6 +55,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Tecnología',
         tipo: 'prestamo',
         alt: 'Laptop MacBook',
+        estado: 'Disponible',
+        fechaCreacion: new Date('2024-01-15'),
       },
       {
         id: 2,
@@ -41,6 +68,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Libros',
         tipo: 'venta',
         alt: 'Libro',
+        estado: 'Disponible',
+        fechaCreacion: new Date('2024-01-20'),
       },
       {
         id: 3,
@@ -52,6 +81,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Deportes',
         tipo: 'prestamo',
         alt: 'Bicicleta',
+        estado: 'Prestado',
+        fechaCreacion: new Date('2024-01-10'),
       },
       {
         id: 4,
@@ -63,6 +94,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Tecnología',
         tipo: 'venta',
         alt: 'iPhone',
+        estado: 'Vendido',
+        fechaCreacion: new Date('2024-01-05'),
       },
       {
         id: 5,
@@ -74,6 +107,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Tecnología',
         tipo: 'prestamo',
         alt: 'Cámara Canon',
+        estado: 'Disponible',
+        fechaCreacion: new Date('2024-01-25'),
       },
       {
         id: 6,
@@ -85,6 +120,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Música',
         tipo: 'prestamo',
         alt: 'Guitarra',
+        estado: 'Disponible',
+        fechaCreacion: new Date('2024-01-30'),
       },
       {
         id: 7,
@@ -96,6 +133,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Música',
         tipo: 'prestamo',
         alt: 'Guitarra',
+        estado: 'En reparación',
+        fechaCreacion: new Date('2024-02-01'),
       },
       {
         id: 8,
@@ -107,6 +146,8 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Música',
         tipo: 'prestamo',
         alt: 'Guitarra',
+        estado: 'Reservado',
+        fechaCreacion: new Date('2024-02-05'),
       },
       {
         id: 9,
@@ -118,7 +159,56 @@ export class MisArticulosComponent implements OnInit {
         categoria: 'Música',
         tipo: 'prestamo',
         alt: 'Guitarra',
+        estado: 'Disponible',
+        fechaCreacion: new Date('2024-02-10'),
       },
     ];
+
+    // Inicializar artículos filtrados
+    this.filteredArticulos = [...this.articulos];
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  addArticle(): void {
+    // TODO: Implementar lógica para agregar artículo
+    console.log('Agregar artículo');
+  }
+
+  openFilters(): void {
+    this.filtersService.setFilterState({
+      isOpen: true,
+    });
+  }
+
+  private applyFilters(): void {
+    if (this.filterState.hasActiveFilters) {
+      const result = this.filtersService.applyFilters(
+        this.articulos,
+        this.filterState.filters
+      );
+      this.filteredArticulos = result.data;
+    } else {
+      this.filteredArticulos = [...this.articulos];
+    }
+  }
+
+  onSearchChange(): void {
+    if (this.searchTerm.trim()) {
+      this.filteredArticulos = this.articulos.filter(
+        (articulo) =>
+          articulo.titulo
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase()) ||
+          articulo.descripcion
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.applyFilters();
+    }
   }
 }

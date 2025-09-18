@@ -1,0 +1,96 @@
+.date-field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .date-label {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .date-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .date-input {
+      width: 100%;
+      padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+      border: 0.125rem solid var(--surface-border);
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-color);
+      background: var(--surface-card);
+      transition: all 0.2s ease;
+
+      &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.125rem rgba(var(--primary-color-rgb), 0.1);
+      }
+
+      &:hover:not(:disabled) {
+        border-color: var(--primary-300);
+      }
+
+      &:disabled {
+        background: var(--surface-hover);
+        color: var(--text-color-secondary);
+        cursor: not-allowed;
+      }
+
+      // Estilos para el calendario nativo
+      &::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+    }
+
+    .date-icon {
+      position: absolute;
+      right: 0.75rem;
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+  }
+
+  .error-message {
+    color: #f44336;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+}
+
+// Estados de error
+.date-field-container.error {
+  .date-wrapper .date-input {
+    border-color: #f44336;
+
+    &:focus {
+      border-color: #f44336;
+      box-shadow: 0 0 0 0.125rem rgba(244, 67, 54, 0.1);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .date-field-container {
+    .date-wrapper .date-input {
+      padding: 0.625rem 2.25rem 0.625rem 0.625rem;
+      font-size: 0.85rem;
+    }
+
+    .date-label {
+      font-size: 0.85rem;
+    }
+  }
+}

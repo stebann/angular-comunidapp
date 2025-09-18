@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ComerciosComponent } from './components/comercios/comercios.component';
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
@@ -20,6 +21,6 @@ import { MenuRoutingModule } from './menu-rounting.module';
     PrestamosComponent,
     ComerciosComponent,
   ],
-  imports: [CommonModule, SharedModule, MenuRoutingModule],
+  imports: [CommonModule, FormsModule, SharedModule, MenuRoutingModule],
 })
 export class MenuModule {}

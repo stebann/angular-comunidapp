@@ -1,4 +1,10 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -21,33 +27,38 @@ export class InputFieldComponent implements ControlValueAccessor {
   @Input() required: boolean = false;
   @Input() disabled: boolean = false;
   @Input() showPasswordToggle: boolean = false;
+  @Input() errorMessage: string = '';
+  @Input() success: boolean = false;
+
+  @Output() valueChange = new EventEmitter<string>();
 
   value: string = '';
+  isDisabled: boolean = false;
   showPassword: boolean = false;
 
-  onChange = (value: string) => {};
-  onTouched = () => {};
+  private onChange = (value: string) => {};
+  private onTouched = () => {};
 
   writeValue(value: string): void {
     this.value = value || '';
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.isDisabled = isDisabled;
   }
 
-  onInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+  onValueChange(value: string): void {
     this.value = value;
     this.onChange(value);
+    this.valueChange.emit(value);
   }
 
   onBlur(): void {
@@ -63,9 +74,5 @@ export class InputFieldComponent implements ControlValueAccessor {
       return 'text';
     }
     return this.type;
-  }
-
-  get inputClasses(): string {
-    return 'form-control';
   }
 }
