@@ -12,7 +12,6 @@ import { MultiSelectModule } from 'primeng/multiselect';
 
 import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
-import { DateFieldComponent } from './components/date-field/date-field.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
 import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
@@ -23,7 +22,7 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     InputFieldComponent,
     ButtonComponent,
     CheckboxComponent,
-    DateFieldComponent,
+
     DropdownFieldComponent,
     FiltersSidebarComponent,
     RangeFieldComponent,
@@ -43,7 +42,6 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     InputFieldComponent,
     ButtonComponent,
     CheckboxComponent,
-    DateFieldComponent,
     DropdownFieldComponent,
     FiltersSidebarComponent,
     RangeFieldComponent,

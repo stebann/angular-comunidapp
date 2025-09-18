@@ -89,11 +89,11 @@ export class FiltersSidebarComponent implements OnInit, OnDestroy {
 
   onDateChange(
     dateType: 'fechaCreacionInicio' | 'fechaCreacionFin',
-    value: string
+    value: Date | null
   ): void {
     this.currentFilters = {
       ...this.currentFilters,
-      [dateType]: value ? new Date(value) : undefined,
+      [dateType]: value || undefined,
     };
   }
 
