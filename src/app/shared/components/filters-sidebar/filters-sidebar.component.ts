@@ -62,9 +62,9 @@ export class FiltersSidebarComponent implements OnInit, OnDestroy {
       .getCategorias()
       .pipe(takeUntil(this.destroy$))
       .subscribe((categorias) => {
-        this.categoriaOptions = categorias.map((categoria) => ({
-          value: categoria,
-          label: categoria,
+        this.categoriaOptions = categorias.map((c) => ({
+          value: String(c.id),
+          label: c.nombre,
         }));
       });
 
@@ -73,9 +73,9 @@ export class FiltersSidebarComponent implements OnInit, OnDestroy {
       .getEstados()
       .pipe(takeUntil(this.destroy$))
       .subscribe((estados) => {
-        this.estadoOptions = estados.map((estado) => ({
-          value: estado,
-          label: estado,
+        this.estadoOptions = estados.map((e) => ({
+          value: String(e.id),
+          label: e.nombre,
         }));
       });
 
@@ -84,34 +84,43 @@ export class FiltersSidebarComponent implements OnInit, OnDestroy {
       .getTipos()
       .pipe(takeUntil(this.destroy$))
       .subscribe((tipos) => {
-        this.tipoOptions = tipos.map((tipo) => ({
-          value: tipo,
-          label:
-            tipo === 'prestamo'
-              ? 'Préstamo'
-              : tipo === 'venta'
-              ? 'Venta'
-              : 'Todos',
+        this.tipoOptions = tipos.map((t) => ({
+          value: String(t.id),
+          label: t.nombre,
         }));
       });
   }
 
   onFilterChange(
     filterType: keyof ArticuloFilter,
-    value: string | Event
+    value: string | number | Event
   ): void {
-    let actualValue: string;
+    let actualValue: string | number | undefined;
 
-    if (typeof value === 'string') {
+    if (typeof value === 'string' || typeof value === 'number') {
       actualValue = value;
     } else {
       const target = value.target as HTMLInputElement;
       actualValue = target.value;
     }
 
+    // Coerción a number para los campos *_Id
+    if (
+      (filterType === 'categoriaId' ||
+        filterType === 'estadoId' ||
+        filterType === 'tipoTransaccionId') &&
+      typeof actualValue === 'string'
+    ) {
+      actualValue = actualValue ? Number(actualValue) : undefined;
+    }
+
+    if (actualValue === '') {
+      actualValue = undefined;
+    }
+
     this.currentFilters = {
       ...this.currentFilters,
-      [filterType]: actualValue === 'todos' ? undefined : actualValue,
+      [filterType]: actualValue,
     };
   }
 
@@ -153,15 +162,7 @@ export class FiltersSidebarComponent implements OnInit, OnDestroy {
 
   getFilterDisplayValue(filterType: keyof ArticuloFilter): string {
     const value = this.currentFilters[filterType];
-    if (!value) return 'Todos';
-
-    if (
-      filterType === 'fechaCreacionInicio' ||
-      filterType === 'fechaCreacionFin'
-    ) {
-      return value instanceof Date ? value.toLocaleDateString() : 'Todos';
-    }
-
-    return value.toString();
+    if (value === undefined || value === null) return 'Todos';
+    return String(value);
   }
 }

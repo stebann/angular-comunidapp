@@ -15,6 +15,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
 import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
+import { ModalComponent } from './components/modal/modal.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     DropdownFieldComponent,
     FiltersSidebarComponent,
     RangeFieldComponent,
+    ModalComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +47,7 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     DropdownFieldComponent,
     FiltersSidebarComponent,
     RangeFieldComponent,
+    ModalComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

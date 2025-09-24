@@ -1,6 +1,6 @@
 export enum FiltersAPI {
-  Categorias = 'filters/categorias',
-  Estados = 'filters/estados',
-  Tipos = 'filters/tipos',
-  FiltrarArticulos = 'articulos/filtrar',
+  Categorias = 'filtros/categorias',
+  Estados = 'filtros/estados',
+  Tipos = 'filtros/tipos',
+  Buscar = 'filtros/buscar',
 }

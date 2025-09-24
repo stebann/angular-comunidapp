@@ -25,9 +25,9 @@
       <app-dropdown-field
         label="Categoría"
         [options]="categoriaOptions"
-        placeholder="Todas las categorías"
-        [ngModel]="currentFilters.categoria || 'todos'"
-        (selectionChange)="onFilterChange('categoria', $event)"
+        placeholder="Seleccionar..."
+        [ngModel]="currentFilters.categoriaId != null ? (currentFilters.categoriaId + '') : ''"
+        (selectionChange)="onFilterChange('categoriaId', $event)"
       ></app-dropdown-field>
     </div>
 
@@ -36,9 +36,9 @@
       <app-dropdown-field
         label="Estado"
         [options]="estadoOptions"
-        placeholder="Todos los estados"
-        [ngModel]="currentFilters.estado || 'todos'"
-        (selectionChange)="onFilterChange('estado', $event)"
+        placeholder="Seleccionar..."
+        [ngModel]="currentFilters.estadoId != null ? (currentFilters.estadoId + '') : ''"
+        (selectionChange)="onFilterChange('estadoId', $event)"
       ></app-dropdown-field>
     </div>
 
@@ -47,20 +47,31 @@
       <app-dropdown-field
         label="Tipo"
         [options]="tipoOptions"
-        placeholder="Todos los tipos"
-        [ngModel]="currentFilters.tipo || 'todos'"
-        (selectionChange)="onFilterChange('tipo', $event)"
+        placeholder="Seleccionar..."
+        [ngModel]="currentFilters.tipoTransaccionId != null ? (currentFilters.tipoTransaccionId + '') : ''"
+        (selectionChange)="onFilterChange('tipoTransaccionId', $event)"
       ></app-dropdown-field>
     </div>
 
-    <!-- Filtro por Nombre -->
+    <!-- Búsqueda por título de artículo -->
     <div class="filter-group">
       <app-input-field
-        label="Buscar por nombre"
-        placeholder="Buscar en título o descripción..."
-        [ngModel]="currentFilters.nombre || ''"
-        (valueChange)="onFilterChange('nombre', $event)"
+        label="Buscar por artículo"
+        placeholder="Buscar por título..."
+        [ngModel]="currentFilters.nombreArticulo || ''"
+        (valueChange)="onFilterChange('nombreArticulo', $event)"
         icon="pi pi-search"
+      ></app-input-field>
+    </div>
+
+    <!-- Búsqueda por nombre de usuario -->
+    <div class="filter-group">
+      <app-input-field
+        label="Buscar por usuario"
+        placeholder="Buscar por nombre de usuario..."
+        [ngModel]="currentFilters.nombreUsuario || ''"
+        (valueChange)="onFilterChange('nombreUsuario', $event)"
+        icon="pi pi-user"
       ></app-input-field>
     </div>
   </div>

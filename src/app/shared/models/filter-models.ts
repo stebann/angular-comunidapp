@@ -1,10 +1,9 @@
 export interface ArticuloFilter {
-  categoria?: string;
-  estado?: string;
-  nombre?: string;
-  fechaCreacionInicio?: Date;
-  fechaCreacionFin?: Date;
-  tipo?: 'prestamo' | 'venta' | 'todos';
+  nombreArticulo?: string;
+  nombreUsuario?: string;
+  categoriaId?: number;
+  estadoId?: number;
+  tipoTransaccionId?: number;
 }
 
 export interface FilterOption {

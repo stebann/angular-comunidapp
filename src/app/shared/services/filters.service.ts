@@ -26,9 +26,10 @@ export class FiltersService {
     return this.isOpenSubject.asObservable();
   }
 
-  // Método para filtrar artículos llamando a la API
+  // Método para filtrar artículos llamando a la API nueva (GET con query params)
   filtrarArticulos(filters: ArticuloFilter): Observable<any[]> {
-    return this.httpService.post<any[]>(FiltersAPI.FiltrarArticulos, filters);
+    const params = this.buildQueryParams(filters);
+    return this.httpService.get<any[]>(FiltersAPI.Buscar, params);
   }
 
   getCurrentFilters$(): Observable<ArticuloFilter> {
@@ -36,15 +37,36 @@ export class FiltersService {
   }
 
   // Métodos de API para obtener opciones de dropdowns
-  getCategorias(): Observable<string[]> {
-    return this.httpService.get<string[]>(FiltersAPI.Categorias);
+  getCategorias(): Observable<Array<{ id: number; nombre: string }>> {
+    return this.httpService.get<Array<{ id: number; nombre: string }>>(
+      FiltersAPI.Categorias
+    );
   }
 
-  getEstados(): Observable<string[]> {
-    return this.httpService.get<string[]>(FiltersAPI.Estados);
+  getEstados(): Observable<Array<{ id: string | number; nombre: string }>> {
+    return this.httpService.get<Array<{ id: string | number; nombre: string }>>(
+      FiltersAPI.Estados
+    );
   }
 
-  getTipos(): Observable<string[]> {
-    return this.httpService.get<string[]>(FiltersAPI.Tipos);
+  getTipos(): Observable<Array<{ id: string | number; nombre: string }>> {
+    return this.httpService.get<Array<{ id: string | number; nombre: string }>>(
+      FiltersAPI.Tipos
+    );
+  }
+
+  private buildQueryParams(filters: ArticuloFilter) {
+    let params = this.httpService.params;
+    if (filters.nombreArticulo)
+      params = params.set('nombreArticulo', filters.nombreArticulo);
+    if (filters.categoriaId)
+      params = params.set('categoriaId', String(filters.categoriaId));
+    if (filters.tipoTransaccionId)
+      params = params.set('tipoTransaccionId', String(filters.tipoTransaccionId));
+    if (filters.estadoId)
+      params = params.set('estadoId', String(filters.estadoId));
+    if (filters.nombreUsuario)
+      params = params.set('nombreUsuario', filters.nombreUsuario);
+    return params;
   }
 }
