@@ -10,6 +10,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 
+import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
@@ -23,11 +24,11 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     InputFieldComponent,
     ButtonComponent,
     CheckboxComponent,
-
     DropdownFieldComponent,
     FiltersSidebarComponent,
     RangeFieldComponent,
     ModalComponent,
+    ArticuloCardComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +49,7 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     FiltersSidebarComponent,
     RangeFieldComponent,
     ModalComponent,
+    ArticuloCardComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

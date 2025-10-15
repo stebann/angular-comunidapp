@@ -4,26 +4,16 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { DropdownOption } from '../../../../shared/components/dropdown-field/dropdown-field.component';
 import { FiltersSidebarComponent } from '../../../../shared/components/filters-sidebar/filters-sidebar.component';
 import { FiltersService } from '../../../../shared/services/filters.service';
-import { ArticulosService, CrearArticuloDto } from './services/articulos.service';
-
-interface Articulo {
-  id: number;
-  titulo: string;
-  descripcion: string;
-  imagen: string;
-  categoria: string;
-  tipo: 'prestamo' | 'venta';
-  alt: string;
-  estado?: string;
-  fechaCreacion?: Date;
-}
+import { Articulo } from './models/articulo';
+import { CrearArticuloDto } from './models/crear-articulo';
+import { MisArticulosService } from './services/mis-articulos.service';
 
 @Component({
   selector: 'app-mis-articulos',
   templateUrl: './mis-articulos.component.html',
   styleUrls: ['./mis-articulos.component.scss'],
 })
-export class MisArticulosComponent  implements OnInit {
+export class MisArticulosComponent implements OnInit {
   private destroy$ = new Subject<void>();
 
   @ViewChild('filtersSidebar') filtersSidebar!: FiltersSidebarComponent;
@@ -34,18 +24,51 @@ export class MisArticulosComponent  implements OnInit {
   tipoOptions: DropdownOption[] = [];
   openModal: boolean = false;
 
+  // Lista quemada de artículos de ejemplo
+  articulos: Articulo[] = [
+    {
+      id: 1,
+      titulo: 'Bicicleta de montaña',
+      descripcion: 'Bicicleta en excelente estado, poco uso.',
+      categoria: 'Deportes',
+      tipo: 'venta',
+      alt: 'Bicicleta de montaña',
+      imagen: '',
+      estado: 'Nuevo',
+      fechaCreacion: new Date('2025-10-01'),
+    },
+    {
+      id: 2,
+      titulo: 'Libro de Angular',
+      descripcion: 'Libro nuevo, edición 2024.',
+      categoria: 'Libros',
+      tipo: 'prestamo',
+      alt: 'Libro de Angular',
+      imagen: '',
+      estado: 'Nuevo',
+      fechaCreacion: new Date('2025-09-20'),
+    },
+    {
+      id: 3,
+      titulo: 'Silla ergonómica',
+      descripcion: 'Silla cómoda para oficina, color negro.',
+      categoria: 'Muebles',
+      tipo: 'venta',
+      alt: 'Silla ergonómica',
+      imagen: '',
+      estado: 'Usado',
+      fechaCreacion: new Date('2025-08-15'),
+    },
+  ];
+
   constructor(
     private filtersService: FiltersService,
-    private articulosService: ArticulosService,
+    private articulosService: MisArticulosService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   get form() {
     return this.articulosService.formMisArticulos;
-  }
-
-  get articulos() {
-    return this.articulosService.articulos;
   }
 
   ngOnInit(): void {
@@ -57,7 +80,6 @@ export class MisArticulosComponent  implements OnInit {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 
   openCreateModal(): void {
     this.openModal = true;
@@ -93,17 +115,28 @@ export class MisArticulosComponent  implements OnInit {
     this.articulosService.articulos = filteredData;
   }
 
-  private loadArticulos(): void {}
+  private loadArticulos(): void {
+    // No hace nada, ya que usamos la lista quemada
+  }
 
   private loadDropdowns(): void {
     this.filtersService.getCategorias().subscribe((cats) => {
-      this.categoriaOptions = cats.map((c) => ({ value: String(c.id), label: c.nombre }));
+      this.categoriaOptions = cats.map((c) => ({
+        value: String(c.id),
+        label: c.nombre,
+      }));
     });
     this.filtersService.getEstados().subscribe((ests) => {
-      this.estadoOptions = ests.map((e) => ({ value: String(e.id), label: e.nombre }));
+      this.estadoOptions = ests.map((e) => ({
+        value: String(e.id),
+        label: e.nombre,
+      }));
     });
     this.filtersService.getTipos().subscribe((tips) => {
-      this.tipoOptions = tips.map((t) => ({ value: String(t.id), label: t.nombre }));
+      this.tipoOptions = tips.map((t) => ({
+        value: String(t.id),
+        label: t.nombre,
+      }));
     });
   }
 }

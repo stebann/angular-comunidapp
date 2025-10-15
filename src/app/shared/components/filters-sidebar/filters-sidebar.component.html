@@ -11,7 +11,7 @@
   <div class="sidebar-header">
     <h3 class="sidebar-title">
       <i class="pi pi-filter"></i>
-      Filtrar Artículos
+      Filtros
     </h3>
     <button class="close-btn" (click)="closeSidebar()">
       <i class="pi pi-times"></i>
@@ -26,7 +26,11 @@
         label="Categoría"
         [options]="categoriaOptions"
         placeholder="Seleccionar..."
-        [ngModel]="currentFilters.categoriaId != null ? (currentFilters.categoriaId + '') : ''"
+        [ngModel]="
+          currentFilters.categoriaId != null
+            ? currentFilters.categoriaId + ''
+            : ''
+        "
         (selectionChange)="onFilterChange('categoriaId', $event)"
       ></app-dropdown-field>
     </div>
@@ -37,7 +41,9 @@
         label="Estado"
         [options]="estadoOptions"
         placeholder="Seleccionar..."
-        [ngModel]="currentFilters.estadoId != null ? (currentFilters.estadoId + '') : ''"
+        [ngModel]="
+          currentFilters.estadoId != null ? currentFilters.estadoId + '' : ''
+        "
         (selectionChange)="onFilterChange('estadoId', $event)"
       ></app-dropdown-field>
     </div>
@@ -48,7 +54,11 @@
         label="Tipo"
         [options]="tipoOptions"
         placeholder="Seleccionar..."
-        [ngModel]="currentFilters.tipoTransaccionId != null ? (currentFilters.tipoTransaccionId + '') : ''"
+        [ngModel]="
+          currentFilters.tipoTransaccionId != null
+            ? currentFilters.tipoTransaccionId + ''
+            : ''
+        "
         (selectionChange)="onFilterChange('tipoTransaccionId', $event)"
       ></app-dropdown-field>
     </div>

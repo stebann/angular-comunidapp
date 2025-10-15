@@ -1,0 +1,37 @@
+<div class="articulo-card">
+  <div class="articulo-info">
+    <div class="articulo-img">
+      <img
+        *ngIf="articulo.imagen"
+        [src]="articulo.imagen"
+        [alt]="articulo.alt || articulo.titulo"
+      />
+      <div *ngIf="!articulo.imagen" class="img-placeholder">Sin imagen</div>
+    </div>
+    <div class="articulo-details">
+      <h3 class="articulo-titulo">{{ articulo.titulo }}</h3>
+      <p class="articulo-descripcion">{{ articulo.descripcion }}</p>
+      <div class="articulo-meta">
+        <span class="categoria">{{ articulo.categoria }}</span>
+        <span
+          class="tipo"
+          [ngClass]="{
+            venta: articulo.tipo === 'venta',
+            prestamo: articulo.tipo === 'prestamo'
+          }"
+        >
+          {{ articulo.tipo === "venta" ? "Venta" : "Préstamo" }}
+        </span>
+        <span
+          class="estado"
+          [ngClass]="{
+            disponible: articulo.estado === 'disponible',
+            prestado: articulo.estado === 'prestado'
+          }"
+        >
+          {{ articulo.estado === "disponible" ? "Disponible" : "Prestado" }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

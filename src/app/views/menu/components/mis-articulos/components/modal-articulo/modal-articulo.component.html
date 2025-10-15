@@ -1,0 +1,43 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-grid">
+    <app-input-field
+      label="Título"
+      placeholder="Título del artículo"
+      formControlName="titulo"
+    ></app-input-field>
+    <app-input-field
+      label="Descripción"
+      placeholder="Descripción"
+      formControlName="descripcion"
+    ></app-input-field>
+    <app-dropdown-field
+      label="Categoría"
+      [options]="config.data?.categoriaOptions"
+      placeholder="Seleccionar..."
+      formControlName="categoriaId"
+    ></app-dropdown-field>
+    <app-dropdown-field
+      label="Estado"
+      [options]="config.data?.estadoOptions"
+      placeholder="Seleccionar..."
+      formControlName="estadoId"
+    ></app-dropdown-field>
+    <app-dropdown-field
+      label="Tipo"
+      [options]="config.data?.tipoOptions"
+      placeholder="Seleccionar..."
+      formControlName="tipoTransaccionId"
+    ></app-dropdown-field>
+    <app-input-field
+      label="Precio"
+      placeholder="0"
+      formControlName="precio"
+    ></app-input-field>
+  </div>
+  <div class="actions">
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </div>
+</form>

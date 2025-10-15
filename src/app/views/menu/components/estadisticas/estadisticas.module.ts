@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MenuRoutingModule } from './menu-rounting.module';
+import { EstadisticasComponent } from './estadisticas.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, FormsModule, SharedModule, MenuRoutingModule],
+  declarations: [EstadisticasComponent],
+  imports: [CommonModule, FormsModule, SharedModule],
 })
-export class MenuModule {}
+export class EstadisticasModule {}

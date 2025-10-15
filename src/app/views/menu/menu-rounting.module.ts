@@ -1,23 +1,55 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ComerciosComponent } from './components/comercios/comercios.component';
-import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
-import { ExplorarComponent } from './components/explorar/explorar.component';
-import { InicioComponent } from './components/inicio/inicio.component';
-import { MisArticulosComponent } from './components/mis-articulos/mis-articulos.component';
-import { PrestamosComponent } from './components/prestamos/prestamos.component';
-import { SolicitudesComponent } from './components/solicitudes/solicitudes.component';
 
 const routes: Routes = [
-  { path: 'inicio', component: InicioComponent },
-  { path: 'explorar', component: ExplorarComponent },
-  { path: 'estadisticas', component: EstadisticasComponent },
-  { path: 'mis-articulos', component: MisArticulosComponent },
-  { path: 'solicitudes', component: SolicitudesComponent },
-  { path: 'prestamos', component: PrestamosComponent },
-  { path: 'comercios', component: ComerciosComponent },
-
-  { path: '', redirectTo: 'inicio', pathMatch: 'full' }, // ruta por defecto
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  {
+    path: 'inicio',
+    loadChildren: () =>
+      import('./components/inicio/inicio.module').then((m) => m.InicioModule),
+  },
+  {
+    path: 'explorar',
+    loadChildren: () =>
+      import('./components/explorar/explorar.module').then(
+        (m) => m.ExplorarModule
+      ),
+  },
+  {
+    path: 'estadisticas',
+    loadChildren: () =>
+      import('./components/estadisticas/estadisticas.module').then(
+        (m) => m.EstadisticasModule
+      ),
+  },
+  {
+    path: 'mis-articulos',
+    loadChildren: () =>
+      import('./components/mis-articulos/mis-articulos.module').then(
+        (m) => m.MisArticulosModule
+      ),
+  },
+  {
+    path: 'solicitudes',
+    loadChildren: () =>
+      import('./components/solicitudes/solicitudes.module').then(
+        (m) => m.SolicitudesModule
+      ),
+  },
+  {
+    path: 'prestamos',
+    loadChildren: () =>
+      import('./components/prestamos/prestamos.module').then(
+        (m) => m.PrestamosModule
+      ),
+  },
+  {
+    path: 'comercios',
+    loadChildren: () =>
+      import('./components/comercios/comercios.module').then(
+        (m) => m.ComerciosModule
+      ),
+  },
 ];
 
 @NgModule({

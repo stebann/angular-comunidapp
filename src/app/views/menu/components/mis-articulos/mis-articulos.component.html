@@ -31,7 +31,17 @@
   </div>
 
   <!-- Contenido principal -->
-  <div class="content-area"></div>
+  <div class="content-area">
+    <div *ngIf="articulos.length > 0; else noArticulos" class="articulos-grid">
+      <app-articulo-card
+        *ngFor="let articulo of articulos"
+        [articulo]="articulo"
+      ></app-articulo-card>
+    </div>
+    <ng-template #noArticulos>
+      <div class="no-articulos">No tienes artículos aún.</div>
+    </ng-template>
+  </div>
 
   <!-- Modal Crear Artículo -->
   <app-modal
@@ -82,12 +92,14 @@
       </div>
 
       <div class="actions">
-        <button type="button" class="btn btn-secondary" (click)="closeCreateModal()">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="closeCreateModal()"
+        >
           Cancelar
         </button>
-        <button type="submit" class="btn btn-primary">
-          Guardar
-        </button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
       </div>
     </form>
   </app-modal>
