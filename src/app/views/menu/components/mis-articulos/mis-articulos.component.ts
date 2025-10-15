@@ -1,11 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-import { AuthService } from '../../../../core/services/auth.service';
-import { DropdownOption } from '../../../../shared/components/dropdown-field/dropdown-field.component';
-import { FiltersSidebarComponent } from '../../../../shared/components/filters-sidebar/filters-sidebar.component';
+import { Component, OnInit } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
 import { FiltersService } from '../../../../shared/services/filters.service';
+import { ModalArticuloComponent } from './components/modal-articulo/modal-articulo.component';
 import { Articulo } from './models/articulo';
-import { CrearArticuloDto } from './models/crear-articulo';
 import { MisArticulosService } from './services/mis-articulos.service';
 
 @Component({
@@ -14,17 +11,8 @@ import { MisArticulosService } from './services/mis-articulos.service';
   styleUrls: ['./mis-articulos.component.scss'],
 })
 export class MisArticulosComponent implements OnInit {
-  private destroy$ = new Subject<void>();
-
-  @ViewChild('filtersSidebar') filtersSidebar!: FiltersSidebarComponent;
-
   searchTerm: string = '';
-  categoriaOptions: DropdownOption[] = [];
-  estadoOptions: DropdownOption[] = [];
-  tipoOptions: DropdownOption[] = [];
-  openModal: boolean = false;
 
-  // Lista quemada de artículos de ejemplo
   articulos: Articulo[] = [
     {
       id: 1,
@@ -64,7 +52,7 @@ export class MisArticulosComponent implements OnInit {
   constructor(
     private filtersService: FiltersService,
     private articulosService: MisArticulosService,
-    private authService: AuthService
+    public dialogService$: DialogService
   ) {}
 
   get form() {
@@ -73,70 +61,25 @@ export class MisArticulosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadArticulos();
-    this.loadDropdowns();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  openCreateModal(): void {
-    this.openModal = true;
-  }
-
-  closeCreateModal(): void {
-    this.openModal = false;
-  }
-
-  submitCreate(): void {
-    const userId = this.authService.currentState.id;
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    this.articulosService
-      .crear(userId, this.form.value as CrearArticuloDto)
-      .subscribe({
-        next: () => {
-          this.closeCreateModal();
-          this.loadArticulos();
-        },
-      });
-  }
+  private loadArticulos(): void {}
 
   openFilters(): void {
     this.filtersService.open();
+  }
+
+  openCreateModal(): void {
+    this.dialogService$.open(ModalArticuloComponent, {
+      header: 'Nuevo Artículo',
+      width: '50%',
+      modal: true,
+    });
   }
 
   onSearchChange(): void {}
 
   onFiltersApplied(filteredData: Articulo[]): void {
     this.articulosService.articulos = filteredData;
-  }
-
-  private loadArticulos(): void {
-    // No hace nada, ya que usamos la lista quemada
-  }
-
-  private loadDropdowns(): void {
-    this.filtersService.getCategorias().subscribe((cats) => {
-      this.categoriaOptions = cats.map((c) => ({
-        value: String(c.id),
-        label: c.nombre,
-      }));
-    });
-    this.filtersService.getEstados().subscribe((ests) => {
-      this.estadoOptions = ests.map((e) => ({
-        value: String(e.id),
-        label: e.nombre,
-      }));
-    });
-    this.filtersService.getTipos().subscribe((tips) => {
-      this.tipoOptions = tips.map((t) => ({
-        value: String(t.id),
-        label: t.nombre,
-      }));
-    });
   }
 }

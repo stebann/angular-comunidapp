@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MisArticulosService } from '../../services/mis-articulos.service';
 
 @Component({
@@ -10,7 +10,6 @@ import { MisArticulosService } from '../../services/mis-articulos.service';
 export class ModalArticuloComponent {
   constructor(
     public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
     public service: MisArticulosService
   ) {}
 

@@ -43,68 +43,6 @@
     </ng-template>
   </div>
 
-  <!-- Modal Crear Artículo -->
-  <app-modal
-    [open]="openModal"
-    title="Crear artículo"
-    (close)="closeCreateModal()"
-  >
-    <form (ngSubmit)="submitCreate()" [formGroup]="form">
-      <div class="form-grid">
-        <app-input-field
-          label="Título"
-          placeholder="Título del artículo"
-          formControlName="titulo"
-        ></app-input-field>
-
-        <app-input-field
-          label="Descripción"
-          placeholder="Descripción"
-          formControlName="descripcion"
-        ></app-input-field>
-
-        <app-dropdown-field
-          label="Categoría"
-          [options]="categoriaOptions"
-          placeholder="Seleccionar..."
-          formControlName="categoriaId"
-        ></app-dropdown-field>
-
-        <app-dropdown-field
-          label="Estado"
-          [options]="estadoOptions"
-          placeholder="Seleccionar..."
-          formControlName="estadoId"
-        ></app-dropdown-field>
-
-        <app-dropdown-field
-          label="Tipo"
-          [options]="tipoOptions"
-          placeholder="Seleccionar..."
-          formControlName="tipoTransaccionId"
-        ></app-dropdown-field>
-
-        <app-input-field
-          label="Precio"
-          placeholder="0"
-          formControlName="precio"
-        ></app-input-field>
-      </div>
-
-      <div class="actions">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          (click)="closeCreateModal()"
-        >
-          Cancelar
-        </button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </div>
-    </form>
-  </app-modal>
-
-  <!-- Sidebar de filtros -->
   <app-filters-sidebar
     #filtersSidebar
     (filtersApplied)="onFiltersApplied($event)"
