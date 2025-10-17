@@ -1,7 +1,7 @@
 .topbar {
   background: white;
   border-bottom: 0.0625rem solid var(--surface-border);
-  padding: 1rem 1.25rem; // barra un poco más alta
+  padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,7 +13,7 @@
   .topbar-left {
     display: flex;
     align-items: center;
-    gap: 3rem;
+    gap: 3.4rem;
 
     .title-section {
       display: flex;

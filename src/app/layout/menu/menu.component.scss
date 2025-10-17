@@ -1,5 +1,5 @@
 .sidebar {
-  width: 15rem;
+  width: 16rem;
   background: white;
   border-right: 1px solid var(--surface-border);
   display: flex;
@@ -50,7 +50,7 @@
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          padding: 0.75rem 1.25rem;
+          padding: 0.50rem 1.3rem;
           color: var(--text-color);
           text-decoration: none;
           transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
