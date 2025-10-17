@@ -1,36 +1,39 @@
 <div class="articulo-card">
-  <div class="articulo-info">
-    <div class="articulo-img">
-      <img
-        *ngIf="articulo.imagen"
-        [src]="articulo.imagen"
-        [alt]="articulo.alt || articulo.titulo"
-      />
-      <div *ngIf="!articulo.imagen" class="img-placeholder">Sin imagen</div>
+  <div class="articulo-media">
+    <div class="media-wrapper">
+      <img [src]="getImagenSrc()" [alt]="articulo.alt || articulo.titulo" />
+      <div class="badge condicion-badge" [ngClass]="getCondicionClass()">
+        <span>{{ getCondicionLabel() }}</span>
+      </div>
     </div>
-    <div class="articulo-details">
-      <h3 class="articulo-titulo">{{ articulo.titulo }}</h3>
-      <p class="articulo-descripcion">{{ articulo.descripcion }}</p>
-      <div class="articulo-meta">
-        <span class="categoria">{{ articulo.categoria }}</span>
-        <span
-          class="tipo"
-          [ngClass]="{
-            venta: articulo.tipo === 'venta',
-            prestamo: articulo.tipo === 'prestamo'
-          }"
-        >
-          {{ articulo.tipo === "venta" ? "Venta" : "Préstamo" }}
+  </div>
+
+  <div class="articulo-body">
+    <h3 class="articulo-titulo">{{ articulo.titulo }}</h3>
+    <p class="articulo-descripcion">{{ articulo.descripcion }}</p>
+
+    <div class="articulo-meta">
+      <div class="meta-left">
+        <span class="estado-chip" [ngClass]="getEstadoClass()">{{
+          getEstadoLabel()
+        }}</span>
+        <span class="categoria">
+          <i class="pi pi-tag categoria-icon" aria-hidden="true"></i>
+          {{ getCategoria() }}
         </span>
-        <span
-          class="estado"
-          [ngClass]="{
-            disponible: articulo.estado === 'disponible',
-            prestado: articulo.estado === 'prestado'
-          }"
-        >
-          {{ articulo.estado === "disponible" ? "Disponible" : "Prestado" }}
-        </span>
+      </div>
+
+      <div class="meta-right">
+        <ng-container *ngIf="getTipoDisplay().icon || getTipoDisplay().label">
+          <div class="tipo" [ngClass]="getTipoDisplay().kind">
+            <span *ngIf="getTipoDisplay().icon" class="tipo-icon">{{
+              getTipoDisplay().icon
+            }}</span>
+            <span *ngIf="getTipoDisplay().label" class="tipo-label">{{
+              getTipoDisplay().label
+            }}</span>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

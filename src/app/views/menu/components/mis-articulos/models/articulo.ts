@@ -7,5 +7,6 @@ export interface Articulo {
   tipo: 'prestamo' | 'venta';
   alt: string;
   estado?: string;
+  precio?: number;
   fechaCreacion?: Date;
 }
