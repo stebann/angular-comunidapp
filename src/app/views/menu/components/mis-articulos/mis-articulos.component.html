@@ -1,34 +1,26 @@
 <div class="mis-articulos-container">
-  <!-- Cabecera con controles -->
-  <div class="page-header">
-    <div class="header-left">
-      <!-- Buscador -->
-      <div class="search-container">
-        <i class="pi pi-search search-icon"></i>
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Buscar mis artículos..."
-          [(ngModel)]="searchTerm"
-          (input)="onSearchChange()"
-        />
-      </div>
-    </div>
-
-    <div class="header-right">
-      <!-- Botón de filtros -->
-      <button class="filters-btn" (click)="openFilters()">
-        <i class="pi pi-filter"></i>
-        <span>Filtros</span>
-      </button>
-
-      <!-- Botón agregar artículo -->
-      <button class="add-article-btn" (click)="openCreateModal()">
-        <i class="pi pi-plus"></i>
-        <span>Agregar Artículo</span>
-      </button>
-    </div>
-  </div>
+  <!-- Cabecera reutilizable -->
+  <app-search-header
+    placeholder="Buscar mis artículos..."
+    [(searchTerm)]="searchTerm"
+  >
+    <app-button
+      type="secondary"
+      size="sm"
+      icon="pi pi-filter"
+      (clicked)="openFilters()"
+    >
+      Filtros
+    </app-button>
+    <app-button
+      type="primary"
+      size="sm"
+      icon="pi pi-plus"
+      (clicked)="openCreateModal()"
+    >
+      Agregar Artículo
+    </app-button>
+  </app-search-header>
 
   <!-- Contenido principal -->
   <div class="content-area">

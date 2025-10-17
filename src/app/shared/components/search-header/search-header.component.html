@@ -1,0 +1,18 @@
+<div class="search-header">
+  <div class="header-left">
+    <div class="search-container">
+      <i class="pi pi-search search-icon"></i>
+      <input
+        type="text"
+        class="search-input"
+        [placeholder]="placeholder"
+        [ngModel]="searchTerm"
+        (ngModelChange)="onInput($event)"
+      />
+    </div>
+  </div>
+
+  <div class="header-right">
+    <ng-content></ng-content>
+  </div>
+</div>

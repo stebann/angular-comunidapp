@@ -18,6 +18,7 @@ import { FiltersSidebarComponent } from './components/filters-sidebar/filters-si
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
+import { SearchHeaderComponent } from './components/search-header/search-header.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     RangeFieldComponent,
     ModalComponent,
     ArticuloCardComponent,
+    SearchHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
     RangeFieldComponent,
     ModalComponent,
     ArticuloCardComponent,
+    SearchHeaderComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
