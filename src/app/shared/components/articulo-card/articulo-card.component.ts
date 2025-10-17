@@ -1,4 +1,9 @@
 import { Component, Input } from '@angular/core';
+import {
+  ArticuloCondicion,
+  ArticuloEstado,
+  ArticuloTipo,
+} from '../../enums/articulo.enums';
 
 @Component({
   selector: 'app-articulo-card',
@@ -8,72 +13,78 @@ import { Component, Input } from '@angular/core';
 export class ArticuloCardComponent {
   @Input() articulo: any;
 
-  // Returns a friendly label for the estado
   getEstadoLabel(): string {
-    // derive from articulo.estado; default to 'disponible'
     const raw =
       this.articulo && this.articulo.estado
         ? this.articulo.estado
-        : 'disponible';
+        : ArticuloEstado.Disponible;
     const e = raw.toString().toLowerCase();
-    if (e === 'disponible') return 'Disponible';
-    if (e === 'prestado') return 'Prestado';
-    return 'Disponible';
+    switch (e) {
+      case ArticuloEstado.Prestado:
+        return 'Prestado';
+      case ArticuloEstado.Disponible:
+      default:
+        return 'Disponible';
+    }
   }
 
-  // Getter for categoria (safe)
   getCategoria(): string {
     return this.articulo && this.articulo.categoria
       ? this.articulo.categoria
       : '';
   }
 
-  // Getter for tipo (friendly label)
   getTipo(): string {
     if (!this.articulo || !this.articulo.tipo) return '';
     const t = this.articulo.tipo.toString().toLowerCase();
-    return t === 'venta'
-      ? 'Venta'
-      : t === 'prestamo'
-      ? 'Préstamo'
-      : t.charAt(0).toUpperCase() + t.slice(1);
+    switch (t) {
+      case ArticuloTipo.Venta:
+        return 'Venta';
+      case ArticuloTipo.Prestamo:
+        return 'Préstamo';
+      case ArticuloTipo.Intercambio:
+        return 'Intercambio';
+      default:
+        return t.charAt(0).toUpperCase() + t.slice(1);
+    }
   }
 
-  // Returns object for ngClass so styles can be applied
   getEstadoClass(): { [klass: string]: boolean } {
     const raw =
       this.articulo && this.articulo.estado
         ? this.articulo.estado
-        : 'disponible';
+        : ArticuloEstado.Disponible;
     const e = raw.toString().toLowerCase();
     return {
-      disponible: e === 'disponible',
-      prestado: e === 'prestado',
+      disponible: e === ArticuloEstado.Disponible,
+      prestado: e === ArticuloEstado.Prestado,
     };
   }
 
-  // Condicion is derived from disponibilidad (estado): only 'Disponible' or 'Prestado'
   getCondicionLabel(): string {
-    // derive from articulo.condicion; default to 'nuevo'
     const raw =
       this.articulo && this.articulo.condicion
         ? this.articulo.condicion
-        : 'nuevo';
+        : ArticuloCondicion.Nuevo;
     const c = raw.toString().toLowerCase();
-    if (c === 'nuevo') return 'Nuevo';
-    if (c === 'usado') return 'Usado';
-    return 'Nuevo';
+    switch (c) {
+      case ArticuloCondicion.Usado:
+        return 'Usado';
+      case ArticuloCondicion.Nuevo:
+      default:
+        return 'Nuevo';
+    }
   }
 
   getCondicionClass(): { [klass: string]: boolean } {
     const raw =
       this.articulo && this.articulo.condicion
         ? this.articulo.condicion
-        : 'nuevo';
+        : ArticuloCondicion.Nuevo;
     const c = raw.toString().toLowerCase();
     return {
-      nuevo: c === 'nuevo',
-      usado: c === 'usado',
+      nuevo: c === ArticuloCondicion.Nuevo,
+      usado: c === ArticuloCondicion.Usado,
     };
   }
 
@@ -86,29 +97,33 @@ export class ArticuloCardComponent {
     );
   }
 
-  // Returns display info for tipo (venta/prestamo/intercambio).
-  // For 'venta' will show price when available.
   getTipoDisplay(): { kind: string; icon: string; label: string } {
     const tipo =
       this.articulo && this.articulo.tipo
         ? this.articulo.tipo.toString().toLowerCase()
         : '';
-    if (tipo === 'venta') {
-      const price =
-        this.articulo && (this.articulo.precio || this.articulo.price)
-          ? this.articulo.precio || this.articulo.price
-          : null;
-      if (price !== null && price !== undefined && price !== '') {
-        // For venta we return no icon and the formatted price as label
-        return { kind: 'venta', icon: '', label: this.formatPrice(price) };
+    switch (tipo) {
+      case ArticuloTipo.Venta: {
+        const price =
+          this.articulo && (this.articulo.precio || this.articulo.price)
+            ? this.articulo.precio || this.articulo.price
+            : null;
+        if (price !== null && price !== undefined && price !== '') {
+          return {
+            kind: ArticuloTipo.Venta,
+            icon: '',
+            label: this.formatPrice(price),
+          };
+        }
+        return { kind: ArticuloTipo.Venta, icon: '', label: 'Consultar' };
       }
-      // venta but no price provided -> show 'Consultar'
-      return { kind: 'venta', icon: '', label: 'Consultar' };
+      case ArticuloTipo.Prestamo:
+        return { kind: ArticuloTipo.Prestamo, icon: '', label: '' };
+      case ArticuloTipo.Intercambio:
+        return { kind: ArticuloTipo.Intercambio, icon: '🔄', label: '' };
+      default:
+        return { kind: tipo || 'other', icon: '', label: '' };
     }
-    if (tipo === 'prestamo') return { kind: 'prestamo', icon: '', label: '' };
-    if (tipo === 'intercambio')
-      return { kind: 'intercambio', icon: '🔄', label: '' };
-    return { kind: tipo || 'other', icon: '', label: '' };
   }
 
   private formatPrice(price: any): string {
@@ -119,6 +134,8 @@ export class ArticuloCardComponent {
         return new Intl.NumberFormat('es-CO', {
           style: 'currency',
           currency,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
         }).format(n);
       } catch {
         return String(n);
