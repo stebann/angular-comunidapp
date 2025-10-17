@@ -12,7 +12,7 @@ import { MisArticulosService } from './services/mis-articulos.service';
 })
 export class MisArticulosComponent implements OnInit {
   searchTerm: string = '';
-
+  menuItems: any[] = [];
   articulos: Articulo[] = [
     {
       id: 1,
@@ -197,7 +197,37 @@ export class MisArticulosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadArticulos();
+
+    this.menuItems = [
+      {
+        label: 'Ver',
+        icon: 'pi pi-eye',
+        command: () => {
+          this.onView();
+        },
+      },
+      {
+        label: 'Editar',
+        icon: 'pi pi-pencil',
+        command: () => {
+          this.onEdit();
+        },
+      },
+      {
+        label: 'Eliminar',
+        icon: 'pi pi-trash',
+        command: () => {
+          this.onRemove();
+        },
+      },
+    ];
   }
+
+  onView(): void {}
+
+  onEdit(): void {}
+
+  onRemove(): void {}
 
   private loadArticulos(): void {}
 

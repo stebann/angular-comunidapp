@@ -5,6 +5,14 @@
       <div class="badge condicion-badge" [ngClass]="getCondicionClass()">
         <span>{{ getCondicionLabel() }}</span>
       </div>
+
+      <div class="action-menu">
+        <app-opciones
+          [items]="menuItems"
+          [color]="'white'"
+          (click)="selectItem = articulo"
+        ></app-opciones>
+      </div>
     </div>
   </div>
 

@@ -1,0 +1,20 @@
+<i
+  #btn
+  class="pi pi-ellipsis-v cursor-pointer"
+  [ngClass]="color"
+  (click)="op.toggle($event)"
+></i>
+<p-overlayPanel #op class="opt" [ngClass]="color" appendTo="body">
+  <ng-template pTemplate="content">
+    <div class="container">
+      <div
+        class="item mb-2"
+        *ngFor="let item of items"
+        (click)="ejecutarFuncion(item.command, btn)"
+      >
+        <i [class]="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </div>
+    </div>
+  </ng-template>
+</p-overlayPanel>

@@ -12,6 +12,10 @@ import {
 })
 export class ArticuloCardComponent {
   @Input() articulo: any;
+  selectItem: any = null;
+  @Input() menuItems: any[] = [];
+
+  constructor() {}
 
   getEstadoLabel(): string {
     const raw =

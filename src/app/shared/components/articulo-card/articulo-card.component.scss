@@ -43,17 +43,31 @@
 
 .badge.condicion-badge {
   position: absolute;
-  right: 12px;
+  right: 48px;
   top: 12px;
   background: rgba(0, 0, 0, 0.55);
   color: #ffffff;
-  padding: 0.28rem 0.6rem;
+  padding: 0.38rem 0.6rem;
   border-radius: 6px;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
   font-size: 0.82rem;
   box-shadow: none;
+  z-index: 10;
+}
+
+.action-menu {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: inline-flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.action-btn .pi {
+  font-size: 1rem;
 }
 .badge.condicion-badge.disponible {
   background: rgba(67, 160, 71, 0.12);

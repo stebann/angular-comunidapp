@@ -1,0 +1,97 @@
+::ng-deep .p-overlaypanel .p-overlaypanel-content {
+  padding: 0px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* trigger icon inside the card action area */
+.action-menu .pi {
+  font-size: 1.1rem;
+}
+
+/* Note: generic .white marker is handled by more specific selectors below. */
+
+/* If the class is applied directly to the trigger icon (common: <i [ngClass]="color">) */
+.pi.white,
+i.white,
+.cursor-pointer.white,
+.white > i {
+  color: #ffffff !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  padding: 0.28rem 0.6rem !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.3rem !important;
+  box-shadow: none !important;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+}
+
+/* If the class is applied to the overlay panel host (e.g. .opt.white),
+   style only the inner .container, not the host element itself. This
+   prevents a dark rectangle appearing in <body> when the panel is not visible. */
+.opt.white .container {
+  background: #fff;
+}
+
+.blue {
+  /* blue theme: make icon appear light (using gradient text) and tint container */
+  color: transparent !important;
+  background: linear-gradient(
+    to right,
+    var(--blue-start),
+    var(--blue-end)
+  ) !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+  i,
+  & > i {
+    color: transparent !important;
+    background: linear-gradient(
+      to right,
+      var(--blue-start),
+      var(--blue-end)
+    ) !important;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .container {
+    background: rgba(2, 109, 252, 0.06);
+    box-shadow: none;
+  }
+}
+
+.item {
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  width: 100%;
+  min-width: 200px;
+  padding: 10px 12px;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0px 2px 14px 0px rgba(0, 0, 0, 0.07);
+
+  i {
+    font-size: 1.5rem;
+    background: linear-gradient(to right, var(--blue-start), var(--blue-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  span {
+    color: #444;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}

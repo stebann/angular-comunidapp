@@ -3,12 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-// PrimeNG Modules
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -17,6 +18,7 @@ import { DropdownFieldComponent } from './components/dropdown-field/dropdown-fie
 import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { OpcionesComponent } from './components/opciones/opciones.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
 
@@ -30,6 +32,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     RangeFieldComponent,
     ModalComponent,
     ArticuloCardComponent,
+    OpcionesComponent,
     SearchHeaderComponent,
   ],
   imports: [
@@ -38,10 +41,12 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     ReactiveFormsModule,
     RouterModule,
     DropdownModule,
+    MenuModule,
     CalendarModule,
     InputNumberModule,
     InputTextModule,
     MultiSelectModule,
+    OverlayPanelModule,
   ],
   exports: [
     InputFieldComponent,
@@ -52,12 +57,14 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     RangeFieldComponent,
     ModalComponent,
     ArticuloCardComponent,
+    OpcionesComponent,
     SearchHeaderComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
     DropdownModule,
+    MenuModule,
     CalendarModule,
     InputNumberModule,
     InputTextModule,

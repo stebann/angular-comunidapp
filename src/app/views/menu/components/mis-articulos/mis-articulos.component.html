@@ -5,7 +5,7 @@
     [(searchTerm)]="searchTerm"
   >
     <app-button
-      type="secondary"
+      type="outline-primary"
       size="sm"
       icon="pi pi-filter"
       (clicked)="openFilters()"
@@ -28,6 +28,7 @@
       <app-articulo-card
         *ngFor="let articulo of articulos"
         [articulo]="articulo"
+        [menuItems]="menuItems"
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>
