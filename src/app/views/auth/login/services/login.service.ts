@@ -36,7 +36,7 @@ export class LoginService extends LoginRepository {
       enSesion: true,
     });
 
-    this.router.navigate(['/app']);
+    this.router.navigate(['/app/inicio']);
 
     this.loginForm.reset();
   }

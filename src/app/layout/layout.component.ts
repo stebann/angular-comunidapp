@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 import { MenuItem } from './menu/menu.component';
 
@@ -13,48 +13,57 @@ export class LayoutComponent {
   isUserMenuOpen = false;
 
   menuItems: MenuItem[] = [
-    { label: 'Inicio', route: '/inicio', icon: 'pi pi-home', active: false },
+    { label: 'Inicio', route: 'inicio', icon: 'pi pi-home', active: false },
     {
       label: 'Explorar',
-      route: '/explorar',
+      route: 'explorar',
       icon: 'pi pi-compass',
       active: false,
     },
-
     {
       label: 'Mis Artículos',
-      route: '/mis-articulos',
+      route: 'mis-articulos',
       icon: 'pi pi-box',
       active: false,
     },
     {
       label: 'Solicitudes',
-      route: '/solicitudes',
+      route: 'solicitudes',
       icon: 'pi pi-envelope',
       active: false,
     },
     {
       label: 'Préstamos',
-      route: '/prestamos',
+      route: 'prestamos',
       icon: 'pi pi-send',
       active: false,
     },
     {
       label: 'Comercios',
-      route: '/comercios',
+      route: 'comercios',
       icon: 'pi pi-building',
       active: false,
     },
     {
       label: 'Estadísticas',
-      route: '/estadisticas',
+      route: 'estadisticas',
       icon: 'pi pi-chart-bar',
       active: false,
     },
   ];
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
+  ) {
+    // Inicialmente marcar el item activo según la ruta actual
     this.updateActiveMenuItem();
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.updateActiveMenuItem();
+      }
+    });
   }
 
   toggleSidebar() {
@@ -83,7 +92,9 @@ export class LayoutComponent {
         }
       });
       item.active = true;
-      this.router.navigate([item.route]);
+      // Navegar a la ruta absoluta bajo /app para evitar problemas desde rutas hijas
+      const url = `/app/${item.route}`;
+      this.router.navigateByUrl(url);
     }
   }
 

@@ -2,28 +2,32 @@
   <div class="topbar-left">
     <div class="title-section">
       <button class="menu-toggle" (click)="toggleSidebar()">
-        <i class="pi pi-th-large"></i>
+        <i class="pi pi-bars"></i>
       </button>
-
-      <div class="logo-container">
-        <!-- Space for logo image -->
-        <img src="" alt="Logo" class="app-logo" style="display: none" />
+      <h1 class="page-title">ComunidApp</h1>
+    </div>
+    <div class="welcome-section">
+      <div class="welcome-title">
+        ¡Bienvenido de nuevo, {{ nombreUsuario.split(" ")[0] || "Usuario" }}!
       </div>
-
-      <h1 class="page-title">Comunidad</h1>
+      <div class="welcome-subtitle">
+        Listo para compartir y conectar con tu comunidad?
+      </div>
     </div>
   </div>
 
   <div class="topbar-right">
+    <button class="notif-button" aria-label="Notificaciones">
+      <i class="pi pi-bell"></i>
+      <span class="badge">2</span>
+    </button>
     <div class="user-menu">
       <button class="user-button" (click)="toggleUserMenu()">
-        <!-- Avatar para futuras fotos -->
-        <div class="user-avatar-small">
-          {{ getUserInitials() }}
+        <div class="user-avatar-small">{{ getUserInitials() }}</div>
+        <div class="user-info-inline">
+          <div class="user-name-strong">{{ nombreUsuario }}</div>
+          <div class="user-role">Miembro Activo</div>
         </div>
-        <!-- Nombre del usuario -->
-        <span class="user-name">{{ nombreUsuario }}</span>
-        <!-- Flecha indicadora -->
         <i class="pi pi-chevron-down chevron-icon"></i>
       </button>
 

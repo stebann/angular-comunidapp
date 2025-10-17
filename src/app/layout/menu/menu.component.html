@@ -3,7 +3,8 @@
     <ul class="nav-list">
       <li class="nav-item" *ngFor="let item of menuItems">
         <a
-          (click)="onMenuItemClick(item)"
+          href="#"
+          (click)="$event.preventDefault(); onMenuItemClick(item)"
           [class.active]="isItemActive(item)"
           [class.has-children]="item.children"
           class="nav-link"
@@ -25,7 +26,8 @@
         >
           <li class="nav-item" *ngFor="let child of item.children">
             <a
-              (click)="onMenuItemClick(child)"
+              href="#"
+              (click)="$event.preventDefault(); onMenuItemClick(child)"
               [class.active]="child.active"
               class="nav-link sub-nav-link"
               [title]="child.label"
