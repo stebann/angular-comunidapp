@@ -197,15 +197,7 @@ export class MisArticulosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadArticulos();
-
     this.menuItems = [
-      {
-        label: 'Ver',
-        icon: 'pi pi-eye',
-        command: () => {
-          this.onView();
-        },
-      },
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
@@ -223,8 +215,6 @@ export class MisArticulosComponent implements OnInit {
     ];
   }
 
-  onView(): void {}
-
   onEdit(): void {}
 
   onRemove(): void {}
@@ -239,6 +229,7 @@ export class MisArticulosComponent implements OnInit {
     this.dialogService$.open(ModalArticuloComponent, {
       header: 'Nuevo Artículo',
       width: '50%',
+      height: 'auto',
       modal: true,
     });
   }
