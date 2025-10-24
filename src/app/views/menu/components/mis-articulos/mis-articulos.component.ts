@@ -13,6 +13,7 @@ import { MisArticulosService } from './services/mis-articulos.service';
 export class MisArticulosComponent implements OnInit {
   searchTerm: string = '';
   menuItems: any[] = [];
+
   articulos: Articulo[] = [
     {
       id: 1,
@@ -39,136 +40,6 @@ export class MisArticulosComponent implements OnInit {
       estado: 'disponible',
       precio: 0,
       fechaCreacion: new Date('2025-09-20'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
-    },
-    {
-      id: 3,
-      titulo: 'Silla ergonómica',
-      descripcion:
-        'Silla cómoda para oficina, color negro, con soporte lumbar ajustable.',
-      categoria: 'Muebles',
-      tipo: 'venta',
-      alt: 'Silla ergonómica',
-      imagen: '',
-      estado: 'prestado',
-      precio: 120000,
-      fechaCreacion: new Date('2025-08-15'),
     },
     {
       id: 3,

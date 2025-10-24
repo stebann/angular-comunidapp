@@ -2,11 +2,11 @@
   <div class="articulo-media">
     <div class="media-wrapper">
       <img [src]="getImagenSrc()" [alt]="articulo.alt || articulo.titulo" />
-      <div class="badge condicion-badge" [ngClass]="getCondicionClass()">
+      <div class="badge condicion-badge" [ngClass]="getCondicionBadgeClass()">
         <span>{{ getCondicionLabel() }}</span>
       </div>
 
-      <div class="action-menu">
+      <div class="action-menu" *ngIf="esDueno">
         <app-opciones
           [items]="menuItems"
           [color]="'white'"

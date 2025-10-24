@@ -12,6 +12,7 @@ import {
 })
 export class ArticuloCardComponent {
   @Input() articulo: any;
+  @Input() esDueno: boolean = false;
   selectItem: any = null;
   @Input() menuItems: any[] = [];
 
@@ -146,5 +147,13 @@ export class ArticuloCardComponent {
       }
     }
     return String(price);
+  }
+
+  getCondicionBadgeClass(): { [klass: string]: boolean } {
+    return {
+      ...this.getCondicionClass(),
+      'condicion-dueno': this.esDueno,
+      'condicion-no-dueno': !this.esDueno,
+    };
   }
 }
