@@ -20,6 +20,7 @@
       <app-articulo-card
         *ngFor="let articulo of articulos"
         [articulo]="articulo"
+        (cardClicked)="abrirModalArticulo($event)"
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>

@@ -12,6 +12,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
+import { ArticuloDetailComponent } from './components/articulo-detail/articulo-detail.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
@@ -34,6 +35,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     ArticuloCardComponent,
     OpcionesComponent,
     SearchHeaderComponent,
+    ArticuloDetailComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +62,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     OpcionesComponent,
     SearchHeaderComponent,
     CommonModule,
+    ArticuloDetailComponent,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,

@@ -1,4 +1,4 @@
-<div class="articulo-card">
+<div class="articulo-card" (click)="onCardClick()">
   <div class="articulo-media">
     <div class="media-wrapper">
       <img [src]="getImagenSrc()" [alt]="articulo.alt || articulo.titulo" />

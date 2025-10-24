@@ -30,6 +30,7 @@
         [articulo]="articulo"
         [menuItems]="menuItems"
         [esDueno]="true"
+        (cardClicked)="abrirModalArticulo($event)"
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>

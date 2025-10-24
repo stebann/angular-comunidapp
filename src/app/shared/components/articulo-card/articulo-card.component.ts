@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   ArticuloCondicion,
   ArticuloEstado,
@@ -15,6 +15,11 @@ export class ArticuloCardComponent {
   @Input() esDueno: boolean = false;
   selectItem: any = null;
   @Input() menuItems: any[] = [];
+  @Output() cardClicked = new EventEmitter<any>();
+
+  onCardClick() {
+    this.cardClicked.emit(this.articulo);
+  }
 
   constructor() {}
 

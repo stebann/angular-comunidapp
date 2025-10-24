@@ -10,6 +10,7 @@
   height: 360px;
   width: 100%;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .articulo-card:hover {
@@ -46,6 +47,12 @@
 .badge.condicion-badge {
   position: absolute;
   top: 12px;
+}
+.badge.condicion-badge.condicion-dueno {
+  right: 48px;
+}
+.badge.condicion-badge.condicion-no-dueno {
+  right: 12px;
   background: rgba(0, 0, 0, 0.55);
   color: #ffffff;
   padding: 0.38rem 0.6rem;
@@ -56,12 +63,6 @@
   font-size: 0.82rem;
   box-shadow: none;
   z-index: 10;
-}
-.badge.condicion-badge.condicion-dueno {
-  right: 48px;
-}
-.badge.condicion-badge.condicion-no-dueno {
-  right: 12px;
 }
 
 .action-menu {

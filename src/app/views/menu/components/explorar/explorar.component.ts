@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
+import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
 import { FiltersService } from '../../../../shared/services/filters.service';
 import { Articulo } from '../mis-articulos/models/articulo';
 
@@ -181,7 +183,10 @@ export class ExplorarComponent implements OnInit {
     },
   ];
 
-  constructor(private filtersService: FiltersService) {}
+  constructor(
+    private filtersService: FiltersService,
+    private dialogService$: DialogService
+  ) {}
 
   ngOnInit(): void {
     this.loadArticulos();
@@ -195,5 +200,13 @@ export class ExplorarComponent implements OnInit {
 
   onFiltersApplied(filteredData: Articulo[]): void {
     this.articulos = filteredData;
+  }
+
+  abrirModalArticulo(articulo: Articulo): void {
+    this.dialogService$.open(ArticuloDetailComponent, {
+      header: 'Detalle del Artículo',
+      data: { articulo: articulo, esDueno: true },
+      styleClass: 'p-app-modal',
+    });
   }
 }
