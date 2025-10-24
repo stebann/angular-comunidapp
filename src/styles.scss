@@ -269,3 +269,24 @@ select {
     font-size: 12px; /* Reducir más para móviles pequeños */
   }
 }
+
+.p-app-modal {
+  .p-dialog-header {
+    background: var(--blue-start);
+    color: var(--color-white);
+  }
+  .p-dialog-content {
+    padding: 1rem !important;
+  }
+  .p-dialog-header .p-dialog-header-icon {
+    color: var(--color-white) !important;
+    opacity: 1;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  .p-dialog-header .p-dialog-header-icon:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
