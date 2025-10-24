@@ -20,6 +20,17 @@
 
   <!-- Contenido del sidebar -->
   <div class="sidebar-content">
+    <!-- Búsqueda por título de artículo -->
+    <div class="filter-group">
+      <app-input-field
+        label="Nombre artículo"
+        placeholder="Buscar por título..."
+        [ngModel]="currentFilters.nombreArticulo || ''"
+        (valueChange)="onFilterChange('nombreArticulo', $event)"
+        icon="pi pi-search"
+      ></app-input-field>
+    </div>
+
     <!-- Filtro por Categoría -->
     <div class="filter-group">
       <app-dropdown-field
@@ -62,28 +73,6 @@
         (selectionChange)="onFilterChange('tipoTransaccionId', $event)"
       ></app-dropdown-field>
     </div>
-
-    <!-- Búsqueda por título de artículo -->
-    <div class="filter-group">
-      <app-input-field
-        label="Buscar por artículo"
-        placeholder="Buscar por título..."
-        [ngModel]="currentFilters.nombreArticulo || ''"
-        (valueChange)="onFilterChange('nombreArticulo', $event)"
-        icon="pi pi-search"
-      ></app-input-field>
-    </div>
-
-    <!-- Búsqueda por nombre de usuario -->
-    <div class="filter-group">
-      <app-input-field
-        label="Buscar por usuario"
-        placeholder="Buscar por nombre de usuario..."
-        [ngModel]="currentFilters.nombreUsuario || ''"
-        (valueChange)="onFilterChange('nombreUsuario', $event)"
-        icon="pi pi-user"
-      ></app-input-field>
-    </div>
   </div>
 
   <!-- Footer con botones -->
@@ -94,7 +83,7 @@
     </button>
     <button class="btn btn-primary" (click)="applyFilters()">
       <i class="pi pi-search"></i>
-      Buscar/Filtrar
+      Buscar
     </button>
   </div>
 </div>

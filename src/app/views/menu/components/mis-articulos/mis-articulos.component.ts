@@ -228,8 +228,6 @@ export class MisArticulosComponent implements OnInit {
   openCreateModal(): void {
     this.dialogService$.open(ModalArticuloComponent, {
       header: 'Nuevo Artículo',
-      width: '60%',
-
       styleClass: 'p-app-modal',
     });
   }
