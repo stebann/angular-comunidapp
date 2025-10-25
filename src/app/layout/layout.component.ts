@@ -27,9 +27,10 @@ export class LayoutComponent {
       active: false,
     },
     {
-      label: 'Solicitudes',
-      route: 'solicitudes',
-      icon: 'pi pi-envelope',
+      label: 'Mis Gestiones',
+      route: 'mis-gestiones',
+      icon: 'pi pi-list-check',
+
       active: false,
     },
     {

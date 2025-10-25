@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Solicitud } from 'src/app/shared/models/solicitud.model';
 import { FiltersService } from 'src/app/shared/services/filters.service';
-import { SolicitudesService } from './services/solicitudes.service';
+import { Gestiones } from 'src/app/views/menu/components/solicitudes/models/gestiones.model';
+import { MisGestionesService } from './services/mis-gestiones.service';
 
 @Component({
-  selector: 'app-solicitudes',
-  templateUrl: './solicitudes.component.html',
-  styleUrls: ['./solicitudes.component.scss'],
+  selector: 'app-mis-gestiones',
+  templateUrl: './mis-gestiones.component.html',
+  styleUrls: ['./mis-gestiones.component.scss'],
 })
-export class SolicitudesComponent implements OnInit {
+export class MisGestionesComponent implements OnInit {
   constructor(
     private filterService: FiltersService,
-    private solicitudesService: SolicitudesService
+    private misGestionesService: MisGestionesService
   ) {}
 
   ngOnInit() {}
@@ -19,9 +19,10 @@ export class SolicitudesComponent implements OnInit {
   searchTerm: string = '';
   activeTab: 'recibidas' | 'enviadas' = 'recibidas';
 
-  solicitudesRecibidas: Solicitud[] = [
+  solicitudesRecibidas: Gestiones[] = [
     {
       id: 1,
+      tipo: 'solicitud',
       articuloId: 1,
       articuloTitulo: 'Bicicleta de montaña Trek',
       articuloImagen:
@@ -43,14 +44,14 @@ export class SolicitudesComponent implements OnInit {
       },
       mensaje:
         'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
-      tipoSolicitud: 'venta',
-      tipoVista: 'solicitud',
+
       estado: 'pendiente',
       fechaCreacion: new Date('2025-01-15'),
       fechaActualizacion: new Date('2025-01-15'),
     },
     {
       id: 2,
+      tipo: 'solicitud',
       articuloId: 2,
       articuloTitulo: 'Libro de Angular - Guía Completa',
       articuloImagen:
@@ -72,14 +73,14 @@ export class SolicitudesComponent implements OnInit {
       },
       mensaje:
         'Hola! Soy estudiante de programación y me gustaría pedirte prestado el libro de Angular por unas semanas. Te lo devuelvo en perfecto estado.',
-      tipoSolicitud: 'prestamo',
-      tipoVista: 'prestamo',
+
       estado: 'pendiente',
       fechaCreacion: new Date('2025-01-14'),
       fechaLimite: new Date('2025-02-14'),
     },
     {
       id: 3,
+      tipo: 'prestamo',
       articuloId: 3,
       articuloTitulo: 'Silla ergonómica de oficina',
       articuloImagen:
@@ -101,8 +102,7 @@ export class SolicitudesComponent implements OnInit {
       },
       mensaje:
         'Tengo una mesa de escritorio que podría intercambiar por tu silla. ¿Te interesa ver fotos?',
-      tipoSolicitud: 'prestamo',
-      tipoVista: 'solicitud',
+
       estado: 'aceptada',
       fechaCreacion: new Date('2025-01-10'),
       fechaActualizacion: new Date('2025-01-12'),
@@ -114,74 +114,108 @@ export class SolicitudesComponent implements OnInit {
     },
   ];
 
-  solicitudesEnviadas: Solicitud[] = [
+  solicitudesEnviadas: Gestiones[] = [
     {
-      id: 4,
-      articuloId: 6,
-      articuloTitulo: 'MacBook Pro 2023',
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
       articuloImagen:
-        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300&h=300&fit=crop',
-      articuloCategoria: 'Tecnología',
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
       articuloTipo: 'venta',
-      articuloPrecio: 2500000,
+      articuloPrecio: 450000,
       usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
         id: 1,
         nombre: 'Esteban García',
         iniciales: 'EG',
         avatar: '',
       },
-      usuarioPropietario: {
-        id: 5,
-        nombre: 'Roberto Silva',
-        iniciales: 'RS',
-        avatar: '',
-      },
       mensaje:
-        'Hola! Me interesa comprar tu MacBook. ¿Podríamos acordar un precio de $2,200,000?',
-      tipoSolicitud: 'venta',
-      tipoVista: 'solicitud',
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
       estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-13'),
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
     },
     {
-      id: 5,
-      articuloId: 7,
-      articuloTitulo: 'Guitarra acústica Yamaha',
+      id: 2,
+      tipo: 'solicitud',
+      articuloId: 2,
+      articuloTitulo: 'Libro de Angular - Guía Completa',
       articuloImagen:
-        'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=300&h=300&fit=crop',
-      articuloCategoria: 'Instrumentos',
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Libros',
       articuloTipo: 'prestamo',
       articuloPrecio: 0,
       usuarioSolicitante: {
+        id: 3,
+        nombre: 'Carlos Díaz',
+        iniciales: 'CD',
+        avatar: '',
+      },
+      usuarioPropietario: {
         id: 1,
         nombre: 'Esteban García',
         iniciales: 'EG',
         avatar: '',
       },
+      mensaje:
+        'Hola! Soy estudiante de programación y me gustaría pedirte prestado el libro de Angular por unas semanas. Te lo devuelvo en perfecto estado.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-14'),
+      fechaLimite: new Date('2025-02-14'),
+    },
+    {
+      id: 3,
+      tipo: 'prestamo',
+      articuloId: 3,
+      articuloTitulo: 'Silla ergonómica de oficina',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop',
+      articuloCategoria: 'Muebles',
+      articuloTipo: 'prestamo',
+      articuloPrecio: 0,
+      usuarioSolicitante: {
+        id: 4,
+        nombre: 'María López',
+        iniciales: 'ML',
+        avatar: '',
+      },
       usuarioPropietario: {
-        id: 6,
-        nombre: 'Laura Martínez',
-        iniciales: 'LM',
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
         avatar: '',
       },
       mensaje:
-        'Hola! Soy músico y me gustaría pedirte prestada la guitarra para un evento. Te la devuelvo en una semana.',
-      tipoSolicitud: 'prestamo',
-      tipoVista: 'prestamo',
+        'Tengo una mesa de escritorio que podría intercambiar por tu silla. ¿Te interesa ver fotos?',
+
       estado: 'aceptada',
-      fechaCreacion: new Date('2025-01-08'),
-      fechaActualizacion: new Date('2025-01-09'),
-      fechaLimite: new Date('2025-01-15'),
+      fechaCreacion: new Date('2025-01-10'),
+      fechaActualizacion: new Date('2025-01-12'),
+      articuloIntercambio: {
+        id: 5,
+        titulo: 'Mesa de escritorio moderna',
+        imagen: '',
+      },
     },
   ];
 
-  get solicitudesActuales(): Solicitud[] {
+  get solicitudesActuales(): Gestiones[] {
     return this.activeTab === 'recibidas'
       ? this.solicitudesRecibidas
       : this.solicitudesEnviadas;
   }
 
-  get solicitudesFiltradas(): Solicitud[] {
+  get solicitudesFiltradas(): Gestiones[] {
     if (!this.searchTerm.trim()) {
       return this.solicitudesActuales;
     }
@@ -202,19 +236,19 @@ export class SolicitudesComponent implements OnInit {
   }
 
   onFiltersApplied(filteredData: any): void {
-    this.solicitudesService.solicitudes = filteredData;
+    this.misGestionesService.gestiones = filteredData;
   }
 
   onTabChange(tab: 'recibidas' | 'enviadas'): void {
     this.activeTab = tab;
   }
 
-  onSolicitudClick(solicitud: Solicitud): void {
+  onSolicitudClick(solicitud: Gestiones): void {
     console.log('Solicitud clickeada:', solicitud);
     // Aquí abrirías el modal de detalle
   }
 
-  onSolicitudAction(event: { action: string; solicitud: Solicitud }): void {
+  onSolicitudAction(event: { action: string; solicitud: Gestiones }): void {
     console.log('Acción:', event.action, 'Solicitud:', event.solicitud);
     // Aquí manejarías las acciones (aceptar, rechazar, cancelar)
   }

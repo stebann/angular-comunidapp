@@ -1,5 +1,6 @@
-export interface Solicitud {
+export interface Gestiones {
   id: number;
+  tipo: 'solicitud' | 'prestamo';
   articuloId: number;
   articuloTitulo: string;
   articuloImagen?: string;
@@ -25,12 +26,9 @@ export interface Solicitud {
 
   // Detalles de la solicitud
   mensaje: string;
-  tipoSolicitud: 'venta' | 'prestamo';
-  tipoVista: 'solicitud' | 'prestamo'; // Nuevo campo para diferenciar vistas
   estado: 'pendiente' | 'aceptada' | 'rechazada' | 'cancelada';
   fechaCreacion: Date;
   fechaActualizacion?: Date;
-
   // Información adicional según el tipo
   motivoRechazo?: string;
   fechaLimite?: Date; // Para préstamos
@@ -42,6 +40,6 @@ export interface Solicitud {
 }
 
 export interface SolicitudCardData {
-  solicitud: Solicitud;
+  solicitud: Gestiones;
   esRecibida: boolean; // true si es una solicitud que recibí, false si es una que envié
 }

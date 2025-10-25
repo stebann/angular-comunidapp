@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Solicitud } from '../../models/solicitud.model';
+import { Gestiones } from '../../../views/menu/components/solicitudes/models/gestiones.model';
 
 @Component({
   selector: 'app-solicitud-card',
@@ -7,12 +7,12 @@ import { Solicitud } from '../../models/solicitud.model';
   styleUrls: ['./solicitud-card.component.scss'],
 })
 export class SolicitudCardComponent {
-  @Input() solicitud!: Solicitud;
+  @Input() solicitud!: Gestiones;
   @Input() esRecibida: boolean = true;
-  @Output() cardClicked = new EventEmitter<Solicitud>();
+  @Output() cardClicked = new EventEmitter<Gestiones>();
   @Output() actionClicked = new EventEmitter<{
     action: string;
-    solicitud: Solicitud;
+    solicitud: Gestiones;
   }>();
 
   constructor() {}
@@ -57,8 +57,8 @@ export class SolicitudCardComponent {
   }
 
   getTipoIcon(): string {
-    switch (this.solicitud.tipoSolicitud) {
-      case 'venta':
+    switch (this.solicitud.tipo) {
+      case 'solicitud':
         return 'pi pi-shopping-cart';
       case 'prestamo':
         return 'pi pi-book';
@@ -68,9 +68,9 @@ export class SolicitudCardComponent {
   }
 
   getTipoLabel(): string {
-    switch (this.solicitud.tipoSolicitud) {
-      case 'venta':
-        return 'Venta';
+    switch (this.solicitud.tipo) {
+      case 'solicitud':
+        return 'Solicitud';
       case 'prestamo':
         return 'Préstamo';
       default:
@@ -100,7 +100,7 @@ export class SolicitudCardComponent {
   }
 
   getTipoVistaLabel(): string {
-    switch (this.solicitud.tipoVista) {
+    switch (this.solicitud.tipo) {
       case 'solicitud':
         return 'Solicitud';
       case 'prestamo':

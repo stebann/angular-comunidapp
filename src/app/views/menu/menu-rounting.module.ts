@@ -29,10 +29,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'solicitudes',
+    path: 'mis-gestiones',
     loadChildren: () =>
-      import('./components/solicitudes/solicitudes.module').then(
-        (m) => m.SolicitudesModule
+      import('./components/solicitudes/mis-gestiones.module').then(
+        (m) => m.MisGestionesModule
       ),
   },
   {
