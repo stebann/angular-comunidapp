@@ -33,12 +33,6 @@ export class LayoutComponent {
       active: false,
     },
     {
-      label: 'Préstamos',
-      route: 'prestamos',
-      icon: 'pi pi-send',
-      active: false,
-    },
-    {
       label: 'Comercios',
       route: 'comercios',
       icon: 'pi pi-building',

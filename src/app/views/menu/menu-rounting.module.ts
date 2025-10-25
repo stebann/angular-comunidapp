@@ -36,13 +36,6 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'prestamos',
-    loadChildren: () =>
-      import('./components/prestamos/prestamos.module').then(
-        (m) => m.PrestamosModule
-      ),
-  },
-  {
     path: 'comercios',
     loadChildren: () =>
       import('./components/comercios/comercios.module').then(
