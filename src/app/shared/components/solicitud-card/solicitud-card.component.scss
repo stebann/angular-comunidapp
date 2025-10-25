@@ -252,10 +252,60 @@
   }
 }
 
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .footer-right {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
+
+.tipo-transaccion {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 0.125rem 0.375rem;
+  border-radius: 999px;
+
+  &.venta {
+    background: rgba(63, 81, 181, 0.1); // Azul violáceo suave
+    color: #3f51b5; // Azul índigo
+  }
+
+  &.prestamo {
+    background: rgba(63, 81, 181, 0.1);
+    color: #3f51b5;
+  }
+
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+.tipo-vista {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.solicitud {
+    background: rgba(33, 150, 243, 0.1);
+    color: #1976d2;
+  }
+
+  &.prestamo {
+    background: rgba(156, 39, 176, 0.1);
+    color: #7b1fa2;
+  }
 }
 
 .acciones {

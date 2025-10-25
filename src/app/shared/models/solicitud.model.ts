@@ -4,7 +4,7 @@ export interface Solicitud {
   articuloTitulo: string;
   articuloImagen?: string;
   articuloCategoria: string;
-  articuloTipo: 'venta' | 'prestamo' | 'intercambio';
+  articuloTipo: 'venta' | 'prestamo';
   articuloPrecio?: number;
 
   // Información del usuario que hace la solicitud
@@ -25,7 +25,8 @@ export interface Solicitud {
 
   // Detalles de la solicitud
   mensaje: string;
-  tipoSolicitud: 'venta' | 'prestamo' | 'intercambio';
+  tipoSolicitud: 'venta' | 'prestamo';
+  tipoVista: 'solicitud' | 'prestamo'; // Nuevo campo para diferenciar vistas
   estado: 'pendiente' | 'aceptada' | 'rechazada' | 'cancelada';
   fechaCreacion: Date;
   fechaActualizacion?: Date;

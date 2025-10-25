@@ -44,6 +44,7 @@ export class SolicitudesComponent implements OnInit {
       mensaje:
         'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
       tipoSolicitud: 'venta',
+      tipoVista: 'solicitud',
       estado: 'pendiente',
       fechaCreacion: new Date('2025-01-15'),
       fechaActualizacion: new Date('2025-01-15'),
@@ -72,6 +73,7 @@ export class SolicitudesComponent implements OnInit {
       mensaje:
         'Hola! Soy estudiante de programación y me gustaría pedirte prestado el libro de Angular por unas semanas. Te lo devuelvo en perfecto estado.',
       tipoSolicitud: 'prestamo',
+      tipoVista: 'prestamo',
       estado: 'pendiente',
       fechaCreacion: new Date('2025-01-14'),
       fechaLimite: new Date('2025-02-14'),
@@ -83,7 +85,7 @@ export class SolicitudesComponent implements OnInit {
       articuloImagen:
         'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop',
       articuloCategoria: 'Muebles',
-      articuloTipo: 'intercambio',
+      articuloTipo: 'prestamo',
       articuloPrecio: 0,
       usuarioSolicitante: {
         id: 4,
@@ -99,7 +101,8 @@ export class SolicitudesComponent implements OnInit {
       },
       mensaje:
         'Tengo una mesa de escritorio que podría intercambiar por tu silla. ¿Te interesa ver fotos?',
-      tipoSolicitud: 'intercambio',
+      tipoSolicitud: 'prestamo',
+      tipoVista: 'solicitud',
       estado: 'aceptada',
       fechaCreacion: new Date('2025-01-10'),
       fechaActualizacion: new Date('2025-01-12'),
@@ -136,6 +139,7 @@ export class SolicitudesComponent implements OnInit {
       mensaje:
         'Hola! Me interesa comprar tu MacBook. ¿Podríamos acordar un precio de $2,200,000?',
       tipoSolicitud: 'venta',
+      tipoVista: 'solicitud',
       estado: 'pendiente',
       fechaCreacion: new Date('2025-01-13'),
     },
@@ -163,6 +167,7 @@ export class SolicitudesComponent implements OnInit {
       mensaje:
         'Hola! Soy músico y me gustaría pedirte prestada la guitarra para un evento. Te la devuelvo en una semana.',
       tipoSolicitud: 'prestamo',
+      tipoVista: 'prestamo',
       estado: 'aceptada',
       fechaCreacion: new Date('2025-01-08'),
       fechaActualizacion: new Date('2025-01-09'),

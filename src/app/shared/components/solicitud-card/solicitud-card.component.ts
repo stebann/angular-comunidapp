@@ -61,24 +61,20 @@ export class SolicitudCardComponent {
       case 'venta':
         return 'pi pi-shopping-cart';
       case 'prestamo':
-        return 'pi pi-clock';
-      case 'intercambio':
-        return 'pi pi-refresh';
+        return 'pi pi-book';
       default:
-        return 'pi pi-send';
+        return 'pi pi-book';
     }
   }
 
   getTipoLabel(): string {
     switch (this.solicitud.tipoSolicitud) {
       case 'venta':
-        return 'Compra';
+        return 'Venta';
       case 'prestamo':
         return 'Préstamo';
-      case 'intercambio':
-        return 'Intercambio';
       default:
-        return 'Solicitud';
+        return 'Préstamo';
     }
   }
 
@@ -103,6 +99,17 @@ export class SolicitudCardComponent {
     }
   }
 
+  getTipoVistaLabel(): string {
+    switch (this.solicitud.tipoVista) {
+      case 'solicitud':
+        return 'Solicitud';
+      case 'prestamo':
+        return 'Préstamo';
+      default:
+        return 'Solicitud';
+    }
+  }
+
   getImagenSrc(): string {
     if (
       this.solicitud.articuloImagen &&
@@ -110,7 +117,6 @@ export class SolicitudCardComponent {
     ) {
       return this.solicitud.articuloImagen;
     }
-    // Usar una imagen placeholder simple o mostrar un div con CSS
     return '';
   }
 }

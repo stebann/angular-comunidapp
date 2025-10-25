@@ -15,14 +15,13 @@
         <h4 class="articulo-titulo" [title]="solicitud.articuloTitulo">
           {{ solicitud.articuloTitulo }}
         </h4>
-        <div class="articulo-meta">
-          <span class="categoria">
-            <i class="pi pi-tag" aria-hidden="true"></i>
-            {{ solicitud.articuloCategoria }}
+        <div class="articulo-meta flex-row" style="align-items: center">
+          <span class="tipo-vista" [ngClass]="solicitud.tipoVista">
+            {{ getTipoVistaLabel() }}
           </span>
-          <span class="tipo" [ngClass]="solicitud.articuloTipo">
-            <i [class]="getTipoIcon()" aria-hidden="true"></i>
-            {{ getTipoLabel() }}
+          <span class="fecha">
+            <i class="pi pi-calendar" aria-hidden="true"></i>
+            {{ getFechaFormateada() }}
           </span>
         </div>
       </div>
@@ -57,27 +56,20 @@
     </div>
 
     <div class="solicitud-footer">
-      <div class="fecha">
-        <i class="pi pi-calendar" aria-hidden="true"></i>
-        {{ getFechaFormateada() }}
+      <div class="footer-left">
+        <span class="categoria">
+          <i class="pi pi-tag" aria-hidden="true"></i>
+          {{ solicitud.articuloCategoria }}
+        </span>
       </div>
 
       <div class="footer-right">
+        <div class="tipo-transaccion" [ngClass]="solicitud.articuloTipo">
+          <i [class]="getTipoIcon()" aria-hidden="true"></i>
+          {{ getTipoLabel() }}
+        </div>
         <div class="estado-badge" [ngClass]="getEstadoClass()">
           {{ getEstadoLabel() }}
-        </div>
-
-        <div
-          class="acciones"
-          *ngIf="solicitud.estado === 'pendiente' && !esRecibida"
-        >
-          <button
-            class="btn-accion btn-cancelar"
-            (click)="onActionClick('cancelar', $event)"
-          >
-            <i class="pi pi-times" aria-hidden="true"></i>
-            Cancelar
-          </button>
         </div>
       </div>
     </div>
