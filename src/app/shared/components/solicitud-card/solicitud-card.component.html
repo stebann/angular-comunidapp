@@ -1,0 +1,85 @@
+<div class="solicitud-card" (click)="onCardClick()">
+  <div class="solicitud-header">
+    <div class="articulo-preview">
+      <div class="articulo-imagen">
+        <img
+          *ngIf="getImagenSrc()"
+          [src]="getImagenSrc()"
+          [alt]="solicitud.articuloTitulo"
+        />
+        <div *ngIf="!getImagenSrc()" class="imagen-placeholder">
+          <i class="pi pi-image" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="articulo-info">
+        <h4 class="articulo-titulo" [title]="solicitud.articuloTitulo">
+          {{ solicitud.articuloTitulo }}
+        </h4>
+        <div class="articulo-meta">
+          <span class="categoria">
+            <i class="pi pi-tag" aria-hidden="true"></i>
+            {{ solicitud.articuloCategoria }}
+          </span>
+          <span class="tipo" [ngClass]="solicitud.articuloTipo">
+            <i [class]="getTipoIcon()" aria-hidden="true"></i>
+            {{ getTipoLabel() }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="solicitud-body">
+    <div class="usuario-info">
+      <div class="usuario-avatar">
+        <span class="iniciales">{{
+          esRecibida
+            ? solicitud.usuarioSolicitante.iniciales
+            : solicitud.usuarioPropietario.iniciales
+        }}</span>
+      </div>
+      <div class="usuario-details">
+        <span class="usuario-nombre">{{
+          esRecibida
+            ? solicitud.usuarioSolicitante.nombre
+            : solicitud.usuarioPropietario.nombre
+        }}</span>
+        <span class="solicitud-tipo">
+          <i [class]="getTipoIcon()" aria-hidden="true"></i>
+          {{ esRecibida ? "Te solicita" : "Solicitaste" }}
+          {{ getTipoLabel().toLowerCase() }}
+        </span>
+      </div>
+    </div>
+
+    <div class="mensaje">
+      <p>{{ solicitud.mensaje }}</p>
+    </div>
+
+    <div class="solicitud-footer">
+      <div class="fecha">
+        <i class="pi pi-calendar" aria-hidden="true"></i>
+        {{ getFechaFormateada() }}
+      </div>
+
+      <div class="footer-right">
+        <div class="estado-badge" [ngClass]="getEstadoClass()">
+          {{ getEstadoLabel() }}
+        </div>
+
+        <div
+          class="acciones"
+          *ngIf="solicitud.estado === 'pendiente' && !esRecibida"
+        >
+          <button
+            class="btn-accion btn-cancelar"
+            (click)="onActionClick('cancelar', $event)"
+          >
+            <i class="pi pi-times" aria-hidden="true"></i>
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

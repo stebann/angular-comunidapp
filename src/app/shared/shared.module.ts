@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuModule } from 'primeng/menu';
@@ -22,6 +23,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { OpcionesComponent } from './components/opciones/opciones.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
+import { SolicitudCardComponent } from './components/solicitud-card/solicitud-card.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     OpcionesComponent,
     SearchHeaderComponent,
     ArticuloDetailComponent,
+    SolicitudCardComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +52,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     InputTextModule,
     MultiSelectModule,
     OverlayPanelModule,
+    DynamicDialogModule,
   ],
   exports: [
     InputFieldComponent,
@@ -63,6 +67,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     SearchHeaderComponent,
     CommonModule,
     ArticuloDetailComponent,
+    SolicitudCardComponent,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
@@ -72,6 +77,8 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     InputNumberModule,
     InputTextModule,
     MultiSelectModule,
+    DynamicDialogModule,
   ],
+  providers: [DialogService],
 })
 export class SharedModule {}

@@ -1,4 +1,5 @@
 <div class="solicitudes-container">
+  <!-- Cabecera reutilizable -->
   <app-search-header
     placeholder="Buscar solicitudes..."
     [(searchTerm)]="searchTerm"
@@ -13,6 +14,66 @@
     </app-button>
   </app-search-header>
 
+  <!-- Tabs de navegación -->
+  <div class="tabs-container">
+    <div class="tabs">
+      <button
+        class="tab-button"
+        [class.active]="activeTab === 'recibidas'"
+        (click)="onTabChange('recibidas')"
+      >
+        <i class="pi pi-inbox" aria-hidden="true"></i>
+        Recibidas
+        <span class="tab-count">{{ solicitudesRecibidas.length }}</span>
+      </button>
+      <button
+        class="tab-button"
+        [class.active]="activeTab === 'enviadas'"
+        (click)="onTabChange('enviadas')"
+      >
+        <i class="pi pi-send" aria-hidden="true"></i>
+        Enviadas
+        <span class="tab-count">{{ solicitudesEnviadas.length }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="content-area">
+    <div
+      *ngIf="solicitudesFiltradas.length > 0; else noSolicitudes"
+      class="solicitudes-grid"
+    >
+      <app-solicitud-card
+        *ngFor="let solicitud of solicitudesFiltradas"
+        [solicitud]="solicitud"
+        [esRecibida]="activeTab === 'recibidas'"
+        (cardClicked)="onSolicitudClick($event)"
+        (actionClicked)="onSolicitudAction($event)"
+      ></app-solicitud-card>
+    </div>
+
+    <ng-template #noSolicitudes>
+      <div class="no-solicitudes">
+        <div class="no-solicitudes-icon">
+          <i class="pi pi-inbox" aria-hidden="true"></i>
+        </div>
+        <h3>
+          No hay solicitudes
+          {{ activeTab === "recibidas" ? "recibidas" : "enviadas" }}
+        </h3>
+        <p>
+          {{
+            activeTab === "recibidas"
+              ? "Cuando alguien solicite tus artículos, aparecerán aquí."
+              : "Las solicitudes que envíes a otros usuarios aparecerán aquí."
+          }}
+        </p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Sidebar de filtros -->
   <app-filters-sidebar
     #filtersSidebar
     (filtersApplied)="onFiltersApplied($event)"
