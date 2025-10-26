@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FiltersService } from 'src/app/shared/services/filters.service';
-import { Gestiones } from 'src/app/views/menu/components/solicitudes/models/gestiones.model';
+import { Gestiones } from './models/gestiones.model';
 import { MisGestionesService } from './services/mis-gestiones.service';
 
 @Component({

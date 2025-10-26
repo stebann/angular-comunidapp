@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Gestiones } from '../../../views/menu/components/solicitudes/models/gestiones.model';
+import { Gestiones } from 'src/app/views/menu/components/mis-gestiones/models/gestiones.model';
 
 @Component({
   selector: 'app-solicitud-card',

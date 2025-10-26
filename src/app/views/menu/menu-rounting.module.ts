@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: 'mis-gestiones',
     loadChildren: () =>
-      import('./components/solicitudes/mis-gestiones.module').then(
+      import('./components/mis-gestiones/mis-gestiones.module').then(
         (m) => m.MisGestionesModule
       ),
   },
