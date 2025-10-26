@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+
 import { SharedModule } from 'src/app/shared/shared.module';
-import { SolicitudesSidebarComponent } from './components/solicitudes-sidebar/solicitudes-sidebar.component';
+import { SolicitudCardComponent } from './components/solicitud-card/solicitud-card.component';
 import { MisGestionesRoutingModule } from './mis-gestiones-rounting.module';
 import { MisGestionesComponent } from './mis-gestiones.component';
 
 @NgModule({
-  declarations: [MisGestionesComponent, SolicitudesSidebarComponent],
-  imports: [CommonModule, FormsModule, SharedModule, MisGestionesRoutingModule],
+  declarations: [MisGestionesComponent, SolicitudCardComponent],
+  imports: [CommonModule, MisGestionesRoutingModule, SharedModule],
 })
 export class MisGestionesModule {}

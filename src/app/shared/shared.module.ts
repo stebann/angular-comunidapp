@@ -12,7 +12,6 @@ import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
-import { SolicitudCardComponent } from '../views/menu/components/mis-gestiones/components/solicitud-card/solicitud-card.component';
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ArticuloDetailComponent } from './components/articulo-detail/articulo-detail.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -38,7 +37,6 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     OpcionesComponent,
     SearchHeaderComponent,
     ArticuloDetailComponent,
-    SolicitudCardComponent,
   ],
   imports: [
     CommonModule,
@@ -67,7 +65,6 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     SearchHeaderComponent,
     CommonModule,
     ArticuloDetailComponent,
-    SolicitudCardComponent,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,

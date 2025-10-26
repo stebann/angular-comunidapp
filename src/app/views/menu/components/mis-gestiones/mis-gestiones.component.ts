@@ -17,7 +17,8 @@ export class MisGestionesComponent implements OnInit {
   ngOnInit() {}
 
   searchTerm: string = '';
-  activeTab: 'recibidas' | 'enviadas' = 'recibidas';
+  activeTab: 'solicitudes' | 'prestamos' = 'solicitudes';
+  isRecibidas: boolean = true; // true = "me hacen", false = "yo hago"
 
   solicitudesRecibidas: Gestiones[] = [
     {
@@ -557,10 +558,77 @@ export class MisGestionesComponent implements OnInit {
     },
   ];
 
+  // Arrays para préstamos (datos de ejemplo)
+  prestamosRecibidos: Gestiones[] = [
+    {
+      id: 1,
+      tipo: 'prestamo',
+      articuloId: 1,
+      articuloTitulo: 'Libro de Angular - Guía Completa',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Libros',
+      articuloTipo: 'prestamo',
+      articuloPrecio: 0,
+      usuarioSolicitante: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 3,
+        nombre: 'Carlos Díaz',
+        iniciales: 'CD',
+        avatar: '',
+      },
+      mensaje: 'Te presto mi libro de Angular por 2 semanas.',
+      estado: 'activo',
+      fechaCreacion: new Date('2025-01-10'),
+      fechaLimite: new Date('2025-01-24'),
+    },
+  ];
+
+  prestamosOtorgados: Gestiones[] = [
+    {
+      id: 1,
+      tipo: 'prestamo',
+      articuloId: 1,
+      articuloTitulo: 'Silla ergonómica de oficina',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop',
+      articuloCategoria: 'Muebles',
+      articuloTipo: 'prestamo',
+      articuloPrecio: 0,
+      usuarioSolicitante: {
+        id: 4,
+        nombre: 'María López',
+        iniciales: 'ML',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje: 'Te presto mi silla por 1 mes.',
+      estado: 'activo',
+      fechaCreacion: new Date('2025-01-12'),
+      fechaLimite: new Date('2025-02-12'),
+    },
+  ];
+
   get solicitudesActuales(): Gestiones[] {
-    return this.activeTab === 'recibidas'
-      ? this.solicitudesRecibidas
-      : this.solicitudesEnviadas;
+    if (this.activeTab === 'solicitudes') {
+      return this.isRecibidas
+        ? this.solicitudesRecibidas
+        : this.solicitudesEnviadas;
+    } else {
+      return this.isRecibidas
+        ? this.prestamosRecibidos
+        : this.prestamosOtorgados;
+    }
   }
 
   get solicitudesFiltradas(): Gestiones[] {
@@ -573,7 +641,7 @@ export class MisGestionesComponent implements OnInit {
       (solicitud) =>
         solicitud.articuloTitulo.toLowerCase().includes(termino) ||
         solicitud.mensaje.toLowerCase().includes(termino) ||
-        (this.activeTab === 'recibidas'
+        (this.isRecibidas
           ? solicitud.usuarioSolicitante.nombre.toLowerCase().includes(termino)
           : solicitud.usuarioPropietario.nombre.toLowerCase().includes(termino))
     );
@@ -587,8 +655,32 @@ export class MisGestionesComponent implements OnInit {
     this.misGestionesService.gestiones = filteredData;
   }
 
-  onTabChange(tab: 'recibidas' | 'enviadas'): void {
+  onTabChange(tab: 'solicitudes' | 'prestamos'): void {
     this.activeTab = tab;
+  }
+
+  toggleView(): void {
+    this.isRecibidas = !this.isRecibidas;
+  }
+
+  getTotalSolicitudes(): number {
+    return this.solicitudesRecibidas.length + this.solicitudesEnviadas.length;
+  }
+
+  getTotalPrestamos(): number {
+    return this.prestamosRecibidos.length + this.prestamosOtorgados.length;
+  }
+
+  getSearchPlaceholder(): string {
+    if (this.activeTab === 'solicitudes') {
+      return this.isRecibidas
+        ? 'Buscar solicitudes recibidas...'
+        : 'Buscar solicitudes enviadas...';
+    } else {
+      return this.isRecibidas
+        ? 'Buscar préstamos recibidos...'
+        : 'Buscar préstamos enviados...';
+    }
   }
 
   onSolicitudClick(solicitud: Gestiones): void {
@@ -599,5 +691,29 @@ export class MisGestionesComponent implements OnInit {
   onSolicitudAction(event: { action: string; solicitud: Gestiones }): void {
     console.log('Acción:', event.action, 'Solicitud:', event.solicitud);
     // Aquí manejarías las acciones (aceptar, rechazar, cancelar)
+  }
+
+  getNoItemsTitle(): string {
+    if (this.activeTab === 'solicitudes') {
+      return this.isRecibidas
+        ? 'No hay solicitudes recibidas'
+        : 'No hay solicitudes enviadas';
+    } else {
+      return this.isRecibidas
+        ? 'No hay préstamos recibidos'
+        : 'No hay préstamos enviados';
+    }
+  }
+
+  getNoItemsMessage(): string {
+    if (this.activeTab === 'solicitudes') {
+      return this.isRecibidas
+        ? 'Las solicitudes que recibas aparecerán aquí.'
+        : 'Las solicitudes que envíes aparecerán aquí.';
+    } else {
+      return this.isRecibidas
+        ? 'Los préstamos que recibas aparecerán aquí.'
+        : 'Los préstamos que envíes aparecerán aquí.';
+    }
   }
 }

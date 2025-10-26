@@ -2,9 +2,21 @@
   <!-- Cabecera reutilizable FIJADA -->
   <div class="search-header-fixed">
     <app-search-header
-      placeholder="Buscar solicitudes..."
+      [placeholder]="getSearchPlaceholder()"
       [(searchTerm)]="searchTerm"
     >
+      <!-- Switch para alternar entre vistas -->
+      <div class="view-switch">
+        <div class="switch-container">
+          <div class="switch-toggle" (click)="toggleView()">
+            <div class="switch-slider" [class.active]="!isRecibidas"></div>
+          </div>
+          <span class="switch-label" [class.active]="!isRecibidas"
+            >Enviadas</span
+          >
+        </div>
+      </div>
+
       <app-button
         type="outline-primary"
         size="sm"
@@ -22,21 +34,21 @@
     <aside class="sidebar-menu">
       <button
         class="menu-item"
-        [class.active]="activeTab === 'recibidas'"
-        (click)="onTabChange('recibidas')"
+        [class.active]="activeTab === 'solicitudes'"
+        (click)="onTabChange('solicitudes')"
       >
         <i class="pi pi-inbox" aria-hidden="true"></i>
-        <span>Recibidas</span>
-        <span class="badge">{{ solicitudesRecibidas.length }}</span>
+        <span>Solicitudes</span>
+        <span class="badge">{{ getTotalSolicitudes() }}</span>
       </button>
       <button
         class="menu-item"
-        [class.active]="activeTab === 'enviadas'"
-        (click)="onTabChange('enviadas')"
+        [class.active]="activeTab === 'prestamos'"
+        (click)="onTabChange('prestamos')"
       >
-        <i class="pi pi-send" aria-hidden="true"></i>
-        <span>Enviadas</span>
-        <span class="badge">{{ solicitudesEnviadas.length }}</span>
+        <i class="pi pi-book" aria-hidden="true"></i>
+        <span>Préstamos</span>
+        <span class="badge">{{ getTotalPrestamos() }}</span>
       </button>
     </aside>
 
@@ -49,7 +61,7 @@
         <app-solicitud-card
           *ngFor="let solicitud of solicitudesFiltradas"
           [solicitud]="solicitud"
-          [esRecibida]="activeTab === 'recibidas'"
+          [esRecibida]="isRecibidas"
           (cardClicked)="onSolicitudClick($event)"
           (actionClicked)="onSolicitudAction($event)"
         ></app-solicitud-card>
@@ -61,15 +73,10 @@
             <i class="pi pi-inbox" aria-hidden="true"></i>
           </div>
           <h3>
-            No hay solicitudes
-            {{ activeTab === "recibidas" ? "recibidas" : "enviadas" }}
+            {{ getNoItemsTitle() }}
           </h3>
           <p>
-            {{
-              activeTab === "recibidas"
-                ? "Cuando alguien solicite tus artículos, aparecerán aquí."
-                : "Las solicitudes que envíes a otros usuarios aparecerán aquí."
-            }}
+            {{ getNoItemsMessage() }}
           </p>
         </div>
       </ng-template>

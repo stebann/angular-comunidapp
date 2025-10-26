@@ -71,9 +71,9 @@
           }
 
           &.active {
-            background: #dbeafe; // blue-100
-            color: #2563eb; // blue-600
-            border-left-color: #3b82f6; // blue-500
+            background: #dbeafe;
+            color: var(--color-primary-rgb);
+            border-left-color: var(--color-primary);
             font-weight: 700;
             transform: translateX(2px);
           }

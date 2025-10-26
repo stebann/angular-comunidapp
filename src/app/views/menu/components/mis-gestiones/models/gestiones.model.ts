@@ -26,7 +26,14 @@ export interface Gestiones {
 
   // Detalles de la solicitud
   mensaje: string;
-  estado: 'pendiente' | 'aceptada' | 'rechazada' | 'cancelada';
+  estado:
+    | 'pendiente'
+    | 'aceptada'
+    | 'rechazada'
+    | 'cancelada'
+    | 'activo'
+    | 'devuelto'
+    | 'vencido';
   fechaCreacion: Date;
   fechaActualizacion?: Date;
   // Información adicional según el tipo
