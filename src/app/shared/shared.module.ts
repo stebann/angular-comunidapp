@@ -12,6 +12,7 @@ import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 
+import { SolicitudCardComponent } from '../views/menu/components/mis-gestiones/components/solicitud-card/solicitud-card.component';
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ArticuloDetailComponent } from './components/articulo-detail/articulo-detail.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -23,7 +24,6 @@ import { ModalComponent } from './components/modal/modal.component';
 import { OpcionesComponent } from './components/opciones/opciones.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
-import { SolicitudCardComponent } from './components/solicitud-card/solicitud-card.component';
 
 @NgModule({
   declarations: [

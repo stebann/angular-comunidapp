@@ -50,6 +50,354 @@ export class MisGestionesComponent implements OnInit {
       fechaActualizacion: new Date('2025-01-15'),
     },
     {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
+      id: 1,
+      tipo: 'solicitud',
+      articuloId: 1,
+      articuloTitulo: 'Bicicleta de montaña Trek',
+      articuloImagen:
+        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
+      articuloCategoria: 'Deportes',
+      articuloTipo: 'venta',
+      articuloPrecio: 450000,
+      usuarioSolicitante: {
+        id: 2,
+        nombre: 'Ana Beltrán',
+        iniciales: 'AB',
+        avatar: '',
+      },
+      usuarioPropietario: {
+        id: 1,
+        nombre: 'Esteban García',
+        iniciales: 'EG',
+        avatar: '',
+      },
+      mensaje:
+        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+
+      estado: 'pendiente',
+      fechaCreacion: new Date('2025-01-15'),
+      fechaActualizacion: new Date('2025-01-15'),
+    },
+    {
       id: 2,
       tipo: 'solicitud',
       articuloId: 2,
