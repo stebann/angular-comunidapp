@@ -1,11 +1,9 @@
 <div class="solicitudes-container">
-  <!-- Cabecera reutilizable FIJADA -->
   <div class="search-header-fixed">
     <app-search-header
       [placeholder]="getSearchPlaceholder()"
       [(searchTerm)]="searchTerm"
     >
-      <!-- Switch para alternar entre vistas -->
       <div class="view-switch">
         <div class="switch-container">
           <div class="switch-toggle" (click)="toggleView()">
@@ -28,9 +26,7 @@
     </app-search-header>
   </div>
 
-  <!-- Layout principal con sidebar y contenido -->
   <div class="main-layout">
-    <!-- Sidebar de navegación IZQUIERDA -->
     <aside class="sidebar-menu">
       <button
         class="menu-item"
@@ -52,7 +48,6 @@
       </button>
     </aside>
 
-    <!-- Contenido principal DERECHA -->
     <div class="content-area">
       <div
         *ngIf="solicitudesFiltradas.length > 0; else noSolicitudes"
@@ -83,7 +78,6 @@
     </div>
   </div>
 
-  <!-- Sidebar de filtros -->
   <app-filters-sidebar
     #filtersSidebar
     (filtersApplied)="onFiltersApplied($event)"
