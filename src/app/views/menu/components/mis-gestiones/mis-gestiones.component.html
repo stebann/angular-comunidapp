@@ -1,76 +1,79 @@
 <div class="solicitudes-container">
-  <!-- Cabecera reutilizable -->
-  <app-search-header
-    placeholder="Buscar solicitudes..."
-    [(searchTerm)]="searchTerm"
-  >
-    <app-button
-      type="outline-primary"
-      size="sm"
-      icon="pi pi-filter"
-      (clicked)="openFilters()"
+  <!-- Cabecera reutilizable FIJADA -->
+  <div class="search-header-fixed">
+    <app-search-header
+      placeholder="Buscar solicitudes..."
+      [(searchTerm)]="searchTerm"
     >
-      Filtros
-    </app-button>
-  </app-search-header>
+      <app-button
+        type="outline-primary"
+        size="sm"
+        icon="pi pi-filter"
+        (clicked)="openFilters()"
+      >
+        Filtros
+      </app-button>
+    </app-search-header>
+  </div>
 
-  <!-- Tabs de navegación -->
-  <div class="tabs-container">
-    <div class="tabs">
+  <!-- Layout principal con sidebar y contenido -->
+  <div class="main-layout">
+    <!-- Sidebar de navegación IZQUIERDA -->
+    <aside class="sidebar-menu">
       <button
-        class="tab-button"
+        class="menu-item"
         [class.active]="activeTab === 'recibidas'"
         (click)="onTabChange('recibidas')"
       >
         <i class="pi pi-inbox" aria-hidden="true"></i>
-        Recibidas
-        <span class="tab-count">{{ solicitudesRecibidas.length }}</span>
+        <span>Recibidas</span>
+        <span class="badge">{{ solicitudesRecibidas.length }}</span>
       </button>
       <button
-        class="tab-button"
+        class="menu-item"
         [class.active]="activeTab === 'enviadas'"
         (click)="onTabChange('enviadas')"
       >
         <i class="pi pi-send" aria-hidden="true"></i>
-        Enviadas
-        <span class="tab-count">{{ solicitudesEnviadas.length }}</span>
+        <span>Enviadas</span>
+        <span class="badge">{{ solicitudesEnviadas.length }}</span>
       </button>
-    </div>
-  </div>
+    </aside>
 
-  <!-- Contenido principal -->
-  <div class="content-area">
-    <div
-      *ngIf="solicitudesFiltradas.length > 0; else noSolicitudes"
-      class="solicitudes-grid"
-    >
-      <app-solicitud-card
-        *ngFor="let solicitud of solicitudesFiltradas"
-        [solicitud]="solicitud"
-        [esRecibida]="activeTab === 'recibidas'"
-        (cardClicked)="onSolicitudClick($event)"
-        (actionClicked)="onSolicitudAction($event)"
-      ></app-solicitud-card>
-    </div>
-
-    <ng-template #noSolicitudes>
-      <div class="no-solicitudes">
-        <div class="no-solicitudes-icon">
-          <i class="pi pi-inbox" aria-hidden="true"></i>
-        </div>
-        <h3>
-          No hay solicitudes
-          {{ activeTab === "recibidas" ? "recibidas" : "enviadas" }}
-        </h3>
-        <p>
-          {{
-            activeTab === "recibidas"
-              ? "Cuando alguien solicite tus artículos, aparecerán aquí."
-              : "Las solicitudes que envíes a otros usuarios aparecerán aquí."
-          }}
-        </p>
+    <!-- Contenido principal DERECHA -->
+    <div class="content-area">
+      <div
+        *ngIf="solicitudesFiltradas.length > 0; else noSolicitudes"
+        class="solicitudes-grid"
+      >
+        <app-solicitud-card
+          *ngFor="let solicitud of solicitudesFiltradas"
+          [solicitud]="solicitud"
+          [esRecibida]="activeTab === 'recibidas'"
+          (cardClicked)="onSolicitudClick($event)"
+          (actionClicked)="onSolicitudAction($event)"
+        ></app-solicitud-card>
       </div>
-    </ng-template>
+
+      <ng-template #noSolicitudes>
+        <div class="no-solicitudes">
+          <div class="no-solicitudes-icon">
+            <i class="pi pi-inbox" aria-hidden="true"></i>
+          </div>
+          <h3>
+            No hay solicitudes
+            {{ activeTab === "recibidas" ? "recibidas" : "enviadas" }}
+          </h3>
+          <p>
+            {{
+              activeTab === "recibidas"
+                ? "Cuando alguien solicite tus artículos, aparecerán aquí."
+                : "Las solicitudes que envíes a otros usuarios aparecerán aquí."
+            }}
+          </p>
+        </div>
+      </ng-template>
+    </div>
   </div>
 
   <!-- Sidebar de filtros -->
