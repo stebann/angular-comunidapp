@@ -1,1 +1,141 @@
-<div class="comercios-container"></div>
+<div class="comercios-container">
+  <!-- Vista de detalle del comercio -->
+  <div class="comercio-detalle" *ngIf="comercioSeleccionado">
+    <div class="detalle-header">
+      <button class="back-button" (click)="cerrarDetalle()">
+        <i class="pi pi-arrow-left"></i>
+      </button>
+      <h2 class="detalle-titulo">{{ comercioSeleccionado.nombre }}</h2>
+    </div>
+
+    <div class="detalle-content">
+      <div class="info-comercio">
+        <div class="info-imagen">
+          <img
+            [src]="comercioSeleccionado.imagen"
+            [alt]="comercioSeleccionado.nombre"
+          />
+          <span class="categoria-badge">{{
+            comercioSeleccionado.categoria
+          }}</span>
+        </div>
+        <div class="info-details">
+          <p class="info-descripcion">{{ comercioSeleccionado.descripcion }}</p>
+          <div class="info-contact">
+            <div class="info-item">
+              <i class="pi pi-map-marker"></i>
+              <span>{{ comercioSeleccionado.ubicacion }}</span>
+            </div>
+            <div class="info-item">
+              <i class="pi pi-phone"></i>
+              <span>{{ comercioSeleccionado.telefono }}</span>
+            </div>
+            <div class="info-item" *ngIf="comercioSeleccionado.horario">
+              <i class="pi pi-clock"></i>
+              <span>{{ comercioSeleccionado.horario }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="articulos-section">
+        <h3 class="section-title">Artículos Disponibles</h3>
+        <div class="articulos-grid">
+          <app-articulo-card
+            *ngFor="let articulo of articulosComercio"
+            [articulo]="articulo"
+            (cardClicked)="abrirModalArticulo($event)"
+          ></app-articulo-card>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de comercios -->
+  <div class="comercios-list-view" [class.hidden]="comercioSeleccionado">
+    <!-- Cabecera reutilizable -->
+    <app-search-header
+      placeholder="Buscar comercios..."
+      [(searchTerm)]="searchTerm"
+    >
+      <app-button
+        type="outline-primary"
+        size="sm"
+        [icon]="soloFavoritos ? 'pi pi-star-fill' : 'pi pi-star'"
+        (clicked)="toggleSoloFavoritos()"
+        [ngClass]="{ 'active-favorites': soloFavoritos }"
+      >
+        Favoritos
+      </app-button>
+      <app-button
+        type="outline-primary"
+        size="sm"
+        icon="pi pi-filter"
+        (clicked)="openFilters()"
+      >
+        Filtros
+      </app-button>
+    </app-search-header>
+
+    <div class="content-area">
+      <div
+        *ngIf="comerciosFiltrados.length > 0; else noComercios"
+        class="comercios-grid"
+      >
+        <div
+          *ngFor="let comercio of comerciosFiltrados; trackBy: trackByFn"
+          class="comercio-card"
+        >
+          <div class="comercio-imagen" (click)="abrirDetalleComercio(comercio)">
+            <img [src]="comercio.imagen" [alt]="comercio.nombre" />
+          </div>
+
+          <div class="comercio-info" (click)="abrirDetalleComercio(comercio)">
+            <button
+              class="favorite-btn"
+              (click)="toggleFavorito(comercio); $event.stopPropagation()"
+              [class.active]="esFavorito(comercio.id)"
+            >
+              <i
+                class="pi"
+                [class.pi-star]="!esFavorito(comercio.id)"
+                [class.pi-star-fill]="esFavorito(comercio.id)"
+              ></i>
+            </button>
+
+            <h3 class="comercio-nombre">{{ comercio.nombre }}</h3>
+
+            <p class="comercio-descripcion">{{ comercio.descripcion }}</p>
+
+            <div class="comercio-details">
+              <div class="detail-item">
+                <i class="pi pi-map-marker"></i>
+                <span>{{ comercio.ubicacion }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="pi pi-phone"></i>
+                <span>{{ comercio.telefono }}</span>
+              </div>
+            </div>
+
+            <div class="card-footer" *ngIf="comercio.horario">
+              <div class="detail-item">
+                <i class="pi pi-clock"></i>
+                <span>{{ comercio.horario }}</span>
+              </div>
+              <span class="categoria-tag">{{ comercio.categoria }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noComercios>
+        <div class="no-comercios">
+          <i class="pi pi-building"></i>
+          <h3>No hay comercios disponibles</h3>
+          <p>Pronto verás negocios en tu comunidad aquí.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
