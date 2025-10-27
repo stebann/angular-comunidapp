@@ -4,15 +4,23 @@
       [placeholder]="getSearchPlaceholder()"
       [(searchTerm)]="searchTerm"
     >
-      <div class="view-switch">
-        <div class="switch-container">
-          <div class="switch-toggle" (click)="toggleView()">
-            <div class="switch-slider" [class.active]="!isRecibidas"></div>
-          </div>
-          <span class="switch-label" [class.active]="!isRecibidas"
-            >Enviadas</span
-          >
-        </div>
+      <div class="view-tabs">
+        <button
+          class="view-tab"
+          [class.active]="isRecibidas"
+          (click)="isRecibidas = true"
+        >
+          Recibidas
+          <span class="badge">{{ getTotalRecibidas() }}</span>
+        </button>
+        <button
+          class="view-tab"
+          [class.active]="!isRecibidas"
+          (click)="isRecibidas = false"
+        >
+          Enviadas
+          <span class="badge">{{ getTotalEnviadas() }}</span>
+        </button>
       </div>
 
       <app-button

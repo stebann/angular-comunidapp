@@ -427,40 +427,6 @@ export class MisGestionesComponent implements OnInit {
       fechaCreacion: new Date('2025-01-14'),
       fechaLimite: new Date('2025-02-14'),
     },
-    {
-      id: 3,
-      tipo: 'prestamo',
-      articuloId: 3,
-      articuloTitulo: 'Silla ergonómica de oficina',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop',
-      articuloCategoria: 'Muebles',
-      articuloTipo: 'prestamo',
-      articuloPrecio: 0,
-      usuarioSolicitante: {
-        id: 4,
-        nombre: 'María López',
-        iniciales: 'ML',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Tengo una mesa de escritorio que podría intercambiar por tu silla. ¿Te interesa ver fotos?',
-
-      estado: 'aceptada',
-      fechaCreacion: new Date('2025-01-10'),
-      fechaActualizacion: new Date('2025-01-12'),
-      articuloIntercambio: {
-        id: 5,
-        titulo: 'Mesa de escritorio moderna',
-        imagen: '',
-      },
-    },
   ];
 
   solicitudesEnviadas: Gestiones[] = [
@@ -669,6 +635,22 @@ export class MisGestionesComponent implements OnInit {
 
   getTotalPrestamos(): number {
     return this.prestamosRecibidos.length + this.prestamosOtorgados.length;
+  }
+
+  getTotalRecibidas(): number {
+    if (this.activeTab === 'solicitudes') {
+      return this.solicitudesRecibidas.length;
+    } else {
+      return this.prestamosRecibidos.length;
+    }
+  }
+
+  getTotalEnviadas(): number {
+    if (this.activeTab === 'solicitudes') {
+      return this.solicitudesEnviadas.length;
+    } else {
+      return this.prestamosOtorgados.length;
+    }
   }
 
   getSearchPlaceholder(): string {
