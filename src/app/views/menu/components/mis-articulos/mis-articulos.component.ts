@@ -15,6 +15,13 @@ export class MisArticulosComponent implements OnInit {
   searchTerm: string = '';
   menuItems: any[] = [];
 
+  isOpen: boolean = false;
+
+  opciones = [
+    { label: 'Solicitudes', value: 'solicitudes' },
+    { label: 'Préstamos', value: 'prestamos' },
+  ];
+
   articulos: Articulo[] = [
     {
       id: 1,
@@ -300,6 +307,10 @@ export class MisArticulosComponent implements OnInit {
     return this.articulosService.formMisArticulos;
   }
 
+  get filtro() {
+    return this.articulosService.filtroMisArticulos;
+  }
+
   ngOnInit(): void {
     this.loadArticulos();
     this.menuItems = [
@@ -326,7 +337,13 @@ export class MisArticulosComponent implements OnInit {
 
   private loadArticulos(): void {}
 
-  openFilters(): void {}
+  openFilters() {
+    this.isOpen = true;
+  }
+
+  onFiltersApplied(): void {
+    this.articulosService.filtrar();
+  }
 
   openCreateModal(): void {
     this.dialogService$.open(ModalArticuloComponent, {
@@ -334,12 +351,6 @@ export class MisArticulosComponent implements OnInit {
       width: '1200px',
       styleClass: 'p-app-modal',
     });
-  }
-
-  onSearchChange(): void {}
-
-  onFiltersApplied(filteredData: Articulo[]): void {
-    this.articulosService.articulos = filteredData;
   }
 
   abrirModalArticulo(articulo: Articulo): void {

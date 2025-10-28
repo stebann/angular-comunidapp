@@ -8,6 +8,7 @@ import { MisArticulosRepository } from '../repositories/mis-articulos-repository
 @Injectable({ providedIn: 'root' })
 export class MisArticulosService extends MisArticulosRepository {
   public formMisArticulos = this.form();
+  public filtroMisArticulos = this.filtro();
   public articulos: any[] = [];
 
   constructor(private http$: HttpService) {
@@ -17,5 +18,13 @@ export class MisArticulosService extends MisArticulosRepository {
   crear(usuarioId: number, data: CrearArticuloDto): Observable<any> {
     const url = `${ArticuloAPI.Crear}?usuarioId=${usuarioId}`;
     return this.http$.post(url, data);
+  }
+
+  filtrar(): void {
+    this.http$
+      .post('/filtro/articulos', this.filtroMisArticulos.value)
+      .subscribe((response: any) => {
+        this.articulos = response.data;
+      });
   }
 }

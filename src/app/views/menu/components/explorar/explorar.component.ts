@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
 import { Articulo } from '../mis-articulos/models/articulo';
+import { ExplorarService } from './services/explorar.service';
 
 @Component({
   selector: 'app-explorar',
@@ -10,6 +11,13 @@ import { Articulo } from '../mis-articulos/models/articulo';
 })
 export class ExplorarComponent implements OnInit {
   searchTerm: string = '';
+
+  isOpen: boolean = false;
+
+  opciones = [
+    { label: 'Solicitudes', value: 'solicitudes' },
+    { label: 'Préstamos', value: 'prestamos' },
+  ];
   articulos: Articulo[] = [
     {
       id: 1,
@@ -182,7 +190,14 @@ export class ExplorarComponent implements OnInit {
     },
   ];
 
-  constructor(private dialogService$: DialogService) {}
+  constructor(
+    private dialogService$: DialogService,
+    private explorarService: ExplorarService
+  ) {}
+
+  get filtro() {
+    return this.explorarService.filtroExplorar;
+  }
 
   ngOnInit(): void {
     this.loadArticulos();
@@ -190,10 +205,12 @@ export class ExplorarComponent implements OnInit {
 
   private loadArticulos(): void {}
 
-  openFilters(): void {}
+  openFilters() {
+    this.isOpen = true;
+  }
 
-  onFiltersApplied(filteredData: Articulo[]): void {
-    this.articulos = filteredData;
+  onFiltersApplied(): void {
+    this.explorarService.filtrar();
   }
 
   abrirModalArticulo(articulo: Articulo): void {
