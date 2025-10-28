@@ -10,6 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
@@ -54,6 +55,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     ChartModule,
     InputNumberModule,
     InputTextModule,
+    InputTextareaModule,
     MultiSelectModule,
     OverlayPanelModule,
     DynamicDialogModule,
@@ -82,6 +84,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     CalendarModule,
     InputNumberModule,
     InputTextModule,
+    InputTextareaModule,
     MultiSelectModule,
     DynamicDialogModule,
     ChartModule,

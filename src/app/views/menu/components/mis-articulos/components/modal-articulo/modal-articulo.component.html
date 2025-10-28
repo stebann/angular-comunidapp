@@ -1,0 +1,170 @@
+<div class="modal-articulo">
+  <div class="modal-content">
+    <div class="left">
+      <h3 class="section-title">Imágenes del Artículo</h3>
+
+      <!-- Carrusel principal -->
+      <div
+        class="carousel-container"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          multiple
+          (change)="onArchivosSeleccionados($event)"
+          hidden
+        />
+
+        <ng-container *ngIf="previewImages.length; else emptyState">
+          <div class="carousel-main" [class.drag-over]="isDragOver">
+            <img
+              [src]="previewImages[currentImageIndex]"
+              alt="Imagen actual"
+              class="main-image"
+            />
+
+            <!-- Botones de navegación -->
+            <button
+              type="button"
+              class="nav-btn prev-btn"
+              [disabled]="currentImageIndex === 0"
+              (click)="anteriorImagen()"
+            >
+              <i class="pi pi-chevron-left"></i>
+            </button>
+
+            <button
+              type="button"
+              class="nav-btn next-btn"
+              [disabled]="currentImageIndex === previewImages.length - 1"
+              (click)="siguienteImagen()"
+            >
+              <i class="pi pi-chevron-right"></i>
+            </button>
+
+            <!-- Contador -->
+            <div class="image-counter">
+              {{ currentImageIndex + 1 }} / {{ previewImages.length }}
+            </div>
+
+            <!-- Botón eliminar -->
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="eliminarImagen(currentImageIndex)"
+            >
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+        </ng-container>
+
+        <ng-template #emptyState>
+          <div
+            class="empty-state"
+            [class.drag-over]="isDragOver"
+            (click)="abrirSelectorArchivos()"
+          >
+            <i class="pi pi-upload"></i>
+            <p>Arrastra imágenes aquí<br />o haz clic para seleccionar</p>
+          </div>
+        </ng-template>
+
+        <!-- Botón para agregar imágenes (siempre visible) -->
+        <button
+          type="button"
+          class="add-images-btn"
+          (click)="abrirSelectorArchivos()"
+        >
+          <i class="pi pi-plus"></i>
+          Agregar Imágenes
+        </button>
+      </div>
+    </div>
+
+    <div class="right">
+      <form [formGroup]="form" (ngSubmit)="crearArticulo()" class="form-grid">
+        <label>Nombre del Artículo</label>
+        <input
+          pInputText
+          formControlName="titulo"
+          placeholder="Ej: Bicicleta de montaña"
+        />
+
+        <div class="row-fields">
+          <div class="field-group">
+            <label>Categoría</label>
+            <p-dropdown
+              [options]="categorias"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Selecciona una categoría"
+              formControlName="categoriaId"
+            ></p-dropdown>
+          </div>
+
+          <div class="field-group">
+            <label>Condición</label>
+            <p-dropdown
+              [options]="estados"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Selecciona la condición"
+              formControlName="estadoId"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row-fields">
+          <div class="field-group">
+            <label>Tipo de Transacción</label>
+            <p-dropdown
+              [options]="tiposTransaccion"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Selecciona el tipo"
+              formControlName="tipoTransaccionId"
+            ></p-dropdown>
+          </div>
+
+          <div class="field-group">
+            <label>Precio</label>
+            <p-inputNumber
+              inputId="precio"
+              mode="currency"
+              currency="USD"
+              [min]="0"
+              formControlName="precio"
+            ></p-inputNumber>
+          </div>
+        </div>
+
+        <label>Descripción</label>
+        <textarea
+          pInputTextarea
+          rows="6"
+          formControlName="descripcion"
+          placeholder="Describe el artículo, su estado y características..."
+          style="resize: none"
+        ></textarea>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" pButton class="p-button-text" (click)="cerrarModal()">
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      pButton
+      class="p-button-primary"
+      (click)="crearArticulo()"
+    >
+      Crear Artículo
+    </button>
+  </div>
+</div>
