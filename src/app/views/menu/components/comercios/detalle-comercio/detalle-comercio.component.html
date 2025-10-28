@@ -79,11 +79,11 @@
         <button
           *ngFor="let categoria of categorias"
           class="categoria-item"
-          [class.active]="categoriaSeleccionada === categoria"
-          (click)="seleccionarCategoria(categoria)"
+          [class.active]="categoriaSeleccionada === categoria.nombre"
+          (click)="seleccionarCategoria(categoria.nombre)"
         >
-          <i class="pi pi-tag"></i>
-          <span>{{ categoria }}</span>
+          <i [class]="categoria.icono"></i>
+          <span>{{ categoria.nombre }}</span>
         </button>
       </div>
     </aside>

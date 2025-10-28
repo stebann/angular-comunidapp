@@ -101,11 +101,19 @@ export class DetalleComercioComponent implements OnInit {
     });
   }
 
-  get categorias(): string[] {
-    const categorias = this.articulos
-      .map((a) => a.categoria)
-      .filter((categoria, index, self) => self.indexOf(categoria) === index);
-    return categorias;
+  private categoriasDisponibles: { nombre: string; icono: string }[] = [
+    { nombre: 'Herramientas', icono: 'pi pi-wrench' },
+    { nombre: 'Materiales', icono: 'pi pi-box' },
+    { nombre: 'Pinturas', icono: 'pi pi-palette' },
+    { nombre: 'Electricidad', icono: 'pi pi-bolt' },
+    { nombre: 'Plomería', icono: 'pi pi-calculator' },
+    { nombre: 'Jardinería', icono: 'pi pi-home' },
+    { nombre: 'Construcción', icono: 'pi pi-building' },
+    { nombre: 'Decoración', icono: 'pi pi-home' },
+  ];
+
+  get categorias(): { nombre: string; icono: string }[] {
+    return this.categoriasDisponibles;
   }
 
   get articulosFiltrados(): any[] {
