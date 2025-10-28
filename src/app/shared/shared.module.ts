@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { CalendarModule } from 'primeng/calendar';
+import { ChartModule } from 'primeng/chart';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -46,11 +48,13 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     DropdownModule,
     MenuModule,
     CalendarModule,
+    ChartModule,
     InputNumberModule,
     InputTextModule,
     MultiSelectModule,
     OverlayPanelModule,
     DynamicDialogModule,
+    NgxChartsModule,
   ],
   exports: [
     InputFieldComponent,
@@ -75,6 +79,8 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     InputTextModule,
     MultiSelectModule,
     DynamicDialogModule,
+    ChartModule,
+    NgxChartsModule,
   ],
   providers: [DialogService],
 })

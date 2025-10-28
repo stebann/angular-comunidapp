@@ -1,1 +1,33 @@
-<div class="estadisticas-container"></div>
+<div class="estadisticas-container">
+  <!-- Tarjetas superiores -->
+  <div class="cards-grid">
+    <div class="stat-card recursos">
+      <i class="fas fa-box"></i>
+      <div class="card-content">
+        <h3>{{ resumenData.recursos.valor }}</h3>
+        <p>{{ resumenData.recursos.titulo }}</p>
+      </div>
+    </div>
+    <div class="stat-card intercambios">
+      <i class="fas fa-exchange-alt"></i>
+      <div class="card-content">
+        <h3>{{ resumenData.intercambios.valor }}</h3>
+        <p>{{ resumenData.intercambios.titulo }}</p>
+      </div>
+    </div>
+    <div class="stat-card favoritos">
+      <i class="fas fa-heart"></i>
+      <div class="card-content">
+        <h3>{{ resumenData.favoritos.valor }}</h3>
+        <p>{{ resumenData.favoritos.titulo }}</p>
+      </div>
+    </div>
+    <div class="stat-card reputacion">
+      <i class="fas fa-star"></i>
+      <div class="card-content">
+        <h3>{{ resumenData.reputacion.valor }}</h3>
+        <p>{{ resumenData.reputacion.titulo }}</p>
+      </div>
+    </div>
+  </div>
+</div>
