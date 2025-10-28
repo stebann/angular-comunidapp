@@ -1,0 +1,95 @@
+<div class="comercio-detalle" *ngIf="comercio">
+  <div class="detalle-search-header">
+    <app-search-header
+      placeholder="Buscar artículos..."
+      [(searchTerm)]="searchTermArticulos"
+    >
+      <!-- Info del comercio a la izquierda -->
+      <div class="comercio-header-info">
+        <button class="back-button" (click)="cerrarDetalle()">
+          <i class="pi pi-arrow-left"></i>
+        </button>
+        <div class="comercio-nombre-fecha">
+          <h3>{{ comercio.nombre }}</h3>
+          <span class="fecha-actual">{{ fechaActual }}</span>
+        </div>
+      </div>
+
+      <!-- Botones a la derecha -->
+      <div class="header-actions">
+        <app-button
+          type="outline-primary"
+          size="sm"
+          [icon]="soloFavoritosArticulos ? 'pi pi-star-fill' : 'pi pi-star'"
+          (clicked)="toggleSoloFavoritosArticulos()"
+          [ngClass]="{ 'active-favorites': soloFavoritosArticulos }"
+        >
+          Favoritos
+        </app-button>
+        <app-button
+          type="outline-primary"
+          size="sm"
+          icon="pi pi-filter"
+          (clicked)="openFiltersArticulos()"
+        >
+          Filtros
+        </app-button>
+      </div>
+    </app-search-header>
+  </div>
+
+  <div class="main-layout-detalle">
+    <!-- Sidebar izquierdo -->
+    <aside class="sidebar-comercio">
+      <div class="comercio-header">
+        <div class="comercio-avatar">
+          <img [src]="comercio.imagen" [alt]="comercio.nombre" />
+        </div>
+        <h3 class="comercio-nombre-sidebar">{{ comercio.nombre }}</h3>
+        <p class="comercio-categoria">{{ comercio.categoria }}</p>
+      </div>
+
+      <div class="info-basica">
+        <div class="info-basica-item">
+          <i class="pi pi-map-marker"></i>
+          <span>{{ comercio.ubicacion }}</span>
+        </div>
+        <div class="info-basica-item">
+          <i class="pi pi-phone"></i>
+          <span>{{ comercio.telefono }}</span>
+        </div>
+        <div class="info-basica-item" *ngIf="comercio.horario">
+          <i class="pi pi-clock"></i>
+          <span>{{ comercio.horario }}</span>
+        </div>
+      </div>
+
+      <button class="info-button" (click)="abrirModalInfo()">
+        <i class="pi pi-info-circle"></i>
+        Información del Negocio
+      </button>
+    </aside>
+
+    <!-- Área de artículos -->
+    <div class="content-articulos">
+      <div
+        *ngIf="articulosFiltrados.length > 0; else noArticulos"
+        class="articulos-grid"
+      >
+        <app-articulo-card
+          *ngFor="let articulo of articulosFiltrados"
+          [articulo]="articulo"
+          (cardClicked)="abrirModalArticulo($event)"
+        ></app-articulo-card>
+      </div>
+
+      <ng-template #noArticulos>
+        <div class="no-articulos">
+          <i class="pi pi-box"></i>
+          <h3>No hay artículos disponibles</h3>
+          <p>Este comercio aún no ha agregado productos.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

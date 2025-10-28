@@ -1,55 +1,10 @@
 <div class="comercios-container">
   <!-- Vista de detalle del comercio -->
-  <div class="comercio-detalle" *ngIf="comercioSeleccionado">
-    <div class="detalle-header">
-      <button class="back-button" (click)="cerrarDetalle()">
-        <i class="pi pi-arrow-left"></i>
-      </button>
-      <h2 class="detalle-titulo">{{ comercioSeleccionado.nombre }}</h2>
-    </div>
-
-    <div class="detalle-content">
-      <div class="info-comercio">
-        <div class="info-imagen">
-          <img
-            [src]="comercioSeleccionado.imagen"
-            [alt]="comercioSeleccionado.nombre"
-          />
-          <span class="categoria-badge">{{
-            comercioSeleccionado.categoria
-          }}</span>
-        </div>
-        <div class="info-details">
-          <p class="info-descripcion">{{ comercioSeleccionado.descripcion }}</p>
-          <div class="info-contact">
-            <div class="info-item">
-              <i class="pi pi-map-marker"></i>
-              <span>{{ comercioSeleccionado.ubicacion }}</span>
-            </div>
-            <div class="info-item">
-              <i class="pi pi-phone"></i>
-              <span>{{ comercioSeleccionado.telefono }}</span>
-            </div>
-            <div class="info-item" *ngIf="comercioSeleccionado.horario">
-              <i class="pi pi-clock"></i>
-              <span>{{ comercioSeleccionado.horario }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="articulos-section">
-        <h3 class="section-title">Artículos Disponibles</h3>
-        <div class="articulos-grid">
-          <app-articulo-card
-            *ngFor="let articulo of articulosComercio"
-            [articulo]="articulo"
-            (cardClicked)="abrirModalArticulo($event)"
-          ></app-articulo-card>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-detalle-comercio
+    *ngIf="comercioSeleccionado"
+    [comercio]="comercioSeleccionado"
+    (cerrar)="cerrarDetalle()"
+  ></app-detalle-comercio>
 
   <!-- Lista de comercios -->
   <div class="comercios-list-view" [class.hidden]="comercioSeleccionado">

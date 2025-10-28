@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ComerciosRoutingModule } from './comercios-rounting.module';
 import { ComerciosComponent } from './comercios.component';
+import { DetalleComercioComponent } from './detalle-comercio/detalle-comercio.component';
 
 @NgModule({
-  declarations: [ComerciosComponent],
+  declarations: [ComerciosComponent, DetalleComercioComponent],
   imports: [CommonModule, FormsModule, SharedModule, ComerciosRoutingModule],
 })
 export class ComerciosModule {}

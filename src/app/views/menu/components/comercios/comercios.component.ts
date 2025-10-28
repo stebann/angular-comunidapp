@@ -102,47 +102,6 @@ export class ComerciosComponent implements OnInit {
     return lista;
   }
 
-  get articulosComercio(): any[] {
-    // Por ahora devuelve datos de ejemplo, luego vendrán del backend
-    if (!this.comercioSeleccionado) return [];
-
-    return [
-      {
-        id: 1,
-        titulo: 'Martillo profesional',
-        descripcion: 'Martillo de acero con mango ergonómico.',
-        categoria: 'Herramientas',
-        tipo: 'venta',
-        precio: 45000,
-        estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
-      },
-      {
-        id: 2,
-        titulo: 'Caja de clavos',
-        descripcion: 'Clavos de construcción de diferentes tamaños.',
-        categoria: 'Materiales',
-        tipo: 'venta',
-        precio: 15000,
-        estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
-      },
-      {
-        id: 3,
-        titulo: 'Pintura blanca',
-        descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
-        tipo: 'venta',
-        precio: 85000,
-        estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
-      },
-    ];
-  }
-
   toggleFavorito(comercio: Comercio): void {
     const index = this.favoritos.indexOf(comercio.id);
     if (index > -1) {
@@ -166,11 +125,6 @@ export class ComerciosComponent implements OnInit {
 
   cerrarDetalle(): void {
     this.comercioSeleccionado = null;
-  }
-
-  abrirModalArticulo(articulo: any): void {
-    console.log('Abrir detalle de artículo:', articulo);
-    // Aquí abrirás el modal de detalle del artículo
   }
 
   openFilters(): void {
