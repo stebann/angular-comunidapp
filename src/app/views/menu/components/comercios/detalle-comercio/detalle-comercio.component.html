@@ -1,46 +1,67 @@
 <div class="comercio-detalle" *ngIf="comercio">
   <div class="detalle-search-header">
-    <app-search-header
-      placeholder="Buscar artículos..."
-      [(searchTerm)]="searchTermArticulos"
-    >
-      <!-- Info del comercio a la izquierda -->
-      <div class="comercio-header-info">
-        <button class="back-button" (click)="cerrarDetalle()">
-          <i class="pi pi-arrow-left"></i>
-        </button>
-        <div class="comercio-nombre-fecha">
-          <h3>{{ comercio.nombre }}</h3>
-          <span class="fecha-actual">{{ fechaActual }}</span>
-        </div>
+    <!-- Izquierda: Botón volver + Info del comercio -->
+    <div class="header-left">
+      <button class="back-button" (click)="cerrarDetalle()">
+        <i class="pi pi-arrow-left"></i>
+      </button>
+      <div class="comercio-nombre-fecha">
+        <h3>{{ comercio.nombre }}</h3>
+        <span class="fecha-actual">{{ fechaActual }}</span>
       </div>
+    </div>
 
-      <!-- Botones a la derecha -->
-      <div class="header-actions">
-        <app-button
-          type="outline-primary"
-          size="sm"
-          [icon]="soloFavoritosArticulos ? 'pi pi-star-fill' : 'pi pi-star'"
-          (clicked)="toggleSoloFavoritosArticulos()"
-          [ngClass]="{ 'active-favorites': soloFavoritosArticulos }"
-        >
-          Favoritos
-        </app-button>
-        <app-button
-          type="outline-primary"
-          size="sm"
-          icon="pi pi-filter"
-          (clicked)="openFiltersArticulos()"
-        >
-          Filtros
-        </app-button>
+    <!-- Centro: Búsqueda -->
+    <div class="header-center">
+      <div class="search-input-container">
+        <i class="pi pi-search search-icon"></i>
+        <input
+          type="text"
+          class="search-input-custom"
+          placeholder="Buscar artículos..."
+          [(ngModel)]="searchTermArticulos"
+        />
       </div>
-    </app-search-header>
+    </div>
+
+    <!-- Derecha: Botones de acción -->
+    <div class="header-right">
+      <app-button
+        type="outline-primary"
+        size="sm"
+        [icon]="soloFavoritosArticulos ? 'pi pi-star-fill' : 'pi pi-star'"
+        (clicked)="toggleSoloFavoritosArticulos()"
+        [ngClass]="{ 'active-favorites': soloFavoritosArticulos }"
+      >
+        Favoritos
+      </app-button>
+      <app-button
+        type="outline-primary"
+        size="sm"
+        icon="pi pi-filter"
+        (clicked)="openFiltersArticulos()"
+      >
+        Filtros
+      </app-button>
+      <app-button
+        type="outline-primary"
+        size="sm"
+        icon="pi pi-info-circle"
+        (clicked)="abrirModalInfo()"
+      >
+        Info
+      </app-button>
+    </div>
   </div>
 
   <div class="main-layout-detalle">
-    <!-- Sidebar izquierdo -->
+    <!-- Sidebar izquierdo: Header + Categorías -->
     <aside class="sidebar-comercio">
+      <button class="info-btn-sidebar" (click)="abrirModalInfo()">
+        <i class="pi pi-info-circle"></i>
+        Info
+      </button>
+
       <div class="comercio-header">
         <div class="comercio-avatar">
           <img [src]="comercio.imagen" [alt]="comercio.nombre" />
@@ -49,25 +70,30 @@
         <p class="comercio-categoria">{{ comercio.categoria }}</p>
       </div>
 
-      <div class="info-basica">
-        <div class="info-basica-item">
-          <i class="pi pi-map-marker"></i>
-          <span>{{ comercio.ubicacion }}</span>
-        </div>
-        <div class="info-basica-item">
-          <i class="pi pi-phone"></i>
-          <span>{{ comercio.telefono }}</span>
-        </div>
-        <div class="info-basica-item" *ngIf="comercio.horario">
-          <i class="pi pi-clock"></i>
-          <span>{{ comercio.horario }}</span>
-        </div>
+      <div class="categorias-header">
+        <h3 class="categorias-title">Categorías</h3>
       </div>
 
-      <button class="info-button" (click)="abrirModalInfo()">
-        <i class="pi pi-info-circle"></i>
-        Información del Negocio
-      </button>
+      <div class="categorias-menu">
+        <button
+          class="categoria-item"
+          [class.active]="categoriaSeleccionada === 'Todas'"
+          (click)="seleccionarCategoria('Todas')"
+        >
+          <i class="pi pi-th-large"></i>
+          <span>Todas</span>
+        </button>
+
+        <button
+          *ngFor="let categoria of categorias"
+          class="categoria-item"
+          [class.active]="categoriaSeleccionada === categoria"
+          (click)="seleccionarCategoria(categoria)"
+        >
+          <i class="pi pi-tag"></i>
+          <span>{{ categoria }}</span>
+        </button>
+      </div>
     </aside>
 
     <!-- Área de artículos -->

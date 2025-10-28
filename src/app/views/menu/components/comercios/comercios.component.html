@@ -1,13 +1,6 @@
 <div class="comercios-container">
-  <!-- Vista de detalle del comercio -->
-  <app-detalle-comercio
-    *ngIf="comercioSeleccionado"
-    [comercio]="comercioSeleccionado"
-    (cerrar)="cerrarDetalle()"
-  ></app-detalle-comercio>
-
   <!-- Lista de comercios -->
-  <div class="comercios-list-view" [class.hidden]="comercioSeleccionado">
+  <div class="comercios-list-view">
     <!-- Cabecera reutilizable -->
     <app-search-header
       placeholder="Buscar comercios..."

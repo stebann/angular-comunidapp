@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Comercio {
   id: number;
@@ -16,11 +17,12 @@ interface Comercio {
   templateUrl: './comercios.component.html',
   styleUrls: ['./comercios.component.scss'],
 })
-export class ComerciosComponent implements OnInit {
+export class ComerciosComponent {
   searchTerm: string = '';
   soloFavoritos: boolean = false;
   favoritos: number[] = [];
-  comercioSeleccionado: Comercio | null = null;
+
+  constructor(private router: Router) {}
 
   comercios: Comercio[] = [
     {
@@ -85,8 +87,6 @@ export class ComerciosComponent implements OnInit {
     },
   ];
 
-  ngOnInit() {}
-
   trackByFn(index: number, comercio: Comercio): number {
     return comercio.id;
   }
@@ -120,11 +120,7 @@ export class ComerciosComponent implements OnInit {
   }
 
   abrirDetalleComercio(comercio: Comercio): void {
-    this.comercioSeleccionado = comercio;
-  }
-
-  cerrarDetalle(): void {
-    this.comercioSeleccionado = null;
+    this.router.navigate(['/app/comercios/detalle', comercio.id]);
   }
 
   openFilters(): void {
