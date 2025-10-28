@@ -28,21 +28,17 @@ export class ModalArticuloComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadFilterOptions();
-  }
+    this.filtersService.categorias$.subscribe({
+      next: (data) => (this.categorias = data),
+    });
 
-  private loadFilterOptions() {
-    this.filtersService
-      .getCategorias$()
-      .subscribe((categorias) => (this.categorias = categorias));
+    this.filtersService.estados$.subscribe({
+      next: (data) => (this.estados = data),
+    });
 
-    this.filtersService
-      .getEstados$()
-      .subscribe((estados) => (this.estados = estados));
-
-    this.filtersService
-      .getTipos$()
-      .subscribe((tipos) => (this.tiposTransaccion = tipos));
+    this.filtersService.tipos$.subscribe({
+      next: (data) => (this.tiposTransaccion = data),
+    });
   }
 
   cerrarModal() {

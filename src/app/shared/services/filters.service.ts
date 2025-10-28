@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FiltersAPI } from '../../core/routes-api/filters_api';
 import { HttpService } from '../../core/services/http.service';
 import { FilterOption } from '../models/filter-models';
+
+interface RawFilter {
+  id: string | number;
+  nombre: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -12,71 +18,48 @@ export class FiltersService {
   private estadosSubject = new BehaviorSubject<FilterOption[]>([]);
   private tiposSubject = new BehaviorSubject<FilterOption[]>([]);
 
-  constructor(private httpService: HttpService) {
-    this.loadCategorias();
-    this.loadEstados();
-    this.loadTipos();
+  constructor(private http: HttpService) {
+    this.initFilters();
   }
 
-  getCategorias$(): Observable<FilterOption[]> {
+  // === Getters públicos (para usar en componentes) ===
+  get categorias$(): Observable<FilterOption[]> {
     return this.categoriasSubject.asObservable();
   }
 
-  getEstados$(): Observable<FilterOption[]> {
+  get estados$(): Observable<FilterOption[]> {
     return this.estadosSubject.asObservable();
   }
 
-  getTipos$(): Observable<FilterOption[]> {
+  get tipos$(): Observable<FilterOption[]> {
     return this.tiposSubject.asObservable();
   }
 
-  getCategorias(): Observable<Array<{ id: number; nombre: string }>> {
-    return this.httpService.get<Array<{ id: number; nombre: string }>>(
-      FiltersAPI.Categorias
-    );
+  // === Inicializa todos los filtros ===
+  private initFilters(): void {
+    this.loadFilter(FiltersAPI.Categorias, this.categoriasSubject);
+    this.loadFilter(FiltersAPI.Estados, this.estadosSubject);
+    this.loadFilter(FiltersAPI.Tipos, this.tiposSubject);
   }
 
-  getEstados(): Observable<Array<{ id: string | number; nombre: string }>> {
-    return this.httpService.get<Array<{ id: string | number; nombre: string }>>(
-      FiltersAPI.Estados
-    );
-  }
-
-  private getTipos(): Observable<
-    Array<{ id: string | number; nombre: string }>
-  > {
-    return this.httpService.get<Array<{ id: string | number; nombre: string }>>(
-      FiltersAPI.Tipos
-    );
-  }
-
-  private loadCategorias(): void {
-    this.getCategorias().subscribe((categorias) => {
-      const options = categorias.map((cat) => ({
-        value: cat.id.toString(),
-        label: cat.nombre,
-      }));
-      this.categoriasSubject.next(options);
-    });
-  }
-
-  private loadEstados(): void {
-    this.getEstados().subscribe((estados) => {
-      const options = estados.map((estado) => ({
-        value: estado.id.toString(),
-        label: estado.nombre,
-      }));
-      this.estadosSubject.next(options);
-    });
-  }
-
-  private loadTipos(): void {
-    this.getTipos().subscribe((tipos) => {
-      const options = tipos.map((tipo) => ({
-        value: tipo.id.toString(),
-        label: tipo.nombre,
-      }));
-      this.tiposSubject.next(options);
-    });
+  // === Método genérico para cargar cualquier filtro ===
+  private loadFilter(
+    endpoint: string,
+    subject: BehaviorSubject<FilterOption[]>
+  ): void {
+    this.http
+      .get<RawFilter[]>(endpoint)
+      .pipe(
+        map((items: RawFilter[]) =>
+          items.map((item: RawFilter) => ({
+            value: item.id.toString(),
+            label: item.nombre,
+          }))
+        )
+      )
+      .subscribe({
+        next: (options: FilterOption[]) => subject.next(options),
+        error: (err) => console.error(`Error cargando ${endpoint}:`, err),
+      });
   }
 }
