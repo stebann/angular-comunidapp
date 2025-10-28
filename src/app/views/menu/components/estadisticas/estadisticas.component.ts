@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { EstadisticasService } from './services/estadisticas.service';
 
 @Component({
   selector: 'app-estadisticas',
@@ -6,7 +7,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./estadisticas.component.scss'],
 })
 export class EstadisticasComponent {
-  // Datos para el gráfico de tendencias
+  isOpen: boolean = false;
+
+  opciones = [
+    { label: 'Solicitudes', value: 'solicitudes' },
+    { label: 'Préstamos', value: 'prestamos' },
+  ];
+
+  constructor(private estadisticasService: EstadisticasService) {}
+
+  get filtro() {
+    return this.estadisticasService.filtroEstadisticas;
+  }
+
+  // Datos para el resumen y gráficos
   tendenciasData = [
     {
       name: 'Intercambios Exitosos',
@@ -98,4 +112,12 @@ export class EstadisticasComponent {
   yAxisLabel = 'Cantidad';
   legendTitle = 'Tipos';
   colorScheme: string = 'cool';
+
+  openFilters() {
+    this.isOpen = true;
+  }
+
+  onFiltersApplied(): void {
+    this.estadisticasService.filtrar();
+  }
 }

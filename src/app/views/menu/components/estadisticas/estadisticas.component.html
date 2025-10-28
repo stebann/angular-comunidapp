@@ -1,5 +1,15 @@
+<app-search-header [showSearchInput]="false">
+  <app-button
+    type="outline-primary"
+    size="sm"
+    icon="pi pi-filter"
+    (clicked)="openFilters()"
+  >
+    Filtros
+  </app-button>
+</app-search-header>
+
 <div class="estadisticas-container">
-  <!-- Tarjetas superiores -->
   <div class="cards-grid">
     <div class="stat-card recursos">
       <i class="fas fa-box"></i>
@@ -31,3 +41,32 @@
     </div>
   </div>
 </div>
+
+<app-generic-filter
+  [form]="filtro"
+  [(isOpen)]="isOpen"
+  (applyFilter)="onFiltersApplied()"
+>
+  <div style="display: flex; gap: 1rem">
+    <app-input-date-field
+      formControlName="fechaInicio"
+      label="Fecha inicio"
+    ></app-input-date-field>
+    <app-input-date-field
+      formControlName="fechaFin"
+      label="Fecha fin"
+    ></app-input-date-field>
+  </div>
+
+  <app-dropdown-field
+    label="Campo 2"
+    formControlName="campo2"
+    [options]="opciones"
+  ></app-dropdown-field>
+
+  <app-input-field
+    label="Campo 1"
+    formControlName="campo1"
+    placeholder="Ingrese valor para campo 1"
+  ></app-input-field>
+</app-generic-filter>

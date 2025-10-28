@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ComercioService } from '../services/comercio.service';
 
 @Component({
   selector: 'app-detalle-comercio',
@@ -13,7 +14,19 @@ export class DetalleComercioComponent implements OnInit {
   searchTermArticulos: string = '';
   soloFavoritosArticulos: boolean = false;
   favoritosArticulos: number[] = [];
+  isOpen: boolean = false;
   categoriaSeleccionada: string = 'Todas';
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private comercioService: ComercioService
+  ) {}
+
+  opciones = [
+    { label: 'Solicitudes', value: 'solicitudes' },
+    { label: 'Préstamos', value: 'prestamos' },
+  ];
 
   // Datos de ejemplo de comercios
   private comercios: any[] = [
@@ -79,8 +92,6 @@ export class DetalleComercioComponent implements OnInit {
     },
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
-
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.comercioId = +params['id'];
@@ -99,6 +110,14 @@ export class DetalleComercioComponent implements OnInit {
       month: 'long',
       year: 'numeric',
     });
+  }
+
+  get filtro() {
+    return this.comercioService.filtroComercio;
+  }
+
+  onFiltersApplied(): void {
+    this.comercioService.filtrar();
   }
 
   private categoriasDisponibles: { nombre: string; icono: string }[] = [
@@ -260,8 +279,8 @@ export class DetalleComercioComponent implements OnInit {
     this.soloFavoritosArticulos = !this.soloFavoritosArticulos;
   }
 
-  openFiltersArticulos(): void {
-    console.log('Abrir filtros de artículos');
+  openFilters() {
+    this.isOpen = true;
   }
 
   abrirModalInfo(): void {

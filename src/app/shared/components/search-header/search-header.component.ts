@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class SearchHeaderComponent {
   @Input() placeholder: string = 'Buscar...';
   @Input() searchTerm: string = '';
+  @Input() showSearchInput: boolean = true;
   @Output() searchTermChange = new EventEmitter<string>();
 
   // Permite proyectar botones de acción a la derecha

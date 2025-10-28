@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ComercioService } from './services/comercio.service';
 
 interface Comercio {
   id: number;
@@ -21,8 +22,17 @@ export class ComerciosComponent {
   searchTerm: string = '';
   soloFavoritos: boolean = false;
   favoritos: number[] = [];
+  isOpen: boolean = false;
 
-  constructor(private router: Router) {}
+  opciones = [
+    { label: 'Solicitudes', value: 'solicitudes' },
+    { label: 'Préstamos', value: 'prestamos' },
+  ];
+
+  constructor(
+    private router: Router,
+    private comercioService: ComercioService
+  ) {}
 
   comercios: Comercio[] = [
     {
@@ -102,6 +112,14 @@ export class ComerciosComponent {
     return lista;
   }
 
+  get filtro() {
+    return this.comercioService.filtroComercio;
+  }
+
+  onFiltersApplied(): void {
+    this.comercioService.filtrar();
+  }
+
   toggleFavorito(comercio: Comercio): void {
     const index = this.favoritos.indexOf(comercio.id);
     if (index > -1) {
@@ -123,7 +141,7 @@ export class ComerciosComponent {
     this.router.navigate(['/app/comercios/detalle', comercio.id]);
   }
 
-  openFilters(): void {
-    console.log('Abrir filtros');
+  openFilters() {
+    this.isOpen = true;
   }
 }

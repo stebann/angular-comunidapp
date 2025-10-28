@@ -627,7 +627,7 @@ export class MisGestionesComponent implements OnInit {
     this.isOpen = true;
   }
 
-  onFiltersApplied(filteredData: any): void {
+  onFiltersApplied(): void {
     this.misGestionesService.filtrar();
   }
 
