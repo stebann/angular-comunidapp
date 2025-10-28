@@ -28,7 +28,10 @@ export class MisArticulosService extends MisArticulosRepository {
       });
   }
 
-  getMisArticulos(): Observable<any> {
-    return this.http$.get(ArticuloAPI.Base);
+  getMisArticulos(usuarioId: number): void {
+    const url = `${ArticuloAPI.PorUsuario}${usuarioId}`;
+    this.http$.get(url).subscribe((response: any) => {
+      this.articulos = response.data;
+    });
   }
 }

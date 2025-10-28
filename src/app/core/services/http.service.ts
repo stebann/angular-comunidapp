@@ -27,7 +27,6 @@ export class HttpService {
   private token: string | undefined;
 
   constructor(private _http: HttpClient, private readonly auth$: AuthService) {
-    this.token = this.auth$.getTokenWithoutObs();
     this.init();
   }
 

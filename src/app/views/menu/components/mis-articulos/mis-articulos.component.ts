@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
 
 import { ModalArticuloComponent } from './components/modal-articulo/modal-articulo.component';
@@ -22,11 +23,16 @@ export class MisArticulosComponent implements OnInit {
 
   constructor(
     private articulosService: MisArticulosService,
+    private authService: AuthService,
     public dialogService$: DialogService
   ) {}
 
   ngOnInit(): void {
-    this.articulosService.getMisArticulos();
+    this.authService.state$.subscribe((state) => {
+      if (state.id) {
+        this.articulosService.getMisArticulos(state.id);
+      }
+    });
 
     this.menuItems = [
       {

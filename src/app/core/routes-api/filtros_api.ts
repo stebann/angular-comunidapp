@@ -1,4 +1,4 @@
-export enum FiltersAPI {
+export enum FiltrosAPI {
   Categorias = 'filtros/categorias',
   Estados = 'filtros/estados',
   Tipos = 'filtros/tipos',

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { FiltersAPI } from '../../core/routes-api/filters_api';
+import { FiltrosAPI } from '../../core/routes-api/filtros_api';
 import { HttpService } from '../../core/services/http.service';
 import { FilterOption } from '../models/filter-models';
 
@@ -18,7 +18,7 @@ export class FiltersService {
   // Obtener categorías
   async getCategorias(): Promise<FilterOption[]> {
     const response = await firstValueFrom(
-      this.http.get<RawFilter[]>(FiltersAPI.Categorias)
+      this.http.get<RawFilter[]>(FiltrosAPI.Categorias)
     );
     return this.mapToFilterOptions(response);
   }
@@ -26,7 +26,7 @@ export class FiltersService {
   // Obtener estados
   async getEstados(): Promise<FilterOption[]> {
     const response = await firstValueFrom(
-      this.http.get<RawFilter[]>(FiltersAPI.Estados)
+      this.http.get<RawFilter[]>(FiltrosAPI.Estados)
     );
     return this.mapToFilterOptions(response);
   }
@@ -34,7 +34,7 @@ export class FiltersService {
   // Obtener tipos de transacción
   async getTiposTransaccion(): Promise<FilterOption[]> {
     const response = await firstValueFrom(
-      this.http.get<RawFilter[]>(FiltersAPI.Tipos)
+      this.http.get<RawFilter[]>(FiltrosAPI.Tipos)
     );
     return this.mapToFilterOptions(response);
   }

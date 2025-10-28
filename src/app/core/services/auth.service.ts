@@ -44,13 +44,12 @@ export class AuthService {
 
   private loadStoredUser() {
     const storedUser = this.persistence$.get(USER_KEY) as AuthState;
-    if (storedUser && storedUser.nombre && storedUser.email) {
-      this.setAuth({
-        id: storedUser.id,
-        nombre: storedUser.nombre,
-        email: storedUser.email,
-        enSesion: storedUser.enSesion,
-      });
+    const hasSession = Boolean(this.persistence$.get(SESSION_KEY));
+
+    // Si tenemos usuario y sesión, restaurar el estado
+    if (storedUser?.id && hasSession) {
+      this.state = { ...storedUser, enSesion: true };
+      this.userSubject.next(this.state);
     }
   }
 
@@ -59,58 +58,63 @@ export class AuthService {
       ...this.state,
       ...partial,
     };
+
+    // Guardar el estado actualizado en localStorage
+    this.persistence$.save(USER_KEY, this.state);
+    if (this.state.enSesion) {
+      this.persistence$.save(SESSION_KEY, true);
+    }
+
     this.userSubject.next(this.state);
   }
 
-  /** Guarda usuario*/
+  /** Guarda usuario y marca la sesión */
   setUser(user: AuthState) {
-    this.persistence$.save(USER_KEY, user);
-    this.setAuth(user);
-  }
+    // Asegurarnos que el usuario tenga la sesión marcada
+    const userWithSession = { ...user, enSesion: true };
 
-  /** Guarda token */
-  setToken(token: string) {
-    this.persistence$.save(TOKEN_KEY, token);
-  }
+    // Guardar datos y estado de sesión
+    this.persistence$.save(USER_KEY, userWithSession);
+    this.persistence$.save(SESSION_KEY, true);
 
-  /** Obtiene token directamente */
-  getToken(): string {
-    return this.persistence$.get(TOKEN_KEY) || '';
-  }
-
-  /** Obtiene token */
-  getTokenWithoutObs(): string {
-    return this.getToken();
+    // Actualizar el estado
+    this.setAuth(userWithSession);
   }
 
   /** Marca sesión */
   setEnSession(enSesion: boolean) {
     this.persistence$.save(SESSION_KEY, enSesion);
+    this.setAuth({ ...this.state, enSesion });
   }
 
   /** Verifica si hay sesión activa */
   isAuthenticated(): boolean {
+    const storedUser = this.persistence$.get(USER_KEY) as AuthState;
     const hasSession = Boolean(this.persistence$.get(SESSION_KEY));
-    const hasUser = Boolean(this.state.nombre && this.state.email);
-    return hasSession && hasUser;
+
+    return Boolean(hasSession && storedUser?.id);
   }
 
   /** Verifica si hay datos de usuario válidos */
   hasValidUserData(): boolean {
-    return Boolean(
-      this.state.nombre && this.state.email && this.state.nombre !== ''
-    );
+    const storedUser = this.persistence$.get(USER_KEY) as AuthState;
+    return Boolean(storedUser?.id && storedUser?.nombre !== '');
   }
 
   /** Logout */
   logout() {
-    Object.assign(this.state, this.initialState);
+    // Primero limpiar el estado
+    this.state = { ...this.initialState };
     this.userSubject.next(this.state);
 
+    // Luego limpiar el almacenamiento
     this.persistence$.delete(USER_KEY);
     this.persistence$.delete(TOKEN_KEY);
     this.persistence$.delete(SESSION_KEY);
 
-    this.router$.navigateByUrl('/auth/login');
+    // Solo navegar si no estamos ya en la página de login
+    if (!this.router$.url.includes('/auth/login')) {
+      this.router$.navigateByUrl('/auth/login');
+    }
   }
 }
