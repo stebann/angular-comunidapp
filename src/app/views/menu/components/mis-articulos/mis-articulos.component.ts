@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
+
 import { ModalArticuloComponent } from './components/modal-articulo/modal-articulo.component';
 import { Articulo } from './models/articulo';
 import { MisArticulosService } from './services/mis-articulos.service';

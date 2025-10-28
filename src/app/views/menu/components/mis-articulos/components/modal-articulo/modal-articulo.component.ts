@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FilterOption } from '../../../../../../shared/models/filter-models';
 import { FiltersService } from '../../../../../../shared/services/filters.service';
@@ -10,8 +10,6 @@ import { MisArticulosService } from '../../services/mis-articulos.service';
   styleUrls: ['./modal-articulo.component.scss'],
 })
 export class ModalArticuloComponent implements OnInit {
-  @ViewChild('fileInput') fileInput!: ElementRef;
-
   categorias: FilterOption[] = [];
   estados: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
@@ -23,11 +21,7 @@ export class ModalArticuloComponent implements OnInit {
     private articulosService: MisArticulosService
   ) {}
 
-  get form() {
-    return this.articulosService.formMisArticulos;
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.filtersService.categorias$.subscribe({
       next: (data) => (this.categorias = data),
     });
@@ -39,6 +33,10 @@ export class ModalArticuloComponent implements OnInit {
     this.filtersService.tipos$.subscribe({
       next: (data) => (this.tiposTransaccion = data),
     });
+  }
+
+  get form() {
+    return this.articulosService.formMisArticulos;
   }
 
   cerrarModal() {
