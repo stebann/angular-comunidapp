@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { EmptyPlaceholderComponent } from './components/empty-placeholder/empty-placeholder.component';
 
 import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
@@ -37,6 +38,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     CheckboxComponent,
     DropdownFieldComponent,
     TextareaFieldComponent,
+    EmptyPlaceholderComponent,
 
     GenericFilterComponent,
     RangeFieldComponent,
@@ -69,6 +71,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     ButtonComponent,
     CheckboxComponent,
     DropdownFieldComponent,
+    EmptyPlaceholderComponent,
 
     GenericFilterComponent,
     RangeFieldComponent,

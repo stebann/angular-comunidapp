@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ExplorarAPI } from 'src/app/core/routes-api/explorar_api';
 import { HttpService } from 'src/app/core/services/http.service';
 import { ExplorarRepository } from '../repositories/explorar-repository';
 
@@ -13,9 +15,13 @@ export class ExplorarService extends ExplorarRepository {
 
   filtrar(): void {
     this.http$
-      .post('/filtro/articulos', this.filtroExplorar.value)
+      .post(ExplorarAPI.Filtro, this.filtroExplorar.value)
       .subscribe((response: any) => {
         this.articulos = response.data;
       });
+  }
+
+  getArticulos(): Observable<any> {
+    return this.http$.get(ExplorarAPI.Base);
   }
 }

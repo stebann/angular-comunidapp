@@ -1,5 +1,4 @@
 <div class="explorar-container">
-  <!-- Cabecera reutilizable -->
   <app-search-header
     placeholder="Buscar artículos..."
     [(searchTerm)]="searchTerm"
@@ -14,7 +13,6 @@
     </app-button>
   </app-search-header>
 
-  <!-- Contenido principal -->
   <div class="content-area">
     <div *ngIf="articulos.length > 0; else noArticulos" class="articulos-grid">
       <app-articulo-card
@@ -24,7 +22,11 @@
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>
-      <div class="no-articulos">No hay artículos para explorar.</div>
+      <app-empty-placeholder
+        icon="pi pi-search"
+        title="No hay artículos disponibles"
+        description="Prueba con otros filtros de búsqueda"
+      ></app-empty-placeholder>
     </ng-template>
   </div>
 </div>

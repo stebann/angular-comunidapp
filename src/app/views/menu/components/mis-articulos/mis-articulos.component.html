@@ -1,5 +1,4 @@
 <div class="mis-articulos-container">
-  <!-- Cabecera reutilizable -->
   <app-search-header
     placeholder="Buscar mis artículos..."
     [(searchTerm)]="searchTerm"
@@ -22,7 +21,6 @@
     </app-button>
   </app-search-header>
 
-  <!-- Contenido principal -->
   <div class="content-area">
     <div *ngIf="articulos.length > 0; else noArticulos" class="articulos-grid">
       <app-articulo-card
@@ -34,7 +32,11 @@
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>
-      <div class="no-articulos">No tienes artículos aún.</div>
+      <app-empty-placeholder
+        icon="pi pi-box"
+        title="No tienes artículos"
+        description="Cuando publiques artículos aparecerán aquí"
+      ></app-empty-placeholder>
     </ng-template>
   </div>
 </div>
