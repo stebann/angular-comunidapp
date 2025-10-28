@@ -1,0 +1,130 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .required-asterisk {
+      color: #f44336;
+      margin-left: 0.25rem;
+    }
+  }
+
+  .input-wrapper {
+    .p-calendar {
+      width: 100%;
+
+      .p-inputtext {
+        height: 2.857rem !important;
+        font-size: 0.9rem;
+        width: 100%;
+        border: 1px solid #ced4da;
+        border-radius: 6px 0 0 6px !important;
+        padding: 0.75rem;
+        background: #ffffff;
+
+        &:enabled:focus {
+          box-shadow: 0 0 0 1px #0aa1fc;
+          border-color: #0aa1fc;
+        }
+      }
+
+      .p-button {
+        background: #ffffff !important;
+        border: 1px solid #ced4da !important;
+        color: var(--text-color-secondary) !important;
+        height: 2.857rem !important;
+        width: 2.857rem !important;
+        border-radius: 0 6px 6px 0 !important;
+        margin-left: -1px;
+
+        &:hover {
+          background: var(--surface-hover) !important;
+          border-color: var(--surface-border) !important;
+          color: var(--text-color) !important;
+        }
+
+        .p-button-icon {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+.p-datepicker {
+  width: 300px !important;
+  font-size: 1rem !important;
+  padding: 0.5rem !important;
+
+  .p-datepicker-header {
+    padding: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+
+    .p-datepicker-title {
+      .p-datepicker-month,
+      .p-datepicker-year {
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        margin: 0 0.25rem !important;
+      }
+    }
+
+    .p-datepicker-prev,
+    .p-datepicker-next {
+      width: 2rem !important;
+      height: 2rem !important;
+
+      span {
+        font-size: 0.9rem !important;
+      }
+    }
+  }
+
+  table {
+    width: 100% !important;
+    font-size: 0.9rem !important;
+    border-collapse: collapse !important;
+
+    th {
+      padding: 0.5rem 0 !important;
+      font-weight: 600 !important;
+      text-align: center !important;
+      width: calc(100% / 7) !important;
+    }
+
+    td {
+      padding: 0.1rem !important;
+      text-align: center !important;
+      width: calc(100% / 7) !important;
+
+      > span,
+      > span.p-highlight {
+        width: 2rem !important;
+        height: 2rem !important;
+        margin: 0 auto !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+    }
+  }
+
+  .p-monthpicker,
+  .p-yearpicker {
+    .p-monthpicker-month,
+    .p-yearpicker-year {
+      font-size: 0.9rem !important;
+      padding: 0.5rem !important;
+    }
+  }
+}

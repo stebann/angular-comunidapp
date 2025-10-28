@@ -19,6 +19,12 @@ export class MisGestionesComponent implements OnInit {
   searchTerm: string = '';
   activeTab: 'solicitudes' | 'prestamos' = 'solicitudes';
   isRecibidas: boolean = true; // true = "me hacen", false = "yo hago"
+  isOpen: boolean = false;
+
+  opciones = [
+    { label: 'Solicitudes', value: 'solicitudes' },
+    { label: 'Préstamos', value: 'prestamos' },
+  ];
 
   solicitudesRecibidas: Gestiones[] = [
     {
@@ -613,12 +619,16 @@ export class MisGestionesComponent implements OnInit {
     );
   }
 
+  get filtro() {
+    return this.misGestionesService.filtroGestiones;
+  }
+
   openFilters() {
-    this.filterService.open();
+    this.isOpen = true;
   }
 
   onFiltersApplied(filteredData: any): void {
-    this.misGestionesService.gestiones = filteredData;
+    this.misGestionesService.filtrar();
   }
 
   onTabChange(tab: 'solicitudes' | 'prestamos'): void {

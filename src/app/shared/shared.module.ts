@@ -20,6 +20,8 @@ import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
 import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
+import { GenericFilterComponent } from './components/generic-filter/generic-filter.component';
+import { InputDateFieldComponent } from './components/input-date-field/input-date-field.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { OpcionesComponent } from './components/opciones/opciones.component';
@@ -29,10 +31,12 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
 @NgModule({
   declarations: [
     InputFieldComponent,
+    InputDateFieldComponent,
     ButtonComponent,
     CheckboxComponent,
     DropdownFieldComponent,
     FiltersSidebarComponent,
+    GenericFilterComponent,
     RangeFieldComponent,
     ModalComponent,
     ArticuloCardComponent,
@@ -58,10 +62,12 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
   ],
   exports: [
     InputFieldComponent,
+    InputDateFieldComponent,
     ButtonComponent,
     CheckboxComponent,
     DropdownFieldComponent,
     FiltersSidebarComponent,
+    GenericFilterComponent,
     RangeFieldComponent,
     ModalComponent,
     ArticuloCardComponent,

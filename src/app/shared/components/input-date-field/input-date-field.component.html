@@ -1,0 +1,22 @@
+<div class="input-container">
+  <label *ngIf="label" class="label">
+    {{ label }}
+    <span *ngIf="required" class="required-asterisk">*</span>
+  </label>
+  <div class="input-wrapper">
+    <p-calendar
+      [ngModel]="value"
+      (ngModelChange)="onDateSelect($event)"
+      [showIcon]="showIcon"
+      [disabled]="disabled"
+      [placeholder]="placeholder"
+      dateFormat="dd/mm/yy"
+      [readonlyInput]="true"
+      (onBlur)="markAsTouched()"
+      [appendTo]="'body'"
+      [baseZIndex]="1000"
+      [style]="{ width: 'auto' }"
+      [panelStyle]="{ width: '250px' }"
+    ></p-calendar>
+  </div>
+</div>
