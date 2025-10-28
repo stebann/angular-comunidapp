@@ -1,0 +1,57 @@
+.textarea-field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .textarea-label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .required-asterisk {
+      color: #f44336;
+      margin-left: 0.25rem;
+    }
+  }
+
+  :host {
+    ::ng-deep {
+      textarea.p-inputtextarea {
+        resize: none !important;
+        font-size: 0.9rem;
+        width: 100%;
+        font-family: var(--font-family-primary);
+        line-height: 1.5;
+        padding: 0.75rem 1rem;
+        overflow: hidden !important;
+        box-sizing: border-box;
+
+        /* Ajustar la altura según la línea base y el padding */
+        &[rows="6"] {
+          height: calc((1.5em * 6) + (0.75rem * 2)) !important;
+        }
+        &[rows="20"] {
+          height: calc((1.5em * 20) + (0.75rem * 2)) !important;
+        }
+
+        &::-webkit-resizer {
+          display: none !important;
+        }
+      }
+
+      .p-inputtextarea-resizer {
+        display: none !important;
+      }
+    }
+  }
+  .char-count {
+    color: var(--text-color-secondary);
+    align-self: flex-end;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
+}

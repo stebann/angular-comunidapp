@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FilterOption } from '../../../../../../shared/models/filter-models';
 import { FiltersService } from '../../../../../../shared/services/filters.service';
@@ -28,17 +29,30 @@ export class ModalArticuloComponent implements OnInit {
     private articulosService: MisArticulosService
   ) {}
 
-  ngOnInit(): void {
-    this.filtersService.categorias$.subscribe({
-      next: (data) => (this.categorias = data),
-    });
+  async ngOnInit(): Promise<void> {
+    // Cargar todos los filtros en paralelo
+    const [categorias, estados, tipos] = await Promise.all([
+      this.filtersService.getCategorias(),
+      this.filtersService.getEstados(),
+      this.filtersService.getTiposTransaccion(),
+    ]);
 
-    this.filtersService.estados$.subscribe({
-      next: (data) => (this.estados = data),
-    });
+    this.categorias = categorias;
+    this.estados = estados;
+    this.tiposTransaccion = tipos;
 
-    this.filtersService.tipos$.subscribe({
-      next: (data) => (this.tiposTransaccion = data),
+    // Observar cambios en el tipo de transacción
+    this.form.get('tipoTransaccionId')?.valueChanges.subscribe((value) => {
+      const precioControl = this.form.get('precio');
+      if (value === '1') {
+        // Comparar con string '1' para venta
+        // Si es venta
+        precioControl?.setValidators([Validators.required]);
+      } else {
+        precioControl?.clearValidators();
+        precioControl?.setValue(null);
+      }
+      precioControl?.updateValueAndValidity();
     });
   }
 
@@ -128,7 +142,13 @@ export class ModalArticuloComponent implements OnInit {
   }
 
   private agregarArchivos(files: File[]): void {
-    for (const file of files) {
+    const espacioDisponible = 5 - this.previewImages.length;
+    if (espacioDisponible <= 0) return;
+
+    // Tomar solo los archivos que podemos agregar
+    const archivosParaAgregar = files.slice(0, espacioDisponible);
+
+    for (const file of archivosParaAgregar) {
       if (!file.type.startsWith('image/')) continue;
       this.selectedFiles.push(file);
       const reader = new FileReader();

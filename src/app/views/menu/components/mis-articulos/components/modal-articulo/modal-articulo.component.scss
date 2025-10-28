@@ -44,10 +44,27 @@
 
 .empty-state {
   height: 600px; /* Altura fija igual que el contenedor */
-  border: 2px dashed var(--surface-300);
+  border: 2px dashed var(--primary-200);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  background: linear-gradient(
+    135deg,
+    var(--surface-ground) 0%,
+    var(--surface-section) 100%
+  );
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--primary-400);
+    background: linear-gradient(
+      135deg,
+      var(--surface-section) 0%,
+      var(--surface-ground) 100%
+    );
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(var(--primary-color-rgb), 0.1);
+  }
   align-items: center;
   justify-content: center;
   padding: 2rem;
@@ -138,14 +155,30 @@
 .image-counter {
   position: absolute;
   bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  left: 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+
+  .max-photos-hint {
+    display: block;
+    font-size: 0.75rem;
+    color: #ffa726;
+    margin-top: 0.25rem;
+  }
+}
+
+.add-images-btn {
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
 }
 
 .delete-btn {
@@ -178,12 +211,28 @@
   width: 100%;
   padding: 0.75rem;
   margin-top: 1rem;
-  border: 2px dashed var(--surface-300);
+  border: 2px dashed var(--primary-200);
   border-radius: 8px;
-  background: var(--surface-50);
+  background: linear-gradient(
+    135deg,
+    var(--surface-ground) 0%,
+    var(--surface-section) 100%
+  );
   color: var(--text-color);
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: var(--primary-400);
+    background: linear-gradient(
+      135deg,
+      var(--surface-section) 0%,
+      var(--surface-ground) 100%
+    );
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(var(--primary-color-rgb), 0.1);
+  }
   transition: all 0.2s;
   display: flex;
   align-items: center;

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { FiltersAPI } from '../../core/routes-api/filters_api';
 import { HttpService } from '../../core/services/http.service';
 import { FilterOption } from '../models/filter-models';
@@ -14,52 +13,37 @@ interface RawFilter {
   providedIn: 'root',
 })
 export class FiltersService {
-  private categoriasSubject = new BehaviorSubject<FilterOption[]>([]);
-  private estadosSubject = new BehaviorSubject<FilterOption[]>([]);
-  private tiposSubject = new BehaviorSubject<FilterOption[]>([]);
+  constructor(private http: HttpService) {}
 
-  constructor(private http: HttpService) {
-    this.initFilters();
+  // Obtener categorías
+  async getCategorias(): Promise<FilterOption[]> {
+    const response = await firstValueFrom(
+      this.http.get<RawFilter[]>(FiltersAPI.Categorias)
+    );
+    return this.mapToFilterOptions(response);
   }
 
-  // === Getters públicos (para usar en componentes) ===
-  get categorias$(): Observable<FilterOption[]> {
-    return this.categoriasSubject.asObservable();
+  // Obtener estados
+  async getEstados(): Promise<FilterOption[]> {
+    const response = await firstValueFrom(
+      this.http.get<RawFilter[]>(FiltersAPI.Estados)
+    );
+    return this.mapToFilterOptions(response);
   }
 
-  get estados$(): Observable<FilterOption[]> {
-    return this.estadosSubject.asObservable();
+  // Obtener tipos de transacción
+  async getTiposTransaccion(): Promise<FilterOption[]> {
+    const response = await firstValueFrom(
+      this.http.get<RawFilter[]>(FiltersAPI.Tipos)
+    );
+    return this.mapToFilterOptions(response);
   }
 
-  get tipos$(): Observable<FilterOption[]> {
-    return this.tiposSubject.asObservable();
-  }
-
-  // === Inicializa todos los filtros ===
-  private initFilters(): void {
-    this.loadFilter(FiltersAPI.Categorias, this.categoriasSubject);
-    this.loadFilter(FiltersAPI.Estados, this.estadosSubject);
-    this.loadFilter(FiltersAPI.Tipos, this.tiposSubject);
-  }
-
-  // === Método genérico para cargar cualquier filtro ===
-  private loadFilter(
-    endpoint: string,
-    subject: BehaviorSubject<FilterOption[]>
-  ): void {
-    this.http
-      .get<RawFilter[]>(endpoint)
-      .pipe(
-        map((items: RawFilter[]) =>
-          items.map((item: RawFilter) => ({
-            value: item.id.toString(),
-            label: item.nombre,
-          }))
-        )
-      )
-      .subscribe({
-        next: (options: FilterOption[]) => subject.next(options),
-        error: (err) => console.error(`Error cargando ${endpoint}:`, err),
-      });
+  // Método privado para mapear la respuesta a FilterOption[]
+  private mapToFilterOptions(data: RawFilter[]): FilterOption[] {
+    return data.map((item) => ({
+      value: String(item.id),
+      label: item.nombre,
+    }));
   }
 }

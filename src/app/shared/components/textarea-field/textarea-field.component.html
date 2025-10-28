@@ -1,0 +1,22 @@
+<div class="textarea-field-container">
+  <label class="textarea-label" *ngIf="label">
+    {{ label }}
+    <span class="required-asterisk" *ngIf="required">*</span>
+  </label>
+  <textarea
+    pInputTextarea
+    [rows]="rows"
+    [maxlength]="maxLength"
+    [placeholder]="placeholder"
+    [disabled]="disabled || isDisabled"
+    [ngModel]="value"
+    [autoResize]="false"
+    style="resize: none !important"
+    (input)="onInput($event)"
+    (blur)="markAsTouched()"
+  >
+  </textarea>
+  <small *ngIf="maxLength !== null" class="char-count">
+    {{ value.length || 0 }}/{{ maxLength }}
+  </small>
+</div>

@@ -49,6 +49,9 @@
             <!-- Contador -->
             <div class="image-counter">
               {{ currentImageIndex + 1 }} / {{ previewImages.length }}
+              <small class="max-photos-hint" *ngIf="previewImages.length >= 5"
+                >(Máximo 5 fotos)</small
+              >
             </div>
 
             <!-- Botón eliminar -->
@@ -78,78 +81,82 @@
           type="button"
           class="add-images-btn"
           (click)="abrirSelectorArchivos()"
+          [disabled]="previewImages.length >= 5"
         >
           <i class="pi pi-plus"></i>
-          Agregar Imágenes
+          Agregar Imágenes ({{ previewImages.length }}/5)
         </button>
       </div>
     </div>
 
     <div class="right">
       <form [formGroup]="form" (ngSubmit)="crearArticulo()" class="form-grid">
-        <label>Nombre del Artículo</label>
-        <input
-          pInputText
+        <app-input-field
+          label="Nombre del Artículo"
           formControlName="titulo"
           placeholder="Ej: Bicicleta de montaña"
-        />
+          [required]="true"
+        >
+        </app-input-field>
 
         <div class="row-fields">
           <div class="field-group">
-            <label>Categoría</label>
-            <p-dropdown
-              [options]="categorias"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Selecciona una categoría"
+            <app-dropdown-field
+              label="Categoría"
               formControlName="categoriaId"
-            ></p-dropdown>
+              [options]="categorias"
+              [required]="true"
+              placeholder="Selecciona una categoría"
+            >
+            </app-dropdown-field>
           </div>
 
           <div class="field-group">
-            <label>Condición</label>
-            <p-dropdown
-              [options]="estados"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Selecciona la condición"
+            <app-dropdown-field
+              label="Condición"
               formControlName="estadoId"
-            ></p-dropdown>
+              [options]="estados"
+              [required]="true"
+              placeholder="Selecciona la condición"
+            >
+            </app-dropdown-field>
           </div>
         </div>
 
         <div class="row-fields">
           <div class="field-group">
-            <label>Tipo de Transacción</label>
-            <p-dropdown
-              [options]="tiposTransaccion"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Selecciona el tipo"
+            <app-dropdown-field
+              label="Tipo de Transacción"
               formControlName="tipoTransaccionId"
-            ></p-dropdown>
+              [options]="tiposTransaccion"
+              [required]="true"
+              placeholder="Selecciona el tipo"
+            >
+            </app-dropdown-field>
           </div>
 
-          <div class="field-group">
-            <label>Precio</label>
-            <p-inputNumber
-              inputId="precio"
-              mode="currency"
-              currency="USD"
-              [min]="0"
+          <div
+            class="field-group"
+            *ngIf="form.get('tipoTransaccionId')?.value === '1'"
+          >
+            <app-input-field
+              label="Precio"
               formControlName="precio"
-            ></p-inputNumber>
+              type="number"
+              [required]="true"
+              placeholder="0.00"
+            >
+            </app-input-field>
           </div>
         </div>
 
-        <label>Descripción</label>
-        <textarea
-          pInputTextarea
-          rows="6"
+        <app-textarea-field
+          label="Descripción"
+          [rows]="6"
+          [required]="true"
           formControlName="descripcion"
           placeholder="Describe el artículo, su estado y características..."
-          style="resize: none"
-        ></textarea>
+        ></app-textarea-field>
       </form>
     </div>
   </div>

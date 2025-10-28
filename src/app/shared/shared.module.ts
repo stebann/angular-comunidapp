@@ -27,6 +27,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { OpcionesComponent } from './components/opciones/opciones.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
+import { TextareaFieldComponent } from './components/textarea-field/textarea-field.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     ButtonComponent,
     CheckboxComponent,
     DropdownFieldComponent,
+    TextareaFieldComponent,
 
     GenericFilterComponent,
     RangeFieldComponent,
@@ -74,6 +76,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     ArticuloCardComponent,
     OpcionesComponent,
     SearchHeaderComponent,
+    TextareaFieldComponent,
     CommonModule,
     ArticuloDetailComponent,
     FormsModule,
