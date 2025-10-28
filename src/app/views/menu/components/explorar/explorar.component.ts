@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
-import { FiltersService } from '../../../../shared/services/filters.service';
 import { Articulo } from '../mis-articulos/models/articulo';
 
 @Component({
@@ -183,10 +182,7 @@ export class ExplorarComponent implements OnInit {
     },
   ];
 
-  constructor(
-    private filtersService: FiltersService,
-    private dialogService$: DialogService
-  ) {}
+  constructor(private dialogService$: DialogService) {}
 
   ngOnInit(): void {
     this.loadArticulos();
@@ -194,9 +190,7 @@ export class ExplorarComponent implements OnInit {
 
   private loadArticulos(): void {}
 
-  openFilters(): void {
-    this.filtersService.open();
-  }
+  openFilters(): void {}
 
   onFiltersApplied(filteredData: Articulo[]): void {
     this.articulos = filteredData;

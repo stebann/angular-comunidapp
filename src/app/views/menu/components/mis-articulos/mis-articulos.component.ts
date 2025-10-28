@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
-import { FiltersService } from '../../../../shared/services/filters.service';
 import { ModalArticuloComponent } from './components/modal-articulo/modal-articulo.component';
 import { Articulo } from './models/articulo';
 import { MisArticulosService } from './services/mis-articulos.service';
@@ -292,7 +291,6 @@ export class MisArticulosComponent implements OnInit {
   ];
 
   constructor(
-    private filtersService: FiltersService,
     private articulosService: MisArticulosService,
     public dialogService$: DialogService
   ) {}
@@ -327,9 +325,7 @@ export class MisArticulosComponent implements OnInit {
 
   private loadArticulos(): void {}
 
-  openFilters(): void {
-    this.filtersService.open();
-  }
+  openFilters(): void {}
 
   openCreateModal(): void {
     this.dialogService$.open(ModalArticuloComponent, {

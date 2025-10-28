@@ -19,7 +19,6 @@ import { ArticuloDetailComponent } from './components/articulo-detail/articulo-d
 import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
-import { FiltersSidebarComponent } from './components/filters-sidebar/filters-sidebar.component';
 import { GenericFilterComponent } from './components/generic-filter/generic-filter.component';
 import { InputDateFieldComponent } from './components/input-date-field/input-date-field.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
@@ -35,7 +34,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     ButtonComponent,
     CheckboxComponent,
     DropdownFieldComponent,
-    FiltersSidebarComponent,
+
     GenericFilterComponent,
     RangeFieldComponent,
     ModalComponent,
@@ -66,7 +65,7 @@ import { SearchHeaderComponent } from './components/search-header/search-header.
     ButtonComponent,
     CheckboxComponent,
     DropdownFieldComponent,
-    FiltersSidebarComponent,
+
     GenericFilterComponent,
     RangeFieldComponent,
     ModalComponent,
