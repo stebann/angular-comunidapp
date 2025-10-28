@@ -15,6 +15,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { FiltersService } from './services/filters.service';
 
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ArticuloDetailComponent } from './components/articulo-detail/articulo-detail.component';
@@ -39,7 +40,6 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     DropdownFieldComponent,
     TextareaFieldComponent,
     EmptyPlaceholderComponent,
-
     GenericFilterComponent,
     RangeFieldComponent,
     ModalComponent,
@@ -72,7 +72,6 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     CheckboxComponent,
     DropdownFieldComponent,
     EmptyPlaceholderComponent,
-
     GenericFilterComponent,
     RangeFieldComponent,
     ModalComponent,
@@ -96,6 +95,6 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     ChartModule,
     NgxChartsModule,
   ],
-  providers: [DialogService],
+  providers: [DialogService, FiltersService],
 })
 export class SharedModule {}

@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
+import { FilterOption } from 'src/app/shared/models/filter-models';
 
+import { FiltersService } from 'src/app/shared/services/filters.service';
 import { ModalArticuloComponent } from './components/modal-articulo/modal-articulo.component';
 import { Articulo } from './models/articulo';
 import { MisArticulosService } from './services/mis-articulos.service';
@@ -16,23 +18,34 @@ export class MisArticulosComponent implements OnInit {
   searchTerm: string = '';
   menuItems: any[] = [];
   isOpen: boolean = false;
-  opciones = [
-    { label: 'Solicitudes', value: 'solicitudes' },
-    { label: 'Préstamos', value: 'prestamos' },
-  ];
+  categorias: FilterOption[] = [];
+  estados: FilterOption[] = [];
+  tiposTransaccion: FilterOption[] = [];
 
   constructor(
-    private articulosService: MisArticulosService,
+    public articulosService: MisArticulosService,
     private authService: AuthService,
+    private filtersService: FiltersService,
     public dialogService$: DialogService
   ) {}
 
   ngOnInit(): void {
-    this.authService.state$.subscribe((state) => {
-      if (state.id) {
-        this.articulosService.getMisArticulos(state.id);
-      }
-    });
+    const currentState = this.authService.currentState;
+    if (currentState?.id) {
+      this.articulosService.getMisArticulos(currentState.id);
+    }
+
+    this.filtersService
+      .getCategorias()
+      .subscribe((categorias) => (this.categorias = categorias));
+
+    this.filtersService
+      .getEstados()
+      .subscribe((estados) => (this.estados = estados));
+
+    this.filtersService
+      .getTiposTransaccion()
+      .subscribe((tipos) => (this.tiposTransaccion = tipos));
 
     this.menuItems = [
       {

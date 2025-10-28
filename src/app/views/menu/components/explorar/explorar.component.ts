@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
+import { FilterOption } from 'src/app/shared/models/filter-models';
+import { FiltersService } from 'src/app/shared/services/filters.service';
 import { Articulo } from '../mis-articulos/models/articulo';
 import { ExplorarService } from './services/explorar.service';
 
@@ -11,21 +13,31 @@ import { ExplorarService } from './services/explorar.service';
 })
 export class ExplorarComponent implements OnInit {
   searchTerm: string = '';
-
   isOpen: boolean = false;
-
-  opciones = [
-    { label: 'Solicitudes', value: 'solicitudes' },
-    { label: 'Préstamos', value: 'prestamos' },
-  ];
+  categorias: FilterOption[] = [];
+  estados: FilterOption[] = [];
+  tiposTransaccion: FilterOption[] = [];
 
   constructor(
-    private dialogService$: DialogService,
-    private explorarService: ExplorarService
+    public dialogService$: DialogService,
+    public explorarService: ExplorarService,
+    private filtersService: FiltersService
   ) {}
 
   ngOnInit(): void {
     this.explorarService.getArticulos();
+
+    this.filtersService
+      .getCategorias()
+      .subscribe((categorias) => (this.categorias = categorias));
+
+    this.filtersService
+      .getEstados()
+      .subscribe((estados) => (this.estados = estados));
+
+    this.filtersService
+      .getTiposTransaccion()
+      .subscribe((tipos) => (this.tiposTransaccion = tipos));
   }
 
   get filtro() {

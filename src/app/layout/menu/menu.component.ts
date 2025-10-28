@@ -21,15 +21,19 @@ export class MenuComponent {
   @Output() logoutClick = new EventEmitter<void>();
 
   onMenuItemClick(item: MenuItem) {
-    this.menuItemClick.emit(item);
-  }
+    if (item.route) {
+      // Si tiene ruta, desactivar todos los ítems
+      this.menuItems.forEach((menuItem) => {
+        menuItem.active = false;
+        if (menuItem.children) {
+          menuItem.children.forEach((child) => (child.active = false));
+        }
+      });
 
-  toggleItem(item: MenuItem) {
-    if (item.children) {
-      item.expanded = !item.expanded;
-    } else {
-      this.onMenuItemClick(item);
+      // Activar el ítem seleccionado
+      item.active = true;
     }
+    this.menuItemClick.emit(item);
   }
 
   logout() {

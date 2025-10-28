@@ -58,14 +58,20 @@
   </div>
 
   <app-dropdown-field
-    label="Campo 2"
-    formControlName="campo2"
-    [options]="opciones"
+    label="Categoría"
+    formControlName="categoriaId"
+    [options]="categorias"
   ></app-dropdown-field>
 
-  <app-input-field
-    label="Campo 1"
-    formControlName="campo1"
-    placeholder="Ingrese valor para campo 1"
-  ></app-input-field>
+  <app-dropdown-field
+    label="Estado"
+    formControlName="estadoId"
+    [options]="estados"
+  ></app-dropdown-field>
+
+  <app-dropdown-field
+    label="Tipo de Transacción"
+    formControlName="tipoTransaccionId"
+    [options]="tiposTransaccion"
+  ></app-dropdown-field>
 </app-generic-filter>

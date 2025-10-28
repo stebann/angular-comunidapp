@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { FiltrosAPI } from '../../core/routes-api/filtros_api';
 import { HttpService } from '../../core/services/http.service';
 import { FilterOption } from '../models/filter-models';
@@ -15,31 +15,24 @@ interface RawFilter {
 export class FiltersService {
   constructor(private http: HttpService) {}
 
-  // Obtener categorías
-  async getCategorias(): Promise<FilterOption[]> {
-    const response = await firstValueFrom(
-      this.http.get<RawFilter[]>(FiltrosAPI.Categorias)
-    );
-    return this.mapToFilterOptions(response);
+  getCategorias(): Observable<FilterOption[]> {
+    return this.http
+      .get<RawFilter[]>(FiltrosAPI.Categorias)
+      .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
-  // Obtener estados
-  async getEstados(): Promise<FilterOption[]> {
-    const response = await firstValueFrom(
-      this.http.get<RawFilter[]>(FiltrosAPI.Estados)
-    );
-    return this.mapToFilterOptions(response);
+  getEstados(): Observable<FilterOption[]> {
+    return this.http
+      .get<RawFilter[]>(FiltrosAPI.Estados)
+      .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
-  // Obtener tipos de transacción
-  async getTiposTransaccion(): Promise<FilterOption[]> {
-    const response = await firstValueFrom(
-      this.http.get<RawFilter[]>(FiltrosAPI.Tipos)
-    );
-    return this.mapToFilterOptions(response);
+  getTiposTransaccion(): Observable<FilterOption[]> {
+    return this.http
+      .get<RawFilter[]>(FiltrosAPI.Tipos)
+      .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
-  // Método privado para mapear la respuesta a FilterOption[]
   private mapToFilterOptions(data: RawFilter[]): FilterOption[] {
     return data.map((item) => ({
       value: String(item.id),

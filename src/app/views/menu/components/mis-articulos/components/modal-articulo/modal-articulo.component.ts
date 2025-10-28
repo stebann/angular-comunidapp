@@ -29,17 +29,18 @@ export class ModalArticuloComponent implements OnInit {
     private articulosService: MisArticulosService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    // Cargar todos los filtros en paralelo
-    const [categorias, estados, tipos] = await Promise.all([
-      this.filtersService.getCategorias(),
-      this.filtersService.getEstados(),
-      this.filtersService.getTiposTransaccion(),
-    ]);
+  ngOnInit(): void {
+    this.filtersService
+      .getCategorias()
+      .subscribe((categorias) => (this.categorias = categorias));
 
-    this.categorias = categorias;
-    this.estados = estados;
-    this.tiposTransaccion = tipos;
+    this.filtersService
+      .getEstados()
+      .subscribe((estados) => (this.estados = estados));
+
+    this.filtersService
+      .getTiposTransaccion()
+      .subscribe((tipos) => (this.tiposTransaccion = tipos));
 
     // Observar cambios en el tipo de transacción
     this.form.get('tipoTransaccionId')?.valueChanges.subscribe((value) => {
