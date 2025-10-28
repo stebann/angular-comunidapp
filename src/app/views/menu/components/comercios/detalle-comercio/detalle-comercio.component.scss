@@ -1,4 +1,3 @@
-// Vista de detalle completa
 .comercio-detalle {
   display: flex;
   flex-direction: column;
@@ -16,7 +15,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-// Izquierda: Botón + Info del comercio
 .header-left {
   display: flex;
   align-items: center;
@@ -67,7 +65,6 @@
   }
 }
 
-// Centro: Búsqueda
 .header-center {
   flex: 1;
   display: flex;
@@ -116,7 +113,6 @@
   }
 }
 
-// Derecha: Botones de acción
 .header-right {
   display: flex;
   gap: 0.75rem;
@@ -129,7 +125,6 @@
   overflow: hidden;
 }
 
-// Sidebar: Header + Categorías
 .sidebar-comercio {
   width: 280px;
   min-width: 280px;
@@ -276,7 +271,7 @@
 
 .articulos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
 }
 
@@ -347,4 +342,3 @@
     grid-template-columns: 1fr;
   }
 }
-
