@@ -72,6 +72,8 @@
             [view]="viewBarWeek"
             [scheme]="colorScheme"
             [animations]="true"
+            [showDataLabel]="true"
+            [dataLabelFormatting]="formatBarValue"
           ></ngx-charts-bar-vertical>
         </div>
         <div class="custom-legend right">
@@ -102,6 +104,7 @@
             [view]="viewPieGestiones"
             [scheme]="colorScheme"
             [animations]="true"
+            [labelFormatting]="formatPieLabel"
           ></ngx-charts-pie-chart>
         </div>
         <div class="custom-legend right wide">
@@ -113,7 +116,9 @@
                   colorScheme.domain[i % colorScheme.domain.length]
                 "
               ></span>
-              {{ d.name }}
+              {{ d.name }} — {{ d.value }} ({{
+                getResumenGestionesPercent(d.value)
+              }}%)
             </span>
           </ng-container>
         </div>

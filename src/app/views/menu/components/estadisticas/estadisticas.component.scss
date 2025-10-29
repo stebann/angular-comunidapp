@@ -150,6 +150,12 @@
           white-space: nowrap;
         }
 
+        &.right {
+          .legend-item {
+            font-size: 14px;
+          }
+        }
+
         .legend-dot {
           width: 10px;
           height: 10px;

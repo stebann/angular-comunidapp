@@ -91,6 +91,28 @@ export class EstadisticasComponent implements OnInit {
     return `${value}%`;
   }
 
+  // Etiquetas y tooltips para gráficas
+  formatBarValue(value: number): string {
+    return `${value}`;
+  }
+
+  get resumenGestionesTotal(): number {
+    return this.resumenGestiones.reduce(
+      (acc, it) => acc + (Number(it?.value) || 0),
+      0
+    );
+  }
+
+  getResumenGestionesPercent(value: number): string {
+    const total = this.resumenGestionesTotal;
+    if (!total) return '0';
+    return ((value * 100) / total).toFixed(0);
+  }
+
+  formatPieLabel = (label: string, value: number): string => {
+    return `${label} (${value} · ${this.getResumenGestionesPercent(value)}%)`;
+  };
+
   // Tarjetas de insights inferiores
   insights = [
     {
