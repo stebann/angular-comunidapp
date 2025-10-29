@@ -25,12 +25,22 @@
   flex: 1;
 
   img {
-    height: 40px;
+    height: 60px;
+    width: auto;
+    object-fit: contain;
   }
 
   span {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-800),
+      var(--color-primary-600)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 }
 

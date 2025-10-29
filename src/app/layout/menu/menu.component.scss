@@ -12,6 +12,23 @@
   position: relative;
   overflow: hidden;
 
+  .sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--surface-border);
+    margin-top: auto;
+    text-align: center;
+
+    .footer-logo {
+      max-width: 100px;
+      height: auto;
+      transition: all 0.3s ease;
+
+      &.small-logo {
+        max-width: 40px;
+      }
+    }
+  }
+
   &.sidebar-collapsed {
     width: 4.375rem;
 
