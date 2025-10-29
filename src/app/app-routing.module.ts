@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () =>
+      import('./views/landing/landing.module').then((m) => m.LandingModule),
+  },
+  {
     path: 'auth',
     loadChildren: () =>
       import('./views/auth/auth.module').then((m) => m.AuthModule),
@@ -13,14 +18,14 @@ const routes: Routes = [
       import('./layout/layout.module').then((m) => m.LayoutModule),
   },
   {
-    path: '',
-    redirectTo: 'auth',
+    path: '**',
+    redirectTo: '',
     pathMatch: 'full',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

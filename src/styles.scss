@@ -29,19 +29,33 @@
   --spacing-2xl: 3rem; /* 48px */
 
   /* Variables de colores */
-  --color-primary: #0aa1fc;
-  --color-primary-rgb: 10, 161, 252;
-  --blue-start: #026dfc;
-  --blue-end: #11cefc;
-  --color-secondary: #6c757d;
-  --color-success: #28a745;
-  --color-danger: #dc3545;
-  --color-warning: #ffc107;
-  --color-info: #17a2b8;
+  --color-primary: #10b981;
+  --color-primary-rgb: 16, 185, 129;
+  --green-start: #00c853;
+  --green-end: #10b981;
+  --color-secondary: #64748b;
+  --color-success: #00c853;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #0ea5e9;
   --color-light: #f8f9fa;
-  --color-dark: #343a40;
+  --color-dark: #334155;
   --color-white: #ffffff;
   --color-black: #000000;
+
+  /* Variables adicionales de la paleta verde */
+  --color-primary-light: #34d399;
+  --color-primary-dark: #059669;
+  --color-primary-50: #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
 
   /* Variables de bordes */
   --border-radius-sm: 0.25rem;
@@ -125,7 +139,7 @@ a {
 }
 
 a:hover {
-  color: darken(#0aa1fc, 10%);
+  color: var(--color-primary-dark);
 }
 
 /* Configuración de botones */
@@ -272,7 +286,7 @@ select {
 
 .p-app-modal {
   .p-dialog-header {
-    background: var(--blue-start);
+    background: var(--color-primary);
     color: var(--color-white);
   }
   .p-dialog-content {

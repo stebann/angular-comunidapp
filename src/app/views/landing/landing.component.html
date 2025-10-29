@@ -1,0 +1,44 @@
+<div class="landing-container">
+  <nav class="navbar">
+    <div class="logo">
+      <img src="assets/logo.png" alt="Comunidapp" />
+      <span>Comunidapp</span>
+    </div>
+    <div class="nav-center">
+      <a href="#">Inicio</a>
+      <a href="#">Quiénes Somos</a>
+      <a href="#">Cómo Funciona</a>
+      <a href="#">Contacto</a>
+    </div>
+    <div class="nav-buttons">
+      <button class="login-btn" (click)="navigateToLogin()">
+        Iniciar Sesión
+      </button>
+      <button class="register-btn" (click)="navigateToRegister()">
+        Registrarse
+      </button>
+    </div>
+  </nav>
+
+  <main class="hero-section">
+    <div class="hero-content">
+      <h1>
+        Comparte Más, Desperdicia<br />
+        Menos.
+      </h1>
+      <h2 class="subtitle">Conecta Tu Comunidad.</h2>
+      <p class="description">
+        Comunidapp es la plataforma para compartir recursos, desde herramientas
+        hasta libros, fomentando un vecindario más fuerte y sostenible.
+      </p>
+      <div class="cta-buttons">
+        <button class="primary-btn" (click)="navigateToRegister()">
+          Comienza Gratis
+        </button>
+        <button class="secondary-btn" (click)="navigateToAbout()">
+          Saber Más
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
