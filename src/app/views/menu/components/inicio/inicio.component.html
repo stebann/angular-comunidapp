@@ -1,0 +1,91 @@
+<div class="inicio-container">
+  <!-- Hero de bienvenida -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1>¡Bienvenido a Comunidapp!</h1>
+      <p class="subtitle">
+        Comparte, intercambia y conecta con tu comunidad de forma simple y
+        segura.
+      </p>
+
+      <div class="hero-actions">
+        <app-button
+          type="primary"
+          size="md"
+          icon="pi pi-search"
+          routerLink="/app/explorar"
+        >
+          Explorar artículos
+        </app-button>
+        <app-button
+          type="outline-primary"
+          size="md"
+          icon="pi pi-plus"
+          routerLink="/app/mis-articulos"
+        >
+          Publicar artículo
+        </app-button>
+      </div>
+
+      <div class="hero-meta">
+        <span><i class="pi pi-users"></i> Red activa</span>
+        <span><i class="pi pi-shield"></i> Intercambios seguros</span>
+        <span><i class="pi pi-star"></i> Reputación colaborativa</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-illustration">
+        <i class="pi pi-comments"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Acciones rápidas -->
+  <section class="quick-actions">
+    <h2>Acciones rápidas</h2>
+    <div class="qa-grid">
+      <button class="qa" routerLink="/app/explorar">
+        <i class="pi pi-compass"></i>
+        <span>Explorar</span>
+      </button>
+      <button class="qa" routerLink="/app/mis-articulos">
+        <i class="pi pi-box"></i>
+        <span>Mis artículos</span>
+      </button>
+      <button class="qa" routerLink="/app/mis-gestiones">
+        <i class="pi pi-inbox"></i>
+        <span>Mis gestiones</span>
+      </button>
+      <button class="qa" routerLink="/app/comercios">
+        <i class="pi pi-building"></i>
+        <span>Comercios</span>
+      </button>
+      <button class="qa" routerLink="/app/estadisticas">
+        <i class="pi pi-chart-bar"></i>
+        <span>Estadísticas</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Beneficios clave -->
+  <section class="benefits">
+    <div class="benefit">
+      <i class="pi pi-send"></i>
+      <h3>Solicitudes ágiles</h3>
+      <p>
+        Crea y responde solicitudes en segundos con notificaciones en tiempo
+        real.
+      </p>
+    </div>
+    <div class="benefit">
+      <i class="pi pi-tag"></i>
+      <h3>Publica en minutos</h3>
+      <p>Sube tus artículos con imágenes, precio o préstamo y categoría.</p>
+    </div>
+    <div class="benefit">
+      <i class="pi pi-thumbs-up"></i>
+      <h3>Confianza</h3>
+      <p>Reputación y estado de los artículos para tomar mejores decisiones.</p>
+    </div>
+  </section>
+</div>
