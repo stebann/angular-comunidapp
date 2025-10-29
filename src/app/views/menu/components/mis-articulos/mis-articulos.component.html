@@ -6,7 +6,7 @@
     <app-button
       type="outline-primary"
       size="sm"
-      icon="pi pi-filter"
+      icon="fas fa-sliders-h"
       (clicked)="openFilters()"
     >
       Filtros
@@ -14,7 +14,7 @@
     <app-button
       type="primary"
       size="sm"
-      icon="pi pi-plus"
+      icon="fas fa-plus"
       (clicked)="openCreateModal()"
     >
       Agregar Artículo
@@ -33,7 +33,7 @@
     </div>
     <ng-template #noArticulos>
       <app-empty-placeholder
-        icon="pi pi-box"
+        icon="box-archive"
         title="No tienes artículos"
         description="Cuando publiques artículos aparecerán aquí"
       ></app-empty-placeholder>

@@ -26,7 +26,7 @@
       <app-button
         type="outline-primary"
         size="sm"
-        icon="pi pi-filter"
+        icon="fas fa-sliders-h"
         (clicked)="openFilters()"
       >
         Filtros
@@ -41,7 +41,7 @@
         [class.active]="activeTab === 'solicitudes'"
         (click)="onTabChange('solicitudes')"
       >
-        <i class="pi pi-inbox" aria-hidden="true"></i>
+        <i class="fas fa-envelope" aria-hidden="true"></i>
         <span>Solicitudes</span>
         <span class="badge">{{ getTotalSolicitudes() }}</span>
       </button>
@@ -50,7 +50,7 @@
         [class.active]="activeTab === 'prestamos'"
         (click)="onTabChange('prestamos')"
       >
-        <i class="pi pi-book" aria-hidden="true"></i>
+        <i class="fas fa-handshake" aria-hidden="true"></i>
         <span>Préstamos</span>
         <span class="badge">{{ getTotalPrestamos() }}</span>
       </button>
@@ -71,7 +71,7 @@
 
       <ng-template #noSolicitudes>
         <app-empty-placeholder
-          [icon]="activeTab === 'solicitudes' ? 'pi pi-inbox' : 'pi pi-book'"
+          [icon]="activeTab === 'solicitudes' ? 'envelope' : 'handshake'"
           [title]="getNoItemsTitle()"
           [description]="getNoItemsMessage()"
         ></app-empty-placeholder>
