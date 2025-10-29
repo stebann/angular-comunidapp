@@ -42,6 +42,98 @@
   </div>
 </div>
 
+<div class="estadisticas-container">
+  <div class="insights-grid">
+    <div class="insight-card" *ngFor="let it of insights">
+      <i class="pi" [ngClass]="it.icon" aria-hidden="true"></i>
+      <div class="content">
+        <h5 class="value">{{ it.value }}</h5>
+        <p class="title">{{ it.title }}</p>
+        <span class="hint">{{ it.hint }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="estadisticas-container">
+  <div class="charts-row-60-40">
+    <div class="chart-card">
+      <h4>Actividad semanal</h4>
+      <div class="chart-body">
+        <div class="chart-area">
+          <ngx-charts-bar-vertical
+            [results]="semanaActividad"
+            [legend]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="true"
+            [yAxisLabel]="'Cantidad'"
+            [view]="viewBarWeek"
+            [scheme]="colorScheme"
+            [animations]="true"
+          ></ngx-charts-bar-vertical>
+        </div>
+        <div class="custom-legend right">
+          <ng-container *ngFor="let d of semanaActividad; let i = index">
+            <span class="legend-item">
+              <span
+                class="legend-dot"
+                [style.background]="
+                  colorScheme.domain[i % colorScheme.domain.length]
+                "
+              ></span>
+              {{ d.name }}
+            </span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h4>Resumen de gestiones</h4>
+      <div class="chart-body">
+        <div class="chart-area">
+          <ngx-charts-pie-chart
+            [results]="resumenGestiones"
+            [legend]="false"
+            [labels]="true"
+            [doughnut]="true"
+            [arcWidth]="0.25"
+            [view]="viewPieGestiones"
+            [scheme]="colorScheme"
+            [animations]="true"
+          ></ngx-charts-pie-chart>
+        </div>
+        <div class="custom-legend right wide">
+          <ng-container *ngFor="let d of resumenGestiones; let i = index">
+            <span class="legend-item">
+              <span
+                class="legend-dot"
+                [style.background]="
+                  colorScheme.domain[i % colorScheme.domain.length]
+                "
+              ></span>
+              {{ d.name }}
+            </span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="estadisticas-container">
+  <div class="insights-grid">
+    <div class="insight-card" *ngFor="let it of insightsExtra">
+      <i class="pi" [ngClass]="it.icon" aria-hidden="true"></i>
+      <div class="content">
+        <h5 class="value">{{ it.value }}</h5>
+        <p class="title">{{ it.title }}</p>
+        <span class="hint">{{ it.hint }}</span>
+      </div>
+    </div>
+  </div>
+</div>
 <app-generic-filter
   [form]="filtro"
   [(isOpen)]="isOpen"

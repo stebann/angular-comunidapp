@@ -18,6 +18,58 @@ export class ExplorarComponent implements OnInit {
   estados: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
 
+  // Lista "quemada" para demo/presentación
+  private articulosMock: Articulo[] = [
+    {
+      id: 1,
+      titulo: 'Taladro Percutor Bosch',
+      descripcion: 'Taladro en excelente estado, ideal para trabajos en casa.',
+      imagen: 'https://picsum.photos/seed/taladro/600/400',
+      categoria: 'Herramientas',
+      tipo: 'prestamo',
+      alt: 'Taladro percutor',
+      estado: 'Disponible',
+      fechaCreacion: new Date('2025-09-15'),
+    },
+    {
+      id: 2,
+      titulo: 'Bicicleta de Montaña',
+      descripcion: 'Bici MTB rin 29, poco uso, lista para salir.',
+      imagen: 'https://picsum.photos/seed/bicicleta/600/400',
+      categoria: 'Deportes',
+      tipo: 'venta',
+      alt: 'Bicicleta de montaña',
+      estado: 'Usado',
+      precio: 950000,
+      fechaCreacion: new Date('2025-10-01'),
+    },
+    {
+      id: 3,
+      titulo: 'Silla Ergonómica',
+      descripcion:
+        'Silla de oficina ergonómica, muy cómoda para largas jornadas.',
+      imagen: 'https://picsum.photos/seed/silla/600/400',
+      categoria: 'Hogar',
+      tipo: 'venta',
+      alt: 'Silla ergonómica',
+      estado: 'Como nuevo',
+      precio: 380000,
+      fechaCreacion: new Date('2025-08-20'),
+    },
+    {
+      id: 4,
+      titulo: 'Juego de Herramientas',
+      descripcion:
+        'Set completo de llaves y dados. Perfecto para mecánica ligera.',
+      imagen: 'https://picsum.photos/seed/herramientas/600/400',
+      categoria: 'Herramientas',
+      tipo: 'prestamo',
+      alt: 'Juego de herramientas',
+      estado: 'Disponible',
+      fechaCreacion: new Date('2025-07-10'),
+    },
+  ];
+
   constructor(
     public dialogService$: DialogService,
     public explorarService: ExplorarService,
@@ -25,7 +77,7 @@ export class ExplorarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.explorarService.getArticulos();
+    // Para demo: no llamar servicio remoto; se usa lista mock
 
     this.filtersService
       .getCategorias()
@@ -45,7 +97,15 @@ export class ExplorarComponent implements OnInit {
   }
 
   get articulos(): any[] {
-    return this.explorarService.articulos;
+    const term = this.searchTerm?.trim().toLowerCase();
+    if (!term) {
+      return this.articulosMock;
+    }
+    return this.articulosMock.filter(
+      (a) =>
+        a.titulo.toLowerCase().includes(term) ||
+        a.descripcion.toLowerCase().includes(term)
+    );
   }
 
   openFilters() {
@@ -53,7 +113,7 @@ export class ExplorarComponent implements OnInit {
   }
 
   onFiltersApplied(): void {
-    this.explorarService.filtrar();
+    // Para demo: filtros avanzados deshabilitados; ya se filtra por searchTerm
   }
 
   abrirModalArticulo(articulo: Articulo): void {

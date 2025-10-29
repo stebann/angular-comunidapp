@@ -35,7 +35,14 @@
           class="comercio-card"
         >
           <div class="comercio-imagen" (click)="abrirDetalleComercio(comercio)">
-            <img [src]="comercio.imagen" [alt]="comercio.nombre" />
+            <img
+              [src]="comercio.imagen"
+              [alt]="comercio.nombre"
+              (error)="
+                comercio.imagen =
+                  'https://images.unsplash.com/photo-1529634896911-85f831d1b31a?auto=format&fit=crop&w=640&h=420&q=70'
+              "
+            />
           </div>
 
           <div class="comercio-info" (click)="abrirDetalleComercio(comercio)">

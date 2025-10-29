@@ -31,10 +31,17 @@
   <div class="solicitud-body">
     <div class="usuario-info">
       <div class="usuario-avatar">
-        <span class="iniciales">{{
-          esRecibida
-            ? solicitud.usuarioSolicitante.iniciales
-            : solicitud.usuarioPropietario.iniciales
+        <img
+          *ngIf="getAvatarSrc()"
+          [src]="getAvatarSrc()"
+          [alt]="
+            esRecibida
+              ? solicitud.usuarioSolicitante.nombre
+              : solicitud.usuarioPropietario.nombre
+          "
+        />
+        <span *ngIf="!getAvatarSrc()" class="iniciales">{{
+          getUsuarioIniciales()
         }}</span>
       </div>
       <div class="usuario-details">

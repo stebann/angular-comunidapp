@@ -22,6 +22,45 @@ export class MisArticulosComponent implements OnInit {
   estados: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
 
+  // Lista "quemada" para la demo de Mis Artículos
+  private misArticulosMock: Articulo[] = [
+    {
+      id: 101,
+      titulo: 'Laptop Lenovo ThinkPad',
+      descripcion: 'i5, 16GB RAM, SSD 512GB. Perfecta para desarrollo.',
+      imagen: 'https://picsum.photos/seed/laptop/600/400',
+      categoria: 'Tecnología',
+      tipo: 'venta',
+      alt: 'Laptop Lenovo',
+      estado: 'Como nuevo',
+      precio: 2100000,
+      fechaCreacion: new Date('2025-09-20'),
+    },
+    {
+      id: 102,
+      titulo: 'Taladro Black+Decker',
+      descripcion: 'Incluye brocas, funciona perfecto. Ideal para arreglos.',
+      imagen: 'https://picsum.photos/seed/taladro-mio/600/400',
+      categoria: 'Herramientas',
+      tipo: 'prestamo',
+      alt: 'Taladro Black Decker',
+      estado: 'Disponible',
+      fechaCreacion: new Date('2025-10-05'),
+    },
+    {
+      id: 103,
+      titulo: 'Silla Gamer',
+      descripcion: 'Reclinable, buen soporte lumbar. Color negro/rojo.',
+      imagen: 'https://picsum.photos/seed/silla-gamer/600/400',
+      categoria: 'Hogar',
+      tipo: 'venta',
+      alt: 'Silla gamer',
+      estado: 'Usado',
+      precio: 450000,
+      fechaCreacion: new Date('2025-08-28'),
+    },
+  ];
+
   constructor(
     public articulosService: MisArticulosService,
     private authService: AuthService,
@@ -30,10 +69,7 @@ export class MisArticulosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const currentState = this.authService.currentState;
-    if (currentState?.id) {
-      this.articulosService.getMisArticulos(currentState.id);
-    }
+    // Demo: no llamar servicio ni requerir usuario
 
     this.filtersService
       .getCategorias()
@@ -74,7 +110,17 @@ export class MisArticulosComponent implements OnInit {
   }
 
   get articulos(): any[] {
-    return this.articulosService.articulos;
+    const term = this.searchTerm?.trim().toLowerCase();
+    const base = (
+      !term
+        ? this.misArticulosMock
+        : this.misArticulosMock.filter(
+            (a) =>
+              a.titulo.toLowerCase().includes(term) ||
+              a.descripcion.toLowerCase().includes(term)
+          )
+    ).slice();
+    return base.sort((a, b) => a.titulo.localeCompare(b.titulo));
   }
 
   onEdit(): void {}
@@ -86,7 +132,7 @@ export class MisArticulosComponent implements OnInit {
   }
 
   onFiltersApplied(): void {
-    this.articulosService.filtrar();
+    // Demo: filtros avanzados sin lógica; ya se filtra por searchTerm
   }
 
   openCreateModal(): void {

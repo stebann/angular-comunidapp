@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComercioService } from '../services/comercio.service';
 
@@ -20,7 +20,8 @@ export class DetalleComercioComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private comercioService: ComercioService
+    private comercioService: ComercioService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   opciones = [
@@ -28,78 +29,67 @@ export class DetalleComercioComponent implements OnInit {
     { label: 'Préstamos', value: 'prestamos' },
   ];
 
-  // Datos de ejemplo de comercios
+  // Datos de ejemplo de comercios (alineados con la vista de lista)
   private comercios: any[] = [
     {
       id: 1,
-      nombre: 'Ferretería Don Pacho',
-      descripcion:
-        'Todo en materiales de construcción, herramientas y artículos para el hogar. Amplia variedad de productos de calidad para tus proyectos.',
+      nombre: 'Ferretería El Tornillo Feliz',
+      descripcion: 'Todo en herramientas y materiales para tu hogar.',
       categoria: 'Ferretería',
-      ubicacion: 'Calle Principal #123, Centro',
-      telefono: '+57 312 456 7890',
-      imagen:
-        'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop',
-      horario: 'Lun - Sáb: 8:00 AM - 7:00 PM',
+      ubicacion: 'Calle 123 #45-67',
+      telefono: '(1) 555 1234',
+      imagen: 'assets/elementor-placeholder-image.png',
+      horario: 'Lun - Sáb: 8:00 AM - 6:00 PM',
     },
     {
       id: 2,
-      nombre: 'Boutique Elegance',
-      descripcion:
-        'Moda femenina y accesorios de última temporada a precios justos. Vestidos elegantes, calzado y complementos de diseño exclusivo para todas las ocasiones.',
-      categoria: 'Moda',
-      ubicacion: 'Mall Plaza Local 45',
-      telefono: '+57 315 789 1234',
-      imagen:
-        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop',
-      horario: 'Lun - Sáb: 10:00 AM - 8:00 PM',
+      nombre: 'Cafetería Buen Grano',
+      descripcion: 'Café artesanal y repostería fresca todos los días.',
+      categoria: 'Cafetería',
+      ubicacion: 'Av. Central 10-20',
+      telefono: '(1) 555 5678',
+      imagen: 'assets/elementor-placeholder-image.png',
+      horario: 'Todos los días: 7:00 AM - 9:00 PM',
     },
     {
       id: 3,
-      nombre: 'Supermercado La Esperanza',
-      descripcion:
-        'Productos frescos, abarrotes y artículos de primera necesidad. Precios competitivos y atención personalizada todos los días de la semana.',
-      categoria: 'Supermercado',
-      ubicacion: 'Avenida Libertador Km 5',
-      telefono: '+57 310 234 5678',
-      imagen:
-        'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop',
-      horario: 'Lun - Dom: 7:00 AM - 9:00 PM',
+      nombre: 'BiciFix Taller',
+      descripcion: 'Reparación y mantenimiento de bicicletas.',
+      categoria: 'Taller',
+      ubicacion: 'Cra 7 #80-12',
+      telefono: '(1) 555 2468',
+      imagen: 'assets/elementor-placeholder-image.png',
+      horario: 'Lun - Vie: 9:00 AM - 6:00 PM',
     },
     {
       id: 4,
-      nombre: 'Farmacia San Miguel',
-      descripcion:
-        'Medicinas, productos de cuidado personal y servicios farmacéuticos. Atención con personal capacitado y amplio inventario de medicamentos y productos de salud.',
-      categoria: 'Farmacia',
-      ubicacion: 'Calle 15 #45-30',
-      telefono: '+57 318 567 8901',
-      imagen:
-        'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop',
-      horario: 'Lun - Dom: 8:00 AM - 10:00 PM',
-    },
-    {
-      id: 5,
-      nombre: 'TecnoStore',
-      descripcion:
-        'Electrónica, smartphones, computadores y accesorios tecnológicos. Garantía oficial, soporte técnico y las mejores marcas del mercado.',
-      categoria: 'Tecnología',
-      ubicacion: 'Centro Comercial Galerías, Local 12',
-      telefono: '+57 314 890 2345',
-      imagen:
-        'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop',
-      horario: 'Lun - Sáb: 9:00 AM - 8:00 PM',
+      nombre: 'Mercadito Verde',
+      descripcion: 'Frutas y verduras orgánicas de productores locales.',
+      categoria: 'Mercado',
+      ubicacion: 'Cll 50 #20-15',
+      telefono: '(1) 555 9753',
+      imagen: 'assets/elementor-placeholder-image.png',
+      horario: 'Mar - Dom: 7:00 AM - 4:00 PM',
     },
   ];
 
   ngOnInit() {
+    // Asignación inmediata por snapshot para evitar parpadeo
+    const idSnap = Number(this.route.snapshot.paramMap.get('id'));
+    if (!isNaN(idSnap)) {
+      this.comercioId = idSnap;
+      this.comercio = this.comercios.find((c) => c.id === this.comercioId);
+      this.cdr.detectChanges();
+    }
+
+    // Suscripción para cambios dinámicos de ruta (por si navegan dentro)
     this.route.params.subscribe((params) => {
       this.comercioId = +params['id'];
       this.comercio = this.comercios.find((c) => c.id === this.comercioId);
-
       if (!this.comercio) {
-        // Si no se encuentra el comercio, redirigir a la lista
         this.router.navigate(['/app/comercios']);
+      } else {
+        this.cdr.detectChanges();
       }
     });
   }
@@ -125,10 +115,7 @@ export class DetalleComercioComponent implements OnInit {
     { nombre: 'Materiales', icono: 'pi pi-box' },
     { nombre: 'Pinturas', icono: 'pi pi-palette' },
     { nombre: 'Electricidad', icono: 'pi pi-bolt' },
-    { nombre: 'Plomería', icono: 'pi pi-calculator' },
-    { nombre: 'Jardinería', icono: 'pi pi-home' },
     { nombre: 'Construcción', icono: 'pi pi-building' },
-    { nombre: 'Decoración', icono: 'pi pi-home' },
   ];
 
   get categorias(): { nombre: string; icono: string }[] {
@@ -177,8 +164,8 @@ export class DetalleComercioComponent implements OnInit {
         tipo: 'venta',
         precio: 45000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-09-28'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
         id: 2,
@@ -188,85 +175,85 @@ export class DetalleComercioComponent implements OnInit {
         tipo: 'venta',
         precio: 15000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-10-02'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
         id: 3,
         titulo: 'Pintura blanca',
         descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
+        categoria: 'Pinturas',
         tipo: 'venta',
         precio: 85000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-09-18'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
-        id: 3,
-        titulo: 'Pintura blanca',
-        descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
+        id: 4,
+        titulo: 'Destornillador estrella',
+        descripcion: 'Punta magnética, mango antideslizante.',
+        categoria: 'Herramientas',
         tipo: 'venta',
-        precio: 85000,
+        precio: 12000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-09-12'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
-        id: 3,
-        titulo: 'Pintura blanca',
-        descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
+        id: 5,
+        titulo: 'Guantes de trabajo',
+        descripcion: 'Protección resistente para trabajos pesados.',
+        categoria: 'Construcción',
         tipo: 'venta',
-        precio: 85000,
+        precio: 18000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-10-04'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
-        id: 3,
-        titulo: 'Pintura blanca',
-        descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
+        id: 6,
+        titulo: 'Cinta métrica 5m',
+        descripcion: 'Medición precisa con bloqueo automático.',
+        categoria: 'Herramientas',
         tipo: 'venta',
-        precio: 85000,
+        precio: 22000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-09-05'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
-        id: 3,
-        titulo: 'Pintura blanca',
-        descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
+        id: 7,
+        titulo: 'Brochas para pintar',
+        descripcion: 'Set de 3 brochas de cerdas suaves.',
+        categoria: 'Pinturas',
         tipo: 'venta',
-        precio: 85000,
+        precio: 26000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-08-30'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
-        id: 3,
-        titulo: 'Pintura blanca',
-        descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
+        id: 8,
+        titulo: 'Cable eléctrico 10m',
+        descripcion: 'Cable calibre 14 para instalaciones domésticas.',
+        categoria: 'Electricidad',
         tipo: 'venta',
-        precio: 85000,
+        precio: 39000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-09-22'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
       {
-        id: 3,
-        titulo: 'Pintura blanca',
-        descripcion: 'Galón de pintura blanca premium.',
-        categoria: 'Materiales',
+        id: 9,
+        titulo: 'Llave inglesa',
+        descripcion: 'Ajustable 10”, acero carbono.',
+        categoria: 'Herramientas',
         tipo: 'venta',
-        precio: 85000,
+        precio: 38000,
         estado: 'disponible',
-        fechaCreacion: new Date(),
-        imagen: '',
+        fechaCreacion: new Date('2025-09-08'),
+        imagen: 'assets/elementor-placeholder-image.png',
       },
     ];
   }

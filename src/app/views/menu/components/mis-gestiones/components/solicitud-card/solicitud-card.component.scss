@@ -181,11 +181,19 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 
   .iniciales {
     color: var(--color-white);
     font-weight: 600;
     font-size: var(--font-size-xs);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 }
 

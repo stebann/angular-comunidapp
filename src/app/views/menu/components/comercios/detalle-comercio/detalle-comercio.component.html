@@ -56,7 +56,10 @@
 
       <div class="comercio-header">
         <div class="comercio-avatar">
-          <img [src]="comercio.imagen" [alt]="comercio.nombre" />
+          <img
+            [src]="comercio.imagen || 'assets/elementor-placeholder-image.png'"
+            [alt]="comercio.nombre"
+          />
         </div>
         <h3 class="comercio-nombre-sidebar">{{ comercio.nombre }}</h3>
         <p class="comercio-categoria">{{ comercio.categoria }}</p>

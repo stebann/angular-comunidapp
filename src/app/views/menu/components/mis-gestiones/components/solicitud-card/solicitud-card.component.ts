@@ -117,6 +117,23 @@ export class SolicitudCardComponent {
     ) {
       return this.solicitud.articuloImagen;
     }
+    return 'https://picsum.photos/seed/solicitud/600/400';
+  }
+
+  getAvatarSrc(): string {
+    const usuario = this.esRecibida
+      ? this.solicitud.usuarioSolicitante
+      : this.solicitud.usuarioPropietario;
+    if (usuario && usuario.avatar && usuario.avatar.trim() !== '') {
+      return usuario.avatar;
+    }
     return '';
+  }
+
+  getUsuarioIniciales(): string {
+    const usuario = this.esRecibida
+      ? this.solicitud.usuarioSolicitante
+      : this.solicitud.usuarioPropietario;
+    return usuario?.iniciales || '';
   }
 }
