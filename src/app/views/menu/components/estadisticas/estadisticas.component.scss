@@ -21,21 +21,12 @@
         padding: 12px;
         border-radius: 50%;
 
-        &.fa-box {
-          background: rgba(54, 162, 235, 0.2);
-          color: #36a2eb;
-        }
-        &.fa-exchange-alt {
-          background: rgba(75, 192, 192, 0.2);
-          color: #4bc0c0;
-        }
-        &.fa-heart {
-          background: rgba(153, 102, 255, 0.2);
-          color: #9966ff;
-        }
+        &.fa-box,
+        &.fa-exchange-alt,
+        &.fa-heart,
         &.fa-star {
-          background: rgba(255, 159, 64, 0.2);
-          color: #ff9f40;
+          background: rgba(var(--color-primary-rgb), 0.1);
+          color: var(--color-primary);
         }
       }
 
@@ -47,7 +38,7 @@
         }
         p {
           margin: 5px 0 0;
-          color: #666;
+          color: var(--text-color-secondary);
           font-size: 14px;
         }
       }

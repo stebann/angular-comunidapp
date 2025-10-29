@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { RegisterService } from './services/register.service';
 
 @Component({
@@ -7,7 +8,14 @@ import { RegisterService } from './services/register.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  constructor(private registerService: RegisterService) {}
+  constructor(
+    private registerService: RegisterService,
+    private router: Router
+  ) {}
+
+  goToLanding(): void {
+    this.router.navigate(['/']);
+  }
 
   get registerForm() {
     return this.registerService.registerForm;

@@ -13,36 +13,35 @@ export class LayoutComponent {
   isUserMenuOpen = false;
 
   menuItems: MenuItem[] = [
-    { label: 'Inicio', route: 'inicio', icon: 'pi pi-home', active: false },
+    { label: 'Inicio', route: 'inicio', icon: 'fas fa-home', active: false },
     {
       label: 'Explorar',
       route: 'explorar',
-      icon: 'pi pi-compass',
+      icon: 'fas fa-compass',
       active: false,
     },
     {
       label: 'Mis Artículos',
       route: 'mis-articulos',
-      icon: 'pi pi-box',
+      icon: 'fas fa-box',
       active: false,
     },
     {
       label: 'Mis Gestiones',
       route: 'mis-gestiones',
-      icon: 'pi pi-list-check',
-
+      icon: 'fas fa-list-check',
       active: false,
     },
     {
       label: 'Comercios',
       route: 'comercios',
-      icon: 'pi pi-building',
+      icon: 'fas fa-store',
       active: false,
     },
     {
       label: 'Estadísticas',
       route: 'estadisticas',
-      icon: 'pi pi-chart-bar',
+      icon: 'fas fa-chart-bar',
       active: false,
     },
   ];

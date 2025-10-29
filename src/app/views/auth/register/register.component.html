@@ -1,8 +1,8 @@
 <div class="register-container">
   <div class="register-card">
-    <div class="register-header">
+    <div class="register-header" (click)="goToLanding()">
       <div class="logo-container">
-        <i class="pi pi-users"></i>
+        <i class="fas fa-users"></i>
       </div>
       <h1>ComunidApp</h1>
       <p>Crea tu cuenta</p>
@@ -20,7 +20,7 @@
             label="Nombre completo"
             placeholder="Ingresa tu nombre completo"
             type="text"
-            icon="pi pi-user"
+            icon="fas fa-user"
             [required]="true"
           ></app-input-field>
         </div>
@@ -30,7 +30,7 @@
             label="Usuario"
             placeholder="Elige un usuario"
             type="text"
-            icon="pi pi-at"
+            icon="fas fa-at"
             [required]="true"
           ></app-input-field>
         </div>
@@ -40,7 +40,7 @@
             label="Teléfono"
             placeholder="Número de teléfono"
             type="tel"
-            icon="pi pi-phone"
+            icon="fas fa-phone"
             [required]="true"
           ></app-input-field>
         </div>
@@ -53,7 +53,7 @@
             label="Correo electrónico"
             placeholder="Ingresa tu correo electrónico"
             type="email"
-            icon="pi pi-envelope"
+            icon="fas fa-envelope"
             [required]="true"
           ></app-input-field>
         </div>
@@ -63,7 +63,7 @@
             label="Dirección"
             placeholder="Ingresa tu dirección"
             type="text"
-            icon="pi pi-home"
+            icon="fas fa-home"
             [required]="true"
           ></app-input-field>
         </div>
@@ -76,7 +76,7 @@
             label="Contraseña"
             placeholder="Crea una contraseña"
             type="password"
-            icon="pi pi-lock"
+            icon="fas fa-lock"
             [required]="true"
             [showPasswordToggle]="true"
           ></app-input-field>
@@ -87,7 +87,7 @@
             label="Confirmar contraseña"
             placeholder="Confirma tu contraseña"
             type="password"
-            icon="pi pi-lock"
+            icon="fas fa-lock"
             [required]="true"
             [showPasswordToggle]="true"
           ></app-input-field>
@@ -106,7 +106,7 @@
           type="primary"
           [fullWidth]="true"
           [disabled]="registerForm.invalid"
-          icon="pi pi-user-plus"
+          icon="fas fa-user-plus"
           (clicked)="onSubmit()"
         >
           Crear Cuenta

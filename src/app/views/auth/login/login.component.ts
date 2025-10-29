@@ -19,4 +19,8 @@ export class LoginComponent {
       this.loginService.login();
     }
   }
+
+  goToLanding(): void {
+    this.router.navigate(['/landing']);
+  }
 }

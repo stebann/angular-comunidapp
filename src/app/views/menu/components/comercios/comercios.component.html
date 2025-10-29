@@ -9,7 +9,7 @@
       <app-button
         type="outline-primary"
         size="sm"
-        [icon]="soloFavoritos ? 'pi pi-star-fill' : 'pi pi-star'"
+        [icon]="soloFavoritos ? 'fas fa-star' : 'far fa-star'"
         (clicked)="toggleSoloFavoritos()"
         [ngClass]="{ 'active-favorites': soloFavoritos }"
       >
@@ -18,7 +18,7 @@
       <app-button
         type="outline-primary"
         size="sm"
-        icon="pi pi-filter"
+        icon="fas fa-sliders-h"
         (clicked)="openFilters()"
       >
         Filtros
@@ -45,9 +45,9 @@
               [class.active]="esFavorito(comercio.id)"
             >
               <i
-                class="pi"
-                [class.pi-star]="!esFavorito(comercio.id)"
-                [class.pi-star-fill]="esFavorito(comercio.id)"
+                [class.far]="!esFavorito(comercio.id)"
+                [class.fas]="esFavorito(comercio.id)"
+                class="fa-star"
               ></i>
             </button>
 
@@ -79,7 +79,7 @@
 
       <ng-template #noComercios>
         <app-empty-placeholder
-          icon="pi pi-building"
+          icon="fas fa-store"
           title="No hay comercios disponibles"
           description="Pronto verás negocios en tu comunidad aquí."
         ></app-empty-placeholder>

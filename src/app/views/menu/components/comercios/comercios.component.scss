@@ -36,7 +36,7 @@
 
   &:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-color: var(--primary-300);
+    border-color: var(--color-primary-300);
   }
 }
 
@@ -129,7 +129,6 @@
   font-weight: 700;
   width: fit-content;
 }
-
 
 .comercio-descripcion {
   margin: 0;
@@ -237,4 +236,3 @@
     height: 160px;
   }
 }
-
