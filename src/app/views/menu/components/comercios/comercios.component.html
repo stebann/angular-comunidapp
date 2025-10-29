@@ -78,11 +78,11 @@
       </div>
 
       <ng-template #noComercios>
-        <div class="no-comercios">
-          <i class="pi pi-building"></i>
-          <h3>No hay comercios disponibles</h3>
-          <p>Pronto verás negocios en tu comunidad aquí.</p>
-        </div>
+        <app-empty-placeholder
+          icon="pi pi-building"
+          title="No hay comercios disponibles"
+          description="Pronto verás negocios en tu comunidad aquí."
+        ></app-empty-placeholder>
       </ng-template>
     </div>
   </div>
@@ -103,12 +103,6 @@
       label="Fecha fin"
     ></app-input-date-field>
   </div>
-
-  <app-dropdown-field
-    label="Campo 2"
-    formControlName="campo2"
-    [options]="opciones"
-  ></app-dropdown-field>
 
   <app-input-field
     label="Campo 1"

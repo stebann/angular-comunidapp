@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { Gestiones } from './models/gestiones.model';
 import { MisGestionesService } from './services/mis-gestiones.service';
@@ -9,587 +11,70 @@ import { MisGestionesService } from './services/mis-gestiones.service';
   styleUrls: ['./mis-gestiones.component.scss'],
 })
 export class MisGestionesComponent implements OnInit {
-  constructor(
-    private filterService: FiltersService,
-    private misGestionesService: MisGestionesService
-  ) {}
-
-  ngOnInit() {}
-
   searchTerm: string = '';
   activeTab: 'solicitudes' | 'prestamos' = 'solicitudes';
   isRecibidas: boolean = true; // true = "me hacen", false = "yo hago"
   isOpen: boolean = false;
+
+  categorias: FilterOption[] = [];
+  estados: FilterOption[] = [];
+  tiposTransaccion: FilterOption[] = [];
 
   opciones = [
     { label: 'Solicitudes', value: 'solicitudes' },
     { label: 'Préstamos', value: 'prestamos' },
   ];
 
-  solicitudesRecibidas: Gestiones[] = [
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+  constructor(
+    private filterService: FiltersService,
+    public misGestionesService: MisGestionesService,
+    private authService: AuthService
+  ) {}
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+  ngOnInit() {
+    const currentState = this.authService.currentState;
+    if (currentState?.id) {
+      // Cargar según el tab activo
+      if (this.activeTab === 'solicitudes') {
+        this.misGestionesService.getSolicitudesUsuario(currentState.id);
+      } else {
+        this.misGestionesService.getPrestamosUsuario(currentState.id);
+      }
+    }
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+    // Cargar filtros
+    this.filterService
+      .getCategorias()
+      .subscribe((categorias) => (this.categorias = categorias));
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+    this.filterService
+      .getEstados()
+      .subscribe((estados) => (this.estados = estados));
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+    this.filterService
+      .getTiposTransaccion()
+      .subscribe((tipos) => (this.tiposTransaccion = tipos));
+  }
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+  get filtro() {
+    return this.misGestionesService.filtroGestiones;
+  }
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+  get solicitudesRecibidas() {
+    return this.misGestionesService.solicitudesRecibidas;
+  }
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+  get solicitudesEnviadas() {
+    return this.misGestionesService.solicitudesEnviadas;
+  }
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
+  get prestamosRecibidos() {
+    return this.misGestionesService.prestamosRecibidos;
+  }
 
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
-
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
-
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
-
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
-
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 2,
-      tipo: 'solicitud',
-      articuloId: 2,
-      articuloTitulo: 'Libro de Angular - Guía Completa',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Libros',
-      articuloTipo: 'prestamo',
-      articuloPrecio: 0,
-      usuarioSolicitante: {
-        id: 3,
-        nombre: 'Carlos Díaz',
-        iniciales: 'CD',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Soy estudiante de programación y me gustaría pedirte prestado el libro de Angular por unas semanas. Te lo devuelvo en perfecto estado.',
-
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-14'),
-      fechaLimite: new Date('2025-02-14'),
-    },
-  ];
-
-  solicitudesEnviadas: Gestiones[] = [
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 1,
-      articuloTitulo: 'Bicicleta de montaña Trek',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      articuloPrecio: 450000,
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Beltrán',
-        iniciales: 'AB',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Me interesa mucho tu bicicleta. ¿Podríamos negociar el precio? Estoy dispuesto a pagar $400,000.',
-
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-15'),
-      fechaActualizacion: new Date('2025-01-15'),
-    },
-    {
-      id: 2,
-      tipo: 'solicitud',
-      articuloId: 2,
-      articuloTitulo: 'Libro de Angular - Guía Completa',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Libros',
-      articuloTipo: 'prestamo',
-      articuloPrecio: 0,
-      usuarioSolicitante: {
-        id: 3,
-        nombre: 'Carlos Díaz',
-        iniciales: 'CD',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Hola! Soy estudiante de programación y me gustaría pedirte prestado el libro de Angular por unas semanas. Te lo devuelvo en perfecto estado.',
-
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-01-14'),
-      fechaLimite: new Date('2025-02-14'),
-    },
-    {
-      id: 3,
-      tipo: 'prestamo',
-      articuloId: 3,
-      articuloTitulo: 'Silla ergonómica de oficina',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop',
-      articuloCategoria: 'Muebles',
-      articuloTipo: 'prestamo',
-      articuloPrecio: 0,
-      usuarioSolicitante: {
-        id: 4,
-        nombre: 'María López',
-        iniciales: 'ML',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje:
-        'Tengo una mesa de escritorio que podría intercambiar por tu silla. ¿Te interesa ver fotos?',
-
-      estado: 'aceptada',
-      fechaCreacion: new Date('2025-01-10'),
-      fechaActualizacion: new Date('2025-01-12'),
-      articuloIntercambio: {
-        id: 5,
-        titulo: 'Mesa de escritorio moderna',
-        imagen: '',
-      },
-    },
-  ];
-
-  // Arrays para préstamos (datos de ejemplo)
-  prestamosRecibidos: Gestiones[] = [
-    {
-      id: 1,
-      tipo: 'prestamo',
-      articuloId: 1,
-      articuloTitulo: 'Libro de Angular - Guía Completa',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=300&fit=crop',
-      articuloCategoria: 'Libros',
-      articuloTipo: 'prestamo',
-      articuloPrecio: 0,
-      usuarioSolicitante: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 3,
-        nombre: 'Carlos Díaz',
-        iniciales: 'CD',
-        avatar: '',
-      },
-      mensaje: 'Te presto mi libro de Angular por 2 semanas.',
-      estado: 'activo',
-      fechaCreacion: new Date('2025-01-10'),
-      fechaLimite: new Date('2025-01-24'),
-    },
-  ];
-
-  prestamosOtorgados: Gestiones[] = [
-    {
-      id: 1,
-      tipo: 'prestamo',
-      articuloId: 1,
-      articuloTitulo: 'Silla ergonómica de oficina',
-      articuloImagen:
-        'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop',
-      articuloCategoria: 'Muebles',
-      articuloTipo: 'prestamo',
-      articuloPrecio: 0,
-      usuarioSolicitante: {
-        id: 4,
-        nombre: 'María López',
-        iniciales: 'ML',
-        avatar: '',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Esteban García',
-        iniciales: 'EG',
-        avatar: '',
-      },
-      mensaje: 'Te presto mi silla por 1 mes.',
-      estado: 'activo',
-      fechaCreacion: new Date('2025-01-12'),
-      fechaLimite: new Date('2025-02-12'),
-    },
-  ];
+  get prestamosOtorgados() {
+    return this.misGestionesService.prestamosOtorgados;
+  }
 
   get solicitudesActuales(): Gestiones[] {
     if (this.activeTab === 'solicitudes') {
@@ -619,10 +104,6 @@ export class MisGestionesComponent implements OnInit {
     );
   }
 
-  get filtro() {
-    return this.misGestionesService.filtroGestiones;
-  }
-
   openFilters() {
     this.isOpen = true;
   }
@@ -633,6 +114,14 @@ export class MisGestionesComponent implements OnInit {
 
   onTabChange(tab: 'solicitudes' | 'prestamos'): void {
     this.activeTab = tab;
+    const currentState = this.authService.currentState;
+    if (currentState?.id) {
+      if (tab === 'solicitudes') {
+        this.misGestionesService.getSolicitudesUsuario(currentState.id);
+      } else {
+        this.misGestionesService.getPrestamosUsuario(currentState.id);
+      }
+    }
   }
 
   toggleView(): void {
@@ -675,15 +164,7 @@ export class MisGestionesComponent implements OnInit {
     }
   }
 
-  onSolicitudClick(solicitud: Gestiones): void {
-    console.log('Solicitud clickeada:', solicitud);
-    // Aquí abrirías el modal de detalle
-  }
-
-  onSolicitudAction(event: { action: string; solicitud: Gestiones }): void {
-    console.log('Acción:', event.action, 'Solicitud:', event.solicitud);
-    // Aquí manejarías las acciones (aceptar, rechazar, cancelar)
-  }
+  solicitudDetalle(solicitud: Gestiones): void {}
 
   getNoItemsTitle(): string {
     if (this.activeTab === 'solicitudes') {

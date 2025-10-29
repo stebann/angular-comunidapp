@@ -8,7 +8,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface DropdownOption {
-  value: string;
+  value: string | number;
   label: string;
 }
 
@@ -33,19 +33,19 @@ export class DropdownFieldComponent implements ControlValueAccessor {
   @Input() errorMessage: string = '';
   @Input() success: boolean = false;
 
-  @Output() selectionChange = new EventEmitter<string>();
+  @Output() selectionChange = new EventEmitter<string | number>();
 
-  value: string = '';
+  value: string | number = '';
   isDisabled: boolean = false;
 
-  private onChange = (value: string) => {};
+  private onChange = (value: string | number) => {};
   private onTouched = () => {};
 
-  writeValue(value: string): void {
+  writeValue(value: string | number): void {
     this.value = value || '';
   }
 
-  registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: string | number) => void): void {
     this.onChange = fn;
   }
 

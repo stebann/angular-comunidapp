@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { FiltrosAPI } from '../../core/routes-api/filtros_api';
 import { HttpService } from '../../core/services/http.service';
-import { FilterOption } from '../models/filter-models';
-
-interface RawFilter {
-  id: string | number;
-  nombre: string;
-}
+import { FilterOption, IFilter } from '../models/filter-models';
 
 @Injectable({
   providedIn: 'root',
@@ -17,25 +12,25 @@ export class FiltersService {
 
   getCategorias(): Observable<FilterOption[]> {
     return this.http
-      .get<RawFilter[]>(FiltrosAPI.Categorias)
+      .get<IFilter[]>(FiltrosAPI.Categorias)
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
   getEstados(): Observable<FilterOption[]> {
     return this.http
-      .get<RawFilter[]>(FiltrosAPI.Estados)
+      .get<IFilter[]>(FiltrosAPI.Estados)
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
   getTiposTransaccion(): Observable<FilterOption[]> {
     return this.http
-      .get<RawFilter[]>(FiltrosAPI.Tipos)
+      .get<IFilter[]>(FiltrosAPI.Tipos)
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
-  private mapToFilterOptions(data: RawFilter[]): FilterOption[] {
+  private mapToFilterOptions(data: IFilter[]): FilterOption[] {
     return data.map((item) => ({
-      value: String(item.id),
+      value: item.id,
       label: item.nombre,
     }));
   }
