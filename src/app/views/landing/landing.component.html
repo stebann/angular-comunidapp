@@ -5,10 +5,10 @@
       <span>ComunidApp</span>
     </div>
     <div class="nav-center">
-      <a href="#">Inicio</a>
-      <a href="#">Quiénes Somos</a>
-      <a href="#">Cómo Funciona</a>
-      <a href="#">Contacto</a>
+      <a href="#top">Inicio</a>
+      <a href="#about">Quiénes Somos</a>
+      <a href="#how">Cómo Funciona</a>
+      <a href="#contact">Contacto</a>
     </div>
     <div class="nav-buttons">
       <button class="login-btn" (click)="navigateToLogin()">
@@ -20,7 +20,7 @@
     </div>
   </nav>
 
-  <main class="hero-section">
+  <main class="hero-section" id="top">
     <div class="hero-content">
       <h1>
         Comparte Más, Desperdicia<br />
@@ -41,4 +41,89 @@
       </div>
     </div>
   </main>
+
+  <section id="about" class="section about">
+    <div class="section-content">
+      <h2>Quiénes Somos</h2>
+      <p>
+        Conectamos a las personas para compartir recursos y fortalecer la
+        economía local. Nuestra misión es impulsar comunidades más colaborativas
+        y sostenibles.
+      </p>
+
+      <div class="cards-grid">
+        <div class="feature-card">
+          <div class="icon-circle green"><i class="pi pi-users"></i></div>
+          <h3>Comunidad</h3>
+          <p>
+            Unimos vecinos con intereses reales y necesidades complementarias.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-circle blue"><i class="pi pi-shield"></i></div>
+          <h3>Confianza</h3>
+          <p>Perfiles, reputación y trazabilidad para experiencias seguras.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon-circle purple"><i class="pi pi-replay"></i></div>
+          <h3>Economía Circular</h3>
+          <p>Damos más vida a los recursos reduciendo costos y desperdicios.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="section how">
+    <div class="section-content">
+      <h2>Cómo Funciona</h2>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <span class="badge">1</span>
+          <h4>Regístrate</h4>
+          <p>Crea tu cuenta y configura tu perfil en minutos.</p>
+        </div>
+        <div class="step-card">
+          <span class="badge">2</span>
+          <h4>Publica o Explora</h4>
+          <p>Sube artículos o busca lo que necesitas en tu zona.</p>
+        </div>
+        <div class="step-card">
+          <span class="badge">3</span>
+          <h4>Gestiona</h4>
+          <p>Envía solicitudes, acuerda y realiza el intercambio.</p>
+        </div>
+        <div class="step-card">
+          <span class="badge">4</span>
+          <h4>Valora</h4>
+          <p>Califica la experiencia y construye reputación.</p>
+        </div>
+      </div>
+
+      <!-- CTA inferior removida por petición -->
+    </div>
+  </section>
+
+  <section id="contact" class="section contact">
+    <div class="section-content">
+      <h2>Contacto</h2>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="icon-circle blue"><i class="pi pi-envelope"></i></div>
+          <h4>Escríbenos</h4>
+          <p>comunidapp@example.com</p>
+        </div>
+        <div class="contact-card">
+          <div class="icon-circle green"><i class="pi pi-whatsapp"></i></div>
+          <h4>WhatsApp</h4>
+          <p>+57 300 000 0000</p>
+        </div>
+        <div class="contact-card">
+          <div class="icon-circle purple"><i class="pi pi-map-marker"></i></div>
+          <h4>Ubicación</h4>
+          <p>Tu ciudad, tu barrio</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
