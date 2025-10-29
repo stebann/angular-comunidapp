@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { FilterOption } from '../../../../../../shared/models/filter-models';
 import { FiltersService } from '../../../../../../shared/services/filters.service';
 import { MisArticulosService } from '../../services/mis-articulos.service';
@@ -26,7 +27,8 @@ export class ModalArticuloComponent implements OnInit {
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private filtersService: FiltersService,
-    private articulosService: MisArticulosService
+    private articulosService: MisArticulosService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -135,30 +137,34 @@ export class ModalArticuloComponent implements OnInit {
     this.currentImageIndex = index;
   }
 
-  crearArticulo(): void {
-    this.form.get('imagenes')?.setValue(this.selectedFiles);
-    this.form.markAllAsTouched();
-    if (this.form.invalid) return;
-    this.ref.close(this.form.value);
-  }
+  crearArticulo(): void {}
 
   private agregarArchivos(files: File[]): void {
     const espacioDisponible = 5 - this.previewImages.length;
     if (espacioDisponible <= 0) return;
 
-    // Tomar solo los archivos que podemos agregar
     const archivosParaAgregar = files.slice(0, espacioDisponible);
+    const imagenesBase64: string[] = [];
 
     for (const file of archivosParaAgregar) {
       if (!file.type.startsWith('image/')) continue;
+
       this.selectedFiles.push(file);
       const reader = new FileReader();
+
       reader.onload = () => {
-        this.previewImages.push(reader.result as string);
+        const base64String = reader.result as string;
+        this.previewImages.push(base64String);
+        imagenesBase64.push(base64String);
+
+        // Actualizamos el form cuando se han procesado todas las imágenes
+        if (imagenesBase64.length === archivosParaAgregar.length) {
+          this.form.get('imagenes')?.setValue(imagenesBase64);
+          this.form.get('imagenes')?.markAsDirty();
+        }
       };
+
       reader.readAsDataURL(file);
     }
-    this.form.get('imagenes')?.setValue(this.selectedFiles);
-    this.form.get('imagenes')?.markAsDirty();
   }
 }

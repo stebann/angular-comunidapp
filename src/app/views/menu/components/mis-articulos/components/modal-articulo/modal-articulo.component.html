@@ -90,7 +90,7 @@
     </div>
 
     <div class="right">
-      <form [formGroup]="form" (ngSubmit)="crearArticulo()" class="form-grid">
+      <form [formGroup]="form" class="form-grid">
         <app-input-field
           label="Nombre del Artículo"
           formControlName="titulo"
@@ -162,9 +162,15 @@
   </div>
 
   <div class="modal-footer">
-    <app-button type="outline-primary" (click)="cerrarModal()"
-      >Cancelar</app-button
+    <app-button type="outline-primary" (click)="cerrarModal()">
+      Cancelar
+    </app-button>
+    <app-button
+      type="primary"
+      (clicked)="crearArticulo()"
+      [disabled]="form.invalid || !selectedFiles.length"
     >
-    <app-button type="primary" (click)="crearArticulo()">Guardar</app-button>
+      Guardar
+    </app-button>
   </div>
 </div>

@@ -4,7 +4,6 @@ import { ArticuloAPI } from 'src/app/core/routes-api/articulo_api';
 import { FiltrosAPI } from 'src/app/core/routes-api/filtros_api';
 import { HttpService } from 'src/app/core/services/http.service';
 import { Articulo } from '../models/articulo';
-import { CrearArticuloDto } from '../models/crear-articulo';
 import { MisArticulosRepository } from '../repositories/mis-articulos-repository';
 
 @Injectable({ providedIn: 'root' })
@@ -17,9 +16,9 @@ export class MisArticulosService extends MisArticulosRepository {
     super();
   }
 
-  crear(usuarioId: number, data: CrearArticuloDto): Observable<any> {
+  crear(usuarioId: number): Observable<any> {
     const url = `${ArticuloAPI.Crear}?usuarioId=${usuarioId}`;
-    return this.http$.post(url, data);
+    return this.http$.post(url, this.formMisArticulos.value);
   }
 
   filtrar(): void {
