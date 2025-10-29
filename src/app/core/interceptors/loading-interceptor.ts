@@ -11,23 +11,24 @@ import { LoaderService } from '../services/loader.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-  private totalRequests = 0;
-
   constructor(private loaderService: LoaderService) {}
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    this.totalRequests++;
-    this.loaderService.setLoading(true);
+    // Solo mostrar el spinner para peticiones que no sean de filtros o búsquedas
+    if (!request.url.includes('filtros') && !request.url.includes('buscar')) {
+      this.loaderService.show();
+    }
 
     return next.handle(request).pipe(
       finalize(() => {
-        this.totalRequests--;
-        if (this.totalRequests <= 0) {
-          this.totalRequests = 0;
-          this.loaderService.setLoading(false);
+        if (
+          !request.url.includes('filtros') &&
+          !request.url.includes('buscar')
+        ) {
+          this.loaderService.hide();
         }
       })
     );

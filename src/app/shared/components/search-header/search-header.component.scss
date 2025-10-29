@@ -61,7 +61,25 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    min-height: 48px; // Altura mínima igual a los botones
+    min-width: 48px; // Ancho mínimo igual a los botones
+    justify-content: flex-end; // Alinear botones a la derecha
+
+    ::ng-deep {
+      // Asegurar que los botones proyectados mantengan sus dimensiones
+      app-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      // Asegurar que el botón no cambie de tamaño durante la carga
+      .custom-button {
+        min-height: 48px !important;
+        height: 48px !important;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          border-color 0.3s ease !important;
+      }
+    }
   }
 }
-
-
