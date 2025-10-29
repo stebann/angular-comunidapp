@@ -27,6 +27,7 @@ import { InputDateFieldComponent } from './components/input-date-field/input-dat
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { OpcionesComponent } from './components/opciones/opciones.component';
+import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
 import { TextareaFieldComponent } from './components/textarea-field/textarea-field.component';
@@ -47,6 +48,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     OpcionesComponent,
     SearchHeaderComponent,
     ArticuloDetailComponent,
+    ProfileModalComponent,
   ],
   imports: [
     CommonModule,

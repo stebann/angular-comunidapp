@@ -8,7 +8,9 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { DialogService } from 'primeng/dynamicdialog';
 import { Subject } from 'rxjs';
+import { ProfileModalComponent } from 'src/app/shared/components/profile-modal/profile-modal.component';
 import { AuthService } from '../../core/services/auth.service';
 
 interface UserMenuItem {
@@ -39,7 +41,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private dialogService$: DialogService
   ) {}
 
   ngOnInit() {
@@ -53,8 +56,16 @@ export class TopbarComponent implements OnInit, OnDestroy {
 
     // Inicializar los items del menú
     this.userMenuItems = [
-      { label: 'Mi Perfil', icon: 'pi pi-user', route: '/profile' },
-      { label: 'Configuración', icon: 'pi pi-cog', route: '/settings' },
+      {
+        label: 'Mi Perfil',
+        icon: 'pi pi-user',
+        action: () => this.goToProfile(),
+      },
+      {
+        label: 'Configuración',
+        icon: 'pi pi-cog',
+        action: () => this.goToSettings(),
+      },
       {
         label: 'Cerrar Sesión',
         icon: 'pi pi-sign-out',
@@ -62,6 +73,22 @@ export class TopbarComponent implements OnInit, OnDestroy {
         type: 'danger',
       },
     ];
+  }
+
+  goToProfile() {
+    this.dialogService$.open(ProfileModalComponent, {
+      header: 'Perfil',
+      styleClass: 'p-app-modal',
+      height: 'auto',
+      width: '900px',
+    });
+  }
+
+  goToSettings() {
+    this.dialogService$.open(ProfileModalComponent, {
+      header: 'Configuración',
+      styleClass: 'p-app-modal',
+    });
   }
 
   ngOnDestroy() {

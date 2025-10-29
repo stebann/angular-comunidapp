@@ -1,0 +1,86 @@
+<div class="edit-profile-body">
+  <div class="profile-section">
+    <div class="avatar-wrapper">
+      <div class="avatar" (click)="fileInput.click()">
+        <img
+          *ngIf="form.get('avatarUrl')?.value"
+          [src]="form.get('avatarUrl')?.value"
+          alt="Avatar"
+          class="avatar-img"
+        />
+
+        <span *ngIf="!form.get('avatarUrl')?.value" class="avatar-initials">
+          {{ getInitials(form.value.nombreCompleto) }}
+        </span>
+      </div>
+
+      <div class="camera-btn" (click)="fileInput.click()">
+        <i class="pi pi-camera"></i>
+      </div>
+    </div>
+
+    <input
+      type="file"
+      accept="image/*"
+      #fileInput
+      (change)="onFileSelected($event)"
+      hidden
+    />
+
+    <h3 class="profile-name mt-4">{{ form.value.nombreCompleto }}</h3>
+  </div>
+
+  <div class="divider"></div>
+
+  <form [formGroup]="form" class="form-section">
+    <div class="form-row">
+      <div class="form-group full">
+        <app-input-field
+          formControlName="nombreCompleto"
+          label="Nombre completo"
+          placeholder="Ingresa tu nombre completo"
+          type="text"
+          [required]="true"
+        ></app-input-field>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <app-input-field
+          formControlName="email"
+          label="Correo electrónico"
+          placeholder="Ingresa tu correo electrónico"
+          type="email"
+          [required]="true"
+        ></app-input-field>
+      </div>
+      <div class="form-group">
+        <app-input-field
+          formControlName="telefono"
+          label="Teléfono"
+          placeholder="Ingresa tu número de teléfono"
+          type="tel"
+        ></app-input-field>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group full">
+        <app-input-field
+          formControlName="direccion"
+          label="Dirección"
+          placeholder="Ingresa tu dirección"
+          type="text"
+        ></app-input-field>
+      </div>
+    </div>
+
+    <div class="actions">
+      <app-button type="outline-primary" (click)="onCancel()"
+        >Cancelar</app-button
+      >
+      <app-button type="primary" (click)="onSave()"> Guardar </app-button>
+    </div>
+  </form>
+</div>
