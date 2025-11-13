@@ -9,16 +9,23 @@
     <span *ngIf="required" class="required-asterisk">*</span>
   </label>
 
-  <div class="input-wrapper">
+  <div class="input-wrapper" style="width: 100%">
     <input
       pInputText
       [ngModel]="value"
       [placeholder]="placeholder"
       [disabled]="disabled || isDisabled"
-      [type]="inputType"
+      [type]="
+        showPasswordToggle && type === 'password'
+          ? showPassword
+            ? 'text'
+            : 'password'
+          : type
+      "
       (ngModelChange)="onValueChange($event)"
       (blur)="onBlur()"
       styleClass="custom-input"
+      style="width: 100%"
     />
 
     <!-- Password toggle button -->
@@ -27,6 +34,12 @@
       type="button"
       class="password-toggle-btn"
       (click)="togglePasswordVisibility()"
+      style="
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+      "
     >
       <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
     </button>

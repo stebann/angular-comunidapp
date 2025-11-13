@@ -61,10 +61,6 @@ export class InputFieldComponent implements ControlValueAccessor {
     this.valueChange.emit(value);
   }
 
-  onBlur(): void {
-    this.onTouched();
-  }
-
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
@@ -74,5 +70,9 @@ export class InputFieldComponent implements ControlValueAccessor {
       return 'text';
     }
     return this.type;
+  }
+
+  onBlur(): void {
+    this.onTouched();
   }
 }
