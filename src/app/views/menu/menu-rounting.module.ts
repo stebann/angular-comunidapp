@@ -52,8 +52,8 @@ const routes: Routes = [
   {
     path: 'usuarios',
     loadChildren: () =>
-      import('./components/admin-inicio/admin-inicio.module').then(
-        (m) => m.AdminInicioModule
+      import('./components/admin-usuarios/admin-usuarios.module').then(
+        (m) => m.AdminUsuariosModule
       ),
   },
   {
