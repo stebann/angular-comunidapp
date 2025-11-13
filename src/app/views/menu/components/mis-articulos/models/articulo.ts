@@ -9,4 +9,8 @@ export interface Articulo {
   imagenes: string[] | null;
   disponible: boolean;
   creadoEn: string;
+  usuarioId?: number;
+  usuarioNombre?: string;
+  usuarioEmail?: string;
+  usuarioTelefono?: string;
 }

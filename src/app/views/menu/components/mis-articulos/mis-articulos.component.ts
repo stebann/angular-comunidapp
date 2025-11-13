@@ -110,6 +110,8 @@ export class MisArticulosComponent implements OnInit {
   abrirModalArticulo(articulo: Articulo): void {
     this.dialogService$.open(ArticuloDetailComponent, {
       header: 'Detalle del Artículo',
+      width: '850px',
+      height: 'auto',
       data: { articulo: articulo, esDueno: true },
       styleClass: 'p-app-modal',
     });

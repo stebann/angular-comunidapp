@@ -1,0 +1,126 @@
+<div class="articulo-detail-modal">
+  <div class="left">
+    <div class="carousel-container">
+      <ng-container *ngIf="articulo.imagenes.length; else emptyState">
+        <div class="carousel-main">
+          <img
+            [src]="articulo.imagenes[currentImageIndex]"
+            alt="Imagen del artículo"
+            class="main-image"
+          />
+          <button
+            type="button"
+            class="nav-btn prev-btn"
+            [disabled]="currentImageIndex === 0"
+            (click)="anteriorImagen()"
+          >
+            <i class="pi pi-chevron-left"></i>
+          </button>
+          <button
+            type="button"
+            class="nav-btn next-btn"
+            [disabled]="currentImageIndex === articulo.imagenes.length - 1"
+            (click)="siguienteImagen()"
+          >
+            <i class="pi pi-chevron-right"></i>
+          </button>
+        </div>
+      </ng-container>
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <i class="pi pi-image"></i>
+          <p>Sin fotos disponibles</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="right">
+    <h2>{{ articulo.titulo }}</h2>
+    <p class="descripcion">{{ articulo.descripcion }}</p>
+
+    <div class="datos-articulo">
+      <div class="dato-row">
+        <span class="dato-label">Categoría:</span>
+        <span class="dato-valor">{{ articulo.categoriaNombre }}</span>
+      </div>
+      <div class="dato-row">
+        <span class="dato-label">Condición:</span>
+        <span class="dato-valor">{{ articulo.estadoNombre }}</span>
+      </div>
+      <div
+        class="dato-row"
+        *ngIf="articulo.tipoTransaccionNombre !== 'Préstamo'"
+      >
+        <span class="dato-label">Precio:</span>
+        <span class="dato-valor">{{
+          articulo.precio | currency : "COP" : "symbol" : "1.0-0"
+        }}</span>
+      </div>
+      <div class="dato-row">
+        <span class="dato-label">Tipo:</span>
+        <span class="dato-valor">{{ articulo.tipoTransaccionNombre }}</span>
+      </div>
+    </div>
+
+    <div class="propietario-section">
+      <h3>Propietario</h3>
+      <div class="dato-row">
+        <span class="dato-label">Nombre:</span>
+        <span class="dato-valor">{{ propietario.nombre }}</span>
+      </div>
+      <div class="dato-row">
+        <span class="dato-label">Email:</span>
+        <span class="dato-valor">{{ propietario.email }}</span>
+      </div>
+      <div class="dato-row" *ngIf="propietario.telefono">
+        <span class="dato-label">Teléfono:</span>
+        <span class="dato-valor">{{ propietario.telefono }}</span>
+      </div>
+    </div>
+
+    <div
+      class="prestamo-section"
+      *ngIf="articulo.tipoTransaccionNombre === 'Préstamo' && articulo.prestamo"
+    >
+      <h3>Historial de Préstamo</h3>
+      <div class="dato-row">
+        <span class="dato-label">Prestado a:</span>
+        <span class="dato-valor">{{ articulo.prestamo.destinatario }}</span>
+      </div>
+      <div class="dato-row">
+        <span class="dato-label">Fecha inicio:</span>
+        <span class="dato-valor">{{
+          articulo.prestamo.fechaInicio | date : "shortDate"
+        }}</span>
+      </div>
+      <div class="dato-row">
+        <span class="dato-label">Fecha fin:</span>
+        <span class="dato-valor">{{
+          articulo.prestamo.fechaFin | date : "shortDate"
+        }}</span>
+      </div>
+      <div class="dato-row">
+        <span class="dato-label">Estado:</span>
+        <span class="dato-valor">{{ articulo.prestamo.estado }}</span>
+      </div>
+    </div>
+
+    <div class="acciones-section" *ngIf="puedeSolicitar">
+      <button
+        *ngIf="!yaSolicitado"
+        class="btn btn-primary"
+        (click)="solicitar()"
+      >
+        Solicitar
+      </button>
+      <button
+        *ngIf="yaSolicitado"
+        class="btn btn-danger"
+        (click)="cancelarSolicitud()"
+      >
+        Cancelar solicitud
+      </button>
+    </div>
+  </div>
+</div>

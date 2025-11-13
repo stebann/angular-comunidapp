@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
@@ -21,7 +22,8 @@ export class ExplorarComponent implements OnInit {
   constructor(
     public dialogService$: DialogService,
     public explorarService: ExplorarService,
-    private filtersService: FiltersService
+    private filtersService: FiltersService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -65,9 +67,25 @@ export class ExplorarComponent implements OnInit {
   }
 
   abrirModalArticulo(articulo: Articulo): void {
+    const usuarioActual = this.authService.currentState;
+    const esDueno = articulo.usuarioId === usuarioActual?.id;
+    const puedeSolicitar = !esDueno && articulo.disponible;
+
     this.dialogService$.open(ArticuloDetailComponent, {
       header: 'Detalle del Artículo',
-      data: { articulo: articulo, esDueno: true },
+      width: '850px',
+      height: 'auto',
+      data: {
+        articulo: articulo,
+        propietario: {
+          id: articulo.usuarioId,
+          nombre: articulo.usuarioNombre,
+          email: articulo.usuarioEmail,
+          telefono: articulo.usuarioTelefono,
+        },
+        puedeSolicitar: puedeSolicitar,
+        yaSolicitado: false,
+      },
       styleClass: 'p-app-modal',
     });
   }
