@@ -8,10 +8,10 @@ import {
 export class ExplorarRepository {
   public filtro(): FormGroup {
     return new FormBuilder().group({
-      estado: new FormControl(null, [Validators.required]),
-      categoriaArticulo: new FormControl(null, [Validators.required]),
-      fechaDesde: new FormControl(null),
-      fechaHasta: new FormControl(null),
+      estado: new FormControl(null),
+      categoriaArticulo: new FormControl(null),
+      fechaDesde: new FormControl(new Date(), [Validators.required]),
+      fechaHasta: new FormControl(new Date(), [Validators.required]),
       usuarioSolicitante: new FormControl(null),
     });
   }
