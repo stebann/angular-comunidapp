@@ -26,9 +26,10 @@
       <app-articulo-card
         *ngFor="let articulo of articulos"
         [articulo]="articulo"
-        [menuItems]="menuItems"
+        [menuItems]="articulo.disponible ? menuItems : []"
         [esDueno]="true"
         (cardClicked)="abrirModalArticulo($event)"
+        (menuOpened)="articuloSeleccionado = $event"
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>
@@ -75,3 +76,5 @@
     [options]="tiposTransaccion"
   ></app-dropdown-field>
 </app-generic-filter>
+
+<p-confirmDialog></p-confirmDialog>

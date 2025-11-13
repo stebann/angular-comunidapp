@@ -9,7 +9,7 @@
       <div
         class="action-menu"
         *ngIf="esDueno"
-        (click)="$event.stopPropagation()"
+        (click)="$event.stopPropagation(); onMenuClick()"
       >
         <app-opciones
           [items]="menuItems"

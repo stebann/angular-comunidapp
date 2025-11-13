@@ -5,8 +5,10 @@ import { RouterModule } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EmptyPlaceholderComponent } from './components/empty-placeholder/empty-placeholder.component';
 
+import { ConfirmationService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -61,6 +63,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     MenuModule,
     CalendarModule,
     ChartModule,
+    ConfirmDialogModule,
     InputNumberModule,
     InputTextModule,
     InputTextareaModule,
@@ -92,6 +95,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     DropdownModule,
     MenuModule,
     CalendarModule,
+    ConfirmDialogModule,
     InputNumberModule,
     InputTextModule,
     InputTextareaModule,
@@ -100,6 +104,6 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     ChartModule,
     NgxChartsModule,
   ],
-  providers: [DialogService, FiltersService],
+  providers: [DialogService, ConfirmationService, FiltersService],
 })
 export class SharedModule {}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
@@ -21,12 +22,14 @@ export class MisArticulosComponent implements OnInit {
   categorias: FilterOption[] = [];
   estados: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
+  articuloSeleccionado: Articulo | null = null;
 
   constructor(
     public articulosService: MisArticulosService,
     private authService: AuthService,
     private filtersService: FiltersService,
-    public dialogService$: DialogService
+    public dialogService$: DialogService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -89,9 +92,59 @@ export class MisArticulosComponent implements OnInit {
     );
   }
 
-  onEdit(): void {}
+  onEdit(): void {
+    if (!this.articuloSeleccionado) return;
 
-  onRemove(): void {}
+    // Validar que el artículo esté disponible
+    if (!this.articuloSeleccionado.disponible) {
+      return;
+    }
+
+    this.articulosService
+      .obtenerArticuloById(this.articuloSeleccionado.id)
+      .subscribe((articulo: any) => {
+        this.dialogService$.open(ModalArticuloComponent, {
+          header: 'Editar Artículo',
+          width: '1200px',
+          styleClass: 'p-app-modal',
+          data: {
+            articulo: articulo,
+            isEditing: true,
+            existingImages: articulo.imagenes,
+          },
+        });
+      });
+  }
+
+  onRemove(): void {
+    if (!this.articuloSeleccionado) return;
+
+    // Validar que el artículo esté disponible
+    if (!this.articuloSeleccionado.disponible) {
+      return;
+    }
+
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas eliminar el artículo "${this.articuloSeleccionado.titulo}"?`,
+      header: 'Confirmar eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const usuario = this.authService.currentState;
+        this.articulosService
+          .eliminar(this.articuloSeleccionado!.id, usuario.id)
+          .subscribe(
+            () => {
+              // Recargar artículos
+              this.articulosService.getMisArticulos(usuario.id);
+              this.articuloSeleccionado = null;
+            },
+            (error) => {
+              console.error('Error al eliminar artículo:', error);
+            }
+          );
+      },
+    });
+  }
 
   openFilters() {
     this.isOpen = true;

@@ -49,4 +49,16 @@ export class MisArticulosService extends MisArticulosRepository {
       this.articulos = Array.isArray(response) ? response : response.data || [];
     });
   }
+
+  obtenerArticuloById(articuloId: number): Observable<any> {
+    const url = `${ArticuloAPI.PorId}${articuloId}`;
+    return this.http$.get(url);
+  }
+
+  actualizar() {}
+
+  eliminar(articuloId: number, usuarioId: number): Observable<any> {
+    const url = `${ArticuloAPI.Eliminar}${articuloId}?usuarioId=${usuarioId}`;
+    return this.http$.delete(url);
+  }
 }

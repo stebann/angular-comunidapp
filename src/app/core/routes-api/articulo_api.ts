@@ -3,4 +3,6 @@ export enum ArticuloAPI {
   Crear = 'articulo/crear',
   PorId = 'articulo/',
   PorUsuario = 'articulo/usuario/',
+  Actualizar = 'articulo/',
+  Eliminar = 'articulo/',
 }

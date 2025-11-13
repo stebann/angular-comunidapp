@@ -12,9 +12,14 @@ export class ArticuloCardComponent {
   selectItem: any = null;
   @Input() menuItems: any[] = [];
   @Output() cardClicked = new EventEmitter<any>();
+  @Output() menuOpened = new EventEmitter<any>();
 
   onCardClick() {
     this.cardClicked.emit(this.articulo);
+  }
+
+  onMenuClick(): void {
+    this.menuOpened.emit(this.articulo);
   }
 
   constructor() {}
