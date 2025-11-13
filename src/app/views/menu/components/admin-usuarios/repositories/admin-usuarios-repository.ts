@@ -1,9 +1,11 @@
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 export class AdminUsuariosRepository {
+  private fb = new FormBuilder();
+
   public form(): FormGroup {
-    return new FormBuilder().group({
-      rol: new FormControl('', []),
+    return this.fb.group({
+      rol: ['', Validators.nullValidator],
     });
   }
 }

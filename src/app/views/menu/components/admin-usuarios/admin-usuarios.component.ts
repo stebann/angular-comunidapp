@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Usuario } from './models/usuario.model';
 import { AdminUsuariosFormService } from './services/admin-usuarios-form.service';
 import { UsuarioService } from './services/usuario.service';
@@ -15,7 +15,8 @@ export class AdminUsuariosComponent implements OnInit {
 
   constructor(
     private usuarioService: UsuarioService,
-    private formService: AdminUsuariosFormService
+    private formService: AdminUsuariosFormService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
