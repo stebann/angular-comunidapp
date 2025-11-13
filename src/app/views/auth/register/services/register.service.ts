@@ -25,7 +25,7 @@ export class RegisterService extends RegisterRepository {
       .post(AuthAPI.Registrar, this.registerForm.value)
       .subscribe(() => {
         this.messageService.exito('Usuario creado exitosamente.');
-
+        this.registerForm.reset();
         this.router.navigate(['/auth/login']);
       });
   }

@@ -12,6 +12,7 @@ interface AuthState {
   enSesion: boolean;
   rol?: string;
   menus?: MenuDTO[];
+  permisos?: string[];
 }
 
 @Injectable({

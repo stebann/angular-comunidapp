@@ -36,6 +36,7 @@ export class LoginService extends LoginRepository {
       enSesion: true,
       rol: user.rol,
       menus: user.menus,
+      permisos: user.permisos,
     });
 
     // Obtener la ruta por defecto del primer menú marcado como porDefecto

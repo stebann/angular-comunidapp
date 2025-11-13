@@ -6,8 +6,9 @@ export interface IAuthUser {
   email: string;
   telefono: string;
   direccion: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
   ratingPromedio: number;
   rol: string;
   menus: MenuDTO[];
+  permisos: string[];
 }
