@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MenuDTO } from '../../core/models/menu.model';
 
-export interface MenuItem {
-  label: string;
-  route?: string;
-  icon?: string;
+export interface MenuItem extends MenuDTO {
   active?: boolean;
   children?: MenuItem[];
   expanded?: boolean;
@@ -21,7 +19,7 @@ export class MenuComponent {
   @Output() logoutClick = new EventEmitter<void>();
 
   onMenuItemClick(item: MenuItem) {
-    if (item.route) {
+    if (item.ruta) {
       // Si tiene ruta, desactivar todos los ítems
       this.menuItems.forEach((menuItem) => {
         menuItem.active = false;

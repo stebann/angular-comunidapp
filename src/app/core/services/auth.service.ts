@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SESSION_KEY, TOKEN_KEY, USER_KEY } from '../constanst/keys';
+import { MenuDTO } from '../models/menu.model';
 import { PersistenceService } from './persistence.service';
 
 interface AuthState {
@@ -9,6 +10,8 @@ interface AuthState {
   nombre: string;
   email: string;
   enSesion: boolean;
+  rol?: string;
+  menus?: MenuDTO[];
 }
 
 @Injectable({

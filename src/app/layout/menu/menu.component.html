@@ -3,15 +3,15 @@
     <ul class="nav-list">
       <li class="nav-item" *ngFor="let item of menuItems">
         <a
-          [routerLink]="[item.route]"
+          [routerLink]="['/app', item.ruta]"
           routerLinkActive="active"
           [routerLinkActiveOptions]="{ exact: true }"
           class="nav-link"
-          [title]="item.label"
+          [title]="item.nombre"
           (click)="onMenuItemClick(item)"
         >
-          <i [class]="item.icon"></i>
-          <span *ngIf="!isCollapsed">{{ item.label }}</span>
+          <i [class]="item.icono"></i>
+          <span *ngIf="!isCollapsed">{{ item.nombre }}</span>
           <i
             *ngIf="item.children && !isCollapsed"
             class="fas fa-chevron-down expand-icon"
@@ -30,10 +30,10 @@
               (click)="$event.preventDefault(); onMenuItemClick(child)"
               [class.active]="child.active"
               class="nav-link sub-nav-link"
-              [title]="child.label"
+              [title]="child.nombre"
             >
-              <i [class]="child.icon"></i>
-              <span>{{ child.label }}</span>
+              <i [class]="child.icono"></i>
+              <span>{{ child.nombre }}</span>
             </a>
           </li>
         </ul>

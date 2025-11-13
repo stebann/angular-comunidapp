@@ -34,9 +34,14 @@ export class LoginService extends LoginRepository {
       email: user.email,
       nombre: user.nombreCompleto,
       enSesion: true,
+      rol: user.rol,
+      menus: user.menus,
     });
 
-    this.router.navigate(['/app/inicio']);
+    // Obtener la ruta por defecto del primer menú marcado como porDefecto
+    const rutaPorDefecto =
+      user.menus?.find((menu) => menu.porDefecto)?.ruta || 'inicio';
+    this.router.navigate([`/app/${rutaPorDefecto}`]);
 
     this.loginForm.reset();
   }

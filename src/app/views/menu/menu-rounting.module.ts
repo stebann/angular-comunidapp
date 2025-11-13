@@ -42,6 +42,27 @@ const routes: Routes = [
         (m) => m.ComerciosModule
       ),
   },
+  {
+    path: 'admin-inicio',
+    loadChildren: () =>
+      import('./components/admin-inicio/admin-inicio.module').then(
+        (m) => m.AdminInicioModule
+      ),
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () =>
+      import('./components/admin-inicio/admin-inicio.module').then(
+        (m) => m.AdminInicioModule
+      ),
+  },
+  {
+    path: 'articulos',
+    loadChildren: () =>
+      import('./components/admin-articulos/admin-articulos.module').then(
+        (m) => m.AdminArticulosModule
+      ),
+  },
 ];
 
 @NgModule({

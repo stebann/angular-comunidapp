@@ -1,3 +1,5 @@
+import { MenuDTO } from 'src/app/core/models/menu.model';
+
 export interface IAuthUser {
   id: number;
   nombreCompleto: string;
@@ -6,4 +8,6 @@ export interface IAuthUser {
   direccion: string;
   avatarUrl: string;
   ratingPromedio: number;
+  rol: string;
+  menus: MenuDTO[];
 }

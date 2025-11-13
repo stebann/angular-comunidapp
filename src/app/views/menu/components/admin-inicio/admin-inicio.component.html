@@ -1,0 +1,87 @@
+<div class="admin-inicio-container">
+  <!-- Hero de bienvenida admin -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Panel de administración</h1>
+      <p class="subtitle">
+        Gestiona usuarios, artículos y monitorea la plataforma desde aquí.
+      </p>
+
+      <div class="hero-actions">
+        <app-button
+          type="primary"
+          size="md"
+          icon="pi pi-users"
+          routerLink="/app/usuarios"
+        >
+          Gestionar usuarios
+        </app-button>
+        <app-button
+          type="outline-primary"
+          size="md"
+          icon="pi pi-boxes"
+          routerLink="/app/articulos"
+        >
+          Ver artículos
+        </app-button>
+      </div>
+
+      <div class="hero-meta">
+        <span><i class="pi pi-shield"></i> Control total</span>
+        <span><i class="pi pi-chart-line"></i> Monitoreo activo</span>
+        <span><i class="pi pi-verified"></i> Sistema seguro</span>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-illustration">
+        <i class="pi pi-cog"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Acciones rápidas admin -->
+  <section class="quick-actions">
+    <h2>Acciones rápidas</h2>
+    <div class="qa-grid">
+      <button class="qa" routerLink="/app/usuarios">
+        <i class="pi pi-users"></i>
+        <span>Usuarios</span>
+      </button>
+      <button class="qa" routerLink="/app/articulos">
+        <i class="pi pi-boxes"></i>
+        <span>Artículos</span>
+      </button>
+      <button class="qa" routerLink="/app/usuarios">
+        <i class="pi pi-ban"></i>
+        <span>Suspendidos</span>
+      </button>
+      <button class="qa" routerLink="/app/articulos">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>Reportados</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Estadísticas admin -->
+  <section class="benefits">
+    <div class="benefit">
+      <i class="pi pi-users"></i>
+      <h3>Gestión de usuarios</h3>
+      <p>
+        Administra permisos, roles y suspende usuarios cuando sea necesario.
+      </p>
+    </div>
+    <div class="benefit">
+      <i class="pi pi-boxes"></i>
+      <h3>Control de artículos</h3>
+      <p>Supervisa artículos publicados, reportes y contenido inapropiado.</p>
+    </div>
+    <div class="benefit">
+      <i class="pi pi-chart-bar"></i>
+      <h3>Analítica</h3>
+      <p>
+        Visualiza estadísticas de uso, actividad y rendimiento de la plataforma.
+      </p>
+    </div>
+  </section>
+</div>

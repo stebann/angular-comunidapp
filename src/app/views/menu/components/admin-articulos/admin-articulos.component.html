@@ -1,0 +1,67 @@
+<div class="admin-articulos-container">
+  <app-search-header
+    placeholder="Buscar artículos..."
+    [(searchTerm)]="searchTerm"
+  >
+    <app-button
+      type="outline-primary"
+      size="sm"
+      icon="pi pi-filter"
+      (clicked)="openFilters()"
+    >
+      Filtros
+    </app-button>
+  </app-search-header>
+
+  <div class="content-area">
+    <div *ngIf="articulos.length > 0; else noArticulos" class="articulos-grid">
+      <app-articulo-card
+        *ngFor="let articulo of articulos"
+        [articulo]="articulo"
+        (cardClicked)="abrirModalArticulo($event)"
+      ></app-articulo-card>
+    </div>
+    <ng-template #noArticulos>
+      <app-empty-placeholder
+        icon="box-open"
+        title="No hay artículos disponibles"
+        description="Prueba con otros filtros de búsqueda"
+      ></app-empty-placeholder>
+    </ng-template>
+  </div>
+</div>
+
+<app-generic-filter
+  [form]="filtro"
+  [(isOpen)]="isOpen"
+  (applyFilter)="onFiltersApplied()"
+>
+  <div style="display: flex; gap: 1rem">
+    <app-input-date-field
+      formControlName="fechaDesde"
+      label="Fecha inicio"
+    ></app-input-date-field>
+    <app-input-date-field
+      formControlName="fechaHasta"
+      label="Fecha fin"
+    ></app-input-date-field>
+  </div>
+
+  <app-dropdown-field
+    label="Categoría"
+    formControlName="categoriaId"
+    [options]="categorias"
+  ></app-dropdown-field>
+
+  <app-dropdown-field
+    label="Estado"
+    formControlName="estadoId"
+    [options]="estados"
+  ></app-dropdown-field>
+
+  <app-dropdown-field
+    label="Tipo de Transacción"
+    formControlName="tipoTransaccionId"
+    [options]="tiposTransaccion"
+  ></app-dropdown-field>
+</app-generic-filter>
