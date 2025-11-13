@@ -6,7 +6,11 @@
         <span>{{ getCondicionLabel() }}</span>
       </div>
 
-      <div class="action-menu" *ngIf="esDueno">
+      <div
+        class="action-menu"
+        *ngIf="esDueno"
+        (click)="$event.stopPropagation()"
+      >
         <app-opciones
           [items]="menuItems"
           [color]="'white'"

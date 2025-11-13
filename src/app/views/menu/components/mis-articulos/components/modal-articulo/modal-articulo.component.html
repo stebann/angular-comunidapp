@@ -137,16 +137,16 @@
 
           <div
             class="field-group"
-            *ngIf="form.get('tipoTransaccionId')?.value === '1'"
+            *ngIf="form.get('tipoTransaccionId')?.value == ventaId"
           >
-            <app-input-field
+            <app-input-number-field
               label="Precio"
               formControlName="precio"
-              type="number"
               [required]="true"
-              placeholder="0.00"
+              placeholder="0"
+              [min]="0"
             >
-            </app-input-field>
+            </app-input-number-field>
           </div>
         </div>
 

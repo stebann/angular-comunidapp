@@ -1,9 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {
-  ArticuloCondicion,
-  ArticuloEstado,
-  ArticuloTipo,
-} from '../../enums/articulo.enums';
+import { ArticuloCondicion } from '../../enums/articulo.enums';
 
 @Component({
   selector: 'app-articulo-card',
@@ -24,50 +20,22 @@ export class ArticuloCardComponent {
   constructor() {}
 
   getEstadoLabel(): string {
-    const raw =
-      this.articulo && this.articulo.estado
-        ? this.articulo.estado
-        : ArticuloEstado.Disponible;
-    const e = raw.toString().toLowerCase();
-    switch (e) {
-      case ArticuloEstado.Prestado:
-        return 'Prestado';
-      case ArticuloEstado.Disponible:
-      default:
-        return 'Disponible';
-    }
+    return this.articulo?.estadoNombre || 'Disponible';
   }
 
   getCategoria(): string {
-    return this.articulo && this.articulo.categoria
-      ? this.articulo.categoria
-      : '';
+    return this.articulo?.categoriaNombre || '';
   }
 
   getTipo(): string {
-    if (!this.articulo || !this.articulo.tipo) return '';
-    const t = this.articulo.tipo.toString().toLowerCase();
-    switch (t) {
-      case ArticuloTipo.Venta:
-        return 'Venta';
-      case ArticuloTipo.Prestamo:
-        return 'Préstamo';
-      case ArticuloTipo.Intercambio:
-        return 'Intercambio';
-      default:
-        return t.charAt(0).toUpperCase() + t.slice(1);
-    }
+    return this.articulo?.tipoTransaccionNombre || '';
   }
 
   getEstadoClass(): { [klass: string]: boolean } {
-    const raw =
-      this.articulo && this.articulo.estado
-        ? this.articulo.estado
-        : ArticuloEstado.Disponible;
-    const e = raw.toString().toLowerCase();
+    const estado = this.articulo?.estadoNombre?.toLowerCase() || 'disponible';
     return {
-      disponible: e === ArticuloEstado.Disponible,
-      prestado: e === ArticuloEstado.Prestado,
+      disponible: estado === 'disponible',
+      prestado: estado === 'prestado',
     };
   }
 
@@ -99,8 +67,15 @@ export class ArticuloCardComponent {
   }
 
   getImagenSrc(): string {
-    if (this.articulo && this.articulo.imagen) return this.articulo.imagen;
+    if (this.articulo?.imagenes && this.articulo.imagenes.length > 0) {
+      const imageName = this.articulo.imagenes[0];
 
+      if (imageName.startsWith('http')) {
+        return imageName;
+      }
+
+      return `http://localhost:8080/api/articulo/imagen/${imageName}`;
+    }
     return (
       'https://picsum.photos/600/400?random=' +
       (Math.floor(Math.random() * 1000) + 1)
@@ -108,29 +83,24 @@ export class ArticuloCardComponent {
   }
 
   getTipoDisplay(): { kind: string; icon: string; label: string } {
-    const tipo =
-      this.articulo && this.articulo.tipo
-        ? this.articulo.tipo.toString().toLowerCase()
-        : '';
+    const tipo = this.articulo?.tipoTransaccionNombre?.toLowerCase() || '';
     switch (tipo) {
-      case ArticuloTipo.Venta: {
-        const price =
-          this.articulo && (this.articulo.precio || this.articulo.price)
-            ? this.articulo.precio || this.articulo.price
-            : null;
+      case 'venta': {
+        const price = this.articulo?.precio;
         if (price !== null && price !== undefined && price !== '') {
           return {
-            kind: ArticuloTipo.Venta,
+            kind: 'venta',
             icon: '',
             label: this.formatPrice(price),
           };
         }
-        return { kind: ArticuloTipo.Venta, icon: '', label: 'Consultar' };
+        return { kind: 'venta', icon: '', label: 'Consultar' };
       }
-      case ArticuloTipo.Prestamo:
-        return { kind: ArticuloTipo.Prestamo, icon: '', label: '' };
-      case ArticuloTipo.Intercambio:
-        return { kind: ArticuloTipo.Intercambio, icon: '🔄', label: '' };
+      case 'prestamo':
+      case 'préstamo':
+        return { kind: 'prestamo', icon: '', label: '' };
+      case 'intercambio':
+        return { kind: 'intercambio', icon: '🔄', label: '' };
       default:
         return { kind: tipo || 'other', icon: '', label: '' };
     }

@@ -16,9 +16,23 @@ export class MisArticulosService extends MisArticulosRepository {
     super();
   }
 
-  crear(usuarioId: number): Observable<any> {
+  crear(usuarioId: number, imagenes: File[]): Observable<any> {
     const url = `${ArticuloAPI.Crear}?usuarioId=${usuarioId}`;
-    return this.http$.post(url, this.formMisArticulos.value);
+
+    const formData = new FormData();
+    const formValues = this.formMisArticulos.value;
+
+    Object.keys(formValues).forEach((key) => {
+      if (key !== 'imagenes' && formValues[key] != null) {
+        formData.append(key, formValues[key]);
+      }
+    });
+
+    imagenes.forEach((file) => {
+      formData.append('imagenes', file, file.name);
+    });
+
+    return this.http$.postFormData(url, formData);
   }
 
   filtrar(): void {
@@ -32,7 +46,7 @@ export class MisArticulosService extends MisArticulosRepository {
   getMisArticulos(usuarioId: number): void {
     const url = `${ArticuloAPI.PorUsuario}${usuarioId}`;
     this.http$.get(url).subscribe((response: any) => {
-      this.articulos = response.data || [];
+      this.articulos = Array.isArray(response) ? response : response.data || [];
     });
   }
 }

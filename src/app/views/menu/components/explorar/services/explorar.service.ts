@@ -23,7 +23,7 @@ export class ExplorarService extends ExplorarRepository {
 
   getArticulos(): void {
     this.http$.get(ArticuloAPI.Base).subscribe((response: any) => {
-      this.articulos = response.data || [];
+      this.articulos = Array.isArray(response) ? response : response.data || [];
     });
   }
 }

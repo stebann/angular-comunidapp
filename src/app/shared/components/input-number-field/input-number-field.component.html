@@ -1,0 +1,22 @@
+<div class="input-number-field-container">
+  <label *ngIf="label" class="input-label">
+    {{ label }}
+    <span *ngIf="required" class="required-asterisk">*</span>
+  </label>
+
+  <div class="input-wrapper">
+    <input
+      pInputText
+      type="text"
+      inputmode="numeric"
+      [ngModel]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled || isDisabled"
+      (ngModelChange)="onValueChange($event)"
+      (blur)="onBlur()"
+      (keypress)="onKeyPress($event)"
+      styleClass="custom-input"
+      style="text-align: right"
+    />
+  </div>
+</div>

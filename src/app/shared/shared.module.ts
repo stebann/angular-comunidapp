@@ -25,6 +25,7 @@ import { DropdownFieldComponent } from './components/dropdown-field/dropdown-fie
 import { GenericFilterComponent } from './components/generic-filter/generic-filter.component';
 import { InputDateFieldComponent } from './components/input-date-field/input-date-field.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
+import { InputNumberFieldComponent } from './components/input-number-field/input-number-field.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { OpcionesComponent } from './components/opciones/opciones.component';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
@@ -35,6 +36,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
 @NgModule({
   declarations: [
     InputFieldComponent,
+    InputNumberFieldComponent,
     InputDateFieldComponent,
     ButtonComponent,
     CheckboxComponent,
@@ -69,6 +71,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
   ],
   exports: [
     InputFieldComponent,
+    InputNumberFieldComponent,
     InputDateFieldComponent,
     ButtonComponent,
     CheckboxComponent,

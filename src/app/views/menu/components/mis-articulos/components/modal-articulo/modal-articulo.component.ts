@@ -17,6 +17,7 @@ export class ModalArticuloComponent implements OnInit {
   categorias: FilterOption[] = [];
   estados: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
+  ventaId: any = null;
 
   isDragOver = false;
   selectedFiles: File[] = [];
@@ -40,17 +41,20 @@ export class ModalArticuloComponent implements OnInit {
       .getEstados()
       .subscribe((estados) => (this.estados = estados));
 
-    this.filtersService
-      .getTiposTransaccion()
-      .subscribe((tipos) => (this.tiposTransaccion = tipos));
+    this.filtersService.getTiposTransaccion().subscribe((tipos) => {
+      this.tiposTransaccion = tipos;
+      // Obtener el ID de Venta
+      const ventaTipo = tipos.find((t) => t.label.toLowerCase() === 'venta');
+      if (ventaTipo) {
+        this.ventaId = ventaTipo.value;
+      }
+    });
 
     // Observar cambios en el tipo de transacción
     this.form.get('tipoTransaccionId')?.valueChanges.subscribe((value) => {
       const precioControl = this.form.get('precio');
-      if (value === '1') {
-        // Comparar con string '1' para venta
-        // Si es venta
-        precioControl?.setValidators([Validators.required]);
+      if (value == this.ventaId) {
+        precioControl?.setValidators([Validators.required, Validators.min(0)]);
       } else {
         precioControl?.clearValidators();
         precioControl?.setValue(null);
@@ -137,7 +141,27 @@ export class ModalArticuloComponent implements OnInit {
     this.currentImageIndex = index;
   }
 
-  crearArticulo(): void {}
+  crearArticulo(): void {
+    if (this.form.invalid || this.selectedFiles.length === 0) {
+      return;
+    }
+
+    const usuario = this.authService.currentState;
+
+    this.articulosService
+      .crear(usuario.id, this.selectedFiles)
+      .subscribe((response) => {
+        // Limpiar formulario y archivos
+        this.form.reset();
+        this.selectedFiles = [];
+        this.previewImages = [];
+        this.currentImageIndex = 0;
+
+        // Recargar artículos y cerrar modal
+        this.articulosService.getMisArticulos(usuario.id);
+        this.ref.close({ success: true, data: response });
+      });
+  }
 
   private agregarArchivos(files: File[]): void {
     const espacioDisponible = 5 - this.previewImages.length;

@@ -123,8 +123,12 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.35rem;
-  max-height: calc(1.35rem * 2);
+  line-height: 1.4rem;
+  max-height: calc(1.4rem * 2);
+  font-size: 0.9rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 .articulo-meta {
