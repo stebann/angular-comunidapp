@@ -28,6 +28,12 @@ export class FiltersService {
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
+  getRoles(): Observable<FilterOption[]> {
+    return this.http
+      .get<IFilter[]>(FiltrosAPI.Roles)
+      .pipe(map((data) => this.mapToFilterOptions(data || [])));
+  }
+
   private mapToFilterOptions(data: IFilter[]): FilterOption[] {
     return data.map((item) => ({
       value: item.id,

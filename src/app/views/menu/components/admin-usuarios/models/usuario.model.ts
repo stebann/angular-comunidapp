@@ -5,6 +5,13 @@ export interface Rol {
   createdAt?: string;
 }
 
+export interface Permiso {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  creadoEn: string;
+}
+
 export interface Usuario {
   id: number;
   nombreCompleto: string;
@@ -16,6 +23,7 @@ export interface Usuario {
   avatarUrl: string | null;
   ratingPromedio: number;
   rol: Rol;
+  permisos: Permiso[];
   creadoEn: string;
   actualizadoEn?: string | null;
   eliminadoEn?: string | null;

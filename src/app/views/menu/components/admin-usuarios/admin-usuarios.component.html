@@ -96,10 +96,6 @@
   <app-dropdown-field
     label="Rol"
     formControlName="rol"
-    [options]="[
-      { label: 'Todos', value: '' },
-      { label: 'Usuario', value: 'usuario' },
-      { label: 'Admin', value: 'admin' }
-    ]"
+    [options]="rolesOptionsForDropdown"
   ></app-dropdown-field>
 </app-generic-filter>

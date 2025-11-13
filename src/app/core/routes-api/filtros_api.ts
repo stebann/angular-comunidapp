@@ -3,4 +3,5 @@ export enum FiltrosAPI {
   Estados = 'filtros/estados',
   Tipos = 'filtros/tipos',
   Buscar = 'filtros/buscar',
+  Roles = 'filtros/roles',
 }

@@ -11,7 +11,7 @@ export class UsuarioService {
   constructor(private http$: HttpService) {}
 
   getUsuarios(): Observable<Usuario[]> {
-    return this.http$.get(UsuarioAPI.Base);
+    return this.http$.get(UsuarioAPI.AdminTodos);
   }
 
   getUsuarioById(id: number): Observable<Usuario> {
