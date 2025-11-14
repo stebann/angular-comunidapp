@@ -168,7 +168,7 @@
     <app-button
       type="primary"
       (clicked)="crearArticulo()"
-      [disabled]="form.invalid || !selectedFiles.length"
+      [disabled]="!canSave"
     >
       Guardar
     </app-button>

@@ -57,6 +57,7 @@ export class MisArticulosComponent implements OnInit {
         command: () => {
           this.onEdit();
         },
+        visible: () => this.articuloSeleccionado?.disponible === true,
       },
       {
         label: 'Eliminar',
@@ -69,7 +70,7 @@ export class MisArticulosComponent implements OnInit {
   }
 
   get form() {
-    return this.articulosService.formMisArticulos;
+    return this.articulosService.formEdit;
   }
 
   get filtro() {
@@ -95,23 +96,15 @@ export class MisArticulosComponent implements OnInit {
   onEdit(): void {
     if (!this.articuloSeleccionado) return;
 
-    // Validar que el artículo esté disponible
-    if (!this.articuloSeleccionado.disponible) {
-      return;
-    }
-
     this.articulosService
       .obtenerArticuloById(this.articuloSeleccionado.id)
       .subscribe((articulo: any) => {
+        this.articulosService.formEdit.patchValue(articulo);
+        this.articulosService.formEdit.updateValueAndValidity();
         this.dialogService$.open(ModalArticuloComponent, {
           header: 'Editar Artículo',
           width: '1200px',
           styleClass: 'p-app-modal',
-          data: {
-            articulo: articulo,
-            isEditing: true,
-            existingImages: articulo.imagenes,
-          },
         });
       });
   }
@@ -153,6 +146,10 @@ export class MisArticulosComponent implements OnInit {
   onFiltersApplied(): void {}
 
   openCreateModal(): void {
+    // Resetear ambos formularios y asegurar que formEdit no tenga id
+    this.articulosService.formNew.reset();
+    this.articulosService.formEdit.reset();
+    this.articulosService.formEdit.patchValue({ id: null });
     this.dialogService$.open(ModalArticuloComponent, {
       header: 'Crear Artículo',
       width: '1200px',

@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 
 export class MisArticulosRepository {
-  public form(): FormGroup {
+  public new(): FormGroup {
     return new FormBuilder().group({
       titulo: new FormControl(null, [
         Validators.required,
@@ -21,6 +21,26 @@ export class MisArticulosRepository {
       tipoTransaccionId: new FormControl(null, [Validators.required]),
       precio: new FormControl(0, [Validators.required, Validators.min(0)]),
       imagenes: new FormControl([]),
+    });
+  }
+
+  public edit(): FormGroup {
+    return new FormBuilder().group({
+      id: new FormControl(null),
+      titulo: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      descripcion: new FormControl(null, [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
+      categoriaId: new FormControl(null, [Validators.required]),
+      estadoId: new FormControl(null, [Validators.required]),
+      tipoTransaccionId: new FormControl(null, [Validators.required]),
+      precio: new FormControl(0, [Validators.required, Validators.min(0)]),
+      imagenes: new FormControl([]),
+      disponible: new FormControl(true),
     });
   }
 
