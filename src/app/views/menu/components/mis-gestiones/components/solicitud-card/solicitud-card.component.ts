@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Gestiones } from 'src/app/views/menu/components/mis-gestiones/models/gestiones.model';
+import { Gestion } from 'src/app/views/menu/components/mis-gestiones/models/gestiones.model';
 
 @Component({
   selector: 'app-solicitud-card',
@@ -7,12 +7,12 @@ import { Gestiones } from 'src/app/views/menu/components/mis-gestiones/models/ge
   styleUrls: ['./solicitud-card.component.scss'],
 })
 export class SolicitudCardComponent {
-  @Input() solicitud!: Gestiones;
+  @Input() solicitud!: Gestion;
   @Input() esRecibida: boolean = true;
-  @Output() cardClicked = new EventEmitter<Gestiones>();
+  @Output() cardClicked = new EventEmitter<Gestion>();
   @Output() actionClicked = new EventEmitter<{
     action: string;
-    solicitud: Gestiones;
+    solicitud: Gestion;
   }>();
 
   constructor() {}
@@ -27,59 +27,29 @@ export class SolicitudCardComponent {
   }
 
   getEstadoClass(): string {
-    switch (this.solicitud.estado) {
-      case 'pendiente':
-        return 'estado-pendiente';
-      case 'aceptada':
-        return 'estado-aceptada';
-      case 'rechazada':
-        return 'estado-rechazada';
-      case 'cancelada':
-        return 'estado-cancelada';
-      default:
-        return 'estado-pendiente';
-    }
+    const estado = this.solicitud.estadoNombre?.toLowerCase();
+    if (!estado) return 'estado-pendiente';
+    
+    if (estado.includes('acept')) return 'estado-aceptada';
+    if (estado.includes('rechaz')) return 'estado-rechazada';
+    if (estado.includes('cancel')) return 'estado-cancelada';
+    return 'estado-pendiente';
   }
 
   getEstadoLabel(): string {
-    switch (this.solicitud.estado) {
-      case 'pendiente':
-        return 'Pendiente';
-      case 'aceptada':
-        return 'Aceptada';
-      case 'rechazada':
-        return 'Rechazada';
-      case 'cancelada':
-        return 'Cancelada';
-      default:
-        return 'Pendiente';
-    }
+    return this.solicitud.estadoNombre || 'Pendiente';
   }
 
   getTipoIcon(): string {
-    switch (this.solicitud.tipo) {
-      case 'solicitud':
-        return 'pi pi-shopping-cart';
-      case 'prestamo':
-        return 'pi pi-book';
-      default:
-        return 'pi pi-book';
-    }
+    return 'pi pi-shopping-cart';
   }
 
   getTipoLabel(): string {
-    switch (this.solicitud.tipo) {
-      case 'solicitud':
-        return 'Solicitud';
-      case 'prestamo':
-        return 'Préstamo';
-      default:
-        return 'Préstamo';
-    }
+    return 'Solicitud';
   }
 
   getFechaFormateada(): string {
-    const fecha = new Date(this.solicitud.fechaCreacion);
+    const fecha = new Date(this.solicitud.fechaSolicitud);
     const ahora = new Date();
     const diffMs = ahora.getTime() - fecha.getTime();
     const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
@@ -99,41 +69,16 @@ export class SolicitudCardComponent {
     }
   }
 
-  getTipoVistaLabel(): string {
-    switch (this.solicitud.tipo) {
-      case 'solicitud':
-        return 'Solicitud';
-      case 'prestamo':
-        return 'Préstamo';
-      default:
-        return 'Solicitud';
-    }
+
+  getImagenSrc(): string | null {
+    return this.solicitud.imagenesArticulo || null;
   }
 
-  getImagenSrc(): string {
-    if (
-      this.solicitud.articuloImagen &&
-      this.solicitud.articuloImagen.trim() !== ''
-    ) {
-      return this.solicitud.articuloImagen;
-    }
-    return 'https://picsum.photos/seed/solicitud/600/400';
-  }
-
-  getAvatarSrc(): string {
-    const usuario = this.esRecibida
-      ? this.solicitud.usuarioSolicitante
-      : this.solicitud.usuarioPropietario;
-    if (usuario && usuario.avatar && usuario.avatar.trim() !== '') {
-      return usuario.avatar;
-    }
-    return '';
+  getAvatarSrc(): string | null {
+    return this.solicitud.solicitante?.foto || null;
   }
 
   getUsuarioIniciales(): string {
-    const usuario = this.esRecibida
-      ? this.solicitud.usuarioSolicitante
-      : this.solicitud.usuarioPropietario;
-    return usuario?.iniciales || '';
+    return (this.solicitud.solicitante?.nombre?.charAt(0) || 'U').toUpperCase();
   }
 }

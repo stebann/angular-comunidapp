@@ -1,52 +1,23 @@
-export interface Gestiones {
+export interface Gestion {
   id: number;
-  tipo: 'solicitud' | 'prestamo';
-  articuloId: number;
-  articuloTitulo: string;
-  articuloImagen?: string;
-  articuloCategoria: string;
-  articuloTipo: 'venta' | 'prestamo';
-  articuloPrecio?: number;
-
-  // Información del usuario que hace la solicitud
-  usuarioSolicitante: {
-    id: number;
-    nombre: string;
-    iniciales: string;
-    avatar?: string;
-  };
-
-  // Información del usuario propietario del artículo
-  usuarioPropietario: {
-    id: number;
-    nombre: string;
-    iniciales: string;
-    avatar?: string;
-  };
-
-  // Detalles de la solicitud
+  nombreArticulo: string;
+  imagenesArticulo: string;
+  propietarioId: number;
+  precio: number;
+  tipoCodigo: number;
+  fechaSolicitud: string;
   mensaje: string;
-  estado:
-    | 'pendiente'
-    | 'aceptada'
-    | 'rechazada'
-    | 'cancelada'
-    | 'activo'
-    | 'devuelto'
-    | 'vencido';
-  fechaCreacion: Date;
-  fechaActualizacion?: Date;
-  // Información adicional según el tipo
-  motivoRechazo?: string;
-  fechaLimite?: Date; // Para préstamos
-  articuloIntercambio?: {
-    id: number;
-    titulo: string;
-    imagen?: string;
-  };
+  categoriaNombre: string;
+  estadoNombre: string;
+  solicitante: UsuarioInfo;
 }
 
-export interface SolicitudCardData {
-  solicitud: Gestiones;
-  esRecibida: boolean; // true si es una solicitud que recibí, false si es una que envié
+export interface UsuarioInfo {
+  id: number;
+  nombre: string;
+  email: string;
+  telefono: string;
+  direccion: string;
+  foto: string;
 }
+

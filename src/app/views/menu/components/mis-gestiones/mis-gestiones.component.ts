@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
-import { Gestiones } from './models/gestiones.model';
 import { MisGestionesService } from './services/mis-gestiones.service';
+import { Gestion } from './models/gestiones.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-mis-gestiones',
@@ -28,145 +29,14 @@ export class MisGestionesComponent implements OnInit {
   constructor(
     private filterService: FiltersService,
     public misGestionesService: MisGestionesService,
-    private authService: AuthService
   ) {}
 
-  // Datos "quemados" para demo
-  private mockSolicitudesRecibidas: Gestiones[] = [
-    {
-      id: 1,
-      tipo: 'solicitud',
-      articuloId: 10,
-      articuloTitulo: 'Taladro Percutor Bosch',
-      articuloImagen: 'https://picsum.photos/seed/gest-taladro/600/400',
-      articuloCategoria: 'Herramientas',
-      articuloTipo: 'prestamo',
-      usuarioSolicitante: {
-        id: 2,
-        nombre: 'Ana Gómez',
-        iniciales: 'AG',
-        avatar: 'https://i.pravatar.cc/64?img=47',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Tú',
-        iniciales: 'TU',
-        avatar: 'https://i.pravatar.cc/64?img=5',
-      },
-      mensaje: '¿Me lo puedes prestar este fin de semana?',
-      estado: 'pendiente',
-      fechaCreacion: new Date('2025-10-10'),
-    },
-    {
-      id: 2,
-      tipo: 'solicitud',
-      articuloId: 11,
-      articuloTitulo: 'Silla Ergonómica',
-      articuloImagen: 'https://picsum.photos/seed/gest-silla/600/400',
-      articuloCategoria: 'Hogar',
-      articuloTipo: 'venta',
-      usuarioSolicitante: {
-        id: 3,
-        nombre: 'Luis Pérez',
-        iniciales: 'LP',
-        avatar: 'https://i.pravatar.cc/64?img=12',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Tú',
-        iniciales: 'TU',
-        avatar: 'https://i.pravatar.cc/64?img=5',
-      },
-      mensaje: '¿Aún disponible? ¿Podemos negociar el precio?',
-      estado: 'aceptada',
-      fechaCreacion: new Date('2025-10-08'),
-    },
-  ];
+  ngOnInit(): void {
+    // Suscribirse a los datos del servicio
+    this.misGestionesService.getSolicitudesUsuario().subscribe();
+    this.misGestionesService.getPrestamosUsuario().subscribe();
 
-  private mockSolicitudesEnviadas: Gestiones[] = [
-    {
-      id: 3,
-      tipo: 'solicitud',
-      articuloId: 20,
-      articuloTitulo: 'Bicicleta de Montaña',
-      articuloImagen: 'https://picsum.photos/seed/gest-bici/600/400',
-      articuloCategoria: 'Deportes',
-      articuloTipo: 'venta',
-      usuarioSolicitante: {
-        id: 1,
-        nombre: 'Tú',
-        iniciales: 'TU',
-        avatar: 'https://i.pravatar.cc/64?img=5',
-      },
-      usuarioPropietario: {
-        id: 5,
-        nombre: 'Carlos Ruiz',
-        iniciales: 'CR',
-        avatar: 'https://i.pravatar.cc/64?img=15',
-      },
-      mensaje: '¿La entregas con casco y luces?',
-      estado: 'rechazada',
-      fechaCreacion: new Date('2025-10-01'),
-    },
-  ];
-
-  private mockPrestamosRecibidos: Gestiones[] = [
-    {
-      id: 4,
-      tipo: 'prestamo',
-      articuloId: 30,
-      articuloTitulo: 'Juego de Herramientas',
-      articuloImagen: 'https://picsum.photos/seed/gest-herr/600/400',
-      articuloCategoria: 'Herramientas',
-      articuloTipo: 'prestamo',
-      usuarioSolicitante: {
-        id: 6,
-        nombre: 'María López',
-        iniciales: 'ML',
-        avatar: 'https://i.pravatar.cc/64?img=32',
-      },
-      usuarioPropietario: {
-        id: 1,
-        nombre: 'Tú',
-        iniciales: 'TU',
-        avatar: 'https://i.pravatar.cc/64?img=5',
-      },
-      mensaje: 'Te devuelvo el lunes sin falta.',
-      estado: 'activo',
-      fechaCreacion: new Date('2025-09-28'),
-      fechaLimite: new Date('2025-10-15'),
-    },
-  ];
-
-  private mockPrestamosOtorgados: Gestiones[] = [
-    {
-      id: 5,
-      tipo: 'prestamo',
-      articuloId: 31,
-      articuloTitulo: 'Libro: Clean Code',
-      articuloImagen: 'https://picsum.photos/seed/gest-libro/600/400',
-      articuloCategoria: 'Libros',
-      articuloTipo: 'prestamo',
-      usuarioSolicitante: {
-        id: 1,
-        nombre: 'Tú',
-        iniciales: 'TU',
-        avatar: 'https://i.pravatar.cc/64?img=5',
-      },
-      usuarioPropietario: {
-        id: 7,
-        nombre: 'Jorge Díaz',
-        iniciales: 'JD',
-        avatar: 'https://i.pravatar.cc/64?img=68',
-      },
-      mensaje: 'Gracias por el préstamo, lo cuido bien.',
-      estado: 'devuelto',
-      fechaCreacion: new Date('2025-09-10'),
-      fechaLimite: new Date('2025-09-30'),
-    },
-  ];
-
-  ngOnInit() {
+    // Cargar filtros
     this.filterService
       .getCategorias()
       .subscribe((categorias) => (this.categorias = categorias));
@@ -181,26 +51,26 @@ export class MisGestionesComponent implements OnInit {
   }
 
   get filtro() {
-    return this.misGestionesService.filtroGestiones;
+    return this.misGestionesService.filtroMisGestiones;
   }
 
   get solicitudesRecibidas() {
-    return this.mockSolicitudesRecibidas;
+    return this.misGestionesService.solicitudesRecibidas;
   }
 
   get solicitudesEnviadas() {
-    return this.mockSolicitudesEnviadas;
+    return this.misGestionesService.solicitudesEnviadas;
   }
 
   get prestamosRecibidos() {
-    return this.mockPrestamosRecibidos;
+    return this.misGestionesService.prestamosRecibidos;
   }
 
   get prestamosOtorgados() {
-    return this.mockPrestamosOtorgados;
+    return this.misGestionesService.prestamosOtorgados;
   }
 
-  get solicitudesActuales(): Gestiones[] {
+  get solicitudesActuales(): Gestion[] {
     if (this.activeTab === 'solicitudes') {
       return this.isRecibidas
         ? this.solicitudesRecibidas
@@ -212,19 +82,17 @@ export class MisGestionesComponent implements OnInit {
     }
   }
 
-  get solicitudesFiltradas(): Gestiones[] {
+  get solicitudesFiltradas(): Gestion[] {
     if (!this.searchTerm.trim()) {
-      return this.solicitudesActuales;
+      return this.solicitudesActuales || [];
     }
 
     const termino = this.searchTerm.toLowerCase();
-    return this.solicitudesActuales.filter(
+    return (this.solicitudesActuales || []).filter(
       (solicitud) =>
-        solicitud.articuloTitulo.toLowerCase().includes(termino) ||
-        solicitud.mensaje.toLowerCase().includes(termino) ||
-        (this.isRecibidas
-          ? solicitud.usuarioSolicitante.nombre.toLowerCase().includes(termino)
-          : solicitud.usuarioPropietario.nombre.toLowerCase().includes(termino))
+        (solicitud.nombreArticulo?.toLowerCase() || '').includes(termino) ||
+        (solicitud.mensaje?.toLowerCase() || '').includes(termino) ||
+        (solicitud.solicitante?.nombre?.toLowerCase() || '').includes(termino)
     );
   }
 
@@ -246,26 +114,26 @@ export class MisGestionesComponent implements OnInit {
   }
 
   getTotalSolicitudes(): number {
-    return this.solicitudesRecibidas.length + this.solicitudesEnviadas.length;
+    return (this.solicitudesRecibidas?.length || 0) + (this.solicitudesEnviadas?.length || 0);
   }
 
   getTotalPrestamos(): number {
-    return this.prestamosRecibidos.length + this.prestamosOtorgados.length;
+    return (this.prestamosRecibidos?.length || 0) + (this.prestamosOtorgados?.length || 0);
   }
 
   getTotalRecibidas(): number {
     if (this.activeTab === 'solicitudes') {
-      return this.solicitudesRecibidas.length;
+      return this.solicitudesRecibidas?.length || 0;
     } else {
-      return this.prestamosRecibidos.length;
+      return this.prestamosRecibidos?.length || 0;
     }
   }
 
   getTotalEnviadas(): number {
     if (this.activeTab === 'solicitudes') {
-      return this.solicitudesEnviadas.length;
+      return this.solicitudesEnviadas?.length || 0;
     } else {
-      return this.prestamosOtorgados.length;
+      return this.prestamosOtorgados?.length || 0;
     }
   }
 
@@ -281,7 +149,7 @@ export class MisGestionesComponent implements OnInit {
     }
   }
 
-  solicitudDetalle(solicitud: Gestiones): void {}
+  solicitudDetalle(solicitud: Gestion): void {}
 
   getNoItemsTitle(): string {
     if (this.activeTab === 'solicitudes') {
