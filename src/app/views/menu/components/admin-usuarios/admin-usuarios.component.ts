@@ -44,8 +44,8 @@ export class AdminUsuariosComponent implements OnInit {
     }
 
     const rolFilter = this.filtro.get('rol')?.value;
-    if (rolFilter) {
-      filtrados = filtrados.filter((u) => u.rol.nombre === rolFilter);
+    if (rolFilter && rolFilter !== 0) {
+      filtrados = filtrados.filter((u) => u.rol.codigo === rolFilter);
     }
 
     return filtrados;

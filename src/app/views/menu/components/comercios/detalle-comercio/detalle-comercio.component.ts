@@ -10,7 +10,6 @@ import { ComercioService } from '../services/comercio.service';
 export class DetalleComercioComponent implements OnInit {
   comercio: any = null;
   comercioId: number = 0;
-
   searchTermArticulos: string = '';
   soloFavoritosArticulos: boolean = false;
   favoritosArticulos: number[] = [];
@@ -25,8 +24,8 @@ export class DetalleComercioComponent implements OnInit {
   ) {}
 
   opciones = [
-    { label: 'Solicitudes', value: 'solicitudes' },
-    { label: 'Préstamos', value: 'prestamos' },
+    { label: 'Solicitudes', value: 1 },
+    { label: 'Préstamos', value: 2 },
   ];
 
   // Datos de ejemplo de comercios (alineados con la vista de lista)

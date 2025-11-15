@@ -1,5 +1,6 @@
 export interface Rol {
   id: number;
+  codigo: number;
   nombre: string;
   descripcion: string;
   createdAt?: string;

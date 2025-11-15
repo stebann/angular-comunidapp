@@ -135,7 +135,12 @@
             </app-dropdown-field>
           </div>
 
-          <div class="field-group" *ngIf="">
+          <div
+            class="field-group"
+            *ngIf="
+              form.get('tipoTransaccionCodigo')?.value === tipoTransaccionVenta
+            "
+          >
             <app-input-number-field
               label="Precio"
               formControlName="precio"

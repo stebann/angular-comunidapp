@@ -6,11 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
-export interface DropdownOption {
-  value: string | number;
-  label: string;
-}
+import { FilterOption } from '../../models/filter-models';
 
 @Component({
   selector: 'app-dropdown-field',
@@ -25,7 +21,7 @@ export interface DropdownOption {
   ],
 })
 export class DropdownFieldComponent implements ControlValueAccessor {
-  @Input() options: DropdownOption[] = [];
+  @Input() options: FilterOption[] = [];
   @Input() placeholder: string = 'Seleccionar...';
   @Input() disabled: boolean = false;
   @Input() required: boolean = false;

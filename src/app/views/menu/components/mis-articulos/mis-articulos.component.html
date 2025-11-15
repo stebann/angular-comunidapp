@@ -26,7 +26,7 @@
       <app-articulo-card
         *ngFor="let articulo of articulos"
         [articulo]="articulo"
-        [menuItems]="articulo.disponible ? menuItems : []"
+        [menuItems]="menuItems"
         [esDueno]="true"
         (cardClicked)="abrirModalArticulo($event)"
         (menuOpened)="articuloSeleccionado = $event"

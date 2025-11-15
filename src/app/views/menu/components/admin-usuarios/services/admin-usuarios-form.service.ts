@@ -21,10 +21,7 @@ export class AdminUsuariosFormService extends AdminUsuariosRepository {
     });
   }
 
-  get rolesOptionsForDropdown() {
-    return [
-      { label: 'Todos', value: '' },
-      ...this.rolesOptions.map((r) => ({ label: r.label, value: r.label })),
-    ];
+  get rolesOptionsForDropdown(): FilterOption[] {
+    return [{ label: 'Todos', value: 0 }, ...this.rolesOptions];
   }
 }

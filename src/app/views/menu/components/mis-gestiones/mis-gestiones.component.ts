@@ -21,8 +21,8 @@ export class MisGestionesComponent implements OnInit {
   tiposTransaccion: FilterOption[] = [];
 
   opciones = [
-    { label: 'Solicitudes', value: 'solicitudes' },
-    { label: 'Préstamos', value: 'prestamos' },
+    { label: 'Solicitudes', value: 1 },
+    { label: 'Préstamos', value: 2 },
   ];
 
   constructor(

@@ -66,11 +66,12 @@ export class ExplorarComponent implements OnInit {
     this.explorarService.filtrar();
   }
 
-  abrirModalArticulo(): void {
+  abrirModalArticulo(articulo: Articulo): void {
     this.dialogService$.open(ArticuloDetailComponent, {
       header: 'Detalle del Artículo',
       width: '850px',
       height: 'auto',
+      data: { articulo: articulo, esDueno: false },
       styleClass: 'p-app-modal',
     });
   }

@@ -8,14 +8,10 @@
 
       <div
         class="action-menu"
-        *ngIf="esDueno"
-        (click)="$event.stopPropagation(); onMenuClick()"
+        *ngIf="esDueno && menuItems.length > 0"
+        (click)="$event.stopPropagation(); menuOpened.emit(articulo)"
       >
-        <app-opciones
-          [items]="menuItems"
-          [color]="'white'"
-          (click)="selectItem = articulo"
-        ></app-opciones>
+        <app-opciones [items]="menuItems" [color]="'white'"></app-opciones>
       </div>
     </div>
   </div>

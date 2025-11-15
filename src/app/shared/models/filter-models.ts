@@ -4,6 +4,6 @@ export interface FilterOption {
 }
 
 export interface IFilter {
-  id: number;
+  codigo: number;
   nombre: string;
 }

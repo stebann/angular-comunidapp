@@ -18,7 +18,9 @@
       <app-articulo-card
         *ngFor="let articulo of articulos"
         [articulo]="articulo"
-        (cardClicked)="abrirModalArticulo()"
+        [esDueno]="false"
+        [menuItems]="[]"
+        (cardClicked)="abrirModalArticulo($event)"
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>

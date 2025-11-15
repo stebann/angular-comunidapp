@@ -36,7 +36,7 @@ export class FiltersService {
 
   private mapToFilterOptions(data: IFilter[]): FilterOption[] {
     return data.map((item) => ({
-      value: item.id,
+      value: item.codigo,
       label: item.nombre,
     }));
   }

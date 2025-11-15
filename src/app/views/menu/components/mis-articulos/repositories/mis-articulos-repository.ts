@@ -18,9 +18,8 @@ export class MisArticulosRepository {
       ]),
       categoriaCodigo: new FormControl(null, [Validators.required]),
       condicionCodigo: new FormControl(null, [Validators.required]),
-      estadoArticuloCodigo: new FormControl(null, [Validators.required]),
       tipoTransaccionCodigo: new FormControl(null, [Validators.required]),
-      precio: new FormControl(0, [Validators.required, Validators.min(0)]),
+      precio: new FormControl(null, [Validators.min(0)]),
       imagenes: new FormControl([]),
     });
   }
@@ -38,9 +37,8 @@ export class MisArticulosRepository {
       ]),
       categoriaCodigo: new FormControl(null, [Validators.required]),
       condicionCodigo: new FormControl(null, [Validators.required]),
-      estadoArticuloCodigo: new FormControl(null, [Validators.required]),
       tipoTransaccionCodigo: new FormControl(null, [Validators.required]),
-      precio: new FormControl(0, [Validators.required, Validators.min(0)]),
+      precio: new FormControl(null, [Validators.min(0)]),
       imagenes: new FormControl([]),
       disponible: new FormControl(true),
     });
