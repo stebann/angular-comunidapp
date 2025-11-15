@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
+import { EstadoArticulo } from 'src/app/shared/enums/articulo.enums';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 
 import { FiltersService } from 'src/app/shared/services/filters.service';
@@ -29,7 +31,8 @@ export class MisArticulosComponent implements OnInit {
     private authService: AuthService,
     private filtersService: FiltersService,
     public dialogService$: DialogService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private appMessages: AppMessagesServices
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +60,9 @@ export class MisArticulosComponent implements OnInit {
         command: () => {
           this.onEdit();
         },
-        visible: () => this.articuloSeleccionado?.disponible === true,
+        visible: () =>
+          this.articuloSeleccionado?.estadoArticuloCodigo ===
+          EstadoArticulo.Disponible,
       },
       {
         label: 'Eliminar',
@@ -110,15 +115,22 @@ export class MisArticulosComponent implements OnInit {
   }
 
   onRemove(): void {
-    if (!this.articuloSeleccionado) return;
-
     // Validar que el artículo esté disponible
-    if (!this.articuloSeleccionado.disponible) {
+    if (
+      this.articuloSeleccionado!.estadoArticuloCodigo ==
+      EstadoArticulo.Disponible
+    ) {
+      this.appMessages.advertencia(
+        'Solo puedes eliminar artículos que estén disponibles',
+        'Acción no permitida'
+      );
       return;
     }
 
     this.confirmationService.confirm({
-      message: `¿Estás seguro de que deseas eliminar el artículo "${this.articuloSeleccionado.titulo}"?`,
+      message: `¿Estás seguro de que deseas eliminar el artículo "${
+        this.articuloSeleccionado!.titulo
+      }"?`,
       header: 'Confirmar eliminación',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
@@ -127,7 +139,6 @@ export class MisArticulosComponent implements OnInit {
           .eliminar(this.articuloSeleccionado!.id, usuario.id)
           .subscribe(
             () => {
-              // Recargar artículos
               this.articulosService.getMisArticulos(usuario.id);
               this.articuloSeleccionado = null;
             },
