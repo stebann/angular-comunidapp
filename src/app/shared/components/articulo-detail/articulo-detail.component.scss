@@ -11,7 +11,7 @@
   .modal-content {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-sm);
     flex: 0 0 auto;
     height: auto;
     overflow: visible;
@@ -24,21 +24,21 @@
 .left-column {
   display: flex;
   flex-direction: column;
-  height: auto;
-  overflow: visible;
+  height: 100%;
   min-height: 0;
   box-sizing: border-box;
   position: relative;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
+  gap: var(--spacing-md);
+  border-right: 1px solid var(--color-border);
 }
 
 .carousel-main {
   position: relative;
   width: 100%;
   aspect-ratio: 1;
-  max-width: 400px;
-  width: 400px;
+  max-width: 320px;
   border-radius: var(--border-radius-md);
   overflow: hidden;
   background: var(--color-white);
@@ -47,6 +47,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin: 0 auto;
 }
 
 .main-image {
@@ -147,13 +148,25 @@
   overflow-x: hidden;
   padding-right: var(--spacing-sm);
   gap: var(--spacing-md);
-  height: auto;
+  height: 100%;
   min-height: 0;
   box-sizing: border-box;
   position: relative;
 
-  app-button {
+  .button-container {
     margin-top: auto;
+    padding-top: var(--spacing-md);
+    text-align: right;
+    border-top: 1px solid var(--color-border);
+    
+    .p-button {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.9rem;
+      
+      .pi {
+        margin-right: 0.5rem;
+      }
+    }
   }
 
   &::-webkit-scrollbar {
@@ -265,8 +278,36 @@
   text-align: right;
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  
+  .ver-mas {
+    color: var(--color-primary);
+    font-size: 0.9rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+    
+    &:hover {
+      text-decoration: underline;
+      color: var(--color-primary-dark);
+    }
+  }
+}
+
 .propietario-section {
-  margin-bottom: var(--spacing-lg);
+  width: 100%;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-light);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 
   .subsection-title {
     margin: 0 0 var(--spacing-md) 0;

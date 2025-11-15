@@ -44,6 +44,32 @@
           <p>Sin fotos disponibles</p>
         </div>
       </ng-template>
+
+      <!-- Información del Propietario -->
+      <div class="propietario-section">
+        <div class="section-header">
+          <h4 class="subsection-title">Información del Propietario</h4>
+          <a href="#" class="ver-mas" (click)="$event.preventDefault()">Ver más</a>
+        </div>
+        <div class="propietario-info-list">
+          <div class="info-item">
+            <span class="info-label">Nombre:</span>
+            <span class="info-value">{{ propietarioNombre }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Correo:</span>
+            <span class="info-value">{{ propietarioCorreo }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Teléfono:</span>
+            <span class="info-value">{{ propietarioTelefono }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Dirección:</span>
+            <span class="info-value">{{ propietarioDireccion }}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Columna Derecha: Toda la Información -->
@@ -78,38 +104,18 @@
         </div>
       </div>
 
-      <!-- Información del Propietario -->
-      <div class="propietario-section">
-        <h4 class="subsection-title">Información del Propietario</h4>
-        <div class="propietario-info-list">
-          <div class="info-item">
-            <span class="info-label">Nombre:</span>
-            <span class="info-value">{{ propietarioNombre }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Correo:</span>
-            <span class="info-value">{{ propietarioCorreo }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Teléfono:</span>
-            <span class="info-value">{{ propietarioTelefono }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Dirección:</span>
-            <span class="info-value">{{ propietarioDireccion }}</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Botón Solicitar Artículo -->
-      <app-button
-        type="primary"
-        size="md"
-        [fullWidth]="true"
-        (clicked)="solicitarArticulo()"
-      >
-        Solicitar Artículo
-      </app-button>
+      <div class="button-container">
+        <app-button
+          type="primary"
+          size="md"
+          [fullWidth]="false"
+          (clicked)="solicitarArticulo()"
+        >
+          <i class="pi pi-shopping-cart" style="margin-right: 8px"></i>
+          Solicitar Artículo
+        </app-button>
+      </div>
     </div>
   </div>
 </div>
