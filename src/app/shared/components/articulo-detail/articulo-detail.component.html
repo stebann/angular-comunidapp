@@ -72,10 +72,6 @@
         
         <div class="detalles-info">
           <div class="detalle-item">
-            <span class="detalle-label">Fecha de Compra:</span>
-            <span class="detalle-value">{{ fechaCompra | date: 'd MMMM yyyy' }}</span>
-          </div>
-          <div class="detalle-item">
             <span class="detalle-label">Categoría:</span>
             <span class="detalle-value">{{ categoriaNombre }}</span>
           </div>
@@ -83,11 +79,9 @@
             <span class="detalle-label">Condición:</span>
             <span class="detalle-value">{{ articulo?.condicionNombre || 'No especificada' }}</span>
           </div>
-          <div class="detalle-item">
-            <span class="detalle-label">Valor:</span>
-            <span class="detalle-value">{{
-              valor | currency : "USD" : "symbol" : "1.2-2"
-            }}</span>
+          <div class="detalle-item" *ngIf="articulo?.precio !== undefined && articulo?.precio !== null">
+            <span class="detalle-label">Precio:</span>
+            <span class="detalle-value">{{ articulo?.precio | currency : "USD" : "symbol" : "1.2-2" }}</span>
           </div>
         </div>
       </div>
@@ -106,45 +100,45 @@
       <div class="info-content">
         <div class="info-item">
           <span class="info-label">Nombre:</span>
-          <span class="info-value">{{ propietarioNombre }}</span>
+          <span #nombreElement class="info-value" [pTooltip]="propietarioNombre" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(nombreElement)">{{ propietarioNombre }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Correo:</span>
-          <span class="info-value">{{ propietarioCorreo }}</span>
+          <span #emailElement class="info-value" [pTooltip]="propietarioEmail" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(emailElement)">{{ propietarioEmail }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Teléfono:</span>
-          <span class="info-value">{{ propietarioTelefono }}</span>
+          <span #telefonoElement class="info-value" [pTooltip]="propietarioTelefono" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(telefonoElement)">{{ propietarioTelefono }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Dirección:</span>
-          <span class="info-value">{{ propietarioDireccion }}</span>
+          <span #direccionElement class="info-value" [pTooltip]="propietarioDireccion" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(direccionElement)">{{ propietarioDireccion }}</span>
         </div>
       </div>
     </div>
 
     <!-- Información del Préstamo -->
-    <div class="info-section">
+    <div class="info-section" *ngIf="tieneSolicitante">
       <div class="section-header">
         <h4 class="subsection-title">Información del Préstamo</h4>
         <a href="#" class="ver-mas" (click)="$event.preventDefault()">Ver más</a>
       </div>
       <div class="info-content">
         <div class="info-item">
-          <span class="info-label">Prestado a:</span>
-          <span class="info-value">Juan Pérez</span>
+          <span class="info-label">Solicitante:</span>
+          <span #solicitanteNombreElement class="info-value" [pTooltip]="solicitanteNombre" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteNombreElement)">{{ solicitanteNombre }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Correo:</span>
-          <span class="info-value">juan.perez@example.com</span>
+          <span #solicitanteEmailElement class="info-value" [pTooltip]="solicitanteEmail" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteEmailElement)">{{ solicitanteEmail }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Teléfono:</span>
-          <span class="info-value">+1 234 567 890</span>
+          <span #solicitanteTelefonoElement class="info-value" [pTooltip]="solicitanteTelefono" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteTelefonoElement)">{{ solicitanteTelefono }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Dirección:</span>
-          <span class="info-value">Calle Falsa 123, Ciudad</span>
+          <span #solicitanteDireccionElement class="info-value" [pTooltip]="solicitanteDireccion" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteDireccionElement)">{{ solicitanteDireccion }}</span>
         </div>
       </div>
     </div>
@@ -152,13 +146,12 @@
     </div>
     
     <!-- Botón Solicitar Artículo debajo de las secciones -->
-    <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: 1rem;">
+    <div *ngIf="!isOwner" style="display: flex; justify-content: flex-end; width: 100%; margin-top: 1rem;">
       <app-button 
         type="primary" 
-        size="md"
-        (clicked)="solicitarArticulo()">
-        <i class="pi pi-shopping-cart" style="margin-right: 8px"></i>
-        Solicitar Artículo
+        icon="pi pi-shopping-cart" 
+        [disabled]="!estaDisponible"
+        (onClick)="solicitarArticulo()">Solicitar Artículo
       </app-button>
     </div>
   </div>

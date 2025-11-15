@@ -35,6 +35,8 @@ export class ArticuloDetailService extends ArticuloDetailRepository {
         precio: articulo.precio,
         imagenes: articulo.imagenes,
         creadoEn: articulo.creadoEn,
+        propietario: articulo.propietario,
+        ...(articulo.solicitante && { solicitante: articulo.solicitante })
       });
     });
   }

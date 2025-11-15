@@ -172,7 +172,9 @@ export class MisArticulosComponent implements OnInit {
       header: 'Detalle del Artículo',
       width: '50vw',
       height: 'auto',
-      data: { articuloId: articulo.id },
+      data: { 
+        articuloId: articulo.id,
+      },
       styleClass: 'p-app-modal',
     });
   }

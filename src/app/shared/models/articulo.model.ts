@@ -13,18 +13,14 @@ export interface Articulo {
   precio: number;
   imagenes: string[];
   creadoEn: string;
-  propietario?: {
-    nombre: string;
-    correo: string;
-    telefono: string;
-    direccion: string;
-  };
-  fechaCompra?: string;
-  valor?: number;
-  prestamo?: {
-    fechaPrestamo: string;
-    fechaDevolucion: string;
-    prestadoA: string;
-    notas: string;
-  };
+  propietario: UsuarioInfo;
+  solicitante?: UsuarioInfo;
+}
+
+export interface UsuarioInfo {
+  id: number;
+  nombre: string;
+  email: string;
+  telefono: string;
+  direccion: string;
 }
