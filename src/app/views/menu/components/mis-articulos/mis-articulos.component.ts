@@ -157,7 +157,6 @@ export class MisArticulosComponent implements OnInit {
   onFiltersApplied(): void {}
 
   openCreateModal(): void {
-    // Resetear ambos formularios y asegurar que formEdit no tenga id
     this.articulosService.formNew.reset();
     this.articulosService.formEdit.reset();
     this.articulosService.formEdit.patchValue({ id: null });
@@ -173,7 +172,7 @@ export class MisArticulosComponent implements OnInit {
       header: 'Detalle del Artículo',
       width: '850px',
       height: 'auto',
-      data: { articulo: articulo, esDueno: true },
+      data: { articulo: articulo },
       styleClass: 'p-app-modal',
     });
   }
