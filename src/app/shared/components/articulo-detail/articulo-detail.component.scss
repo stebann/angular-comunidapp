@@ -403,7 +403,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
     min-height: 32px;
 
     .ver-mas {
@@ -423,7 +422,7 @@
   .info-content {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 0.7rem;
     flex: 1;
     justify-content: flex-start;
     padding: 0.1rem 0.5rem 0.5rem;
@@ -453,7 +452,32 @@
   }
 }
 
-// Botón se maneja con app-button component
+// Estilos para el botón Solicitar
+.solicitar-btn-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+  
+  .p-button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+    margin: 0;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
 
 @media (max-width: 992px) {
   .modal-articulo {
