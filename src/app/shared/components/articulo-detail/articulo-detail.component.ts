@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Articulo } from '../../models/articulo.model';
-import { ImageHandlerService } from '../../services/image-handler.service';
+import { ArticuloDetailService } from './services/articulo-detail.service';
 
 @Component({
   selector: 'app-articulo-detail',
@@ -16,12 +16,18 @@ export class ArticuloDetailComponent implements OnInit {
 
   constructor(
     public config: DynamicDialogConfig,
-    private imageHandler: ImageHandlerService
+    private articuloDetailService: ArticuloDetailService
   ) {}
 
   ngOnInit(): void {
     if (this.config.data?.articulo) {
       this.articulo = this.config.data.articulo;
+    } else if (this.config.data?.articuloId) {
+      this.articuloDetailService
+        .obtenerArticuloById(this.config.data.articuloId)
+        .subscribe((articulo: Articulo) => {
+          this.articulo = articulo;
+        });
     }
   }
 
