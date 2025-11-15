@@ -3,7 +3,7 @@
     <div class="media-wrapper">
       <img [src]="getImagenSrc()" [alt]="articulo.alt || articulo.titulo" />
       <div class="badge condicion-badge">
-        <span>{{ articulo.condicionNombre }}</span>
+        <span>{{ articulo.tipoTransaccionNombre }}</span>
       </div>
 
       <div
@@ -17,21 +17,22 @@
   </div>
 
   <div class="articulo-body">
-    <h3 class="articulo-titulo">{{ articulo.titulo }}</h3>
+    <div class="articulo-header">
+      <h3 class="articulo-titulo">{{ articulo.titulo }}</h3>
+      <span class="estado-chip">{{ articulo.estadoArticuloNombre }}</span>
+    </div>
     <p class="articulo-descripcion">{{ articulo.descripcion }}</p>
 
     <div class="articulo-meta">
       <div class="meta-left">
-        <span class="estado-chip">{{ articulo.estadoArticuloNombre }}</span>
         <span class="categoria">
           <i class="pi pi-tag categoria-icon" aria-hidden="true"></i>
           {{ articulo.categoriaNombre }}
         </span>
+        <span class="tipo">{{ articulo.condicionNombre }}</span>
       </div>
 
-      <div class="meta-right">
-        <span class="tipo-label">{{ articulo.tipoTransaccionNombre }}</span>
-      </div>
+      <div class="meta-right"></div>
     </div>
   </div>
 </div>
