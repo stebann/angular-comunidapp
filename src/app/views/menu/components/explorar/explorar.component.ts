@@ -68,9 +68,9 @@ export class ExplorarComponent implements OnInit {
 
   abrirModalArticulo(articulo: Articulo): void {
     this.dialogService$.open(ArticuloDetailComponent, {
-      header: 'Detalle del Artículo',
-      width: '850px',
-      height: 'auto',
+      header: articulo.titulo,
+      width: '85vw',
+      height: '95vh',
       data: { articulo: articulo, esDueno: false },
       styleClass: 'p-app-modal',
     });
