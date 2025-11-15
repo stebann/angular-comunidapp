@@ -47,11 +47,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease;
-
-  &:hover {
-    transform: scale(1.02);
-  }
 }
 
 .main-image {
@@ -230,10 +225,17 @@
 }
 
 .detalles-text {
-  margin: 0 0 var(--spacing-md) 0;
   color: var(--color-dark);
-  line-height: 1.6;
-  font-size: var(--font-size-base);
+  line-height: 1.5;
+  margin: 0 0 var(--spacing-md);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .detalles-info {

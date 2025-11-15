@@ -63,7 +63,7 @@
       <!-- Detalles del Artículo -->
       <div class="details-section">
         <h4 class="subsection-title">Detalles del Artículo</h4>
-        <p class="detalles-text">{{ descripcion }}</p>
+        <p class="detalles-text" [pTooltip]="descripcion" tooltipPosition="top" [showDelay]="500" [hideDelay]="300">{{ descripcion }}</p>
         <div class="detalles-info">
           <div class="detalle-item">
             <span class="detalle-label">Fecha de Compra:</span>
