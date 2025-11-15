@@ -13,4 +13,12 @@ export interface Articulo {
   precio: number;
   imagenes: string[];
   creadoEn: string;
+  propietario?: {
+    nombre: string;
+    correo: string;
+    telefono: string;
+    direccion: string;
+  };
+  fechaCompra?: string;
+  valor?: number;
 }

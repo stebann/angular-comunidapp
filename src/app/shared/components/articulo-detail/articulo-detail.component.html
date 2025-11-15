@@ -1,124 +1,115 @@
 <div class="modal-articulo">
   <div class="modal-content">
-    <div class="left">
-      <div class="carousel-container">
-        <ng-container
-          *ngIf="
-            articulo?.imagenes && (articulo?.imagenes)!.length > 0;
-            else emptyState
-          "
-        >
-          <div class="carousel-main">
-            <img
-              [src]="getImagenSrc(articulo!.imagenes![currentImageIndex])"
-              alt="Imagen del artículo"
-              class="main-image"
-            />
-
-            <button
-              type="button"
-              class="nav-btn prev-btn"
-              [disabled]="currentImageIndex === 0"
-              (click)="anteriorImagen()"
-              *ngIf="(articulo?.imagenes)!.length > 1"
-            >
-              <i class="pi pi-chevron-left"></i>
-            </button>
-
-            <button
-              type="button"
-              class="nav-btn next-btn"
-              [disabled]="
-                currentImageIndex === (articulo?.imagenes)!.length - 1
-              "
-              (click)="siguienteImagen()"
-              *ngIf="(articulo?.imagenes)!.length > 1"
-            >
-              <i class="pi pi-chevron-right"></i>
-            </button>
-
-            <div class="image-counter" *ngIf="(articulo?.imagenes)!.length > 1">
-              {{ currentImageIndex + 1 }} / {{ (articulo?.imagenes)!.length }}
-            </div>
+    <!-- Columna Izquierda: Solo Imagen -->
+    <div class="left-column">
+      <ng-container
+        *ngIf="
+          articulo?.imagenes && (articulo?.imagenes)!.length > 0;
+          else emptyState
+        "
+      >
+        <div class="carousel-main" (click)="openImageViewer()">
+          <img
+            [src]="getImagenSrc(articulo!.imagenes![currentImageIndex])"
+            alt="Imagen del artículo"
+            class="main-image"
+          />
+          <button
+            type="button"
+            class="nav-btn prev-btn"
+            [disabled]="!canGoPrev()"
+            (click)="prevImage(); $event.stopPropagation()"
+            *ngIf="(articulo?.imagenes)!.length > 1"
+          >
+            <i class="pi pi-chevron-left"></i>
+          </button>
+          <button
+            type="button"
+            class="nav-btn next-btn"
+            [disabled]="!canGoNext()"
+            (click)="nextImage(); $event.stopPropagation()"
+            *ngIf="(articulo?.imagenes)!.length > 1"
+          >
+            <i class="pi pi-chevron-right"></i>
+          </button>
+          <div class="image-counter" *ngIf="(articulo?.imagenes)!.length > 1">
+            {{ currentImageIndex + 1 }} / {{ (articulo?.imagenes)!.length }}
           </div>
-        </ng-container>
+        </div>
+      </ng-container>
 
-        <ng-template #emptyState>
-          <div class="empty-state">
-            <i class="pi pi-image"></i>
-            <p>Sin fotos disponibles</p>
-          </div>
-        </ng-template>
-      </div>
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <i class="pi pi-image"></i>
+          <p>Sin fotos disponibles</p>
+        </div>
+      </ng-template>
     </div>
 
-    <div class="right">
-      <h3 class="section-title">{{ articulo?.titulo }}</h3>
+    <!-- Columna Derecha: Toda la Información -->
+    <div class="right-column">
+      <div class="header-section">
+        <h3 class="section-title">{{ titulo }}</h3>
+      </div>
 
-      <!-- Información del Artículo -->
-      <div class="info-section">
-        <h4 class="subsection-title">
-          <i class="pi pi-info-circle"></i>
-          Información del Artículo
-        </h4>
+      <!-- Tags -->
+      <div class="tags-container">
+        <span class="tag tag-disponible" *ngIf="estaDisponible">
+          Disponible
+        </span>
+        <span class="tag tag-categoria">{{ categoriaNombre }}</span>
+      </div>
 
-        <div class="info-rows">
-          <div class="info-row">
-            <span class="label">Categoría</span>
-            <span class="value">{{ articulo?.categoriaNombre }}</span>
+      <!-- Detalles del Artículo -->
+      <div class="details-section">
+        <h4 class="subsection-title">Detalles del Artículo</h4>
+        <p class="detalles-text">{{ descripcion }}</p>
+        <div class="detalles-info">
+          <div class="detalle-item">
+            <span class="detalle-label">Fecha de Compra:</span>
+            <span class="detalle-value">{{ fechaCompra }}</span>
           </div>
-          <div class="info-row">
-            <span class="label">Condición</span>
-            <span class="value">{{ articulo?.condicionNombre }}</span>
-          </div>
-          <div class="info-row" *ngIf="articulo?.estadoArticuloNombre">
-            <span class="label">Estado</span>
-            <span class="value">{{ articulo?.estadoArticuloNombre }}</span>
-          </div>
-          <div class="info-row" *ngIf="articulo?.tipoTransaccionCodigo === 1">
-            <span class="label">Precio</span>
-            <span class="value">{{
-              articulo?.precio | currency : "COP" : "symbol" : "1.0-0"
+          <div class="detalle-item">
+            <span class="detalle-label">Valor:</span>
+            <span class="detalle-value">{{
+              valor | currency : "USD" : "symbol" : "1.2-2"
             }}</span>
           </div>
         </div>
       </div>
 
-      <!-- Descripción -->
-      <div class="descripcion-section">
-        <h4 class="subsection-title">Descripción</h4>
-        <p class="descripcion-text">{{ articulo?.descripcion }}</p>
-      </div>
-
-      <!-- Propietario -->
+      <!-- Información del Propietario -->
       <div class="propietario-section">
-        <h4 class="subsection-title">
-          <i class="pi pi-user"></i>
-          Propietario
-        </h4>
-        <div class="propietario-card">
-          <div class="propietario-avatar">
-            <i class="fa-solid fa-user-circle"></i>
+        <h4 class="subsection-title">Información del Propietario</h4>
+        <div class="propietario-info-list">
+          <div class="info-item">
+            <span class="info-label">Nombre:</span>
+            <span class="info-value">{{ propietarioNombre }}</span>
           </div>
-          <div class="propietario-info">
-            <h5>Juan Pérez</h5>
-            <div class="propietario-details">
-              <div class="detail-row">
-                <i class="fa-solid fa-envelope"></i>
-                <span>juan@example.com</span>
-              </div>
-              <div class="detail-row">
-                <i class="fa-solid fa-phone"></i>
-                <span>+57 300 123 4567</span>
-              </div>
-              <div class="detail-row">
-                <i class="fa-solid fa-map-location-dot"></i>
-                <span>Calle 123, Apartamento 456, Bogotá</span>
-              </div>
-            </div>
+          <div class="info-item">
+            <span class="info-label">Correo:</span>
+            <span class="info-value">{{ propietarioCorreo }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Teléfono:</span>
+            <span class="info-value">{{ propietarioTelefono }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Dirección:</span>
+            <span class="info-value">{{ propietarioDireccion }}</span>
           </div>
         </div>
       </div>
+
+      <!-- Botón Solicitar Artículo -->
+      <app-button
+        type="primary"
+        size="md"
+        [fullWidth]="true"
+        (clicked)="solicitarArticulo()"
+      >
+        Solicitar Artículo
+      </app-button>
     </div>
   </div>
 </div>

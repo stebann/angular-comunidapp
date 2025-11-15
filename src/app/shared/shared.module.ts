@@ -25,6 +25,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
 import { GenericFilterComponent } from './components/generic-filter/generic-filter.component';
+import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 import { InputDateFieldComponent } from './components/input-date-field/input-date-field.component';
 import { InputFieldComponent } from './components/input-field/input-field.component';
 import { InputNumberFieldComponent } from './components/input-number-field/input-number-field.component';
@@ -53,6 +54,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     SearchHeaderComponent,
     ArticuloDetailComponent,
     ProfileModalComponent,
+    ImageViewerComponent,
   ],
   imports: [
     CommonModule,
@@ -89,6 +91,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     TextareaFieldComponent,
     CommonModule,
     ArticuloDetailComponent,
+    ImageViewerComponent,
     FormsModule,
     ReactiveFormsModule,
     RouterModule,

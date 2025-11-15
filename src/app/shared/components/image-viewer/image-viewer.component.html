@@ -1,0 +1,33 @@
+<div class="image-viewer-overlay" *ngIf="isOpen" (click)="closeViewer()">
+  <div class="image-viewer-content" (click)="$event.stopPropagation()">
+    <button class="close-viewer-btn" (click)="closeViewer()">
+      <i class="pi pi-times"></i>
+    </button>
+    <img
+      [src]="getImageSrc(images[currentIndex])"
+      alt="Imagen {{ currentIndex + 1 }}"
+      class="viewer-image"
+    />
+    <button
+      type="button"
+      class="viewer-nav-btn prev-viewer-btn"
+      [disabled]="!canGoPrev()"
+      (click)="prevImage()"
+      *ngIf="images.length > 1"
+    >
+      <i class="pi pi-chevron-left"></i>
+    </button>
+    <button
+      type="button"
+      class="viewer-nav-btn next-viewer-btn"
+      [disabled]="!canGoNext()"
+      (click)="nextImage()"
+      *ngIf="images.length > 1"
+    >
+      <i class="pi pi-chevron-right"></i>
+    </button>
+    <div class="viewer-counter" *ngIf="images.length > 1">
+      {{ currentIndex + 1 }} / {{ images.length }}
+    </div>
+  </div>
+</div>
