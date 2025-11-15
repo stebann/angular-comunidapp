@@ -1,5 +1,6 @@
 <div class="modal-articulo">
-  <div class="modal-content">
+  <div class="modal-content-wrapper">
+    <div class="modal-content">
     <!-- Columna Izquierda: Solo Imagen -->
     <div class="left-column">
       <ng-container
@@ -45,31 +46,6 @@
         </div>
       </ng-template>
 
-      <!-- Información del Propietario -->
-      <div class="propietario-section">
-        <div class="section-header">
-          <h4 class="subsection-title">Información del Propietario</h4>
-          <a href="#" class="ver-mas" (click)="$event.preventDefault()">Ver más</a>
-        </div>
-        <div class="propietario-info-list">
-          <div class="info-item">
-            <span class="info-label">Nombre:</span>
-            <span class="info-value">{{ propietarioNombre }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Correo:</span>
-            <span class="info-value">{{ propietarioCorreo }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Teléfono:</span>
-            <span class="info-value">{{ propietarioTelefono }}</span>
-          </div>
-          <div class="info-item">
-            <span class="info-label">Dirección:</span>
-            <span class="info-value">{{ propietarioDireccion }}</span>
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Columna Derecha: Toda la Información -->
@@ -78,22 +54,34 @@
         <h3 class="section-title">{{ titulo }}</h3>
       </div>
 
-      <!-- Tags -->
-      <div class="tags-container">
-        <span class="tag tag-disponible" *ngIf="estaDisponible">
-          Disponible
-        </span>
-        <span class="tag tag-categoria">{{ categoriaNombre }}</span>
-      </div>
-
       <!-- Detalles del Artículo -->
       <div class="details-section">
-        <h4 class="subsection-title">Detalles del Artículo</h4>
+        <div class="details-header">
+          <h4 class="subsection-title">Detalles del Artículo</h4>
+          <span class="tag" [ngClass]="{
+            'tag-disponible': articulo?.estadoArticuloNombre === 'Disponible',
+            'tag-prestado': articulo?.estadoArticuloNombre === 'Prestado',
+            'tag-mantenimiento': articulo?.estadoArticuloNombre === 'En Mantenimiento',
+            'tag-no-disponible': !articulo?.estadoArticuloNombre
+          }">
+            {{ articulo?.estadoArticuloNombre || 'No disponible' }}
+          </span>
+        </div>
+        
         <p class="detalles-text" [pTooltip]="descripcion" tooltipPosition="top" [showDelay]="500" [hideDelay]="300">{{ descripcion }}</p>
+        
         <div class="detalles-info">
           <div class="detalle-item">
             <span class="detalle-label">Fecha de Compra:</span>
-            <span class="detalle-value">{{ fechaCompra }}</span>
+            <span class="detalle-value">{{ fechaCompra | date: 'd MMMM yyyy' }}</span>
+          </div>
+          <div class="detalle-item">
+            <span class="detalle-label">Categoría:</span>
+            <span class="detalle-value">{{ categoriaNombre }}</span>
+          </div>
+          <div class="detalle-item">
+            <span class="detalle-label">Condición:</span>
+            <span class="detalle-value">{{ articulo?.condicionNombre || 'No especificada' }}</span>
           </div>
           <div class="detalle-item">
             <span class="detalle-label">Valor:</span>
@@ -104,18 +92,63 @@
         </div>
       </div>
 
-      <!-- Botón Solicitar Artículo -->
-      <div class="button-container">
-        <app-button
-          type="primary"
-          size="md"
-          [fullWidth]="false"
-          (clicked)="solicitarArticulo()"
-        >
-          <i class="pi pi-shopping-cart" style="margin-right: 8px"></i>
-          Solicitar Artículo
-        </app-button>
+    </div>
+  </div>
+
+  <!-- Sección de información en fila debajo de las columnas -->
+  <div class="info-sections-row">
+    <!-- Información del Propietario -->
+    <div class="info-section">
+      <div class="section-header">
+        <h4 class="subsection-title">Información del Propietario</h4>
+        <a href="#" class="ver-mas" (click)="$event.preventDefault()">Ver más</a>
       </div>
+      <div class="info-content">
+        <div class="info-item">
+          <span class="info-label">Nombre:</span>
+          <span class="info-value">{{ propietarioNombre }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Correo:</span>
+          <span class="info-value">{{ propietarioCorreo }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Teléfono:</span>
+          <span class="info-value">{{ propietarioTelefono }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Dirección:</span>
+          <span class="info-value">{{ propietarioDireccion }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información del Préstamo -->
+    <div class="info-section">
+      <div class="section-header">
+        <h4 class="subsection-title">Información del Préstamo</h4>
+        <a href="#" class="ver-mas" (click)="$event.preventDefault()">Ver más</a>
+      </div>
+      <div class="info-content">
+        <div class="info-item">
+          <span class="info-label">Prestado a:</span>
+          <span class="info-value">Juan Pérez</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Correo:</span>
+          <span class="info-value">juan.perez@example.com</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Teléfono:</span>
+          <span class="info-value">+1 234 567 890</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Dirección:</span>
+          <span class="info-value">Calle Falsa 123, Ciudad</span>
+        </div>
+      </div>
+    </div>
+    
     </div>
   </div>
 </div>

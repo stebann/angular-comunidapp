@@ -109,7 +109,17 @@ export class ArticuloDetailComponent implements OnInit {
   }
 
   get valor(): number {
-    return this.articulo?.valor || 1999.0;
+    return this.articulo?.valor || 0;
+  }
+
+  // Getter para acceder de forma segura a la información del préstamo
+  get prestamoInfo(): { 
+    prestadoA?: string; 
+    fechaPrestamo?: string; 
+    fechaDevolucion?: string; 
+    notas?: string 
+  } | null {
+    return this.articulo?.prestamo || null;
   }
 
   get propietarioNombre(): string {

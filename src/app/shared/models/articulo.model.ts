@@ -21,4 +21,10 @@ export interface Articulo {
   };
   fechaCompra?: string;
   valor?: number;
+  prestamo?: {
+    fechaPrestamo: string;
+    fechaDevolucion: string;
+    prestadoA: string;
+    notas: string;
+  };
 }
