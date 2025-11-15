@@ -18,7 +18,7 @@
       <app-articulo-card
         *ngFor="let articulo of articulos"
         [articulo]="articulo"
-        (cardClicked)="abrirModalArticulo($event)"
+        (cardClicked)="abrirModalArticulo()"
       ></app-articulo-card>
     </div>
     <ng-template #noArticulos>
@@ -56,7 +56,7 @@
   <app-dropdown-field
     label="Estado"
     formControlName="estadoId"
-    [options]="estados"
+    [options]="condiciones"
   ></app-dropdown-field>
 
   <app-dropdown-field

@@ -18,7 +18,7 @@ export class ComerciosComponent implements OnInit {
   isOpen: boolean = false;
 
   categorias: FilterOption[] = [];
-  estados: FilterOption[] = [];
+  condiciones: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
 
   constructor(
@@ -84,8 +84,8 @@ export class ComerciosComponent implements OnInit {
       .subscribe((categorias) => (this.categorias = categorias));
 
     this.filterService
-      .getEstados()
-      .subscribe((estados) => (this.estados = estados));
+      .getCondiciones()
+      .subscribe((condiciones) => (this.condiciones = condiciones));
 
     this.filterService
       .getTiposTransaccion()

@@ -2,8 +2,8 @@
   <div class="articulo-media">
     <div class="media-wrapper">
       <img [src]="getImagenSrc()" [alt]="articulo.alt || articulo.titulo" />
-      <div class="badge condicion-badge" [ngClass]="getCondicionBadgeClass()">
-        <span>{{ getCondicionLabel() }}</span>
+      <div class="badge condicion-badge">
+        <span>{{ articulo.condicionNombre }}</span>
       </div>
 
       <div
@@ -26,26 +26,15 @@
 
     <div class="articulo-meta">
       <div class="meta-left">
-        <span class="estado-chip" [ngClass]="getEstadoClass()">{{
-          getEstadoLabel()
-        }}</span>
+        <span class="estado-chip">{{ articulo.estadoArticuloNombre }}</span>
         <span class="categoria">
           <i class="pi pi-tag categoria-icon" aria-hidden="true"></i>
-          {{ getCategoria() }}
+          {{ articulo.categoriaNombre }}
         </span>
       </div>
 
       <div class="meta-right">
-        <ng-container *ngIf="getTipoDisplay().icon || getTipoDisplay().label">
-          <div class="tipo" [ngClass]="getTipoDisplay().kind">
-            <span *ngIf="getTipoDisplay().icon" class="tipo-icon">{{
-              getTipoDisplay().icon
-            }}</span>
-            <span *ngIf="getTipoDisplay().label" class="tipo-label">{{
-              getTipoDisplay().label
-            }}</span>
-          </div>
-        </ng-container>
+        <span class="tipo-label">{{ articulo.tipoTransaccionNombre }}</span>
       </div>
     </div>
   </div>

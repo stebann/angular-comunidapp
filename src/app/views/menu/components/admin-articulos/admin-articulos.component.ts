@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Articulo } from 'src/app/shared/models/articulo.model';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { ExplorarService } from '../explorar/services/explorar.service';
-import { Articulo } from '../mis-articulos/models/articulo';
 
 @Component({
   selector: 'app-admin-articulos',
@@ -13,7 +13,7 @@ export class AdminArticulosComponent implements OnInit {
   searchTerm: string = '';
   isOpen: boolean = false;
   categorias: FilterOption[] = [];
-  estados: FilterOption[] = [];
+  condiciones: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
 
   constructor(
@@ -29,8 +29,8 @@ export class AdminArticulosComponent implements OnInit {
       .subscribe((categorias) => (this.categorias = categorias));
 
     this.filtersService
-      .getEstados()
-      .subscribe((estados) => (this.estados = estados));
+      .getCondiciones()
+      .subscribe((condiciones) => (this.condiciones = condiciones));
 
     this.filtersService
       .getTiposTransaccion()

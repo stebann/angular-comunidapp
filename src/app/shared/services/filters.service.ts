@@ -16,9 +16,9 @@ export class FiltersService {
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
-  getEstados(): Observable<FilterOption[]> {
+  getCondiciones(): Observable<FilterOption[]> {
     return this.http
-      .get<IFilter[]>(FiltrosAPI.Estados)
+      .get<IFilter[]>(FiltrosAPI.Condiciones)
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 

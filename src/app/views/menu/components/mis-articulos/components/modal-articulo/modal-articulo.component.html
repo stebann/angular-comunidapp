@@ -103,7 +103,7 @@
           <div class="field-group">
             <app-dropdown-field
               label="Categoría"
-              formControlName="categoriaId"
+              formControlName="categoriaCodigo"
               [options]="categorias"
               [required]="true"
               placeholder="Selecciona una categoría"
@@ -114,8 +114,8 @@
           <div class="field-group">
             <app-dropdown-field
               label="Condición"
-              formControlName="estadoId"
-              [options]="estados"
+              formControlName="condicionCodigo"
+              [options]="condiciones"
               [required]="true"
               placeholder="Selecciona la condición"
             >
@@ -127,7 +127,7 @@
           <div class="field-group">
             <app-dropdown-field
               label="Tipo de Transacción"
-              formControlName="tipoTransaccionId"
+              formControlName="tipoTransaccionCodigo"
               [options]="tiposTransaccion"
               [required]="true"
               placeholder="Selecciona el tipo"
@@ -135,10 +135,7 @@
             </app-dropdown-field>
           </div>
 
-          <div
-            class="field-group"
-            *ngIf="form.get('tipoTransaccionId')?.value == ventaId"
-          >
+          <div class="field-group" *ngIf="">
             <app-input-number-field
               label="Precio"
               formControlName="precio"

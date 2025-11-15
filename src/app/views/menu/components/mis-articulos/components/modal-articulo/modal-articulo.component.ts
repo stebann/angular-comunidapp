@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { TipoTransaccion } from 'src/app/shared/enums/articulo.enums';
 import { FilterOption } from '../../../../../../shared/models/filter-models';
 import { FiltersService } from '../../../../../../shared/services/filters.service';
 import { ImageHandlerService } from '../../../../../../shared/services/image-handler.service';
@@ -16,9 +17,8 @@ export class ModalArticuloComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   categorias: FilterOption[] = [];
-  estados: FilterOption[] = [];
+  condiciones: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
-  ventaId: any = null;
 
   isDragOver = false;
   previewImages: string[] = [];
@@ -47,30 +47,26 @@ export class ModalArticuloComponent implements OnInit {
       .subscribe((categorias) => (this.categorias = categorias));
 
     this.filtersService
-      .getEstados()
-      .subscribe((estados) => (this.estados = estados));
+      .getCondiciones()
+      .subscribe((condiciones) => (this.condiciones = condiciones));
 
     this.filtersService.getTiposTransaccion().subscribe((tipos) => {
       this.tiposTransaccion = tipos;
-      const ventaTipo = tipos.find((t) => t.label.toLowerCase() === 'venta');
-      if (ventaTipo) {
-        this.ventaId = ventaTipo.value;
-        this.updatePrecioValidation();
-      }
+      this.updatePrecioValidation();
     });
   }
 
   private setupPrecioValidation(): void {
-    this.form.get('tipoTransaccionId')?.valueChanges.subscribe(() => {
+    this.form.get('tipoTransaccionCodigo')?.valueChanges.subscribe(() => {
       this.updatePrecioValidation();
     });
   }
 
   private updatePrecioValidation(): void {
-    const tipoTransaccionId = this.form.get('tipoTransaccionId')?.value;
+    const tipoTransaccionCodigo = this.form.get('tipoTransaccionCodigo')?.value;
     const precioControl = this.form.get('precio');
 
-    if (tipoTransaccionId == this.ventaId) {
+    if (tipoTransaccionCodigo === TipoTransaccion.Venta) {
       precioControl?.setValidators([Validators.required, Validators.min(0)]);
     } else {
       precioControl?.clearValidators();

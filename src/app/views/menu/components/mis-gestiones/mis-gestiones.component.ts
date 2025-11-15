@@ -17,7 +17,7 @@ export class MisGestionesComponent implements OnInit {
   isOpen: boolean = false;
 
   categorias: FilterOption[] = [];
-  estados: FilterOption[] = [];
+  condiciones: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
 
   opciones = [
@@ -167,16 +167,13 @@ export class MisGestionesComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // Demo: no llamar servicios, usamos datos mock
-
-    // Cargar filtros
     this.filterService
       .getCategorias()
       .subscribe((categorias) => (this.categorias = categorias));
 
     this.filterService
-      .getEstados()
-      .subscribe((estados) => (this.estados = estados));
+      .getCondiciones()
+      .subscribe((condiciones) => (this.condiciones = condiciones));
 
     this.filterService
       .getTiposTransaccion()

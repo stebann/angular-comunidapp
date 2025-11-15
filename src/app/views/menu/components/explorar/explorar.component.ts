@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ArticuloDetailComponent } from 'src/app/shared/components/articulo-detail/articulo-detail.component';
+import { Articulo } from 'src/app/shared/models/articulo.model';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
-import { Articulo } from '../mis-articulos/models/articulo';
 import { ExplorarService } from './services/explorar.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class ExplorarComponent implements OnInit {
   searchTerm: string = '';
   isOpen: boolean = false;
   categorias: FilterOption[] = [];
-  estados: FilterOption[] = [];
+  condiciones: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
 
   constructor(
@@ -34,8 +34,8 @@ export class ExplorarComponent implements OnInit {
       .subscribe((categorias) => (this.categorias = categorias));
 
     this.filtersService
-      .getEstados()
-      .subscribe((estados) => (this.estados = estados));
+      .getCondiciones()
+      .subscribe((condiciones) => (this.condiciones = condiciones));
 
     this.filtersService
       .getTiposTransaccion()
@@ -66,26 +66,11 @@ export class ExplorarComponent implements OnInit {
     this.explorarService.filtrar();
   }
 
-  abrirModalArticulo(articulo: Articulo): void {
-    const usuarioActual = this.authService.currentState;
-    const esDueno = articulo.usuarioId === usuarioActual?.id;
-    const puedeSolicitar = !esDueno && articulo.disponible;
-
+  abrirModalArticulo(): void {
     this.dialogService$.open(ArticuloDetailComponent, {
       header: 'Detalle del Artículo',
       width: '850px',
       height: 'auto',
-      data: {
-        articulo: articulo,
-        propietario: {
-          id: articulo.usuarioId,
-          nombre: articulo.usuarioNombre,
-          email: articulo.usuarioEmail,
-          telefono: articulo.usuarioTelefono,
-        },
-        puedeSolicitar: puedeSolicitar,
-        yaSolicitado: false,
-      },
       styleClass: 'p-app-modal',
     });
   }

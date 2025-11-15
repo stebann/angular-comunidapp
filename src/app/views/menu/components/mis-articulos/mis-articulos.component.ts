@@ -20,7 +20,7 @@ export class MisArticulosComponent implements OnInit {
   menuItems: any[] = [];
   isOpen: boolean = false;
   categorias: FilterOption[] = [];
-  estados: FilterOption[] = [];
+  condiciones: FilterOption[] = [];
   tiposTransaccion: FilterOption[] = [];
   articuloSeleccionado: Articulo | null = null;
 
@@ -43,8 +43,8 @@ export class MisArticulosComponent implements OnInit {
       .subscribe((categorias) => (this.categorias = categorias));
 
     this.filtersService
-      .getEstados()
-      .subscribe((estados) => (this.estados = estados));
+      .getCondiciones()
+      .subscribe((condiciones) => (this.condiciones = condiciones));
 
     this.filtersService
       .getTiposTransaccion()

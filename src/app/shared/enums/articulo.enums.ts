@@ -1,21 +1,14 @@
-export enum ArticuloTipo {
-  Venta = 'venta',
-  Prestamo = 'prestamo',
-  Intercambio = 'intercambio',
-}
-
-export enum ArticuloEstado {
-  Disponible = 'disponible',
-  Prestado = 'prestado',
-}
-
 export enum ArticuloCondicion {
-  Nuevo = 'nuevo',
-  Usado = 'usado',
+  Nuevo = 1,
+  Reacondicionado = 2,
 }
 
-export default {
-  ArticuloTipo,
-  ArticuloEstado,
-  ArticuloCondicion,
-};
+export enum EstadoArticulo {
+  Disponible = 1,
+  Prestado = 2,
+}
+
+export enum TipoTransaccion {
+  Venta = 1,
+  Prestamo = 2,
+}
