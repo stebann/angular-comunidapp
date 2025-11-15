@@ -58,14 +58,19 @@
       <div class="details-section">
         <div class="details-header">
           <h4 class="subsection-title">Detalles del Artículo</h4>
-          <span class="tag" [ngClass]="{
-            'tag-disponible': articulo?.estadoArticuloNombre === 'Disponible',
-            'tag-prestado': articulo?.estadoArticuloNombre === 'Prestado',
-            'tag-mantenimiento': articulo?.estadoArticuloNombre === 'En Mantenimiento',
-            'tag-no-disponible': !articulo?.estadoArticuloNombre
-          }">
-            {{ articulo?.estadoArticuloNombre || 'No disponible' }}
-          </span>
+          <div class="status-container">
+            <span class="tag" [ngClass]="{
+              'tag-disponible': articulo?.estadoArticuloNombre === 'Disponible',
+              'tag-prestado': articulo?.estadoArticuloNombre === 'Prestado',
+              'tag-mantenimiento': articulo?.estadoArticuloNombre === 'En Mantenimiento',
+              'tag-no-disponible': !articulo?.estadoArticuloNombre
+            }">
+              {{ articulo?.estadoArticuloNombre || 'No disponible' }}
+            </span>
+            <span class="transaction-tag" *ngIf="articulo?.tipoTransaccionNombre">
+              {{ articulo?.tipoTransaccionNombre }}
+            </span>
+          </div>
         </div>
         
         <p class="detalles-text" [pTooltip]="descripcion" tooltipPosition="top" [showDelay]="500" [hideDelay]="300">{{ descripcion }}</p>

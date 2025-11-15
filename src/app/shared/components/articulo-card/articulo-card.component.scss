@@ -199,6 +199,12 @@
 .meta-right {
   display: flex;
   align-items: center;
+  
+  .precio {
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
 }
 
 .tipo {

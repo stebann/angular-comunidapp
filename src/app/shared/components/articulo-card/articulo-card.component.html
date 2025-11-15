@@ -32,7 +32,11 @@
         <span class="tipo">{{ articulo.condicionNombre }}</span>
       </div>
 
-      <div class="meta-right"></div>
+      <div class="meta-right" *ngIf="articulo.precio > 0">
+        <span class="precio">
+          {{ articulo.precio | currency:'USD':'symbol':'1.2-2' }}
+        </span>
+      </div>
     </div>
   </div>
 </div>
