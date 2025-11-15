@@ -35,6 +35,7 @@ import { ProfileModalComponent } from './components/profile-modal/profile-modal.
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
 import { TextareaFieldComponent } from './components/textarea-field/textarea-field.component';
+import { SolicitudMessageComponent } from './components/articulo-detail/solicitud-articulo-modal/solicitud-message.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     ArticuloCardComponent,
     OpcionesComponent,
     SearchHeaderComponent,
+    SolicitudMessageComponent,
     ArticuloDetailComponent,
     ProfileModalComponent,
     ImageViewerComponent,
@@ -91,6 +93,7 @@ import { TextareaFieldComponent } from './components/textarea-field/textarea-fie
     TextareaFieldComponent,
     CommonModule,
     ArticuloDetailComponent,
+    SolicitudMessageComponent,
     ImageViewerComponent,
     FormsModule,
     ReactiveFormsModule,
