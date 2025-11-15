@@ -101,12 +101,16 @@ export class MisGestionesComponent implements OnInit {
   }
 
   onFiltersApplied(): void {
-    // Demo: sin lógica adicional; ya hay filtro por búsqueda
+
   }
 
   onTabChange(tab: 'solicitudes' | 'prestamos'): void {
     this.activeTab = tab;
-    // Demo: no recargar, solo cambia la vista
+    if (tab === 'solicitudes') {
+      this.misGestionesService.getSolicitudesUsuario().subscribe();
+    } else {
+      this.misGestionesService.getPrestamosUsuario().subscribe();
+    }
   }
 
   toggleView(): void {

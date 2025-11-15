@@ -28,7 +28,6 @@ export class MisGestionesService extends MisGestionesRepository {
     return this.authService.currentState.id;
   }
 
-  // Obtener solicitudes del usuario actual
    getSolicitudesUsuario(): Observable<Gestion[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable(observer => {
@@ -53,7 +52,6 @@ export class MisGestionesService extends MisGestionesRepository {
     });
   }
 
-  // Obtener préstamos del usuario actual
    getPrestamosUsuario(): Observable<Gestion[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable(observer => {
