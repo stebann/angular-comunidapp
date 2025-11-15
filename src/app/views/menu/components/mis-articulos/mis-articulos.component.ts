@@ -117,7 +117,7 @@ export class MisArticulosComponent implements OnInit {
   onRemove(): void {
     // Validar que el artículo esté disponible
     if (
-      this.articuloSeleccionado!.estadoArticuloCodigo ==
+      this.articuloSeleccionado!.estadoArticuloCodigo !==
       EstadoArticulo.Disponible
     ) {
       this.appMessages.advertencia(
