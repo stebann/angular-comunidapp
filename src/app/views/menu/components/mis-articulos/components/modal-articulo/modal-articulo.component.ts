@@ -25,8 +25,7 @@ export class ModalArticuloComponent implements OnInit {
   previewImages: string[] = [];
   currentImageIndex = 0;
 
-  private readonly IMAGE_BASE_URL =
-    'http://localhost:8080/api/articulos/imagen';
+  private readonly IMAGE_BASE_URL = 'http://localhost:8080/api/articulo/imagen';
   private readonly MAX_IMAGES = 5;
 
   constructor(

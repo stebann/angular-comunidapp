@@ -15,7 +15,19 @@ export class ArticuloCardComponent {
 
   constructor(private imageHandler: ImageHandlerService) {}
 
-  getImagenSrc(): void {}
+  getImagenSrc(): string {
+    if (this.articulo?.imagenes && this.articulo.imagenes.length > 0) {
+      const imageName = this.articulo.imagenes[0];
+      if (imageName.startsWith('http')) {
+        return imageName;
+      }
+      return `http://localhost:8080/api/articulo/imagen/${imageName}`;
+    }
+    return (
+      'https://picsum.photos/600/400?random=' +
+      (Math.floor(Math.random() * 1000) + 1)
+    );
+  }
 
   onCardClick() {
     this.cardClicked.emit(this.articulo);
