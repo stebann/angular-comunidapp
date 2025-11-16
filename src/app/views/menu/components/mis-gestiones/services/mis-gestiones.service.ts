@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MisGestionesAPI } from 'src/app/core/routes-api/mis_gestiones_api';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -16,6 +17,19 @@ export class MisGestionesService extends MisGestionesRepository {
   public prestamosRecibidos: Gestion[] = [];
   public prestamosOtorgados: Gestion[] = [];
 
+  // Propiedad para almacenar los conteos
+  public conteos: {
+    solicitudesEnviadas: number;
+    solicitudesRecibidas: number;
+    prestamosEnviados: number;
+    prestamosRecibidos: number;
+  } = {
+    solicitudesEnviadas: 0,
+    solicitudesRecibidas: 0,
+    prestamosEnviados: 0,
+    prestamosRecibidos: 0,
+  };
+
   constructor(private http$: HttpService, private authService: AuthService) {
     super();
   }
@@ -24,48 +38,80 @@ export class MisGestionesService extends MisGestionesRepository {
     return this.authService.currentState.id;
   }
 
-  getSolicitudesUsuario(): Observable<Gestion[]> {
+  getSolicitudesRecibidas(): Observable<Gestion[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.Solicitudes}${usuarioId}`)
+        .get<Gestion[]>(`${MisGestionesAPI.SolicitudesRecibidas}${usuarioId}`)
         .subscribe({
           next: (data) => {
-            this.gestiones = data || [];
-
-            // Separar en solicitudes recibidas (donde el usuario es el propietario)
-            this.solicitudesRecibidas = this.gestiones.filter(
-              (gestion: Gestion) => gestion.propietarioId === usuarioId
-            );
-
-            // Las solicitudes enviadas son donde el usuario es el solicitante
-            this.solicitudesEnviadas = this.gestiones.filter(
-              (gestion: Gestion) => gestion.solicitante.id === usuarioId
-            );
+            this.solicitudesRecibidas = data || [];
+            observer.next(this.solicitudesRecibidas);
           },
           error: (err) => observer.error(err),
         });
     });
   }
 
-  getPrestamosUsuario(): Observable<Gestion[]> {
+  getSolicitudesEnviadas(): Observable<Gestion[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.Prestamos}${usuarioId}`)
+        .get<Gestion[]>(`${MisGestionesAPI.SolicitudesEnviadas}${usuarioId}`)
         .subscribe({
           next: (data) => {
-            this.gestiones = data || [];
+            this.solicitudesEnviadas = data || [];
+            observer.next(this.solicitudesEnviadas);
+          },
+          error: (err) => observer.error(err),
+        });
+    });
+  }
 
-            // Préstamos recibidos: donde el usuario es el propietario del artículo
-            this.prestamosRecibidos = this.gestiones.filter(
-              (gestion: Gestion) => gestion.propietarioId === usuarioId
-            );
+  getPrestamosRecibidos(): Observable<Gestion[]> {
+    const usuarioId = this.getCurrentUserId();
+    return new Observable((observer) => {
+      this.http$
+        .get<Gestion[]>(`${MisGestionesAPI.PrestamosRecibidos}${usuarioId}`)
+        .subscribe({
+          next: (data) => {
+            this.prestamosRecibidos = data || [];
+            observer.next(this.prestamosRecibidos);
+          },
+          error: (err) => observer.error(err),
+        });
+    });
+  }
 
-            // Préstamos otorgados: donde el usuario es el solicitante
-            this.prestamosOtorgados = this.gestiones.filter(
-              (gestion: Gestion) => gestion.solicitante.id === usuarioId
-            );
+  getPrestamosEnviados(): Observable<Gestion[]> {
+    const usuarioId = this.getCurrentUserId();
+    return new Observable((observer) => {
+      this.http$
+        .get<Gestion[]>(`${MisGestionesAPI.PrestamosEnviados}${usuarioId}`)
+        .subscribe({
+          next: (data) => {
+            this.prestamosOtorgados = data || [];
+            observer.next(this.prestamosOtorgados);
+          },
+          error: (err) => observer.error(err),
+        });
+    });
+  }
+
+  getConteosUsuario(): Observable<any> {
+    const usuarioId = this.getCurrentUserId();
+    return new Observable((observer) => {
+      this.http$
+        .get(`${MisGestionesAPI.Conteos}${usuarioId}`)
+        .subscribe({
+          next: (data) => {
+            this.conteos = data || {
+              solicitudesEnviadas: 0,
+              solicitudesRecibidas: 0,
+              prestamosEnviados: 0,
+              prestamosRecibidos: 0,
+            };
+            observer.next(this.conteos);
           },
           error: (err) => observer.error(err),
         });

@@ -4,25 +4,6 @@
       [placeholder]="getSearchPlaceholder()"
       [(searchTerm)]="searchTerm"
     >
-      <div class="view-tabs">
-        <button
-          class="view-tab"
-          [class.active]="isRecibidas"
-          (click)="isRecibidas = true"
-        >
-          Recibidas
-          <span class="badge">{{ getTotalRecibidas() }}</span>
-        </button>
-        <button
-          class="view-tab"
-          [class.active]="!isRecibidas"
-          (click)="isRecibidas = false"
-        >
-          Enviadas
-          <span class="badge">{{ getTotalEnviadas() }}</span>
-        </button>
-      </div>
-
       <app-button
         type="outline-primary"
         size="sm"
@@ -38,21 +19,39 @@
     <aside class="sidebar-menu">
       <button
         class="menu-item"
-        [class.active]="activeTab === 'solicitudes'"
-        (click)="onTabChange('solicitudes')"
+        [class.active]="activeTab === 'solicitudes-recibidas'"
+        (click)="onTabChange('solicitudes-recibidas')"
       >
         <i class="fas fa-envelope" aria-hidden="true"></i>
-        <span>Solicitudes</span>
-        <span class="badge">{{ getTotalSolicitudes() }}</span>
+        <span>Solicitudes Recibidas</span>
+        <span class="badge">{{ misGestionesService.conteos.solicitudesRecibidas }}</span>
       </button>
       <button
         class="menu-item"
-        [class.active]="activeTab === 'prestamos'"
-        (click)="onTabChange('prestamos')"
+        [class.active]="activeTab === 'solicitudes-enviadas'"
+        (click)="onTabChange('solicitudes-enviadas')"
+      >
+        <i class="fas fa-envelope-open" aria-hidden="true"></i>
+        <span>Solicitudes Enviadas</span>
+        <span class="badge">{{ misGestionesService.conteos.solicitudesEnviadas }}</span>
+      </button>
+      <button
+        class="menu-item"
+        [class.active]="activeTab === 'prestamos-recibidos'"
+        (click)="onTabChange('prestamos-recibidos')"
       >
         <i class="fas fa-handshake" aria-hidden="true"></i>
-        <span>Préstamos</span>
-        <span class="badge">{{ getTotalPrestamos() }}</span>
+        <span>Préstamos Recibidos</span>
+        <span class="badge">{{ misGestionesService.conteos.prestamosRecibidos }}</span>
+      </button>
+      <button
+        class="menu-item"
+        [class.active]="activeTab === 'prestamos-enviados'"
+        (click)="onTabChange('prestamos-enviados')"
+      >
+        <i class="fas fa-handshake-alt" aria-hidden="true"></i>
+        <span>Préstamos Enviados</span>
+        <span class="badge">{{ misGestionesService.conteos.prestamosEnviados }}</span>
       </button>
     </aside>
 
@@ -64,14 +63,14 @@
         <app-solicitud-card
           *ngFor="let solicitud of solicitudesFiltradas"
           [solicitud]="solicitud"
-          [esRecibida]="isRecibidas"
+          [esRecibida]="activeTab?.includes('recibidas') || false"
           (cardClicked)="solicitudDetalle($event)"
         ></app-solicitud-card>
       </div>
 
       <ng-template #noSolicitudes>
         <app-empty-placeholder
-          [icon]="activeTab === 'solicitudes' ? 'envelope' : 'handshake'"
+          [icon]="activeTab?.includes('solicitudes') ? 'envelope' : 'handshake'"
           [title]="getNoItemsTitle()"
           [description]="getNoItemsMessage()"
         ></app-empty-placeholder>
@@ -79,38 +78,3 @@
     </div>
   </div>
 </div>
-
-<app-generic-filter
-  [form]="filtro"
-  [(isOpen)]="isOpen"
-  (applyFilter)="onFiltersApplied()"
->
-  <div style="display: flex; gap: 1rem">
-    <app-input-date-field
-      formControlName="fechaInicio"
-      label="Fecha inicio"
-    ></app-input-date-field>
-    <app-input-date-field
-      formControlName="fechaFin"
-      label="Fecha fin"
-    ></app-input-date-field>
-  </div>
-
-  <app-dropdown-field
-    label="Categoría"
-    formControlName="categoriaId"
-    [options]="categorias"
-  ></app-dropdown-field>
-
-  <app-dropdown-field
-    label="Estado"
-    formControlName="estadoId"
-    [options]="condiciones"
-  ></app-dropdown-field>
-
-  <app-dropdown-field
-    label="Tipo de Transacción"
-    formControlName="tipoTransaccionId"
-    [options]="tiposTransaccion"
-  ></app-dropdown-field>
-</app-generic-filter>

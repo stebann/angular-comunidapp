@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { FilterOption } from 'src/app/shared/models/filter-models';
-import { FiltersService } from 'src/app/shared/services/filters.service';
 import { MisGestionesService } from './services/mis-gestiones.service';
 import { Gestion } from './models/gestiones.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-mis-gestiones',
@@ -13,52 +9,30 @@ import { Observable } from 'rxjs';
 })
 export class MisGestionesComponent implements OnInit {
   searchTerm: string = '';
-  activeTab: 'solicitudes' | 'prestamos' = 'solicitudes';
-  isRecibidas: boolean = true; // true = "me hacen", false = "yo hago"
+  activeTab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-recibidos' | 'prestamos-enviados' | null = null;
   isOpen: boolean = false;
 
-  categorias: FilterOption[] = [];
-  condiciones: FilterOption[] = [];
-  tiposTransaccion: FilterOption[] = [];
-
   opciones = [
-    { label: 'Solicitudes', value: 1 },
-    { label: 'Préstamos', value: 2 },
+    { label: 'Solicitudes Recibidas', value: 1 },
+    { label: 'Solicitudes Enviadas', value: 2 },
+    { label: 'Préstamos Recibidos', value: 3 },
+    { label: 'Préstamos Enviados', value: 4 },
   ];
 
   constructor(
-    private filterService: FiltersService,
-    public misGestionesService: MisGestionesService,
-  ) {}
-
-  ngOnInit(): void {
-    // Suscribirse a los datos del servicio
-    this.misGestionesService.getSolicitudesUsuario().subscribe();
-    this.misGestionesService.getPrestamosUsuario().subscribe();
-
-    // Cargar filtros
-    this.filterService
-      .getCategorias()
-      .subscribe((categorias) => (this.categorias = categorias));
-
-    this.filterService
-      .getCondiciones()
-      .subscribe((condiciones) => (this.condiciones = condiciones));
-
-    this.filterService
-      .getTiposTransaccion()
-      .subscribe((tipos) => (this.tiposTransaccion = tipos));
+    public misGestionesService: MisGestionesService
+  ) {
   }
 
-  get filtro() {
-    return this.misGestionesService.filtroMisGestiones;
+  ngOnInit(): void {
+    this.misGestionesService.getConteosUsuario().subscribe();
   }
 
   get solicitudesRecibidas() {
     return this.misGestionesService.solicitudesRecibidas;
   }
 
-  get solicitudesEnviadas() {
+  get solicitudesEnviadas() { 
     return this.misGestionesService.solicitudesEnviadas;
   }
 
@@ -71,14 +45,17 @@ export class MisGestionesComponent implements OnInit {
   }
 
   get solicitudesActuales(): Gestion[] {
-    if (this.activeTab === 'solicitudes') {
-      return this.isRecibidas
-        ? this.solicitudesRecibidas
-        : this.solicitudesEnviadas;
-    } else {
-      return this.isRecibidas
-        ? this.prestamosRecibidos
-        : this.prestamosOtorgados;
+    switch (this.activeTab) {
+      case 'solicitudes-recibidas':
+        return this.solicitudesRecibidas;
+      case 'solicitudes-enviadas':
+        return this.solicitudesEnviadas;
+      case 'prestamos-recibidos':
+        return this.prestamosRecibidos;
+      case 'prestamos-enviados':
+        return this.prestamosOtorgados;
+      default:
+        return [];
     }
   }
 
@@ -100,22 +77,24 @@ export class MisGestionesComponent implements OnInit {
     this.isOpen = true;
   }
 
-  onFiltersApplied(): void {
-
-  }
-
-  onTabChange(tab: 'solicitudes' | 'prestamos'): void {
+  onTabChange(tab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-recibidos' | 'prestamos-enviados'): void {
     this.activeTab = tab;
-    if (tab === 'solicitudes') {
-      this.misGestionesService.getSolicitudesUsuario().subscribe();
-    } else {
-      this.misGestionesService.getPrestamosUsuario().subscribe();
+    switch (tab) {
+      case 'solicitudes-recibidas':
+        this.misGestionesService.getSolicitudesRecibidas().subscribe();
+        break;
+      case 'solicitudes-enviadas':
+        this.misGestionesService.getSolicitudesEnviadas().subscribe();
+        break;
+      case 'prestamos-recibidos':
+        this.misGestionesService.getPrestamosRecibidos().subscribe();
+        break;
+      case 'prestamos-enviados':
+        this.misGestionesService.getPrestamosEnviados().subscribe();
+        break;
     }
   }
 
-  toggleView(): void {
-    this.isRecibidas = !this.isRecibidas;
-  }
 
   getTotalSolicitudes(): number {
     return (this.solicitudesRecibidas?.length || 0) + (this.solicitudesEnviadas?.length || 0);
@@ -126,56 +105,64 @@ export class MisGestionesComponent implements OnInit {
   }
 
   getTotalRecibidas(): number {
-    if (this.activeTab === 'solicitudes') {
-      return this.solicitudesRecibidas?.length || 0;
-    } else {
-      return this.prestamosRecibidos?.length || 0;
+    switch (this.activeTab) {
+      case 'solicitudes-recibidas':
+        return this.solicitudesRecibidas?.length || 0;
+      case 'prestamos-recibidos':
+        return this.prestamosRecibidos?.length || 0;
+      default:
+        return 0;
     }
   }
 
   getTotalEnviadas(): number {
-    if (this.activeTab === 'solicitudes') {
-      return this.solicitudesEnviadas?.length || 0;
-    } else {
-      return this.prestamosOtorgados?.length || 0;
-    }
+    return 0; // Este método ya no se usa ya que cada opción es específica
   }
 
   getSearchPlaceholder(): string {
-    if (this.activeTab === 'solicitudes') {
-      return this.isRecibidas
-        ? 'Buscar solicitudes recibidas...'
-        : 'Buscar solicitudes enviadas...';
-    } else {
-      return this.isRecibidas
-        ? 'Buscar préstamos recibidos...'
-        : 'Buscar préstamos enviados...';
+    switch (this.activeTab) {
+      case 'solicitudes-recibidas':
+        return 'Buscar solicitudes recibidas...';
+      case 'solicitudes-enviadas':
+        return 'Buscar solicitudes enviadas...';
+      case 'prestamos-recibidos':
+        return 'Buscar préstamos recibidos...';
+      case 'prestamos-enviados':
+        return 'Buscar préstamos enviados...';
+      default:
+        return 'Buscar...';
     }
   }
 
   solicitudDetalle(solicitud: Gestion): void {}
 
   getNoItemsTitle(): string {
-    if (this.activeTab === 'solicitudes') {
-      return this.isRecibidas
-        ? 'No hay solicitudes recibidas'
-        : 'No hay solicitudes enviadas';
-    } else {
-      return this.isRecibidas
-        ? 'No hay préstamos recibidos'
-        : 'No hay préstamos enviados';
+    switch (this.activeTab) {
+      case 'solicitudes-recibidas':
+        return 'No hay solicitudes recibidas';
+      case 'solicitudes-enviadas':
+        return 'No hay solicitudes enviadas';
+      case 'prestamos-recibidos':
+        return 'No hay préstamos recibidos';
+      case 'prestamos-enviados':
+        return 'No hay préstamos enviados';
+      default:
+        return 'No hay elementos';
     }
   }
 
   getNoItemsMessage(): string {
-    if (this.activeTab === 'solicitudes') {
-      return this.isRecibidas
-        ? 'Las solicitudes que recibas aparecerán aquí.'
-        : 'Las solicitudes que envíes aparecerán aquí.';
-    } else {
-      return this.isRecibidas
-        ? 'Los préstamos que recibas aparecerán aquí.'
-        : 'Los préstamos que envíes aparecerán aquí.';
+    switch (this.activeTab) {
+      case 'solicitudes-recibidas':
+        return 'Las solicitudes que recibas aparecerán aquí.';
+      case 'solicitudes-enviadas':
+        return 'Las solicitudes que envíes aparecerán aquí.';
+      case 'prestamos-recibidos':
+        return 'Los préstamos que recibas aparecerán aquí.';
+      case 'prestamos-enviados':
+        return 'Los préstamos que envíes aparecerán aquí.';
+      default:
+        return 'No hay elementos disponibles.';
     }
   }
 }
