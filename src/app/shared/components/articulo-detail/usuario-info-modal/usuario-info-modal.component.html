@@ -1,0 +1,72 @@
+<div class="usuario-info-modal">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      <i class="pi pi-user"></i>
+      {{ titulo }}
+    </h3>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="usuario-content">
+    <!-- Avatar Section -->
+    <div class="avatar-section">
+      <div class="avatar">
+        <img
+          *ngIf="usuario.foto"
+          [src]="usuario.foto"
+          alt="Avatar"
+          class="avatar-img"
+        />
+        <span *ngIf="!usuario.foto" class="avatar-initials">
+          {{ getInitials(usuario.nombre) }}
+        </span>
+      </div>
+      <h4 class="usuario-name">{{ usuario.nombre }}</h4>
+    </div>
+
+    <div class="divider-small"></div>
+
+    <!-- Información de Contacto -->
+    <div class="info-section">
+      <div class="info-item">
+        <div class="info-icon">
+          <i class="pi pi-envelope"></i>
+        </div>
+        <div class="info-content">
+          <span class="info-label">Correo electrónico</span>
+          <span class="info-value">{{ usuario.email }}</span>
+        </div>
+      </div>
+
+      <div class="info-item" *ngIf="usuario.telefono">
+        <div class="info-icon">
+          <i class="pi pi-phone"></i>
+        </div>
+        <div class="info-content">
+          <span class="info-label">Teléfono</span>
+          <span class="info-value">{{ usuario.telefono }}</span>
+        </div>
+      </div>
+
+      <div class="info-item" *ngIf="usuario.direccion">
+        <div class="info-icon">
+          <i class="pi pi-map-marker"></i>
+        </div>
+        <div class="info-content">
+          <span class="info-label">Dirección</span>
+          <span class="info-value">{{ usuario.direccion }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-close" (click)="onClose()">
+      <i class="pi pi-times"></i>
+      Cerrar
+    </button>
+  </div>
+</div>

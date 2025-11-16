@@ -3,10 +3,11 @@ import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { MisGestionesService } from 'src/app/views/menu/components/mis-gestiones/services/mis-gestiones.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { Articulo } from '../../models/articulo.model';
+import { Articulo, UsuarioInfo } from '../../models/articulo.model';
 import { ImageViewerService } from '../../services/image-viewer.service';
 import { ArticuloDetailService } from './services/articulo-detail.service';
 import { SolicitudMessageComponent } from './solicitud-articulo-modal/solicitud-message.component';
+import { UsuarioInfoModalComponent } from './usuario-info-modal/usuario-info-modal.component';
 
 @Component({
   selector: 'app-articulo-detail',
@@ -195,5 +196,29 @@ export class ArticuloDetailComponent implements OnInit {
 
   get estaDisponible(): boolean {
     return this.articulo?.estadoArticuloCodigo === 1 || true;
+  }
+
+  getInitials(nombre: string): string {
+    if (!nombre) return '';
+    const parts = nombre.trim().split(' ');
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (
+      parts[0].charAt(0).toUpperCase() +
+      parts[parts.length - 1].charAt(0).toUpperCase()
+    );
+  }
+
+  verInfoUsuario(usuario: UsuarioInfo | undefined, titulo: string): void {
+    if (!usuario) return;
+
+    this.dialogService$.open(UsuarioInfoModalComponent, {
+      header: titulo,
+      width: '500px',
+      styleClass: 'p-app-modal',
+      data: {
+        usuario,
+        titulo,
+      },
+    });
   }
 }

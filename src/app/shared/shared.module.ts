@@ -17,10 +17,13 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { TooltipModule } from 'primeng/tooltip';
 import { FiltersService } from './services/filters.service';
 
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ArticuloDetailComponent } from './components/articulo-detail/articulo-detail.component';
+import { SolicitudMessageComponent } from './components/articulo-detail/solicitud-articulo-modal/solicitud-message.component';
+import { UsuarioInfoModalComponent } from './components/articulo-detail/usuario-info-modal/usuario-info-modal.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
@@ -35,7 +38,6 @@ import { ProfileModalComponent } from './components/profile-modal/profile-modal.
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
 import { TextareaFieldComponent } from './components/textarea-field/textarea-field.component';
-import { SolicitudMessageComponent } from './components/articulo-detail/solicitud-articulo-modal/solicitud-message.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,7 @@ import { SolicitudMessageComponent } from './components/articulo-detail/solicitu
     SearchHeaderComponent,
     SolicitudMessageComponent,
     ArticuloDetailComponent,
+    UsuarioInfoModalComponent,
     ProfileModalComponent,
     ImageViewerComponent,
   ],
@@ -73,6 +76,7 @@ import { SolicitudMessageComponent } from './components/articulo-detail/solicitu
     InputTextareaModule,
     MultiSelectModule,
     OverlayPanelModule,
+    TooltipModule,
     DynamicDialogModule,
     NgxChartsModule,
   ],
@@ -106,6 +110,7 @@ import { SolicitudMessageComponent } from './components/articulo-detail/solicitu
     InputTextModule,
     InputTextareaModule,
     MultiSelectModule,
+    TooltipModule,
     DynamicDialogModule,
     ChartModule,
     NgxChartsModule,
