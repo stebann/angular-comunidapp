@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { MisGestionesService } from 'src/app/views/menu/components/mis-gestiones/services/mis-gestiones.service';
 import { AuthService } from '../../../core/services/auth.service';
@@ -16,12 +16,12 @@ import { UsuarioInfoModalComponent } from './usuario-info-modal/usuario-info-mod
 })
 export class ArticuloDetailComponent implements OnInit {
   @Input() articuloId: number | null = null;
-  isOwner: boolean = true; // Inicializar como true para evitar parpadeo
+  isOwner: boolean = true; 
   articulo?: Articulo;
   currentImageIndex = 0;
   detallesExpanded = true;
   propietarioExpanded = true;
-  isLoading: boolean = true; // Flag para saber si está cargando
+  isLoading: boolean = true; 
 
   private readonly IMAGE_BASE_URL = 'http://localhost:8080/api/articulo/imagen';
 
@@ -32,7 +32,8 @@ export class ArticuloDetailComponent implements OnInit {
     private authService: AuthService,
     public dialogService$: DialogService,
     private misGestionesService: MisGestionesService,
-    private messageService: AppMessagesServices
+    private messageService: AppMessagesServices,
+    public ref: DynamicDialogRef
   ) {}
 
   get solicitudForm() {
@@ -72,7 +73,6 @@ export class ArticuloDetailComponent implements OnInit {
   }
 
   solicitarArticulo(): void {
-    // Resetear el formulario antes de abrir el modal
     this.solicitudForm.reset();
 
     const ref = this.dialogService$.open(SolicitudMessageComponent, {
@@ -82,7 +82,6 @@ export class ArticuloDetailComponent implements OnInit {
     });
 
     ref.onClose.subscribe((formData) => {
-      // Si el usuario cerró el modal sin enviar, formData será undefined
       if (formData && this.articulo?.id) {
         this.misGestionesService
           .crearSolicitud(
@@ -96,12 +95,13 @@ export class ArticuloDetailComponent implements OnInit {
                 'Solicitud enviada exitosamente',
                 'Solicitud creada'
               );
-              // Resetear el formulario después de enviar
+           
               this.solicitudForm.reset();
+         
+              this.ref.close();
             },
             error: (error) => {
-              // El error ya se maneja en el interceptor, pero podemos agregar lógica adicional si es necesario
-              console.error('Error al crear solicitud:', error);
+              this.ref.close();
             },
           });
       }
@@ -145,34 +145,31 @@ export class ArticuloDetailComponent implements OnInit {
   }
 
   get titulo(): string {
-    return this.articulo?.titulo || 'MacBook Pro 14-inch';
+    return this.articulo?.titulo || '';
   }
 
   get categoriaNombre(): string {
-    return this.articulo?.categoriaNombre || 'Electrónica';
+    return this.articulo?.categoriaNombre || '';
   }
 
   get descripcion(): string {
-    return (
-      this.articulo?.descripcion ||
-      'Chip M2 Pro, 16GB RAM, 512GB SSD. Usado para trabajo y proyectos personales.'
-    );
+    return this.articulo?.descripcion || '';
   }
 
   get propietarioNombre(): string {
-    return this.articulo?.propietario?.nombre || 'Alex Doe';
+    return this.articulo?.propietario?.nombre || '';
   }
 
   get propietarioEmail(): string {
-    return this.articulo?.propietario?.email || 'alex.doe@example.com';
+    return this.articulo?.propietario?.email || '';
   }
 
   get propietarioTelefono(): string {
-    return this.articulo?.propietario?.telefono || '+1 (555) 123-4567';
+    return this.articulo?.propietario?.telefono || '';
   }
 
   get propietarioDireccion(): string {
-    return this.articulo?.propietario?.direccion || '123 Main St, Anytown, USA';
+    return this.articulo?.propietario?.direccion || '';
   }
 
   get tieneSolicitante(): boolean {
