@@ -1,4 +1,9 @@
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 export class ArticuloDetailRepository {
   public detalle(): FormGroup {
@@ -17,6 +22,13 @@ export class ArticuloDetailRepository {
       precio: new FormControl(null),
       imagenes: new FormControl([]),
       creadoEn: new FormControl(null),
+    });
+  }
+
+  public solicitud(): FormGroup {
+    return new FormBuilder().group({
+      mensaje: new FormControl(null),
+      fechaEstimadaDevolucion: new FormControl(null, [Validators.required]),
     });
   }
 }

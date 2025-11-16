@@ -17,6 +17,6 @@
   >
   </textarea>
   <small *ngIf="maxLength !== null" class="char-count">
-    {{ value.length || 0 }}/{{ maxLength }}
+    {{ value ? value.length : 0 }}/{{ maxLength }}
   </small>
 </div>

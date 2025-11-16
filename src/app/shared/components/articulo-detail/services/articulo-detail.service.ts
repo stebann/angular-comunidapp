@@ -8,6 +8,7 @@ import { ArticuloDetailRepository } from '../repositories/articulo-detail-reposi
 @Injectable({ providedIn: 'root' })
 export class ArticuloDetailService extends ArticuloDetailRepository {
   public detailForm = this.detalle();
+  public solicitudForm = this.solicitud();
 
   constructor(private http$: HttpService) {
     super();

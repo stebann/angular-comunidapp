@@ -1,0 +1,66 @@
+<div class="solicitud-modal">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      <i class="pi pi-shopping-cart"></i>
+      Solicitar Artículo
+    </h3>
+    <p class="modal-subtitle">
+      Completa la información para solicitar este artículo
+    </p>
+  </div>
+
+  <form [formGroup]="solicitudForm" class="solicitud-form">
+    <div class="form-field date-field" style="width: 100%">
+      <app-input-date-field
+        formControlName="fechaEstimadaDevolucion"
+        label="Fecha Estimada de Devolución"
+        placeholder="Selecciona una fecha"
+        [required]="true"
+        [showIcon]="true"
+        [minDate]="minDate"
+        style="width: 100%; display: block"
+      ></app-input-date-field>
+      <small class="field-hint">
+        <i class="pi pi-calendar"></i>
+        Selecciona la fecha en la que estimas devolver el artículo.
+      </small>
+    </div>
+
+    <div class="form-field">
+      <app-textarea-field
+        formControlName="mensaje"
+        label="Mensaje"
+        placeholder="Escribe un mensaje para el propietario del artículo..."
+        [rows]="4"
+        [maxLength]="500"
+        [required]="false"
+      ></app-textarea-field>
+      <small class="field-hint">
+        <i class="pi pi-info-circle"></i>
+        Opcional: Puedes incluir información sobre cómo planeas usar el artículo
+        o cualquier detalle relevante.
+      </small>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        (click)="onCancel()"
+        [disabled]="isSubmitting"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-submit"
+        (click)="onSubmit()"
+        [disabled]="!solicitudForm.valid || isSubmitting"
+      >
+        <i class="pi pi-check" *ngIf="!isSubmitting"></i>
+        <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
+        {{ isSubmitting ? "Enviando..." : "Enviar Solicitud" }}
+      </button>
+    </div>
+  </form>
+</div>

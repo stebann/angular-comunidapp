@@ -20,6 +20,7 @@ export class InputDateFieldComponent implements ControlValueAccessor {
   @Input() disabled: boolean = false;
   @Input() required: boolean = false;
   @Input() showIcon: boolean = true;
+  @Input() minDate: Date | null = null;
 
   value: Date | null = null;
   touched: boolean = false;
@@ -54,5 +55,9 @@ export class InputDateFieldComponent implements ControlValueAccessor {
       this.onTouched();
       this.touched = true;
     }
+  }
+
+  getMinDate(): Date {
+    return this.minDate || new Date();
   }
 }

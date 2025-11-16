@@ -14,9 +14,11 @@
       [readonlyInput]="true"
       (onBlur)="markAsTouched()"
       [appendTo]="'body'"
-      [baseZIndex]="1000"
-      [style]="{ width: 'auto' }"
-      [panelStyle]="{ width: '250px' }"
+      [baseZIndex]="10000"
+      [panelStyle]="{ width: '300px' }"
+      [minDate]="getMinDate()"
+      [showButtonBar]="true"
+      [selectionMode]="'single'"
     ></p-calendar>
   </div>
 </div>

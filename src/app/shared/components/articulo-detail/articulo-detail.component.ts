@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
+import { MisGestionesService } from 'src/app/views/menu/components/mis-gestiones/services/mis-gestiones.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Articulo } from '../../models/articulo.model';
 import { ImageViewerService } from '../../services/image-viewer.service';
 import { ArticuloDetailService } from './services/articulo-detail.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { SolicitudMessageComponent } from './solicitud-articulo-modal/solicitud-message.component';
 
 @Component({
   selector: 'app-articulo-detail',
@@ -24,12 +27,19 @@ export class ArticuloDetailComponent implements OnInit {
     public config: DynamicDialogConfig,
     private articuloDetailService: ArticuloDetailService,
     private imageViewerService: ImageViewerService,
-    private authService: AuthService
+    private authService: AuthService,
+    public dialogService$: DialogService,
+    private misGestionesService: MisGestionesService,
+    private messageService: AppMessagesServices
   ) {}
+
+  get solicitudForm() {
+    return this.articuloDetailService.solicitudForm;
+  }
 
   ngOnInit(): void {
     const currentUser = this.authService.currentState;
-    
+
     if (this.config.data?.articulo) {
       this.articulo = this.config.data.articulo;
       this.isOwner = currentUser?.id === this.articulo?.propietario?.id;
@@ -56,7 +66,40 @@ export class ArticuloDetailComponent implements OnInit {
   }
 
   solicitarArticulo(): void {
-  
+    // Resetear el formulario antes de abrir el modal
+    this.solicitudForm.reset();
+
+    const ref = this.dialogService$.open(SolicitudMessageComponent, {
+      header: 'Solicitud de Artículo',
+      width: '500px',
+      styleClass: 'p-app-modal',
+    });
+
+    ref.onClose.subscribe((formData) => {
+      // Si el usuario cerró el modal sin enviar, formData será undefined
+      if (formData && this.articulo?.id) {
+        this.misGestionesService
+          .crearSolicitud(
+            this.articulo.id,
+            formData.mensaje,
+            formData.fechaEstimadaDevolucion
+          )
+          .subscribe({
+            next: () => {
+              this.messageService.exito(
+                'Solicitud enviada exitosamente',
+                'Solicitud creada'
+              );
+              // Resetear el formulario después de enviar
+              this.solicitudForm.reset();
+            },
+            error: (error) => {
+              // El error ya se maneja en el interceptor, pero podemos agregar lógica adicional si es necesario
+              console.error('Error al crear solicitud:', error);
+            },
+          });
+      }
+    });
   }
 
   openImageViewer(): void {
@@ -94,7 +137,6 @@ export class ArticuloDetailComponent implements OnInit {
   canGoPrev(): boolean {
     return !!this.articulo?.imagenes && this.currentImageIndex > 0;
   }
-
 
   get titulo(): string {
     return this.articulo?.titulo || 'MacBook Pro 14-inch';

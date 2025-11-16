@@ -1,162 +1,261 @@
 <div class="modal-articulo">
   <div class="modal-content-wrapper">
     <div class="modal-content">
-    <!-- Columna Izquierda: Solo Imagen -->
-    <div class="left-column">
-      <ng-container
-        *ngIf="
-          articulo?.imagenes && (articulo?.imagenes)!.length > 0;
-          else emptyState
-        "
-      >
-        <div class="carousel-main" (click)="openImageViewer()">
-          <img
-            [src]="getImagenSrc(articulo!.imagenes![currentImageIndex])"
-            alt="Imagen del artículo"
-            class="main-image"
-          />
-          <button
-            type="button"
-            class="nav-btn prev-btn"
-            [disabled]="!canGoPrev()"
-            (click)="prevImage(); $event.stopPropagation()"
-            *ngIf="(articulo?.imagenes)!.length > 1"
+      <!-- Columna Izquierda: Solo Imagen -->
+      <div class="left-column">
+        <ng-container
+          *ngIf="
+            articulo?.imagenes && (articulo?.imagenes)!.length > 0;
+            else emptyState
+          "
+        >
+          <div class="carousel-main" (click)="openImageViewer()">
+            <img
+              [src]="getImagenSrc(articulo!.imagenes![currentImageIndex])"
+              alt="Imagen del artículo"
+              class="main-image"
+            />
+            <button
+              type="button"
+              class="nav-btn prev-btn"
+              [disabled]="!canGoPrev()"
+              (click)="prevImage(); $event.stopPropagation()"
+              *ngIf="(articulo?.imagenes)!.length > 1"
+            >
+              <i class="pi pi-chevron-left"></i>
+            </button>
+            <button
+              type="button"
+              class="nav-btn next-btn"
+              [disabled]="!canGoNext()"
+              (click)="nextImage(); $event.stopPropagation()"
+              *ngIf="(articulo?.imagenes)!.length > 1"
+            >
+              <i class="pi pi-chevron-right"></i>
+            </button>
+            <div class="image-counter" *ngIf="(articulo?.imagenes)!.length > 1">
+              {{ currentImageIndex + 1 }} / {{ (articulo?.imagenes)!.length }}
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #emptyState>
+          <div class="empty-state">
+            <i class="pi pi-image"></i>
+            <p>Sin fotos disponibles</p>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Columna Derecha: Toda la Información -->
+      <div class="right-column">
+        <div class="header-section">
+          <h3 class="section-title">{{ titulo }}</h3>
+        </div>
+
+        <!-- Detalles del Artículo -->
+        <div class="details-section">
+          <div class="details-header">
+            <h4 class="subsection-title">Detalles del Artículo</h4>
+            <div class="status-container">
+              <span
+                class="tag"
+                [ngClass]="{
+                  'tag-disponible':
+                    articulo?.estadoArticuloNombre === 'Disponible',
+                  'tag-prestado': articulo?.estadoArticuloNombre === 'Prestado',
+                  'tag-mantenimiento':
+                    articulo?.estadoArticuloNombre === 'En Mantenimiento',
+                  'tag-no-disponible': !articulo?.estadoArticuloNombre
+                }"
+              >
+                {{ articulo?.estadoArticuloNombre || "No disponible" }}
+              </span>
+              <span
+                class="transaction-tag"
+                *ngIf="articulo?.tipoTransaccionNombre"
+              >
+                {{ articulo?.tipoTransaccionNombre }}
+              </span>
+            </div>
+          </div>
+
+          <p
+            class="detalles-text"
+            [pTooltip]="descripcion"
+            tooltipPosition="top"
+            [showDelay]="500"
+            [hideDelay]="300"
           >
-            <i class="pi pi-chevron-left"></i>
-          </button>
-          <button
-            type="button"
-            class="nav-btn next-btn"
-            [disabled]="!canGoNext()"
-            (click)="nextImage(); $event.stopPropagation()"
-            *ngIf="(articulo?.imagenes)!.length > 1"
+            {{ descripcion }}
+          </p>
+
+          <div class="detalles-info">
+            <div class="detalle-item">
+              <span class="detalle-label">Categoría:</span>
+              <span class="detalle-value">{{ categoriaNombre }}</span>
+            </div>
+            <div class="detalle-item">
+              <span class="detalle-label">Condición:</span>
+              <span class="detalle-value">{{
+                articulo?.condicionNombre || "No especificada"
+              }}</span>
+            </div>
+            <div
+              class="detalle-item"
+              *ngIf="
+                articulo?.precio !== undefined && articulo?.precio !== null
+              "
+            >
+              <span class="detalle-label">Precio:</span>
+              <span class="detalle-value">{{
+                articulo?.precio | currency : "USD" : "symbol" : "1.2-2"
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de información en fila debajo de las columnas -->
+    <div class="info-sections-row">
+      <!-- Información del Propietario -->
+      <div class="info-section">
+        <div class="section-header">
+          <h4 class="subsection-title">Información del Propietario</h4>
+          <a href="#" class="ver-mas" (click)="$event.preventDefault()"
+            >Ver más</a
           >
-            <i class="pi pi-chevron-right"></i>
-          </button>
-          <div class="image-counter" *ngIf="(articulo?.imagenes)!.length > 1">
-            {{ currentImageIndex + 1 }} / {{ (articulo?.imagenes)!.length }}
-          </div>
         </div>
-      </ng-container>
-
-      <ng-template #emptyState>
-        <div class="empty-state">
-          <i class="pi pi-image"></i>
-          <p>Sin fotos disponibles</p>
-        </div>
-      </ng-template>
-
-    </div>
-
-    <!-- Columna Derecha: Toda la Información -->
-    <div class="right-column">
-      <div class="header-section">
-        <h3 class="section-title">{{ titulo }}</h3>
-      </div>
-
-      <!-- Detalles del Artículo -->
-      <div class="details-section">
-        <div class="details-header">
-          <h4 class="subsection-title">Detalles del Artículo</h4>
-          <div class="status-container">
-            <span class="tag" [ngClass]="{
-              'tag-disponible': articulo?.estadoArticuloNombre === 'Disponible',
-              'tag-prestado': articulo?.estadoArticuloNombre === 'Prestado',
-              'tag-mantenimiento': articulo?.estadoArticuloNombre === 'En Mantenimiento',
-              'tag-no-disponible': !articulo?.estadoArticuloNombre
-            }">
-              {{ articulo?.estadoArticuloNombre || 'No disponible' }}
-            </span>
-            <span class="transaction-tag" *ngIf="articulo?.tipoTransaccionNombre">
-              {{ articulo?.tipoTransaccionNombre }}
-            </span>
+        <div class="info-content">
+          <div class="info-item">
+            <span class="info-label">Nombre:</span>
+            <span
+              #nombreElement
+              class="info-value"
+              [pTooltip]="propietarioNombre"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(nombreElement)"
+              >{{ propietarioNombre }}</span
+            >
           </div>
-        </div>
-        
-        <p class="detalles-text" [pTooltip]="descripcion" tooltipPosition="top" [showDelay]="500" [hideDelay]="300">{{ descripcion }}</p>
-        
-        <div class="detalles-info">
-          <div class="detalle-item">
-            <span class="detalle-label">Categoría:</span>
-            <span class="detalle-value">{{ categoriaNombre }}</span>
+          <div class="info-item">
+            <span class="info-label">Correo:</span>
+            <span
+              #emailElement
+              class="info-value"
+              [pTooltip]="propietarioEmail"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(emailElement)"
+              >{{ propietarioEmail }}</span
+            >
           </div>
-          <div class="detalle-item">
-            <span class="detalle-label">Condición:</span>
-            <span class="detalle-value">{{ articulo?.condicionNombre || 'No especificada' }}</span>
+          <div class="info-item">
+            <span class="info-label">Teléfono:</span>
+            <span
+              #telefonoElement
+              class="info-value"
+              [pTooltip]="propietarioTelefono"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(telefonoElement)"
+              >{{ propietarioTelefono }}</span
+            >
           </div>
-          <div class="detalle-item" *ngIf="articulo?.precio !== undefined && articulo?.precio !== null">
-            <span class="detalle-label">Precio:</span>
-            <span class="detalle-value">{{ articulo?.precio | currency : "USD" : "symbol" : "1.2-2" }}</span>
+          <div class="info-item">
+            <span class="info-label">Dirección:</span>
+            <span
+              #direccionElement
+              class="info-value"
+              [pTooltip]="propietarioDireccion"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(direccionElement)"
+              >{{ propietarioDireccion }}</span
+            >
           </div>
         </div>
       </div>
 
+      <!-- Información del Préstamo -->
+      <div class="info-section" *ngIf="tieneSolicitante">
+        <div class="section-header">
+          <h4 class="subsection-title">Información del Préstamo</h4>
+          <a href="#" class="ver-mas" (click)="$event.preventDefault()"
+            >Ver más</a
+          >
+        </div>
+        <div class="info-content">
+          <div class="info-item">
+            <span class="info-label">Solicitante:</span>
+            <span
+              #solicitanteNombreElement
+              class="info-value"
+              [pTooltip]="solicitanteNombre"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(solicitanteNombreElement)"
+              >{{ solicitanteNombre }}</span
+            >
+          </div>
+          <div class="info-item">
+            <span class="info-label">Correo:</span>
+            <span
+              #solicitanteEmailElement
+              class="info-value"
+              [pTooltip]="solicitanteEmail"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(solicitanteEmailElement)"
+              >{{ solicitanteEmail }}</span
+            >
+          </div>
+          <div class="info-item">
+            <span class="info-label">Teléfono:</span>
+            <span
+              #solicitanteTelefonoElement
+              class="info-value"
+              [pTooltip]="solicitanteTelefono"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(solicitanteTelefonoElement)"
+              >{{ solicitanteTelefono }}</span
+            >
+          </div>
+          <div class="info-item">
+            <span class="info-label">Dirección:</span>
+            <span
+              #solicitanteDireccionElement
+              class="info-value"
+              [pTooltip]="solicitanteDireccion"
+              [showDelay]="500"
+              [hideDelay]="300"
+              [tooltipDisabled]="!isTextTruncated(solicitanteDireccionElement)"
+              >{{ solicitanteDireccion }}</span
+            >
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- Sección de información en fila debajo de las columnas -->
-  <div class="info-sections-row">
-    <!-- Información del Propietario -->
-    <div class="info-section">
-      <div class="section-header">
-        <h4 class="subsection-title">Información del Propietario</h4>
-        <a href="#" class="ver-mas" (click)="$event.preventDefault()">Ver más</a>
-      </div>
-      <div class="info-content">
-        <div class="info-item">
-          <span class="info-label">Nombre:</span>
-          <span #nombreElement class="info-value" [pTooltip]="propietarioNombre" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(nombreElement)">{{ propietarioNombre }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Correo:</span>
-          <span #emailElement class="info-value" [pTooltip]="propietarioEmail" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(emailElement)">{{ propietarioEmail }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Teléfono:</span>
-          <span #telefonoElement class="info-value" [pTooltip]="propietarioTelefono" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(telefonoElement)">{{ propietarioTelefono }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Dirección:</span>
-          <span #direccionElement class="info-value" [pTooltip]="propietarioDireccion" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(direccionElement)">{{ propietarioDireccion }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Información del Préstamo -->
-    <div class="info-section" *ngIf="tieneSolicitante">
-      <div class="section-header">
-        <h4 class="subsection-title">Información del Préstamo</h4>
-        <a href="#" class="ver-mas" (click)="$event.preventDefault()">Ver más</a>
-      </div>
-      <div class="info-content">
-        <div class="info-item">
-          <span class="info-label">Solicitante:</span>
-          <span #solicitanteNombreElement class="info-value" [pTooltip]="solicitanteNombre" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteNombreElement)">{{ solicitanteNombre }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Correo:</span>
-          <span #solicitanteEmailElement class="info-value" [pTooltip]="solicitanteEmail" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteEmailElement)">{{ solicitanteEmail }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Teléfono:</span>
-          <span #solicitanteTelefonoElement class="info-value" [pTooltip]="solicitanteTelefono" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteTelefonoElement)">{{ solicitanteTelefono }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Dirección:</span>
-          <span #solicitanteDireccionElement class="info-value" [pTooltip]="solicitanteDireccion" [showDelay]="500" [hideDelay]="300" [tooltipDisabled]="!isTextTruncated(solicitanteDireccionElement)">{{ solicitanteDireccion }}</span>
-        </div>
-      </div>
-    </div>
-    
-    </div>
-    
     <!-- Botón Solicitar Artículo debajo de las secciones -->
-    <div *ngIf="!isOwner" style="display: flex; justify-content: flex-end; width: 100%; margin-top: 1rem;">
-      <app-button 
-        type="primary" 
-        icon="pi pi-shopping-cart" 
+    <div
+      *ngIf="!isOwner"
+      style="
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+        margin-top: 1rem;
+      "
+    >
+      <app-button
+        type="primary"
+        icon="pi pi-shopping-cart"
         [disabled]="!estaDisponible"
-        (onClick)="solicitarArticulo()">Solicitar Artículo
+        (clicked)="solicitarArticulo()"
+        >Solicitar Artículo
       </app-button>
     </div>
   </div>

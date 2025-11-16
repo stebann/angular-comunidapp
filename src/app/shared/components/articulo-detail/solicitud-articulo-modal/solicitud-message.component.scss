@@ -1,0 +1,261 @@
+.solicitud-modal {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+
+  .modal-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
+
+      i {
+        color: var(--color-primary, #3b82f6);
+        font-size: 1.25rem;
+      }
+    }
+
+    .modal-subtitle {
+      margin: 0;
+      font-size: 0.875rem;
+      color: #6b7280;
+      font-weight: 400;
+    }
+  }
+
+  .solicitud-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .form-field {
+      display: flex !important;
+      flex-direction: column;
+      gap: 0.5rem;
+      min-height: auto;
+      width: 100% !important;
+      max-width: 100% !important;
+      opacity: 1;
+      visibility: visible;
+      box-sizing: border-box;
+
+      &.date-field {
+        order: -1; // Mover el campo de fecha al principio
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .field-hint {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: #6b7280;
+        margin-top: -0.25rem;
+        line-height: 1.4;
+
+        i {
+          margin-top: 0.125rem;
+          flex-shrink: 0;
+          color: var(--color-primary, #3b82f6);
+        }
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      border-top: 1px solid #e5e7eb;
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 120px;
+        justify-content: center;
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        i {
+          font-size: 1rem;
+        }
+      }
+
+      .btn-cancel {
+        background: #f3f4f6;
+        color: #374151;
+
+        &:hover:not(:disabled) {
+          background: #e5e7eb;
+        }
+      }
+
+      .btn-submit {
+        background: linear-gradient(135deg, var(--color-primary-700, #1d4ed8) 0%, var(--color-primary-800, #1e40af) 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, var(--color-primary-600, #2563eb) 0%, var(--color-primary-700, #1d4ed8) 100%);
+          box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+          transform: translateY(-1px);
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}
+
+// Asegurar que los componentes hijos sean visibles
+.solicitud-modal {
+  ::ng-deep {
+    // Forzar visibilidad del textarea-field
+    app-textarea-field {
+      display: block !important;
+      width: 100% !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      min-height: 100px;
+    }
+
+    // Forzar visibilidad del input-date-field - SIEMPRE VISIBLE
+    app-input-date-field {
+      display: block !important;
+      width: 100% !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      min-height: 80px !important;
+      height: auto !important;
+      position: relative !important;
+      z-index: 1 !important;
+
+      .input-container {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        min-height: 80px !important;
+        height: auto !important;
+      }
+
+      .label {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+
+      .input-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .input-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        min-height: 42px !important;
+        height: auto !important;
+        box-sizing: border-box !important;
+
+        .p-calendar {
+          display: flex !important;
+          width: 100% !important;
+          min-width: 100% !important;
+          max-width: 100% !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          min-height: 42px !important;
+          height: auto !important;
+          flex: 1 1 100% !important;
+          box-sizing: border-box !important;
+
+          // Forzar que el contenedor interno del calendar ocupe todo el ancho
+          > span {
+            width: 100% !important;
+            display: flex !important;
+            flex: 1 1 100% !important;
+          }
+
+          .p-inputtext {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            min-height: 2.6rem !important;
+            height: 2.6rem !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+            flex: 1 1 auto !important;
+            box-sizing: border-box !important;
+          }
+
+          .p-button {
+            display: flex !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            min-height: 2.6rem !important;
+            height: 2.6rem !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .solicitud-modal {
+    .modal-header {
+      .modal-title {
+        font-size: 1.125rem;
+      }
+    }
+
+    .solicitud-form {
+      .modal-footer {
+        flex-direction: column-reverse;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
