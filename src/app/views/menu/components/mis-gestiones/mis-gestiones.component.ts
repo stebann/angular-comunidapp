@@ -30,8 +30,8 @@ export class MisGestionesComponent implements OnInit {
   ngOnInit(): void {
     this.misGestionesService.getConteosUsuario().subscribe();
     
-    // Establecer activeTab basado en la ruta actual
     const currentRoute = this.route.snapshot.url[this.route.snapshot.url.length - 1]?.path;
+    
     switch (currentRoute) {
       case 'solicitudes-recibidas':
         this.activeTab = 'solicitudes-recibidas';
@@ -46,12 +46,30 @@ export class MisGestionesComponent implements OnInit {
         this.activeTab = 'prestamos-enviados';
         break;
       default:
-        this.activeTab = null; // Para la ruta general mis-gestiones
+        this.activeTab = null;
     }
     
-    // Cargar datos según el tab activo
     if (this.activeTab) {
-      this.loadDataForTab(this.activeTab);
+      const alreadyLoaded = this.checkIfDataAlreadyLoaded(this.activeTab);
+      
+      if (!alreadyLoaded) {
+        this.loadDataForTab(this.activeTab);
+      }
+    }
+  }
+
+  checkIfDataAlreadyLoaded(tab: string): boolean {
+    switch (tab) {
+      case 'solicitudes-recibidas':
+        return (this.misGestionesService.solicitudesRecibidas?.length || 0) > 0;
+      case 'solicitudes-enviadas':
+        return (this.misGestionesService.solicitudesEnviadas?.length || 0) > 0;
+      case 'prestamos-recibidos':
+        return (this.misGestionesService.prestamosRecibidos?.length || 0) > 0;
+      case 'prestamos-enviados':
+        return (this.misGestionesService.prestamosOtorgados?.length || 0) > 0;
+      default:
+        return false;
     }
   }
 
@@ -122,13 +140,11 @@ export class MisGestionesComponent implements OnInit {
   }
 
   onTabChange(tab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-recibidos' | 'prestamos-enviados'): void {
-    this.activeTab = tab;
+    if (this.activeTab === tab) {
+      return;
+    }
     
-    // Navegar a la ruta absoluta
     this.router.navigate(['/app/mis-gestiones', tab]);
-    
-    // Cargar datos
-    this.loadDataForTab(tab);
   }
 
 
@@ -149,10 +165,6 @@ export class MisGestionesComponent implements OnInit {
       default:
         return 0;
     }
-  }
-
-  getTotalEnviadas(): number {
-    return 0; // Este método ya no se usa ya que cada opción es específica
   }
 
   getSearchPlaceholder(): string {
