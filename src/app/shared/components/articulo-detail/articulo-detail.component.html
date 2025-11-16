@@ -190,7 +190,7 @@
     </div>
 
     <!-- Botón Solicitar Artículo -->
-    <div class="action-footer" *ngIf="!isOwner">
+    <div class="action-footer" *ngIf="!isLoading && !isOwner && articulo">
       <div class="divider"></div>
       <div class="action-container">
         <app-button

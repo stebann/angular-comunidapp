@@ -1,13 +1,4 @@
 <div class="usuario-info-modal">
-  <div class="modal-header">
-    <h3 class="modal-title">
-      <i class="pi pi-user"></i>
-      {{ titulo }}
-    </h3>
-  </div>
-
-  <div class="divider"></div>
-
   <div class="usuario-content">
     <!-- Avatar Section -->
     <div class="avatar-section">
@@ -25,34 +16,35 @@
       <h4 class="usuario-name">{{ usuario.nombre }}</h4>
     </div>
 
-    <div class="divider-small"></div>
+    <div class="divider"></div>
 
     <!-- Información de Contacto -->
     <div class="info-section">
       <div class="info-item">
-        <div class="info-icon">
-          <i class="pi pi-envelope"></i>
-        </div>
+        <i class="pi pi-envelope info-icon"></i>
         <div class="info-content">
           <span class="info-label">Correo electrónico</span>
           <span class="info-value">{{ usuario.email }}</span>
         </div>
       </div>
 
+      <div class="divider-small"></div>
+
       <div class="info-item" *ngIf="usuario.telefono">
-        <div class="info-icon">
-          <i class="pi pi-phone"></i>
-        </div>
+        <i class="pi pi-phone info-icon"></i>
         <div class="info-content">
           <span class="info-label">Teléfono</span>
           <span class="info-value">{{ usuario.telefono }}</span>
         </div>
       </div>
 
+      <div
+        class="divider-small"
+        *ngIf="usuario.telefono && usuario.direccion"
+      ></div>
+
       <div class="info-item" *ngIf="usuario.direccion">
-        <div class="info-icon">
-          <i class="pi pi-map-marker"></i>
-        </div>
+        <i class="pi pi-map-marker info-icon"></i>
         <div class="info-content">
           <span class="info-label">Dirección</span>
           <span class="info-value">{{ usuario.direccion }}</span>
@@ -64,8 +56,7 @@
   <div class="divider"></div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-close" (click)="onClose()">
-      <i class="pi pi-times"></i>
+    <button type="button" class="btn btn-cancel" (click)="onClose()">
       Cerrar
     </button>
   </div>

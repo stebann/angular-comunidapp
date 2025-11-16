@@ -16,11 +16,12 @@ import { UsuarioInfoModalComponent } from './usuario-info-modal/usuario-info-mod
 })
 export class ArticuloDetailComponent implements OnInit {
   @Input() articuloId: number | null = null;
-  isOwner: boolean = false;
+  isOwner: boolean = true; // Inicializar como true para evitar parpadeo
   articulo?: Articulo;
   currentImageIndex = 0;
   detallesExpanded = true;
   propietarioExpanded = true;
+  isLoading: boolean = true; // Flag para saber si está cargando
 
   private readonly IMAGE_BASE_URL = 'http://localhost:8080/api/articulo/imagen';
 
@@ -44,13 +45,17 @@ export class ArticuloDetailComponent implements OnInit {
     if (this.config.data?.articulo) {
       this.articulo = this.config.data.articulo;
       this.isOwner = currentUser?.id === this.articulo?.propietario?.id;
+      this.isLoading = false;
     } else if (this.config.data?.articuloId) {
       this.articuloDetailService
         .obtenerArticuloById(this.config.data.articuloId)
         .subscribe((articulo: Articulo) => {
           this.articulo = articulo;
           this.isOwner = currentUser?.id === articulo.propietario?.id;
+          this.isLoading = false;
         });
+    } else {
+      this.isLoading = false;
     }
   }
 

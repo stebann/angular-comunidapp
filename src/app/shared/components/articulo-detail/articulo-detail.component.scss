@@ -350,7 +350,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--color-primary, #3b82f6), #2563eb);
+    background: linear-gradient(135deg, var(--color-primary-light, #34d399) 0%, var(--color-primary, #10b981) 50%, var(--color-primary-dark, #059669) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
