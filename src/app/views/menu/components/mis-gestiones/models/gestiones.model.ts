@@ -1,15 +1,18 @@
 export interface Gestion {
   id: number;
   nombreArticulo: string;
-  imagenesArticulo: string;
+  imagenArticulo: string;
   propietarioId: number;
   precio: number;
   tipoCodigo: number;
+  tipoNombre: string;
+  estadoCodigo: number;
+  estadoNombre: string;
   fechaSolicitud: string;
   mensaje: string;
   categoriaNombre: string;
-  estadoNombre: string;
   solicitante: UsuarioInfo;
+  fechaEstimadaDevolucion: string;
 }
 
 export interface UsuarioInfo {

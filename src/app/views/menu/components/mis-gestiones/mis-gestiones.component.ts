@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MisGestionesService } from './services/mis-gestiones.service';
 import { Gestion } from './models/gestiones.model';
 
@@ -20,12 +21,55 @@ export class MisGestionesComponent implements OnInit {
   ];
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     public misGestionesService: MisGestionesService
   ) {
   }
 
   ngOnInit(): void {
     this.misGestionesService.getConteosUsuario().subscribe();
+    
+    // Establecer activeTab basado en la ruta actual
+    const currentRoute = this.route.snapshot.url[this.route.snapshot.url.length - 1]?.path;
+    switch (currentRoute) {
+      case 'solicitudes-recibidas':
+        this.activeTab = 'solicitudes-recibidas';
+        break;
+      case 'solicitudes-enviadas':
+        this.activeTab = 'solicitudes-enviadas';
+        break;
+      case 'prestamos-recibidos':
+        this.activeTab = 'prestamos-recibidos';
+        break;
+      case 'prestamos-enviados':
+        this.activeTab = 'prestamos-enviados';
+        break;
+      default:
+        this.activeTab = null; // Para la ruta general mis-gestiones
+    }
+    
+    // Cargar datos según el tab activo
+    if (this.activeTab) {
+      this.loadDataForTab(this.activeTab);
+    }
+  }
+
+  loadDataForTab(tab: string): void {
+    switch (tab) {
+      case 'solicitudes-recibidas':
+        this.misGestionesService.getSolicitudesRecibidas().subscribe();
+        break;
+      case 'solicitudes-enviadas':
+        this.misGestionesService.getSolicitudesEnviadas().subscribe();
+        break;
+      case 'prestamos-recibidos':
+        this.misGestionesService.getPrestamosRecibidos().subscribe();
+        break;
+      case 'prestamos-enviados':
+        this.misGestionesService.getPrestamosEnviados().subscribe();
+        break;
+    }
   }
 
   get solicitudesRecibidas() {
@@ -79,20 +123,12 @@ export class MisGestionesComponent implements OnInit {
 
   onTabChange(tab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-recibidos' | 'prestamos-enviados'): void {
     this.activeTab = tab;
-    switch (tab) {
-      case 'solicitudes-recibidas':
-        this.misGestionesService.getSolicitudesRecibidas().subscribe();
-        break;
-      case 'solicitudes-enviadas':
-        this.misGestionesService.getSolicitudesEnviadas().subscribe();
-        break;
-      case 'prestamos-recibidos':
-        this.misGestionesService.getPrestamosRecibidos().subscribe();
-        break;
-      case 'prestamos-enviados':
-        this.misGestionesService.getPrestamosEnviados().subscribe();
-        break;
-    }
+    
+    // Navegar a la ruta absoluta
+    this.router.navigate(['/app/mis-gestiones', tab]);
+    
+    // Cargar datos
+    this.loadDataForTab(tab);
   }
 
 

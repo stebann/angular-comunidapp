@@ -5,20 +5,18 @@
         <img
           *ngIf="getImagenSrc()"
           [src]="getImagenSrc()"
-          [alt]="solicitud.nombreArticulo"
+          [alt]="solicitud?.nombreArticulo || 'Imagen del artículo'"
+          class="articulo-imagen"
         />
         <div *ngIf="!getImagenSrc()" class="imagen-placeholder">
           <i class="pi pi-image" aria-hidden="true"></i>
         </div>
       </div>
       <div class="articulo-info">
-        <h4 class="articulo-titulo" [title]="solicitud.nombreArticulo">
-          {{ solicitud.nombreArticulo }}
+        <h4 class="articulo-titulo" [title]="solicitud?.nombreArticulo">
+          {{ solicitud?.nombreArticulo }}
         </h4>
         <div class="articulo-meta flex-row" style="align-items: center">
-          <span class="tipo-vista">
-            {{ getTipoLabel() }}
-          </span>
           <span class="fecha">
             <i class="pi pi-calendar" aria-hidden="true"></i>
             {{ getFechaFormateada() }}
@@ -31,43 +29,42 @@
   <div class="solicitud-body">
     <div class="usuario-info">
       <div class="usuario-avatar">
-        <img
-          *ngIf="getAvatarSrc()"
-          [src]="getAvatarSrc()"
-          [alt]="solicitud.solicitante.nombre || 'Usuario'"
-        />
-        <span *ngIf="!getAvatarSrc()" class="iniciales">
-          {{ (solicitud.solicitante.nombre ? solicitud.solicitante.nombre.charAt(0) : 'U') | uppercase }}
-        </span>
+        <ng-container *ngIf="getAvatarSrc(); else initialsTemplate">
+          <img
+            [src]="getAvatarSrc()"
+            [alt]="solicitud?.solicitante?.nombre || 'Usuario'"
+            class="avatar-img"
+          />
+        </ng-container>
+        <ng-template #initialsTemplate>
+          <span class="iniciales">
+            {{ getUsuarioIniciales() }}
+          </span>
+        </ng-template>
       </div>
       <div class="usuario-details">
         <span class="usuario-nombre">
-          {{ solicitud.solicitante.nombre || 'Usuario' }}
-        </span>
-        <span class="solicitud-tipo">
-          <i [class]="getTipoIcon()" aria-hidden="true"></i>
-          {{ esRecibida ? "Te solicita" : "Solicitaste" }}
-          {{ getTipoLabel().toLowerCase() }}
+          {{ solicitud?.solicitante?.nombre || 'Usuario' }}
         </span>
       </div>
     </div>
 
     <div class="mensaje">
-      <p>{{ solicitud.mensaje }}</p>
+      <p>{{ solicitud?.mensaje }}</p>
     </div>
 
     <div class="solicitud-footer">
       <div class="footer-left">
-        <span class="categoria">
+        <span class="categoria-badge">
           <i class="pi pi-tag" aria-hidden="true"></i>
-          {{ solicitud.categoriaNombre }}
+          {{ solicitud?.categoriaNombre }}
         </span>
       </div>
 
       <div class="footer-right">
-        <div class="tipo-transaccion">
+        <div class="tipo-badge">
           <i [class]="getTipoIcon()" aria-hidden="true"></i>
-          {{ getTipoLabel() }}
+          {{ getTipoLabel() | uppercase }}
         </div>
         <div class="estado-badge" [ngClass]="getEstadoClass()">
           {{ getEstadoLabel() }}

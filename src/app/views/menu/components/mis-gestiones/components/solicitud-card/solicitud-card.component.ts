@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Gestion } from 'src/app/views/menu/components/mis-gestiones/models/gestiones.model';
 
 @Component({
@@ -6,27 +6,35 @@ import { Gestion } from 'src/app/views/menu/components/mis-gestiones/models/gest
   templateUrl: './solicitud-card.component.html',
   styleUrls: ['./solicitud-card.component.scss'],
 })
-export class SolicitudCardComponent {
-  @Input() solicitud!: Gestion;
-  @Input() esRecibida: boolean = true;
+export class SolicitudCardComponent implements OnInit {
+  @Input() solicitud: Gestion | null = null;
   @Output() cardClicked = new EventEmitter<Gestion>();
   @Output() actionClicked = new EventEmitter<{
     action: string;
     solicitud: Gestion;
   }>();
 
+  private readonly IMAGE_BASE_URL = 'http://localhost:8080/api/articulo/imagen';
+
   constructor() {}
 
+  ngOnInit(): void {}
+
   onCardClick(): void {
-    this.cardClicked.emit(this.solicitud);
+    if (this.solicitud) {
+      this.cardClicked.emit(this.solicitud);
+    }
   }
 
   onActionClick(action: string, event: Event): void {
     event.stopPropagation();
-    this.actionClicked.emit({ action, solicitud: this.solicitud });
+    if (this.solicitud) {
+      this.actionClicked.emit({ action, solicitud: this.solicitud });
+    }
   }
 
   getEstadoClass(): string {
+    if (!this.solicitud) return 'estado-pendiente';
     const estado = this.solicitud.estadoNombre?.toLowerCase();
     if (!estado) return 'estado-pendiente';
     
@@ -37,48 +45,59 @@ export class SolicitudCardComponent {
   }
 
   getEstadoLabel(): string {
-    return this.solicitud.estadoNombre || 'Pendiente';
+    return this.solicitud?.estadoNombre || 'Pendiente';
   }
 
   getTipoIcon(): string {
-    return 'pi pi-shopping-cart';
+    if (!this.solicitud) return 'pi pi-file';
+    // tipoCodigo: 1 = Venta, 2 = Préstamo
+    return this.solicitud.tipoCodigo === 1 ? 'pi pi-shopping-cart' : 'pi pi-refresh';
   }
 
   getTipoLabel(): string {
-    return 'Solicitud';
+    if (!this.solicitud) return 'Transacción';
+    // Si no hay tipoNombre, usamos el código
+    if (!this.solicitud.tipoNombre) {
+      return this.solicitud.tipoCodigo === 1 ? 'Venta' : 'Préstamo';
+    }
+    return this.solicitud.tipoNombre;
   }
 
   getFechaFormateada(): string {
+    if (!this.solicitud?.fechaSolicitud) return '';
     const fecha = new Date(this.solicitud.fechaSolicitud);
-    const ahora = new Date();
-    const diffMs = ahora.getTime() - fecha.getTime();
-    const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-    if (diffDias === 0) {
-      return 'Hoy';
-    } else if (diffDias === 1) {
-      return 'Ayer';
-    } else if (diffDias < 7) {
-      return `Hace ${diffDias} días`;
-    } else {
-      return fecha.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: '2-digit',
-      });
-    }
+    
+    return fecha.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+    });
   }
 
 
   getImagenSrc(): string | null {
-    return this.solicitud.imagenesArticulo || null;
+    if (!this.solicitud?.imagenArticulo) return null;
+    return `${this.IMAGE_BASE_URL}/${this.solicitud.imagenArticulo}`;
   }
 
   getAvatarSrc(): string | null {
-    return this.solicitud.solicitante?.foto || null;
+    const foto = this.solicitud?.solicitante?.foto;
+    if (!foto || foto.trim() === '') {
+      return null;
+    }
+    return foto;
   }
 
   getUsuarioIniciales(): string {
-    return (this.solicitud.solicitante?.nombre?.charAt(0) || 'U').toUpperCase();
+    const nombre = this.solicitud?.solicitante?.nombre || '';
+    if (!nombre) return 'U';
+    
+    // Para nombres compuestos, tomar la primera letra del primer nombre y primer apellido
+    const partes = nombre.trim().split(' ');
+    if (partes.length >= 2) {
+      return (partes[0].charAt(0) + partes[partes.length - 1].charAt(0)).toUpperCase();
+    }
+    
+    return nombre.charAt(0).toUpperCase();
   }
 }

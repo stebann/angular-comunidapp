@@ -63,7 +63,6 @@
         <app-solicitud-card
           *ngFor="let solicitud of solicitudesFiltradas"
           [solicitud]="solicitud"
-          [esRecibida]="activeTab?.includes('recibidas') || false"
           (cardClicked)="solicitudDetalle($event)"
         ></app-solicitud-card>
       </div>
