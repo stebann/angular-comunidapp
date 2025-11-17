@@ -134,16 +134,81 @@
 
       <!-- Footer con acciones -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" (click)="closeModal()">
+        <app-button type="outline-primary" (clicked)="closeModal()">
           Cerrar
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="onAcceptRequest()"
-        >
-          Aprobar Solicitud
-        </button>
+        </app-button>
+
+        <!-- Botones según el tab activo -->
+        <ng-container [ngSwitch]="activeTab">
+          <!-- Solicitudes Recibidas -->
+          <ng-container *ngSwitchCase="'solicitudes-recibidas'">
+            <app-button
+              type="success"
+              icon="pi pi-check"
+              (clicked)="onAcceptRequest()"
+            >
+              Aceptar
+            </app-button>
+            <app-button
+              type="danger"
+              icon="pi pi-times"
+              (clicked)="onRejectRequest()"
+            >
+              Rechazar
+            </app-button>
+          </ng-container>
+
+          <!-- Solicitudes Enviadas -->
+          <ng-container *ngSwitchCase="'solicitudes-enviadas'">
+            <app-button
+              type="danger"
+              icon="pi pi-ban"
+              (clicked)="onCancelRequest()"
+            >
+              Cancelar Solicitud
+            </app-button>
+          </ng-container>
+
+          <!-- Préstamos Activos -->
+          <ng-container *ngSwitchCase="'prestamos-activos'">
+            <app-button
+              type="primary"
+              icon="pi pi-undo"
+              (clicked)="onReturnItem()"
+            >
+              Devolver Artículo
+            </app-button>
+          </ng-container>
+
+          <!-- Préstamos Otorgados -->
+          <ng-container *ngSwitchCase="'prestamos-otorgados'">
+            <app-button
+              type="success"
+              icon="pi pi-check-circle"
+              (clicked)="onConfirmReturn()"
+            >
+              Confirmar Devolución
+            </app-button>
+            <app-button
+              type="info"
+              icon="pi pi-bell"
+              (clicked)="onRemindReturn()"
+            >
+              Enviar Recordatorio
+            </app-button>
+          </ng-container>
+
+          <!-- Default: Aprobar Solicitud -->
+          <ng-container *ngSwitchDefault>
+            <app-button
+              type="primary"
+              icon="pi pi-check"
+              (clicked)="onAcceptRequest()"
+            >
+              Aprobar Solicitud
+            </app-button>
+          </ng-container>
+        </ng-container>
       </div>
     </div>
   </div>

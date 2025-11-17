@@ -1,204 +1,204 @@
-<div class="modal-articulo">
-  <div class="modal-content-wrapper">
-    <!-- Contenido Principal -->
-    <div class="modal-content">
-      <!-- Columna Izquierda: Imagen -->
-      <div class="left-column">
-        <ng-container
-          *ngIf="
-            articulo?.imagenes && (articulo?.imagenes)!.length > 0;
-            else emptyState
-          "
+<div class="articulo-detail-modal">
+  <div class="modal-container">
+    <!-- Sección izquierda - Galería de imágenes -->
+    <div class="left-panel">
+      <!-- Carousel de imágenes -->
+      <div class="gallery-container">
+        <div
+          class="gallery"
+          *ngIf="articulo?.imagenes && (articulo?.imagenes?.length ?? 0) > 0"
         >
-          <div class="carousel-main" (click)="openImageViewer()">
-            <img
-              [src]="getImagenSrc(articulo!.imagenes![currentImageIndex])"
-              alt="Imagen del artículo"
-              class="main-image"
-            />
-            <button
-              type="button"
-              class="nav-btn prev-btn"
-              [disabled]="!canGoPrev()"
-              (click)="prevImage(); $event.stopPropagation()"
-              *ngIf="(articulo?.imagenes)!.length > 1"
-            >
-              <i class="pi pi-chevron-left"></i>
-            </button>
-            <button
-              type="button"
-              class="nav-btn next-btn"
-              [disabled]="!canGoNext()"
-              (click)="nextImage(); $event.stopPropagation()"
-              *ngIf="(articulo?.imagenes)!.length > 1"
-            >
-              <i class="pi pi-chevron-right"></i>
-            </button>
-            <div class="image-counter" *ngIf="(articulo?.imagenes)!.length > 1">
-              {{ currentImageIndex + 1 }} / {{ (articulo?.imagenes)!.length }}
-            </div>
-          </div>
-        </ng-container>
+          <img
+            [src]="getImagenSrc(articulo!.imagenes![currentImageIndex])"
+            [alt]="titulo + ' - imagen ' + (currentImageIndex + 1)"
+            class="gallery-image"
+            (click)="openImageViewer()"
+          />
 
-        <ng-template #emptyState>
-          <div class="empty-state">
-            <i class="pi pi-image"></i>
-            <p>Sin fotos disponibles</p>
-          </div>
-        </ng-template>
-      </div>
-
-      <!-- Columna Derecha: Información -->
-      <div class="right-column">
-        <!-- Título del Artículo -->
-        <div class="article-title-section">
-          <h3 class="article-title">
-            <i class="pi pi-file-edit"></i>
-            {{ titulo }}
-          </h3>
-        </div>
-
-        <div class="divider-small"></div>
-
-        <!-- Descripción -->
-        <div class="description-section">
-          <h4 class="section-title">
-            <i class="pi pi-align-left"></i>
-            Descripción
-          </h4>
-          <p
-            class="description-text"
-            [pTooltip]="descripcion"
-            tooltipPosition="top"
-            [showDelay]="500"
-            [hideDelay]="300"
+          <!-- Controles del carousel -->
+          <button
+            *ngIf="articulo!.imagenes!.length > 1"
+            type="button"
+            class="gallery-nav prev"
+            (click)="prevImage(); $event.stopPropagation()"
+            [disabled]="!canGoPrev()"
           >
-            {{ descripcion }}
-          </p>
+            <i class="pi pi-chevron-left"></i>
+          </button>
+          <button
+            *ngIf="articulo!.imagenes!.length > 1"
+            type="button"
+            class="gallery-nav next"
+            (click)="nextImage(); $event.stopPropagation()"
+            [disabled]="!canGoNext()"
+          >
+            <i class="pi pi-chevron-right"></i>
+          </button>
+
+          <!-- Indicadores de puntos -->
+          <div *ngIf="articulo!.imagenes!.length > 1" class="gallery-dots">
+            <button
+              *ngFor="let imagen of articulo!.imagenes!; let i = index"
+              type="button"
+              class="dot"
+              [class.active]="i === currentImageIndex"
+              (click)="currentImageIndex = i; $event.stopPropagation()"
+            ></button>
+          </div>
         </div>
 
-        <div class="divider-small"></div>
+        <!-- Estado vacío -->
+        <div
+          *ngIf="
+            !articulo?.imagenes ||
+            (articulo?.imagenes && (articulo?.imagenes?.length ?? 0) === 0)
+          "
+          class="empty-gallery"
+        >
+          <i class="pi pi-image"></i>
+          <p>Sin fotos disponibles</p>
+        </div>
+      </div>
 
-        <!-- Detalles del Artículo -->
-        <div class="details-section">
-          <div class="details-compact">
-            <div class="detail-item-compact">
-              <i class="pi pi-folder"></i>
-              <span class="detail-label-compact">Categoría:</span>
-              <span class="detail-value-compact">{{ categoriaNombre }}</span>
-            </div>
-            <div class="detail-item-compact">
-              <i class="pi pi-check-circle"></i>
-              <span class="detail-label-compact">Condición:</span>
-              <span class="detail-value-compact">{{
-                articulo?.condicionNombre || "No especificada"
-              }}</span>
-            </div>
-            <div class="detail-item-compact">
-              <i class="pi pi-circle-fill"></i>
-              <span class="detail-label-compact">Estado:</span>
-              <span
-                class="detail-value-compact estado-badge"
-                [ngClass]="{
-                  'estado-disponible':
-                    articulo?.estadoArticuloNombre === 'Disponible',
-                  'estado-prestado':
-                    articulo?.estadoArticuloNombre === 'Prestado',
-                  'estado-mantenimiento':
-                    articulo?.estadoArticuloNombre === 'En Mantenimiento',
-                  'estado-no-disponible': !articulo?.estadoArticuloNombre
-                }"
+      <!-- Información del artículo -->
+      <div class="product-info">
+        <h3 class="product-title">{{ titulo }}</h3>
+        <p class="product-category">{{ categoriaNombre }}</p>
+
+        <div class="status-container">
+          <span class="status-label">Estado:</span>
+          <span
+            class="status-pill"
+            [ngClass]="{
+              'estado-disponible':
+                articulo?.estadoArticuloNombre === 'Disponible',
+              'estado-prestado': articulo?.estadoArticuloNombre === 'Prestado',
+              'estado-mantenimiento':
+                articulo?.estadoArticuloNombre === 'En Mantenimiento',
+              'estado-no-disponible':
+                !articulo?.estadoArticuloNombre ||
+                articulo?.estadoArticuloNombre === 'No disponible'
+            }"
+          >
+            {{ articulo?.estadoArticuloNombre || "No disponible" }}
+          </span>
+        </div>
+
+        <div class="condition-container">
+          <span class="status-label">Condición:</span>
+          <span class="condition-pill">
+            {{ articulo?.condicionNombre || "No especificada" }}
+          </span>
+        </div>
+
+        <div
+          class="price-container"
+          *ngIf="articulo?.precio !== undefined && articulo?.precio !== null"
+        >
+          <span class="status-label">Precio:</span>
+          <span class="price-value">
+            {{ articulo!.precio! | currency : "USD" : "symbol" : "1.2-2" }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección derecha - Detalles del artículo -->
+    <div class="right-panel">
+      <!-- Contenido scrolleable -->
+      <div class="content-scrollable">
+        <!-- Descripción -->
+        <div
+          class="description-section"
+          *ngIf="descripcion && descripcion.trim()"
+        >
+          <h4 class="section-title">Descripción</h4>
+          <div class="description-box">
+            <p class="description-text">{{ descripcion }}</p>
+          </div>
+        </div>
+
+        <!-- Información del propietario -->
+        <div class="owner-section" *ngIf="articulo?.propietario">
+          <h4 class="section-title">Propietario</h4>
+          <div class="owner-content">
+            <div class="owner-header">
+              <div class="avatar">
+                <img
+                  *ngIf="articulo?.propietario?.foto"
+                  [src]="articulo!.propietario!.foto"
+                  alt="Avatar"
+                  class="avatar-img"
+                />
+                <span
+                  *ngIf="!articulo?.propietario?.foto"
+                  class="avatar-initials"
+                >
+                  {{ getInitials(propietarioNombre) }}
+                </span>
+              </div>
+              <div class="owner-info">
+                <p class="owner-name">{{ propietarioNombre }}</p>
+                <p class="owner-email">{{ propietarioEmail }}</p>
+              </div>
+              <button
+                type="button"
+                class="btn-link"
+                (click)="verInfoUsuario(articulo!.propietario, 'Propietario')"
               >
-                {{ articulo?.estadoArticuloNombre || "No disponible" }}
-              </span>
-            </div>
-            <div
-              class="detail-item-compact"
-              *ngIf="
-                articulo?.precio !== undefined && articulo?.precio !== null
-              "
-            >
-              <i class="pi pi-dollar"></i>
-              <span class="detail-label-compact">Precio:</span>
-              <span class="detail-value-compact">{{
-                articulo?.precio | currency : "USD" : "symbol" : "1.2-2"
-              }}</span>
+                Ver más
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Sección de Usuarios -->
-    <div class="usuarios-section">
-      <!-- Propietario -->
-      <div
-        class="usuario-item"
-        (click)="verInfoUsuario(articulo?.propietario, 'Propietario')"
-        title="Ver información completa"
-      >
-        <div class="usuario-content">
-          <div class="usuario-avatar">
-            <img
-              *ngIf="articulo?.propietario?.foto"
-              [src]="articulo?.propietario?.foto"
-              alt="Avatar"
-              class="avatar-img"
-            />
-            <span *ngIf="!articulo?.propietario?.foto" class="avatar-initials">
-              {{ getInitials(propietarioNombre) }}
-            </span>
+        <!-- Información del solicitante (si existe) -->
+        <div
+          class="applicant-section"
+          *ngIf="tieneSolicitante && articulo?.solicitante"
+        >
+          <h4 class="section-title">Solicitante</h4>
+          <div class="applicant-content">
+            <div class="applicant-header">
+              <div class="avatar">
+                <img
+                  *ngIf="articulo?.solicitante?.foto"
+                  [src]="articulo!.solicitante!.foto"
+                  alt="Avatar"
+                  class="avatar-img"
+                />
+                <span
+                  *ngIf="!articulo?.solicitante?.foto"
+                  class="avatar-initials"
+                >
+                  {{ getInitials(solicitanteNombre) }}
+                </span>
+              </div>
+              <div class="applicant-info">
+                <p class="applicant-name">{{ solicitanteNombre }}</p>
+                <p class="applicant-email">{{ solicitanteEmail }}</p>
+              </div>
+              <button
+                type="button"
+                class="btn-link"
+                (click)="verInfoUsuario(articulo!.solicitante, 'Solicitante')"
+              >
+                Ver más
+              </button>
+            </div>
           </div>
-          <div class="usuario-info">
-            <span class="usuario-label">Propietario</span>
-            <span class="usuario-nombre">{{ propietarioNombre }}</span>
-          </div>
-        </div>
-        <div class="btn-ver-mas">
-          <i class="pi pi-chevron-right"></i>
-        </div>
-      </div>
-
-      <!-- Solicitante (si existe) -->
-      <div
-        class="usuario-item"
-        *ngIf="tieneSolicitante"
-        (click)="verInfoUsuario(articulo?.solicitante, 'Solicitante')"
-        title="Ver información completa"
-      >
-        <div class="usuario-content">
-          <div class="usuario-avatar">
-            <img
-              *ngIf="articulo?.solicitante?.foto"
-              [src]="articulo?.solicitante?.foto"
-              alt="Avatar"
-              class="avatar-img"
-            />
-            <span *ngIf="!articulo?.solicitante?.foto" class="avatar-initials">
-              {{ getInitials(solicitanteNombre) }}
-            </span>
-          </div>
-          <div class="usuario-info">
-            <span class="usuario-label">Solicitante</span>
-            <span class="usuario-nombre">{{ solicitanteNombre }}</span>
-          </div>
-        </div>
-        <div class="btn-ver-mas">
-          <i class="pi pi-chevron-right"></i>
         </div>
       </div>
-    </div>
 
-    <!-- Botón Solicitar Artículo -->
-    <div class="action-footer" *ngIf="!isLoading && !isOwner && articulo">
-      <div class="divider"></div>
-      <div class="action-container">
+      <!-- Footer con acciones -->
+      <div class="modal-footer" *ngIf="!isLoading && !isOwner && articulo">
         <app-button
           type="primary"
           icon="pi pi-shopping-cart"
           [disabled]="!estaDisponible"
           (clicked)="solicitarArticulo()"
-          >Solicitar Artículo
+        >
+          Solicitar Artículo
         </app-button>
       </div>
     </div>
