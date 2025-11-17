@@ -58,4 +58,48 @@ export class GestionDetailComponent {
     // TODO: Implementar lógica para enviar recordatorio
     this.ref.close('remind');
   }
+
+  getEstadoClass(): string {
+    if (!this.gestion?.estadoNombre) return 'estado-unknown';
+    
+    const estado = this.gestion.estadoNombre.toLowerCase();
+    
+    switch (estado) {
+      case 'disponible':
+        return 'estado-disponible';
+      case 'prestado':
+        return 'estado-prestado';
+      case 'en mantenimiento':
+      case 'mantenimiento':
+        return 'estado-mantenimiento';
+      case 'solicitado':
+        return 'estado-solicitado';
+      case 'no disponible':
+        return 'estado-no-disponible';
+      default:
+        return 'estado-default';
+    }
+  }
+
+  getEstadoIcon(): string {
+    if (!this.gestion?.estadoNombre) return 'pi pi-question-circle';
+    
+    const estado = this.gestion.estadoNombre.toLowerCase();
+    
+    switch (estado) {
+      case 'disponible':
+        return 'pi pi-check-circle';
+      case 'prestado':
+        return 'pi pi-arrow-right';
+      case 'en mantenimiento':
+      case 'mantenimiento':
+        return 'pi pi-wrench';
+      case 'solicitado':
+        return 'pi pi-clock';
+      case 'no disponible':
+        return 'pi pi-times-circle';
+      default:
+        return 'pi pi-info-circle';
+    }
+  }
 }

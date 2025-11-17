@@ -1,98 +1,206 @@
-<div class="gestion-detail">
+<div class="gestion-detail-modal">
   <div class="modal-content">
-    <div class="left">
+    <!-- Sección Izquierda: Artículo -->
+    <div class="left-section">
       <h3 class="section-title">Información del Artículo</h3>
       
-      <div class="articulo-info">
-        <div class="articulo-imagen" *ngIf="gestion.imagenArticulo">
-          <img [src]="gestion.imagenArticulo" [alt]="gestion.nombreArticulo">
+      <div class="articulo-card">
+        <div class="articulo-imagen-container">
+          <div class="articulo-imagen" *ngIf="gestion.imagenArticulo; else noImagenTemplate">
+            <img [src]="gestion.imagenArticulo" [alt]="gestion.nombreArticulo" />
+          </div>
+          <ng-template #noImagenTemplate>
+            <div class="imagen-placeholder">
+              <i class="pi pi-image"></i>
+            </div>
+          </ng-template>
         </div>
         
-        <div class="articulo-detalles">
-          <h4>{{ gestion.nombreArticulo }}</h4>
-          <p class="categoria">{{ gestion.categoriaNombre }}</p>
-          <p class="tipo">{{ gestion.tipoNombre }}</p>
-          <p class="estado">{{ gestion.estadoNombre }}</p>
-          <p class="precio" *ngIf="gestion.precio && gestion.tipoCodigo === 1">
-            ${{ gestion.precio }}
+        <div class="articulo-content">
+          <h4 class="articulo-nombre">{{ gestion.nombreArticulo }}</h4>
+          <div class="articulo-meta">
+            <span class="categoria-badge">
+              <i class="pi pi-tag"></i>
+              {{ gestion.categoriaNombre }}
+            </span>
+            <span class="tipo-badge">
+              <i class="pi pi-info-circle"></i>
+              {{ gestion.tipoNombre }}
+            </span>
+          </div>
+          
+          <div class="estado-container">
+            <span class="estado-badge" [ngClass]="getEstadoClass()">
+              <i [class]="getEstadoIcon()"></i>
+              {{ gestion.estadoNombre }}
+            </span>
+          </div>
+          
+          <div class="precio-container" *ngIf="gestion.precio && gestion.tipoCodigo === 1">
+            <span class="precio">
+              <i class="pi pi-dollar"></i>
+              ${{ gestion.precio }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensaje -->
+      <div class="mensaje-section">
+        <h4 class="section-subtitle">
+          <i class="pi pi-comment"></i>
+          Mensaje de la Solicitud
+        </h4>
+        <div class="mensaje-content">
+          <p class="mensaje-text">
+            {{ gestion.mensaje || 'No se incluyó ningún mensaje en la solicitud' }}
           </p>
         </div>
       </div>
-
-      <div class="mensaje-section">
-        <h4>Mensaje</h4>
-        <p>{{ gestion.mensaje || 'Sin mensaje' }}</p>
-      </div>
     </div>
 
-    <div class="right">
+    <!-- Sección Derecha: Persona y Fechas -->
+    <div class="right-section">
       <h3 class="section-title">Información de la Persona</h3>
       
-      <div class="persona-info" *ngIf="activeTab === 'solicitudes-recibidas' || activeTab === 'prestamos-activos'">
-        <h4>Solicitante</h4>
-        <p><strong>Nombre:</strong> {{ gestion.solicitante?.nombre || 'No disponible' }}</p>
-        <p><strong>Email:</strong> {{ gestion.solicitante?.email || 'No disponible' }}</p>
-        <p><strong>Teléfono:</strong> {{ gestion.solicitante?.telefono || 'No disponible' }}</p>
+      <!-- Solicitante -->
+      <div class="persona-card" *ngIf="activeTab === 'solicitudes-recibidas' || activeTab === 'prestamos-activos'">
+        <div class="persona-header">
+          <div class="persona-avatar">
+            <i class="pi pi-user"></i>
+          </div>
+          <div class="persona-titulo">
+            <span class="persona-rol">Solicitante</span>
+            <span class="persona-nombre">{{ gestion.solicitante?.nombre || 'No disponible' }}</span>
+          </div>
+        </div>
+        
+        <div class="persona-detalles">
+          <div class="detalle-item">
+            <i class="pi pi-envelope"></i>
+            <span class="detalle-label">Email:</span>
+            <span class="detalle-valor">{{ gestion.solicitante?.email || 'No disponible' }}</span>
+          </div>
+          <div class="detalle-item">
+            <i class="pi pi-phone"></i>
+            <span class="detalle-label">Teléfono:</span>
+            <span class="detalle-valor">{{ gestion.solicitante?.telefono || 'No disponible' }}</span>
+          </div>
+        </div>
       </div>
 
-      <div class="persona-info" *ngIf="activeTab === 'solicitudes-enviadas' || activeTab === 'prestamos-otorgados'">
-        <h4>Propietario</h4>
-        <p><strong>ID Propietario:</strong> {{ gestion.propietarioId }}</p>
-        <p><strong>Nombre:</strong> Información no disponible</p>
-        <p><strong>Email:</strong> Información no disponible</p>
-        <p><strong>Teléfono:</strong> Información no disponible</p>
+      <!-- Propietario -->
+      <div class="persona-card" *ngIf="activeTab === 'solicitudes-enviadas' || activeTab === 'prestamos-otorgados'">
+        <div class="persona-header">
+          <div class="persona-avatar">
+            <i class="pi pi-user"></i>
+          </div>
+          <div class="persona-titulo">
+            <span class="persona-rol">Propietario</span>
+            <span class="persona-nombre">Información no disponible</span>
+          </div>
+        </div>
+        
+        <div class="persona-detalles">
+          <div class="detalle-item">
+            <i class="pi pi-id-card"></i>
+            <span class="detalle-label">ID:</span>
+            <span class="detalle-valor">{{ gestion.propietarioId }}</span>
+          </div>
+          <div class="detalle-item">
+            <i class="pi pi-envelope"></i>
+            <span class="detalle-label">Email:</span>
+            <span class="detalle-valor">Información no disponible</span>
+          </div>
+          <div class="detalle-item">
+            <i class="pi pi-phone"></i>
+            <span class="detalle-label">Teléfono:</span>
+            <span class="detalle-valor">Información no disponible</span>
+          </div>
+        </div>
       </div>
 
-      <div class="fecha-info" *ngIf="gestion.fechaSolicitud">
-        <h4>Fechas</h4>
-        <p><strong>Fecha solicitud:</strong> {{ gestion.fechaSolicitud | date:'dd/MM/yyyy' }}</p>
-        <p *ngIf="gestion.fechaEstimadaDevolucion">
-          <strong>Fecha devolución estimada:</strong> {{ gestion.fechaEstimadaDevolucion | date:'dd/MM/yyyy' }}
-        </p>
+      <!-- Fechas -->
+      <div class="fechas-section" *ngIf="gestion.fechaSolicitud">
+        <h4 class="section-subtitle">
+          <i class="pi pi-calendar"></i>
+          Fechas Importantes
+        </h4>
+        <div class="fechas-content">
+          <div class="fecha-item">
+            <div class="fecha-icon">
+              <i class="pi pi-calendar-plus"></i>
+            </div>
+            <div class="fecha-info">
+              <span class="fecha-label">Fecha de solicitud</span>
+              <span class="fecha-valor">{{ gestion.fechaSolicitud | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+          
+          <div class="fecha-item" *ngIf="gestion.fechaEstimadaDevolucion">
+            <div class="fecha-icon">
+              <i class="pi pi-calendar-check"></i>
+            </div>
+            <div class="fecha-info">
+              <span class="fecha-label">Devolución estimada</span>
+              <span class="fecha-valor">{{ gestion.fechaEstimadaDevolucion | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Footer con acciones -->
   <div class="modal-footer">
-    <app-button type="outline-primary" (click)="closeModal()">
-      Cerrar
-    </app-button>
-    
-    <!-- Botones según el tab activo -->
-    <ng-container [ngSwitch]="activeTab">
-      <!-- Solicitudes Recibidas -->
-      <ng-container *ngSwitchCase="'solicitudes-recibidas'">
-        <app-button type="success" (click)="onAcceptRequest()">
-          Aceptar
-        </app-button>
-        <app-button type="danger" (click)="onRejectRequest()">
-          Rechazar
-        </app-button>
-      </ng-container>
+    <div class="footer-content">
+      <button type="button" class="btn btn-outline" (click)="closeModal()">
+        <i class="pi pi-times"></i>
+        Cerrar
+      </button>
+      
+      <!-- Botones según el tab activo -->
+      <ng-container [ngSwitch]="activeTab">
+        <!-- Solicitudes Recibidas -->
+        <ng-container *ngSwitchCase="'solicitudes-recibidas'">
+          <button type="button" class="btn btn-success" (click)="onAcceptRequest()">
+            <i class="pi pi-check"></i>
+            Aceptar
+          </button>
+          <button type="button" class="btn btn-danger" (click)="onRejectRequest()">
+            <i class="pi pi-times"></i>
+            Rechazar
+          </button>
+        </ng-container>
 
-      <!-- Solicitudes Enviadas -->
-      <ng-container *ngSwitchCase="'solicitudes-enviadas'">
-        <app-button type="warning" (click)="onCancelRequest()">
-          Cancelar Solicitud
-        </app-button>
-      </ng-container>
+        <!-- Solicitudes Enviadas -->
+        <ng-container *ngSwitchCase="'solicitudes-enviadas'">
+          <button type="button" class="btn btn-warning" (click)="onCancelRequest()">
+            <i class="pi pi-ban"></i>
+            Cancelar Solicitud
+          </button>
+        </ng-container>
 
-      <!-- Préstamos Activos -->
-      <ng-container *ngSwitchCase="'prestamos-activos'">
-        <app-button type="primary" (click)="onReturnItem()">
-          Devolver Artículo
-        </app-button>
-      </ng-container>
+        <!-- Préstamos Activos -->
+        <ng-container *ngSwitchCase="'prestamos-activos'">
+          <button type="button" class="btn btn-primary" (click)="onReturnItem()">
+            <i class="pi pi-undo"></i>
+            Devolver Artículo
+          </button>
+        </ng-container>
 
-      <!-- Préstamos Otorgados -->
-      <ng-container *ngSwitchCase="'prestamos-otorgados'">
-        <app-button type="success" (click)="onConfirmReturn()">
-          Confirmar Devolución
-        </app-button>
-        <app-button type="info" (click)="onRemindReturn()">
-          Enviar Recordatorio
-        </app-button>
+        <!-- Préstamos Otorgados -->
+        <ng-container *ngSwitchCase="'prestamos-otorgados'">
+          <button type="button" class="btn btn-success" (click)="onConfirmReturn()">
+            <i class="pi pi-check-circle"></i>
+            Confirmar Devolución
+          </button>
+          <button type="button" class="btn btn-info" (click)="onRemindReturn()">
+            <i class="pi pi-bell"></i>
+            Enviar Recordatorio
+          </button>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
   </div>
 </div>
