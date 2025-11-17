@@ -1,206 +1,155 @@
 <div class="gestion-detail-modal">
-  <div class="modal-content">
-    <!-- Sección Izquierda: Artículo -->
-    <div class="left-section">
-      <h3 class="section-title">Información del Artículo</h3>
-      
-      <div class="articulo-card">
-        <div class="articulo-imagen-container">
-          <div class="articulo-imagen" *ngIf="gestion.imagenArticulo; else noImagenTemplate">
-            <img [src]="gestion.imagenArticulo" [alt]="gestion.nombreArticulo" />
-          </div>
-          <ng-template #noImagenTemplate>
-            <div class="imagen-placeholder">
-              <i class="pi pi-image"></i>
-            </div>
-          </ng-template>
-        </div>
-        
-        <div class="articulo-content">
-          <h4 class="articulo-nombre">{{ gestion.nombreArticulo }}</h4>
-          <div class="articulo-meta">
-            <span class="categoria-badge">
-              <i class="pi pi-tag"></i>
-              {{ gestion.categoriaNombre }}
-            </span>
-            <span class="tipo-badge">
-              <i class="pi pi-info-circle"></i>
-              {{ gestion.tipoNombre }}
-            </span>
-          </div>
-          
-          <div class="estado-container">
-            <span class="estado-badge" [ngClass]="getEstadoClass()">
-              <i [class]="getEstadoIcon()"></i>
-              {{ gestion.estadoNombre }}
-            </span>
-          </div>
-          
-          <div class="precio-container" *ngIf="gestion.precio && gestion.tipoCodigo === 1">
-            <span class="precio">
-              <i class="pi pi-dollar"></i>
-              ${{ gestion.precio }}
-            </span>
+  <div class="modal-container">
+    <!-- Sección izquierda - Galería de imágenes -->
+    <div class="left-panel">
+      <!-- Carousel de imágenes -->
+      <div class="gallery-container">
+        <div class="gallery" *ngIf="displayData.producto.imagenes.length > 0">
+          <img
+            [src]="getCurrentImage()"
+            [alt]="
+              displayData.producto.nombre +
+              ' - imagen ' +
+              (currentImageIndex + 1)
+            "
+            class="gallery-image"
+          />
+
+          <!-- Controles del carousel -->
+          <button
+            *ngIf="displayData.producto.imagenes.length > 1"
+            type="button"
+            class="gallery-nav prev"
+            (click)="previousImage()"
+          >
+            <i class="pi pi-chevron-left"></i>
+          </button>
+          <button
+            *ngIf="displayData.producto.imagenes.length > 1"
+            type="button"
+            class="gallery-nav next"
+            (click)="nextImage()"
+          >
+            <i class="pi pi-chevron-right"></i>
+          </button>
+
+          <!-- Indicadores de puntos -->
+          <div
+            *ngIf="displayData.producto.imagenes.length > 1"
+            class="gallery-dots"
+          >
+            <button
+              *ngFor="
+                let imagen of displayData.producto.imagenes;
+                let i = index
+              "
+              type="button"
+              class="dot"
+              [class.active]="i === currentImageIndex"
+              (click)="goToImage(i)"
+            ></button>
           </div>
         </div>
       </div>
 
-      <!-- Mensaje -->
-      <div class="mensaje-section">
-        <h4 class="section-subtitle">
-          <i class="pi pi-comment"></i>
-          Mensaje de la Solicitud
-        </h4>
-        <div class="mensaje-content">
-          <p class="mensaje-text">
-            {{ gestion.mensaje || 'No se incluyó ningún mensaje en la solicitud' }}
-          </p>
-        </div>
-      </div>
-    </div>
+      <!-- Información del artículo -->
+      <div class="product-info">
+        <h3 class="product-title">{{ displayData.producto.nombre }}</h3>
+        <p class="product-category">{{ displayData.producto.categoria }}</p>
 
-    <!-- Sección Derecha: Persona y Fechas -->
-    <div class="right-section">
-      <h3 class="section-title">Información de la Persona</h3>
-      
-      <!-- Solicitante -->
-      <div class="persona-card" *ngIf="activeTab === 'solicitudes-recibidas' || activeTab === 'prestamos-activos'">
-        <div class="persona-header">
-          <div class="persona-avatar">
-            <i class="pi pi-user"></i>
-          </div>
-          <div class="persona-titulo">
-            <span class="persona-rol">Solicitante</span>
-            <span class="persona-nombre">{{ gestion.solicitante?.nombre || 'No disponible' }}</span>
-          </div>
-        </div>
-        
-        <div class="persona-detalles">
-          <div class="detalle-item">
-            <i class="pi pi-envelope"></i>
-            <span class="detalle-label">Email:</span>
-            <span class="detalle-valor">{{ gestion.solicitante?.email || 'No disponible' }}</span>
-          </div>
-          <div class="detalle-item">
-            <i class="pi pi-phone"></i>
-            <span class="detalle-label">Teléfono:</span>
-            <span class="detalle-valor">{{ gestion.solicitante?.telefono || 'No disponible' }}</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Propietario -->
-      <div class="persona-card" *ngIf="activeTab === 'solicitudes-enviadas' || activeTab === 'prestamos-otorgados'">
-        <div class="persona-header">
-          <div class="persona-avatar">
-            <i class="pi pi-user"></i>
-          </div>
-          <div class="persona-titulo">
-            <span class="persona-rol">Propietario</span>
-            <span class="persona-nombre">Información no disponible</span>
-          </div>
-        </div>
-        
-        <div class="persona-detalles">
-          <div class="detalle-item">
-            <i class="pi pi-id-card"></i>
-            <span class="detalle-label">ID:</span>
-            <span class="detalle-valor">{{ gestion.propietarioId }}</span>
-          </div>
-          <div class="detalle-item">
-            <i class="pi pi-envelope"></i>
-            <span class="detalle-label">Email:</span>
-            <span class="detalle-valor">Información no disponible</span>
-          </div>
-          <div class="detalle-item">
-            <i class="pi pi-phone"></i>
-            <span class="detalle-label">Teléfono:</span>
-            <span class="detalle-valor">Información no disponible</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Fechas -->
-      <div class="fechas-section" *ngIf="gestion.fechaSolicitud">
-        <h4 class="section-subtitle">
-          <i class="pi pi-calendar"></i>
-          Fechas Importantes
-        </h4>
-        <div class="fechas-content">
-          <div class="fecha-item">
-            <div class="fecha-icon">
-              <i class="pi pi-calendar-plus"></i>
-            </div>
-            <div class="fecha-info">
-              <span class="fecha-label">Fecha de solicitud</span>
-              <span class="fecha-valor">{{ gestion.fechaSolicitud | date:'dd/MM/yyyy' }}</span>
-            </div>
-          </div>
-          
-          <div class="fecha-item" *ngIf="gestion.fechaEstimadaDevolucion">
-            <div class="fecha-icon">
-              <i class="pi pi-calendar-check"></i>
-            </div>
-            <div class="fecha-info">
-              <span class="fecha-label">Devolución estimada</span>
-              <span class="fecha-valor">{{ gestion.fechaEstimadaDevolucion | date:'dd/MM/yyyy' }}</span>
-            </div>
-          </div>
+        <div class="status-container">
+          <span class="status-label">Estado:</span>
+          <span class="status-pill pending">
+            {{ displayData.producto.estado }}
+          </span>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Footer con acciones -->
-  <div class="modal-footer">
-    <div class="footer-content">
-      <button type="button" class="btn btn-outline" (click)="closeModal()">
-        <i class="pi pi-times"></i>
-        Cerrar
-      </button>
-      
-      <!-- Botones según el tab activo -->
-      <ng-container [ngSwitch]="activeTab">
-        <!-- Solicitudes Recibidas -->
-        <ng-container *ngSwitchCase="'solicitudes-recibidas'">
-          <button type="button" class="btn btn-success" (click)="onAcceptRequest()">
-            <i class="pi pi-check"></i>
-            Aceptar
-          </button>
-          <button type="button" class="btn btn-danger" (click)="onRejectRequest()">
-            <i class="pi pi-times"></i>
-            Rechazar
-          </button>
-        </ng-container>
+    <!-- Sección derecha - Detalles de la solicitud -->
+    <div class="right-panel">
+      <!-- Contenido scrolleable -->
+      <div class="content-scrollable">
+        <!-- Mensaje de solicitud -->
+        <div class="message-section" *ngIf="displayData.mensaje">
+          <h4 class="section-title">Mensaje del solicitante</h4>
+          <div class="message-box">
+            <p class="message-text">{{ displayData.mensaje }}</p>
+          </div>
+        </div>
 
-        <!-- Solicitudes Enviadas -->
-        <ng-container *ngSwitchCase="'solicitudes-enviadas'">
-          <button type="button" class="btn btn-warning" (click)="onCancelRequest()">
-            <i class="pi pi-ban"></i>
-            Cancelar Solicitud
-          </button>
-        </ng-container>
+        <!-- Información del solicitante -->
+        <div class="applicant-section">
+          <h4 class="section-title">Datos del solicitante</h4>
+          <div class="applicant-content">
+            <div class="applicant-header">
+              <div class="avatar">
+                {{ getInitials() }}
+              </div>
+              <div class="applicant-info">
+                <p class="applicant-name">
+                  {{ displayData.solicitante.nombreCompleto }}
+                </p>
+                <p class="applicant-email">
+                  {{ displayData.solicitante.email }}
+                </p>
+              </div>
+            </div>
 
-        <!-- Préstamos Activos -->
-        <ng-container *ngSwitchCase="'prestamos-activos'">
-          <button type="button" class="btn btn-primary" (click)="onReturnItem()">
-            <i class="pi pi-undo"></i>
-            Devolver Artículo
-          </button>
-        </ng-container>
+            <div class="applicant-data-grid">
+              <div class="data-item">
+                <p class="data-label">Teléfono</p>
+                <p class="data-value">{{ displayData.solicitante.telefono }}</p>
+              </div>
+              <div class="data-item">
+                <p class="data-label">ID Usuario</p>
+                <p class="data-value data-value-mono">
+                  {{ displayData.solicitante.id }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <!-- Préstamos Otorgados -->
-        <ng-container *ngSwitchCase="'prestamos-otorgados'">
-          <button type="button" class="btn btn-success" (click)="onConfirmReturn()">
-            <i class="pi pi-check-circle"></i>
-            Confirmar Devolución
-          </button>
-          <button type="button" class="btn btn-info" (click)="onRemindReturn()">
-            <i class="pi pi-bell"></i>
-            Enviar Recordatorio
-          </button>
-        </ng-container>
-      </ng-container>
+        <!-- Fechas importantes -->
+        <div class="timeline-section">
+          <h4 class="section-title">Cronograma</h4>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="bullet bullet-blue"></div>
+              <div class="timeline-content">
+                <p class="timeline-label">Fecha de solicitud</p>
+                <p class="timeline-value">
+                  {{ displayData.cronograma.fechaSolicitud }}
+                </p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="bullet bullet-green"></div>
+              <div class="timeline-content">
+                <p class="timeline-label">Devolución estimada</p>
+                <p class="timeline-value">
+                  {{ displayData.cronograma.devolucionEstimada }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer con acciones -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeModal()">
+          Cerrar
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onAcceptRequest()"
+        >
+          Aprobar Solicitud
+        </button>
+      </div>
     </div>
   </div>
 </div>
