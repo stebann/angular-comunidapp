@@ -63,6 +63,13 @@
             {{ displayData.producto.estado }}
           </span>
         </div>
+
+        <div class="condition-container">
+          <span class="status-label">Condición:</span>
+          <span class="condition-pill">
+            {{ displayData.producto.condicion }}
+          </span>
+        </div>
       </div>
     </div>
 
@@ -94,19 +101,7 @@
                   {{ displayData.solicitante.email }}
                 </p>
               </div>
-            </div>
-
-            <div class="applicant-data-grid">
-              <div class="data-item">
-                <p class="data-label">Teléfono</p>
-                <p class="data-value">{{ displayData.solicitante.telefono }}</p>
-              </div>
-              <div class="data-item">
-                <p class="data-label">ID Usuario</p>
-                <p class="data-value data-value-mono">
-                  {{ displayData.solicitante.id }}
-                </p>
-              </div>
+              <button type="button" class="btn-link">Ver más</button>
             </div>
           </div>
         </div>

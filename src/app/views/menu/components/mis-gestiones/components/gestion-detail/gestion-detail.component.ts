@@ -10,6 +10,7 @@ type GestionDisplay = {
     tipo: string;
     categoria: string;
     estado: string;
+    condicion: string;
     imagenPrincipal: string;
     imagenes: string[];
   };
@@ -47,6 +48,7 @@ export class GestionDetailComponent {
       tipo: 'Herramientas',
       categoria: 'Herramientas',
       estado: 'Pendiente',
+      condicion: 'Como nuevo',
       imagenPrincipal:
         'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=900&q=80',
       imagenes: [
@@ -220,6 +222,11 @@ export class GestionDetailComponent {
         categoria:
           gestionData?.categoriaNombre || this.detalleDemo.producto.categoria,
         estado: gestionData?.estadoNombre || this.detalleDemo.producto.estado,
+        condicion:
+          gestionData?.condicionArticulo ||
+          gestionData?.condicion ||
+          gestionData?.estadoCondicion ||
+          this.detalleDemo.producto.condicion,
         imagenPrincipal,
         imagenes,
       },
