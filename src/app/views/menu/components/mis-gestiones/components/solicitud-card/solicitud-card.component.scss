@@ -296,6 +296,22 @@
   }
 }
 
+.precio {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2e7d32;
+  background: rgba(67, 160, 71, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+
+  i {
+    font-size: 0.75rem;
+  }
+}
+
 .footer-left {
   display: flex;
   flex-direction: column;

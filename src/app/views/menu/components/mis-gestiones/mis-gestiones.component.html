@@ -47,7 +47,7 @@
         <app-solicitud-card
           *ngFor="let solicitud of solicitudesFiltradas"
           [solicitud]="solicitud"
-          (cardClicked)="solicitudDetalle($event)"
+          (click)="openModal(solicitud)"
         ></app-solicitud-card>
       </div>
 

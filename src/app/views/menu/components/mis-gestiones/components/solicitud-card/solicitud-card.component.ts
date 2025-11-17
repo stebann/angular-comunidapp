@@ -63,6 +63,14 @@ export class SolicitudCardComponent implements OnInit {
     return this.solicitud.tipoNombre;
   }
 
+  get mostrarPrecio(): boolean {
+    return this.solicitud?.tipoCodigo === 1 && (this.solicitud?.precio ?? 0) > 0;
+  }
+
+  getPrecioFormateado(): string {
+    return `$${this.solicitud?.precio || 0}`;
+  }
+
   getFechaFormateada(): string {
     if (!this.solicitud?.fechaSolicitud) return '';
     const fecha = new Date(this.solicitud.fechaSolicitud);

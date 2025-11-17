@@ -1,0 +1,156 @@
+.gestion-detail {
+  .modal-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+
+  .articulo-info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .articulo-imagen {
+      flex-shrink: 0;
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface-100);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .articulo-detalles {
+      flex: 1;
+
+      h4 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      p {
+        margin: 0.25rem 0;
+        font-size: 0.9rem;
+        color: var(--text-color-secondary);
+
+        &.categoria {
+          color: var(--primary-color);
+          font-weight: 500;
+        }
+
+        &.tipo {
+          background: var(--surface-100);
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+          display: inline-block;
+          font-size: 0.8rem;
+        }
+
+        &.estado {
+          font-weight: 500;
+        }
+
+        &.precio {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: var(--success-color);
+        }
+      }
+    }
+  }
+
+  .mensaje-section {
+    margin-bottom: 1.5rem;
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    p {
+      background: var(--surface-50);
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-color);
+    }
+  }
+
+  .persona-info, .fecha-info {
+    margin-bottom: 1.5rem;
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-color);
+    }
+
+    p {
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      color: var(--text-color-secondary);
+
+      strong {
+        color: var(--text-color);
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .gestion-detail {
+    .modal-content {
+      grid-template-columns: 1fr;
+      padding: 1.5rem;
+    }
+
+    .modal-footer {
+      padding: 1rem 1.5rem;
+    }
+
+    .articulo-info {
+      flex-direction: column;
+
+      .articulo-imagen {
+        width: 100%;
+        height: 200px;
+      }
+    }
+  }
+}

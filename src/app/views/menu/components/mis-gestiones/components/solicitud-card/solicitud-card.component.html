@@ -21,6 +21,13 @@
             <i class="pi pi-calendar" aria-hidden="true"></i>
             {{ getFechaFormateada() }}
           </span>
+          <span 
+            *ngIf="mostrarPrecio" 
+            class="precio"
+          >
+            <i class="pi pi-dollar" aria-hidden="true"></i>
+            {{ getPrecioFormateado() }}
+          </span>
         </div>
       </div>
     </div>

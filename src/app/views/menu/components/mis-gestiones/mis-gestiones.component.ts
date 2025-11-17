@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
+import { GestionDetailComponent } from './components/gestion-detail/gestion-detail.component';
 import { MisGestionesService } from './services/mis-gestiones.service';
 import { Gestion } from './models/gestiones.model';
 
 @Component({
   selector: 'app-mis-gestiones',
   templateUrl: './mis-gestiones.component.html',
-  styleUrls: ['./mis-gestiones.component.scss'],
+  styleUrls: ['./mis-gestiones.component.scss']
 })
 export class MisGestionesComponent implements OnInit {
   searchTerm: string = '';
   activeTab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-activos' | 'prestamos-otorgados' | null = null;
-  isOpen: boolean = false;
 
   opciones = [
     { label: 'Solicitudes Recibidas', value: 1 },
@@ -23,6 +24,7 @@ export class MisGestionesComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    public dialogService$: DialogService,
     public misGestionesService: MisGestionesService
   ) {
   }
@@ -135,10 +137,6 @@ export class MisGestionesComponent implements OnInit {
     );
   }
 
-  openFilters() {
-    this.isOpen = true;
-  }
-
   onTabChange(tab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-activos' | 'prestamos-otorgados'): void {
     if (this.activeTab === tab) {
       return;
@@ -182,7 +180,18 @@ export class MisGestionesComponent implements OnInit {
     }
   }
 
-  solicitudDetalle(solicitud: Gestion): void {}
+  openModal(gestion: Gestion): void {
+    this.dialogService$.open(GestionDetailComponent, {
+      header: 'Detalle de Gestión',
+      width: '50vw',
+      height: 'auto',
+      data: { 
+        gestion: gestion,
+        activeTab: this.activeTab
+      },
+      styleClass: 'p-app-modal',
+    });
+  }
 
   getNoItemsTitle(): string {
     switch (this.activeTab) {

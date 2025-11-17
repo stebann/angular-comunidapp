@@ -1,0 +1,98 @@
+<div class="gestion-detail">
+  <div class="modal-content">
+    <div class="left">
+      <h3 class="section-title">Información del Artículo</h3>
+      
+      <div class="articulo-info">
+        <div class="articulo-imagen" *ngIf="gestion.imagenArticulo">
+          <img [src]="gestion.imagenArticulo" [alt]="gestion.nombreArticulo">
+        </div>
+        
+        <div class="articulo-detalles">
+          <h4>{{ gestion.nombreArticulo }}</h4>
+          <p class="categoria">{{ gestion.categoriaNombre }}</p>
+          <p class="tipo">{{ gestion.tipoNombre }}</p>
+          <p class="estado">{{ gestion.estadoNombre }}</p>
+          <p class="precio" *ngIf="gestion.precio && gestion.tipoCodigo === 1">
+            ${{ gestion.precio }}
+          </p>
+        </div>
+      </div>
+
+      <div class="mensaje-section">
+        <h4>Mensaje</h4>
+        <p>{{ gestion.mensaje || 'Sin mensaje' }}</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <h3 class="section-title">Información de la Persona</h3>
+      
+      <div class="persona-info" *ngIf="activeTab === 'solicitudes-recibidas' || activeTab === 'prestamos-activos'">
+        <h4>Solicitante</h4>
+        <p><strong>Nombre:</strong> {{ gestion.solicitante?.nombre || 'No disponible' }}</p>
+        <p><strong>Email:</strong> {{ gestion.solicitante?.email || 'No disponible' }}</p>
+        <p><strong>Teléfono:</strong> {{ gestion.solicitante?.telefono || 'No disponible' }}</p>
+      </div>
+
+      <div class="persona-info" *ngIf="activeTab === 'solicitudes-enviadas' || activeTab === 'prestamos-otorgados'">
+        <h4>Propietario</h4>
+        <p><strong>ID Propietario:</strong> {{ gestion.propietarioId }}</p>
+        <p><strong>Nombre:</strong> Información no disponible</p>
+        <p><strong>Email:</strong> Información no disponible</p>
+        <p><strong>Teléfono:</strong> Información no disponible</p>
+      </div>
+
+      <div class="fecha-info" *ngIf="gestion.fechaSolicitud">
+        <h4>Fechas</h4>
+        <p><strong>Fecha solicitud:</strong> {{ gestion.fechaSolicitud | date:'dd/MM/yyyy' }}</p>
+        <p *ngIf="gestion.fechaEstimadaDevolucion">
+          <strong>Fecha devolución estimada:</strong> {{ gestion.fechaEstimadaDevolucion | date:'dd/MM/yyyy' }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <app-button type="outline-primary" (click)="closeModal()">
+      Cerrar
+    </app-button>
+    
+    <!-- Botones según el tab activo -->
+    <ng-container [ngSwitch]="activeTab">
+      <!-- Solicitudes Recibidas -->
+      <ng-container *ngSwitchCase="'solicitudes-recibidas'">
+        <app-button type="success" (click)="onAcceptRequest()">
+          Aceptar
+        </app-button>
+        <app-button type="danger" (click)="onRejectRequest()">
+          Rechazar
+        </app-button>
+      </ng-container>
+
+      <!-- Solicitudes Enviadas -->
+      <ng-container *ngSwitchCase="'solicitudes-enviadas'">
+        <app-button type="warning" (click)="onCancelRequest()">
+          Cancelar Solicitud
+        </app-button>
+      </ng-container>
+
+      <!-- Préstamos Activos -->
+      <ng-container *ngSwitchCase="'prestamos-activos'">
+        <app-button type="primary" (click)="onReturnItem()">
+          Devolver Artículo
+        </app-button>
+      </ng-container>
+
+      <!-- Préstamos Otorgados -->
+      <ng-container *ngSwitchCase="'prestamos-otorgados'">
+        <app-button type="success" (click)="onConfirmReturn()">
+          Confirmar Devolución
+        </app-button>
+        <app-button type="info" (click)="onRemindReturn()">
+          Enviar Recordatorio
+        </app-button>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
