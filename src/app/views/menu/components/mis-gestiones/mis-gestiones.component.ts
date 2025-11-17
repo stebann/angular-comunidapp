@@ -10,14 +10,14 @@ import { Gestion } from './models/gestiones.model';
 })
 export class MisGestionesComponent implements OnInit {
   searchTerm: string = '';
-  activeTab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-recibidos' | 'prestamos-enviados' | null = null;
+  activeTab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-activos' | 'prestamos-otorgados' | null = null;
   isOpen: boolean = false;
 
   opciones = [
     { label: 'Solicitudes Recibidas', value: 1 },
     { label: 'Solicitudes Enviadas', value: 2 },
-    { label: 'Préstamos Recibidos', value: 3 },
-    { label: 'Préstamos Enviados', value: 4 },
+    { label: 'Préstamos Activos', value: 3 },
+    { label: 'Préstamos Otorgados', value: 4 },
   ];
 
   constructor(
@@ -39,11 +39,11 @@ export class MisGestionesComponent implements OnInit {
       case 'solicitudes-enviadas':
         this.activeTab = 'solicitudes-enviadas';
         break;
-      case 'prestamos-recibidos':
-        this.activeTab = 'prestamos-recibidos';
+      case 'prestamos-activos':
+        this.activeTab = 'prestamos-activos';
         break;
-      case 'prestamos-enviados':
-        this.activeTab = 'prestamos-enviados';
+      case 'prestamos-otorgados':
+        this.activeTab = 'prestamos-otorgados';
         break;
       default:
         this.activeTab = null;
@@ -64,9 +64,9 @@ export class MisGestionesComponent implements OnInit {
         return (this.misGestionesService.solicitudesRecibidas?.length || 0) > 0;
       case 'solicitudes-enviadas':
         return (this.misGestionesService.solicitudesEnviadas?.length || 0) > 0;
-      case 'prestamos-recibidos':
+      case 'prestamos-activos':
         return (this.misGestionesService.prestamosRecibidos?.length || 0) > 0;
-      case 'prestamos-enviados':
+      case 'prestamos-otorgados':
         return (this.misGestionesService.prestamosOtorgados?.length || 0) > 0;
       default:
         return false;
@@ -81,10 +81,10 @@ export class MisGestionesComponent implements OnInit {
       case 'solicitudes-enviadas':
         this.misGestionesService.getSolicitudesEnviadas().subscribe();
         break;
-      case 'prestamos-recibidos':
+      case 'prestamos-activos':
         this.misGestionesService.getPrestamosRecibidos().subscribe();
         break;
-      case 'prestamos-enviados':
+      case 'prestamos-otorgados':
         this.misGestionesService.getPrestamosEnviados().subscribe();
         break;
     }
@@ -98,7 +98,7 @@ export class MisGestionesComponent implements OnInit {
     return this.misGestionesService.solicitudesEnviadas;
   }
 
-  get prestamosRecibidos() {
+  get prestamosActivos() {
     return this.misGestionesService.prestamosRecibidos;
   }
 
@@ -112,9 +112,9 @@ export class MisGestionesComponent implements OnInit {
         return this.solicitudesRecibidas;
       case 'solicitudes-enviadas':
         return this.solicitudesEnviadas;
-      case 'prestamos-recibidos':
-        return this.prestamosRecibidos;
-      case 'prestamos-enviados':
+      case 'prestamos-activos':
+        return this.prestamosActivos;
+      case 'prestamos-otorgados':
         return this.prestamosOtorgados;
       default:
         return [];
@@ -139,7 +139,7 @@ export class MisGestionesComponent implements OnInit {
     this.isOpen = true;
   }
 
-  onTabChange(tab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-recibidos' | 'prestamos-enviados'): void {
+  onTabChange(tab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-activos' | 'prestamos-otorgados'): void {
     if (this.activeTab === tab) {
       return;
     }
@@ -153,15 +153,15 @@ export class MisGestionesComponent implements OnInit {
   }
 
   getTotalPrestamos(): number {
-    return (this.prestamosRecibidos?.length || 0) + (this.prestamosOtorgados?.length || 0);
+    return (this.prestamosActivos?.length || 0) + (this.prestamosOtorgados?.length || 0);
   }
 
   getTotalRecibidas(): number {
     switch (this.activeTab) {
       case 'solicitudes-recibidas':
         return this.solicitudesRecibidas?.length || 0;
-      case 'prestamos-recibidos':
-        return this.prestamosRecibidos?.length || 0;
+      case 'prestamos-activos':
+        return this.prestamosActivos?.length || 0;
       default:
         return 0;
     }
@@ -173,10 +173,10 @@ export class MisGestionesComponent implements OnInit {
         return 'Buscar solicitudes recibidas...';
       case 'solicitudes-enviadas':
         return 'Buscar solicitudes enviadas...';
-      case 'prestamos-recibidos':
-        return 'Buscar préstamos recibidos...';
-      case 'prestamos-enviados':
-        return 'Buscar préstamos enviados...';
+      case 'prestamos-activos':
+        return 'Buscar préstamos activos...';
+      case 'prestamos-otorgados':
+        return 'Buscar préstamos otorgados...';
       default:
         return 'Buscar...';
     }
@@ -190,10 +190,10 @@ export class MisGestionesComponent implements OnInit {
         return 'No hay solicitudes recibidas';
       case 'solicitudes-enviadas':
         return 'No hay solicitudes enviadas';
-      case 'prestamos-recibidos':
-        return 'No hay préstamos recibidos';
-      case 'prestamos-enviados':
-        return 'No hay préstamos enviados';
+      case 'prestamos-activos':
+        return 'No tienes préstamos activos';
+      case 'prestamos-otorgados':
+        return 'No has otorgado préstamos';
       default:
         return 'No hay elementos';
     }
@@ -205,10 +205,10 @@ export class MisGestionesComponent implements OnInit {
         return 'Las solicitudes que recibas aparecerán aquí.';
       case 'solicitudes-enviadas':
         return 'Las solicitudes que envíes aparecerán aquí.';
-      case 'prestamos-recibidos':
-        return 'Los préstamos que recibas aparecerán aquí.';
-      case 'prestamos-enviados':
-        return 'Los préstamos que envíes aparecerán aquí.';
+      case 'prestamos-activos':
+        return 'Los artículos que tienes prestados aparecerán aquí.';
+      case 'prestamos-otorgados':
+        return 'Los artículos que has prestado aparecerán aquí.';
       default:
         return 'No hay elementos disponibles.';
     }

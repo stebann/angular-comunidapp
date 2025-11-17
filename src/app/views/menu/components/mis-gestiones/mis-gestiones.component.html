@@ -21,20 +21,20 @@
       </button>
       <button
         class="menu-item"
-        [class.active]="activeTab === 'prestamos-recibidos'"
-        (click)="onTabChange('prestamos-recibidos')"
+        [class.active]="activeTab === 'prestamos-activos'"
+        (click)="onTabChange('prestamos-activos')"
       >
         <i class="fas fa-handshake" aria-hidden="true"></i>
-        <span>Préstamos Recibidos</span>
+        <span>Préstamos Activos</span>
         <span class="badge">{{ misGestionesService.conteos.prestamosRecibidos }}</span>
       </button>
       <button
         class="menu-item"
-        [class.active]="activeTab === 'prestamos-enviados'"
-        (click)="onTabChange('prestamos-enviados')"
+        [class.active]="activeTab === 'prestamos-otorgados'"
+        (click)="onTabChange('prestamos-otorgados')"
       >
         <i class="fas fa-handshake-alt" aria-hidden="true"></i>
-        <span>Préstamos Enviados</span>
+        <span>Préstamos Otorgados</span>
         <span class="badge">{{ misGestionesService.conteos.prestamosEnviados }}</span>
       </button>
     </aside>

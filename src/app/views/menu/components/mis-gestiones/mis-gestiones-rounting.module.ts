@@ -16,11 +16,11 @@ const routes: Routes = [
     component: MisGestionesComponent 
   },
   { 
-    path: 'prestamos-recibidos', 
+    path: 'prestamos-activos', 
     component: MisGestionesComponent 
   },
   { 
-    path: 'prestamos-enviados', 
+    path: 'prestamos-otorgados', 
     component: MisGestionesComponent 
   }
 ];
