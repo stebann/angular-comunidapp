@@ -79,15 +79,15 @@
       <div class="content-scrollable">
         <!-- Mensaje de solicitud -->
         <div class="message-section" *ngIf="displayData.mensaje">
-          <h4 class="section-title">Mensaje del solicitante</h4>
+          <h4 class="section-title">{{ getMensajeTitle() }}</h4>
           <div class="message-box">
             <p class="message-text">{{ displayData.mensaje }}</p>
           </div>
         </div>
 
-        <!-- Información del solicitante -->
+        <!-- Información de la persona (solicitante o propietario según el contexto) -->
         <div class="applicant-section">
-          <h4 class="section-title">Datos del solicitante</h4>
+          <h4 class="section-title">{{ getPersonaTitle() }}</h4>
           <div class="applicant-content">
             <div class="applicant-header">
               <div class="avatar">
@@ -95,10 +95,10 @@
               </div>
               <div class="applicant-info">
                 <p class="applicant-name">
-                  {{ displayData.solicitante.nombreCompleto }}
+                  {{ getPersonaData().nombreCompleto }}
                 </p>
                 <p class="applicant-email">
-                  {{ displayData.solicitante.email }}
+                  {{ getPersonaData().email }}
                 </p>
               </div>
               <button type="button" class="btn-link">Ver más</button>

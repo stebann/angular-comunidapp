@@ -23,6 +23,15 @@ type GestionDisplay = {
     email: string;
     id: string;
   };
+  propietario: {
+    rol: string;
+    nombre: string;
+    apellido: string;
+    nombreCompleto: string;
+    telefono: string;
+    email: string;
+    id: string;
+  };
   cronograma: {
     fechaSolicitud: string;
     devolucionEstimada: string;
@@ -65,6 +74,15 @@ export class GestionDetailComponent {
       telefono: '+34 655 123 456',
       email: 'carlos.mendoza@email.com',
       id: 'USR-2847',
+    },
+    propietario: {
+      rol: 'Propietario',
+      nombre: 'María',
+      apellido: 'García',
+      nombreCompleto: 'María García López',
+      telefono: '+34 612 345 678',
+      email: 'maria.garcia@email.com',
+      id: 'USR-1234',
     },
     cronograma: {
       fechaSolicitud: '16/11/2025',
@@ -115,9 +133,50 @@ export class GestionDetailComponent {
   }
 
   getInitials(): string {
-    const nombre = this.displayData.solicitante.nombre || '';
-    const apellido = this.displayData.solicitante.apellido || '';
+    const persona = this.getPersonaData();
+    const nombre = persona.nombre || '';
+    const apellido = persona.apellido || '';
     return (nombre.charAt(0) + apellido.charAt(0)).toUpperCase();
+  }
+
+  getPersonaTitle(): string {
+    switch (this.activeTab) {
+      case 'solicitudes-enviadas':
+      case 'prestamos-activos':
+        return 'Datos del Propietario';
+      case 'solicitudes-recibidas':
+      case 'prestamos-otorgados':
+        return 'Datos del Solicitante';
+      default:
+        return 'Datos del Solicitante';
+    }
+  }
+
+  getPersonaData() {
+    switch (this.activeTab) {
+      case 'solicitudes-enviadas':
+      case 'prestamos-activos':
+        return this.displayData.propietario;
+      case 'solicitudes-recibidas':
+      case 'prestamos-otorgados':
+        return this.displayData.solicitante;
+      default:
+        return this.displayData.solicitante;
+    }
+  }
+
+  getMensajeTitle(): string {
+    switch (this.activeTab) {
+      case 'solicitudes-enviadas':
+        return 'Mensaje de tu solicitud';
+      case 'solicitudes-recibidas':
+        return 'Mensaje del solicitante';
+      case 'prestamos-activos':
+      case 'prestamos-otorgados':
+        return 'Mensaje de la solicitud';
+      default:
+        return 'Mensaje del solicitante';
+    }
   }
 
   onAcceptRequest(): void {
@@ -203,6 +262,7 @@ export class GestionDetailComponent {
   private mapGestionToDisplay() {
     const gestionData = this.gestion as any;
     const solicitante = gestionData?.solicitante || {};
+    const propietario = gestionData?.propietario || {};
     const imagenPrincipal =
       gestionData?.imagenArticulo || this.detalleDemo.producto.imagenPrincipal;
     const imagenes =
@@ -249,6 +309,26 @@ export class GestionDetailComponent {
           solicitante?.id ||
           solicitante?.codigo ||
           this.detalleDemo.solicitante.id,
+      },
+      propietario: {
+        rol: this.detalleDemo.propietario.rol,
+        nombre: propietario?.nombre || this.detalleDemo.propietario.nombre,
+        apellido:
+          propietario?.apellido || this.detalleDemo.propietario.apellido,
+        nombreCompleto:
+          propietario?.nombreCompleto ||
+          [propietario?.nombre, propietario?.apellido]
+            .filter(Boolean)
+            .join(' ')
+            .trim() ||
+          this.detalleDemo.propietario.nombreCompleto,
+        telefono:
+          propietario?.telefono || this.detalleDemo.propietario.telefono,
+        email: propietario?.email || this.detalleDemo.propietario.email,
+        id:
+          propietario?.id ||
+          propietario?.codigo ||
+          String(propietario?.propietarioId || this.detalleDemo.propietario.id),
       },
       cronograma: {
         fechaSolicitud:
