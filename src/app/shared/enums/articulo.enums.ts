@@ -12,3 +12,10 @@ export enum TipoTransaccion {
   Venta = 1,
   Prestamo = 2,
 }
+
+export enum EstadoTransaccion {
+  Pendiente = 1,
+  Aceptada = 2,
+  Rechazada = 3,
+  Devuelto = 4,
+}

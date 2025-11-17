@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { GestionDetailComponent } from './components/gestion-detail/gestion-detail.component';
-import { MisGestionesService } from './services/mis-gestiones.service';
 import { Gestion } from './models/gestiones.model';
+import { MisGestionesService } from './services/mis-gestiones.service';
 
 @Component({
   selector: 'app-mis-gestiones',
   templateUrl: './mis-gestiones.component.html',
-  styleUrls: ['./mis-gestiones.component.scss']
+  styleUrls: ['./mis-gestiones.component.scss'],
 })
 export class MisGestionesComponent implements OnInit {
   searchTerm: string = '';
-  activeTab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-activos' | 'prestamos-otorgados' | null = null;
+  activeTab:
+    | 'solicitudes-recibidas'
+    | 'solicitudes-enviadas'
+    | 'prestamos-activos'
+    | 'prestamos-otorgados'
+    | null = null;
 
   opciones = [
     { label: 'Solicitudes Recibidas', value: 1 },
@@ -26,14 +31,14 @@ export class MisGestionesComponent implements OnInit {
     private route: ActivatedRoute,
     public dialogService$: DialogService,
     public misGestionesService: MisGestionesService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.misGestionesService.getConteosUsuario().subscribe();
-    
-    const currentRoute = this.route.snapshot.url[this.route.snapshot.url.length - 1]?.path;
-    
+
+    const currentRoute =
+      this.route.snapshot.url[this.route.snapshot.url.length - 1]?.path;
+
     switch (currentRoute) {
       case 'solicitudes-recibidas':
         this.activeTab = 'solicitudes-recibidas';
@@ -50,10 +55,10 @@ export class MisGestionesComponent implements OnInit {
       default:
         this.activeTab = null;
     }
-    
+
     if (this.activeTab) {
       const alreadyLoaded = this.checkIfDataAlreadyLoaded(this.activeTab);
-      
+
       if (!alreadyLoaded) {
         this.loadDataForTab(this.activeTab);
       }
@@ -96,7 +101,7 @@ export class MisGestionesComponent implements OnInit {
     return this.misGestionesService.solicitudesRecibidas;
   }
 
-  get solicitudesEnviadas() { 
+  get solicitudesEnviadas() {
     return this.misGestionesService.solicitudesEnviadas;
   }
 
@@ -137,21 +142,32 @@ export class MisGestionesComponent implements OnInit {
     );
   }
 
-  onTabChange(tab: 'solicitudes-recibidas' | 'solicitudes-enviadas' | 'prestamos-activos' | 'prestamos-otorgados'): void {
+  onTabChange(
+    tab:
+      | 'solicitudes-recibidas'
+      | 'solicitudes-enviadas'
+      | 'prestamos-activos'
+      | 'prestamos-otorgados'
+  ): void {
     if (this.activeTab === tab) {
       return;
     }
-    
+
     this.router.navigate(['/app/mis-gestiones', tab]);
   }
 
-
   getTotalSolicitudes(): number {
-    return (this.solicitudesRecibidas?.length || 0) + (this.solicitudesEnviadas?.length || 0);
+    return (
+      (this.solicitudesRecibidas?.length || 0) +
+      (this.solicitudesEnviadas?.length || 0)
+    );
   }
 
   getTotalPrestamos(): number {
-    return (this.prestamosActivos?.length || 0) + (this.prestamosOtorgados?.length || 0);
+    return (
+      (this.prestamosActivos?.length || 0) +
+      (this.prestamosOtorgados?.length || 0)
+    );
   }
 
   getTotalRecibidas(): number {
@@ -181,15 +197,25 @@ export class MisGestionesComponent implements OnInit {
   }
 
   openModal(gestion: Gestion): void {
-    this.dialogService$.open(GestionDetailComponent, {
+    const ref = this.dialogService$.open(GestionDetailComponent, {
       header: 'Detalle de Gestión',
       width: '50vw',
       height: 'auto',
-      data: { 
+      data: {
         gestion: gestion,
-        activeTab: this.activeTab
+        activeTab: this.activeTab,
       },
       styleClass: 'p-app-modal',
+    });
+
+    // Recargar datos cuando se cierra el modal con éxito
+    ref.onClose.subscribe((result) => {
+      if (result === 'success' && this.activeTab) {
+        // Recargar los datos del tab activo
+        this.loadDataForTab(this.activeTab);
+        // Recargar los conteos
+        this.misGestionesService.getConteosUsuario().subscribe();
+      }
     });
   }
 

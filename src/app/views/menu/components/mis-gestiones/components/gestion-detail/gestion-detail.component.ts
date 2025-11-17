@@ -1,10 +1,19 @@
 import { Component } from '@angular/core';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import {
+  DialogService,
+  DynamicDialogConfig,
+  DynamicDialogRef,
+} from 'primeng/dynamicdialog';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
+import { EstadoTransaccion } from 'src/app/shared/enums/articulo.enums';
 import { Gestion } from '../../models/gestiones.model';
+import { MisGestionesService } from '../../services/mis-gestiones.service';
+import { RespuestaMessageComponent } from './respuesta-message/respuesta-message.component';
 
 type GestionDisplay = {
   referencia: string;
   mensaje: string;
+  mensajeRespuesta?: string;
   producto: {
     nombre: string;
     tipo: string;
@@ -92,7 +101,10 @@ export class GestionDetailComponent {
 
   constructor(
     public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    private dialogService: DialogService,
+    private misGestionesService: MisGestionesService,
+    private messageService: AppMessagesServices
   ) {
     this.gestion = (config?.data?.gestion as Gestion) ?? ({} as Gestion);
     this.activeTab = (config?.data?.activeTab as string) ?? '';
@@ -179,39 +191,129 @@ export class GestionDetailComponent {
     }
   }
 
+  getMensajeRespuestaTitle(): string {
+    switch (this.activeTab) {
+      case 'solicitudes-enviadas':
+        return 'Respuesta del propietario';
+      case 'solicitudes-recibidas':
+        return 'Tu respuesta';
+      case 'prestamos-activos':
+        return 'Respuesta del propietario';
+      case 'prestamos-otorgados':
+        return 'Tu respuesta';
+      default:
+        return 'Respuesta';
+    }
+  }
+
+  private cambiarEstado(
+    estadoCodigo: EstadoTransaccion,
+    titulo: string,
+    icono: string,
+    requiereMensaje: boolean = false
+  ): void {
+    if (requiereMensaje) {
+      // Abrir modal para ingresar mensaje
+      const ref = this.dialogService.open(RespuestaMessageComponent, {
+        header: titulo,
+        width: '500px',
+        styleClass: 'p-app-modal',
+        data: {
+          titulo,
+          icono,
+        },
+      });
+
+      ref.onClose.subscribe((result) => {
+        if (result) {
+          this.ejecutarCambioEstado(estadoCodigo, result.mensajeRespuesta);
+        }
+      });
+    } else {
+      // Cambiar estado directamente sin mensaje
+      this.ejecutarCambioEstado(estadoCodigo);
+    }
+  }
+
+  private ejecutarCambioEstado(
+    estadoCodigo: EstadoTransaccion,
+    mensajeRespuesta?: string | null
+  ): void {
+    if (!this.gestion?.id) {
+      this.messageService.error('No se pudo identificar la solicitud');
+      return;
+    }
+
+    this.misGestionesService
+      .cambiarEstadoSolicitud(
+        this.gestion.id,
+        estadoCodigo,
+        mensajeRespuesta || undefined
+      )
+      .subscribe({
+        next: () => {
+          const mensajes: Record<EstadoTransaccion, string> = {
+            [EstadoTransaccion.Pendiente]: 'Estado actualizado a Pendiente',
+            [EstadoTransaccion.Aceptada]: 'Solicitud aceptada exitosamente',
+            [EstadoTransaccion.Rechazada]: 'Solicitud rechazada',
+            [EstadoTransaccion.Devuelto]: 'Devolución confirmada exitosamente',
+          };
+          this.messageService.exito(
+            mensajes[estadoCodigo] || 'Estado actualizado'
+          );
+          this.ref.close('success');
+        },
+      });
+  }
+
   onAcceptRequest(): void {
-    console.log('Aceptar solicitud:', this.gestion);
-    // TODO: Implementar lógica para aceptar solicitud
-    this.ref.close('accept');
+    this.cambiarEstado(
+      EstadoTransaccion.Aceptada,
+      'Aceptar Solicitud',
+      'pi pi-check-circle',
+      false
+    );
   }
 
   onRejectRequest(): void {
-    console.log('Rechazar solicitud:', this.gestion);
-    // TODO: Implementar lógica para rechazar solicitud
-    this.ref.close('reject');
+    this.cambiarEstado(
+      EstadoTransaccion.Rechazada,
+      'Rechazar Solicitud',
+      'pi pi-times-circle',
+      true
+    );
   }
 
   onCancelRequest(): void {
-    console.log('Cancelar solicitud:', this.gestion);
-    // TODO: Implementar lógica para cancelar solicitud
-    this.ref.close('cancel');
+    this.cambiarEstado(
+      EstadoTransaccion.Rechazada,
+      'Cancelar Solicitud',
+      'pi pi-ban',
+      true
+    );
   }
 
   onReturnItem(): void {
-    console.log('Devolver artículo:', this.gestion);
-    // TODO: Implementar lógica para devolver artículo
-    this.ref.close('return');
+    this.cambiarEstado(
+      EstadoTransaccion.Devuelto,
+      'Devolver Artículo',
+      'pi pi-undo',
+      false
+    );
   }
 
   onConfirmReturn(): void {
-    console.log('Confirmar devolución:', this.gestion);
-    // TODO: Implementar lógica para confirmar devolución
-    this.ref.close('confirm');
+    this.cambiarEstado(
+      EstadoTransaccion.Devuelto,
+      'Confirmar Devolución',
+      'pi pi-check-circle',
+      false
+    );
   }
 
   onRemindReturn(): void {
-    console.log('Recordar devolución:', this.gestion);
     // TODO: Implementar lógica para enviar recordatorio
+    this.messageService.info('Recordatorio enviado al solicitante');
     this.ref.close('remind');
   }
 
@@ -276,6 +378,7 @@ export class GestionDetailComponent {
         gestionData?.codigo ||
         this.detalleDemo.referencia,
       mensaje: gestionData?.mensaje || this.detalleDemo.mensaje,
+      mensajeRespuesta: gestionData?.mensajeRespuesta || undefined,
       producto: {
         nombre: gestionData?.nombreArticulo || this.detalleDemo.producto.nombre,
         tipo: gestionData?.tipoNombre || this.detalleDemo.producto.tipo,

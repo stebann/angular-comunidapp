@@ -1,0 +1,47 @@
+<div class="respuesta-modal">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      <i [class]="icono"></i>
+      {{ titulo }}
+    </h3>
+    <p class="modal-subtitle">
+      Puedes incluir un mensaje opcional para explicar tu decisión
+    </p>
+  </div>
+
+  <form [formGroup]="respuestaForm" class="respuesta-form">
+    <div class="form-field">
+      <app-textarea-field
+        formControlName="mensaje"
+        label="Mensaje"
+        placeholder="Escribe un mensaje opcional..."
+        [rows]="4"
+        [maxLength]="500"
+        [required]="false"
+      ></app-textarea-field>
+      <small class="field-hint">
+        <i class="pi pi-info-circle"></i>
+        Opcional: Puedes incluir información adicional sobre tu decisión.
+      </small>
+    </div>
+
+    <div class="modal-footer">
+      <app-button
+        type="outline-secondary"
+        (clicked)="onCancel()"
+        [disabled]="isSubmitting"
+      >
+        Cancelar
+      </app-button>
+      <app-button
+        type="primary"
+        icon="pi pi-check"
+        (clicked)="onSubmit()"
+        [disabled]="isSubmitting"
+        [loading]="isSubmitting"
+      >
+        {{ isSubmitting ? "Enviando..." : "Confirmar" }}
+      </app-button>
+    </div>
+  </form>
+</div>

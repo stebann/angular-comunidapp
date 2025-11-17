@@ -85,6 +85,14 @@
           </div>
         </div>
 
+        <!-- Mensaje de respuesta -->
+        <div class="message-section" *ngIf="displayData.mensajeRespuesta">
+          <h4 class="section-title">{{ getMensajeRespuestaTitle() }}</h4>
+          <div class="message-box respuesta-box">
+            <p class="message-text">{{ displayData.mensajeRespuesta }}</p>
+          </div>
+        </div>
+
         <!-- Información de la persona (solicitante o propietario según el contexto) -->
         <div class="applicant-section">
           <h4 class="section-title">{{ getPersonaTitle() }}</h4>

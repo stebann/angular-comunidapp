@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { MisGestionesAPI } from 'src/app/core/routes-api/mis_gestiones_api';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -101,20 +100,18 @@ export class MisGestionesService extends MisGestionesRepository {
   getConteosUsuario(): Observable<any> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
-      this.http$
-        .get(`${MisGestionesAPI.Conteos}${usuarioId}`)
-        .subscribe({
-          next: (data) => {
-            this.conteos = data || {
-              solicitudesEnviadas: 0,
-              solicitudesRecibidas: 0,
-              prestamosEnviados: 0,
-              prestamosRecibidos: 0,
-            };
-            observer.next(this.conteos);
-          },
-          error: (err) => observer.error(err),
-        });
+      this.http$.get(`${MisGestionesAPI.Conteos}${usuarioId}`).subscribe({
+        next: (data) => {
+          this.conteos = data || {
+            solicitudesEnviadas: 0,
+            solicitudesRecibidas: 0,
+            prestamosEnviados: 0,
+            prestamosRecibidos: 0,
+          };
+          observer.next(this.conteos);
+        },
+        error: (err) => observer.error(err),
+      });
     });
   }
 
@@ -126,12 +123,15 @@ export class MisGestionesService extends MisGestionesRepository {
   // Cambiar estado de una solicitud
   cambiarEstadoSolicitud(
     solicitudId: number,
-    estadoCodigo: number
+    estadoCodigo: number,
+    mensajeRespuesta?: string
   ): Observable<any> {
-    return this.http$.put(
-      `${MisGestionesAPI.ById}${solicitudId}${MisGestionesAPI.CambiarEstado}?estadoCodigo=${estadoCodigo}`,
-      {}
-    );
+    const url = `${MisGestionesAPI.CambiarEstado}/${solicitudId}`;
+    const body = {
+      estadoCodigo,
+      mensajeRespuesta: mensajeRespuesta || null,
+    };
+    return this.http$.put(url, body);
   }
 
   // Crear una nueva solicitud

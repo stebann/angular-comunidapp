@@ -249,7 +249,7 @@ $black-50: rgba(0, 0, 0, 0.5);
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1rem;
 
       .section-title {
         font-size: 0.75rem;
@@ -272,6 +272,12 @@ $black-50: rgba(0, 0, 0, 0.5);
             color: $slate-700;
             line-height: 1.625;
             margin: 0;
+          }
+
+          &.respuesta-box {
+            background: #effff6;
+            border-color: #abe3c6;
+            border-left-width: 3px;
           }
         }
       }
