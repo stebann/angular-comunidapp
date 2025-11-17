@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   DialogService,
   DynamicDialogConfig,
@@ -52,52 +52,12 @@ type GestionDisplay = {
   templateUrl: './gestion-detail.component.html',
   styleUrls: ['./gestion-detail.component.scss'],
 })
-export class GestionDetailComponent {
+export class GestionDetailComponent implements OnInit {
   gestion!: Gestion;
   activeTab!: string;
   displayData!: GestionDisplay;
   currentImageIndex: number = 0;
-  detalleDemo: GestionDisplay = {
-    referencia: 'USR-2847',
-    mensaje:
-      'Necesito el taladro para un proyecto de renovación del hogar este fin de semana.',
-    producto: {
-      nombre: 'Taladro eléctrico profesional',
-      tipo: 'Herramientas',
-      categoria: 'Herramientas',
-      estado: 'Pendiente',
-      condicion: 'Como nuevo',
-      imagenPrincipal:
-        'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=900&q=80',
-      imagenes: [
-        'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=900&q=80',
-        'https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80',
-        'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80',
-      ],
-    },
-    solicitante: {
-      rol: 'Solicitante',
-      nombre: 'Carlos',
-      apellido: 'Mendoza',
-      nombreCompleto: 'Carlos Mendoza Rivera',
-      telefono: '+34 655 123 456',
-      email: 'carlos.mendoza@email.com',
-      id: 'USR-2847',
-    },
-    propietario: {
-      rol: 'Propietario',
-      nombre: 'María',
-      apellido: 'García',
-      nombreCompleto: 'María García López',
-      telefono: '+34 612 345 678',
-      email: 'maria.garcia@email.com',
-      id: 'USR-1234',
-    },
-    cronograma: {
-      fechaSolicitud: '16/11/2025',
-      devolucionEstimada: '21/11/2025',
-    },
-  };
+  solicitudId!: number;
 
   constructor(
     public ref: DynamicDialogRef,
@@ -106,9 +66,31 @@ export class GestionDetailComponent {
     private misGestionesService: MisGestionesService,
     private messageService: AppMessagesServices
   ) {
-    this.gestion = (config?.data?.gestion as Gestion) ?? ({} as Gestion);
+    this.solicitudId = config?.data?.solicitudId;
     this.activeTab = (config?.data?.activeTab as string) ?? '';
-    this.displayData = this.mapGestionToDisplay();
+  }
+
+  ngOnInit(): void {
+    if (this.solicitudId) {
+      this.loadGestionDetails();
+    } else {
+      this.messageService.error('No se pudo identificar la solicitud');
+      this.ref.close();
+    }
+  }
+
+  private loadGestionDetails(): void {
+    this.misGestionesService.getSolicitud(this.solicitudId).subscribe({
+      next: (gestion) => {
+        this.gestion = gestion;
+        this.displayData = this.mapGestionToDisplay();
+      },
+      error: (err) => {
+        console.error('Error loading gestion details:', err);
+        this.messageService.error('Error al cargar los detalles de la gestión');
+        this.ref.close();
+      }
+    });
   }
 
   closeModal(): void {
@@ -365,81 +347,67 @@ export class GestionDetailComponent {
     const gestionData = this.gestion as any;
     const solicitante = gestionData?.solicitante || {};
     const propietario = gestionData?.propietario || {};
-    const imagenPrincipal =
-      gestionData?.imagenArticulo || this.detalleDemo.producto.imagenPrincipal;
+    const imagenPrincipal = gestionData?.imagenArticulo || '';
     const imagenes =
       Array.isArray(gestionData?.imagenes) && gestionData.imagenes.length
         ? gestionData.imagenes
-        : [imagenPrincipal, ...this.detalleDemo.producto.imagenes.slice(1)];
+        : [imagenPrincipal];
 
     return {
-      referencia:
-        gestionData?.referencia ||
-        gestionData?.codigo ||
-        this.detalleDemo.referencia,
-      mensaje: gestionData?.mensaje || this.detalleDemo.mensaje,
+      referencia: gestionData?.referencia || gestionData?.codigo || 'N/A',
+      mensaje: gestionData?.mensaje || '',
       mensajeRespuesta: gestionData?.mensajeRespuesta || undefined,
       producto: {
-        nombre: gestionData?.nombreArticulo || this.detalleDemo.producto.nombre,
-        tipo: gestionData?.tipoNombre || this.detalleDemo.producto.tipo,
-        categoria:
-          gestionData?.categoriaNombre || this.detalleDemo.producto.categoria,
-        estado: gestionData?.estadoNombre || this.detalleDemo.producto.estado,
+        nombre: gestionData?.nombreArticulo || 'Sin nombre',
+        tipo: gestionData?.tipoNombre || 'Sin tipo',
+        categoria: gestionData?.categoriaNombre || 'Sin categoría',
+        estado: gestionData?.estadoNombre || 'Sin estado',
         condicion:
           gestionData?.condicionArticulo ||
           gestionData?.condicion ||
           gestionData?.estadoCondicion ||
-          this.detalleDemo.producto.condicion,
+          'Sin condición',
         imagenPrincipal,
         imagenes,
       },
       solicitante: {
-        rol: this.detalleDemo.solicitante.rol,
-        nombre: solicitante?.nombre || this.detalleDemo.solicitante.nombre,
-        apellido:
-          solicitante?.apellido || this.detalleDemo.solicitante.apellido,
+        rol: 'Solicitante',
+        nombre: solicitante?.nombre || '',
+        apellido: solicitante?.apellido || '',
         nombreCompleto:
           solicitante?.nombreCompleto ||
           [solicitante?.nombre, solicitante?.apellido]
             .filter(Boolean)
             .join(' ')
             .trim() ||
-          this.detalleDemo.solicitante.nombreCompleto,
-        telefono:
-          solicitante?.telefono || this.detalleDemo.solicitante.telefono,
-        email: solicitante?.email || this.detalleDemo.solicitante.email,
-        id:
-          solicitante?.id ||
-          solicitante?.codigo ||
-          this.detalleDemo.solicitante.id,
+          'Sin nombre',
+        telefono: solicitante?.telefono || '',
+        email: solicitante?.email || '',
+        id: solicitante?.id || solicitante?.codigo || '',
       },
       propietario: {
-        rol: this.detalleDemo.propietario.rol,
-        nombre: propietario?.nombre || this.detalleDemo.propietario.nombre,
-        apellido:
-          propietario?.apellido || this.detalleDemo.propietario.apellido,
+        rol: 'Propietario',
+        nombre: propietario?.nombre || '',
+        apellido: propietario?.apellido || '',
         nombreCompleto:
           propietario?.nombreCompleto ||
           [propietario?.nombre, propietario?.apellido]
             .filter(Boolean)
             .join(' ')
             .trim() ||
-          this.detalleDemo.propietario.nombreCompleto,
-        telefono:
-          propietario?.telefono || this.detalleDemo.propietario.telefono,
-        email: propietario?.email || this.detalleDemo.propietario.email,
+          'Sin nombre',
+        telefono: propietario?.telefono || '',
+        email: propietario?.email || '',
         id:
           propietario?.id ||
           propietario?.codigo ||
-          String(propietario?.propietarioId || this.detalleDemo.propietario.id),
+          String(propietario?.propietarioId || ''),
       },
       cronograma: {
         fechaSolicitud:
-          this.formatDate(gestionData?.fechaSolicitud) ||
-          this.detalleDemo.cronograma.fechaSolicitud,
+          this.formatDate(gestionData?.fechaSolicitud) || '',
         devolucionEstimada:
-          this.formatDate(gestionData?.fechaEstimadaDevolucion) ||
-          this.detalleDemo.cronograma.devolucionEstimada,
+          this.formatDate(gestionData?.fechaEstimadaDevolucion) || '',
       },
     };
   }

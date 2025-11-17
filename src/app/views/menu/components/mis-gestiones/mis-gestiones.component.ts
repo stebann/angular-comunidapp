@@ -202,7 +202,7 @@ export class MisGestionesComponent implements OnInit {
       width: '50vw',
       height: 'auto',
       data: {
-        gestion: gestion,
+        solicitudId: gestion.id,
         activeTab: this.activeTab,
       },
       styleClass: 'p-app-modal',
