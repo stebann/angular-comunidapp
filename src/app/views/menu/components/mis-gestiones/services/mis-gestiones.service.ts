@@ -34,6 +34,13 @@ export class MisGestionesService extends MisGestionesRepository {
     super();
   }
 
+  confirmarDevolucion(transaccionId: number, usuarioId: number, puntuacion: number, comentario: string): Observable<any> {
+    return this.http$.put(`${MisGestionesAPI.ConfirmarDevolucion}${transaccionId}?usuarioId=${usuarioId}`, {
+      puntuacion,
+      comentario
+    });
+  }
+
   private getCurrentUserId(): number {
     return this.authService.currentState.id;
   }

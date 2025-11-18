@@ -189,6 +189,11 @@
     background: rgba(158, 158, 158, 0.1);
     color: #616161;
   }
+
+  &.estado-devolucion-pendiente {
+    background: rgba(251, 146, 60, 0.1);
+    color: #ea580c;
+  }
 }
 
 .solicitud-body {

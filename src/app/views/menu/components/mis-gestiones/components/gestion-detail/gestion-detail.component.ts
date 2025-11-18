@@ -309,16 +309,27 @@ export class GestionDetailComponent implements OnInit {
     // Escuchar cuando se cierra el modal para procesar la calificación
     ref.onClose.subscribe((result) => {
       if (result) {
-        // Aquí se enviaría la calificación al servidor
         console.log('Calificación:', result);
         
-        // Cambiar el estado a Devuelto después de la calificación
-        this.cambiarEstado(
-          EstadoTransaccion.Devuelto,
-          'Confirmar Devolución',
-          'pi pi-check-circle',
-          false
-        );
+        // Enviar calificación al servidor
+        this.misGestionesService.confirmarDevolucion(
+          this.gestion?.id || 0,
+          this.gestion?.solicitante?.id || 0,
+          result.calificacion,
+          result.comentario || ''
+        ).subscribe({
+          next: (response) => {
+            console.log('Devolución confirmada:', response);
+            
+            // Mostrar mensaje de éxito
+            this.messageService.exito('Devolución confirmada correctamente');
+            this.ref.close('success');
+          },
+          error: (error) => {
+            console.error('Error al confirmar devolución:', error);
+            this.messageService.error('Error al confirmar la devolución');
+          }
+        });
       }
     });
   }
@@ -387,6 +398,21 @@ export class GestionDetailComponent implements OnInit {
       default:
         return 'pi pi-info-circle';
     }
+  }
+
+  getEstadoLabel(): string {
+    if (!this.gestion?.estadoNombre) return 'Pendiente';
+    
+    const estado = this.gestion.estadoNombre.toLowerCase();
+    
+    // Textos cortos para cada estado
+    if (estado.includes('devolucion')) return 'Pendiente por devolución';
+    if (estado.includes('acept')) return 'Activa';
+    if (estado.includes('rechaz')) return 'Rechazada';
+    if (estado.includes('cancel')) return 'Cancelada';
+    if (estado.includes('devuelto')) return 'Devuelto';
+    
+    return this.gestion.estadoNombre;
   }
 
   formatDate(value?: string | Date): string | undefined {

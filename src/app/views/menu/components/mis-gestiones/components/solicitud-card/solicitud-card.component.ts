@@ -41,11 +41,23 @@ export class SolicitudCardComponent implements OnInit {
     if (estado.includes('acept')) return 'estado-aceptada';
     if (estado.includes('rechaz')) return 'estado-rechazada';
     if (estado.includes('cancel')) return 'estado-cancelada';
+    if (estado.includes('devolucion')) return 'estado-devolucion-pendiente';
     return 'estado-pendiente';
   }
 
   getEstadoLabel(): string {
-    return this.solicitud?.estadoNombre || 'Pendiente';
+    if (!this.solicitud?.estadoNombre) return 'Pendiente';
+    
+    const estado = this.solicitud.estadoNombre.toLowerCase();
+    
+    // Textos cortos para cada estado
+    if (estado.includes('devolucion')) return 'P. Devolución';
+    if (estado.includes('acept')) return 'Activa';
+    if (estado.includes('rechaz')) return 'Rechazada';
+    if (estado.includes('cancel')) return 'Cancelada';
+    if (estado.includes('devuelto')) return 'Devuelto';
+    
+    return this.solicitud.estadoNombre;
   }
 
   getTipoIcon(): string {
