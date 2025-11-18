@@ -5,6 +5,6 @@ export enum MisGestionesAPI {
   Conteos = 'mis-gestiones/conteos/',
   SolicitudesRecibidas = 'mis-gestiones/solicitudes-recibidas/',
   SolicitudesEnviadas = 'mis-gestiones/solicitudes-enviadas/',
-  PrestamosRecibidos = 'mis-gestiones/prestamos-recibidos/',
-  PrestamosEnviados = 'mis-gestiones/prestamos-enviados/',
+  PrestamosActivos = 'mis-gestiones/prestamos-activos/',
+  PrestamosOtorgados = 'mis-gestiones/prestamos-otorgados/',
 }

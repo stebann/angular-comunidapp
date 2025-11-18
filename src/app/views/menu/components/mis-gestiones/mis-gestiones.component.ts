@@ -89,10 +89,10 @@ export class MisGestionesComponent implements OnInit {
         this.misGestionesService.getSolicitudesEnviadas().subscribe();
         break;
       case 'prestamos-activos':
-        this.misGestionesService.getPrestamosRecibidos().subscribe();
+        this.misGestionesService.getPrestamosActivos().subscribe();
         break;
       case 'prestamos-otorgados':
-        this.misGestionesService.getPrestamosEnviados().subscribe();
+        this.misGestionesService.getPrestamosOtorgados().subscribe();
         break;
     }
   }
@@ -203,7 +203,7 @@ export class MisGestionesComponent implements OnInit {
       height: 'auto',
       data: {
         solicitudId: gestion.id,
-        activeTab: this.activeTab,
+        activeTab: this.activeTab, 
       },
       styleClass: 'p-app-modal',
     });

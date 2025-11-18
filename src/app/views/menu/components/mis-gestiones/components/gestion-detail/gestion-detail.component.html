@@ -142,7 +142,7 @@
 
       <!-- Footer con acciones -->
       <div class="modal-footer">
-        <app-button type="outline-primary" (clicked)="closeModal()">
+        <app-button type="secondary" size="sm" (clicked)="closeModal()">
           Cerrar
         </app-button>
 
@@ -153,6 +153,7 @@
             <app-button
               *ngIf="mostrarBotonesAceptarRechazar()"
               type="danger"
+              size="sm"
               icon="pi pi-times"
               (clicked)="onRejectRequest()"
             >
@@ -161,6 +162,7 @@
             <app-button
               *ngIf="mostrarBotonesAceptarRechazar()"
               type="success"
+              size="sm"
               icon="pi pi-check"
               (clicked)="onAcceptRequest()"
             >
@@ -173,6 +175,7 @@
             <app-button
               *ngIf="mostrarBotonCancelar()"
               type="danger"
+              size="sm"
               icon="pi pi-ban"
               (clicked)="onCancelRequest()"
             >
@@ -185,6 +188,7 @@
             <app-button
               *ngIf="mostrarBotonDevolver()"
               type="primary"
+              size="sm"
               icon="pi pi-undo"
               (clicked)="onReturnItem()"
             >
@@ -197,18 +201,11 @@
             <app-button
               *ngIf="mostrarBotonConfirmarDevolucion()"
               type="success"
+              size="sm"
               icon="pi pi-check-circle"
               (clicked)="onConfirmReturn()"
             >
               Confirmar Devolución
-            </app-button>
-            <app-button
-              *ngIf="mostrarBotonRecordatorio()"
-              type="info"
-              icon="pi pi-bell"
-              (clicked)="onRemindReturn()"
-            >
-              Enviar Recordatorio
             </app-button>
           </ng-container>
 
@@ -217,6 +214,7 @@
             <app-button
               *ngIf="mostrarBotonesAceptarRechazar()"
               type="primary"
+              size="sm"
               icon="pi pi-check"
               (clicked)="onAcceptRequest()"
             >

@@ -317,10 +317,7 @@ export class GestionDetailComponent implements OnInit {
     return this.gestion?.estadoCodigo === EstadoTransaccion.Aceptada;
   }
 
-  mostrarBotonRecordatorio(): boolean {
-    return this.gestion?.estadoCodigo === EstadoTransaccion.Aceptada;
-  }
-
+  
   getEstadoClass(): string {
     if (!this.gestion?.estadoNombre) return 'estado-unknown';
 

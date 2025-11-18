@@ -20,13 +20,13 @@ export class MisGestionesService extends MisGestionesRepository {
   public conteos: {
     solicitudesEnviadas: number;
     solicitudesRecibidas: number;
-    prestamosEnviados: number;
-    prestamosRecibidos: number;
+    prestamosActivos: number;
+    prestamosOtorgados: number;
   } = {
     solicitudesEnviadas: 0,
     solicitudesRecibidas: 0,
-    prestamosEnviados: 0,
-    prestamosRecibidos: 0,
+    prestamosActivos: 0,
+    prestamosOtorgados: 0,
   };
 
   constructor(private http$: HttpService, private authService: AuthService) {
@@ -67,11 +67,11 @@ export class MisGestionesService extends MisGestionesRepository {
     });
   }
 
-  getPrestamosRecibidos(): Observable<Gestion[]> {
+  getPrestamosActivos(): Observable<Gestion[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.PrestamosRecibidos}${usuarioId}`)
+        .get<Gestion[]>(`${MisGestionesAPI.PrestamosActivos}${usuarioId}`)
         .subscribe({
           next: (data) => {
             this.prestamosRecibidos = data || [];
@@ -82,11 +82,11 @@ export class MisGestionesService extends MisGestionesRepository {
     });
   }
 
-  getPrestamosEnviados(): Observable<Gestion[]> {
+  getPrestamosOtorgados(): Observable<Gestion[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.PrestamosEnviados}${usuarioId}`)
+        .get<Gestion[]>(`${MisGestionesAPI.PrestamosOtorgados}${usuarioId}`)
         .subscribe({
           next: (data) => {
             this.prestamosOtorgados = data || [];
@@ -105,8 +105,8 @@ export class MisGestionesService extends MisGestionesRepository {
           this.conteos = data || {
             solicitudesEnviadas: 0,
             solicitudesRecibidas: 0,
-            prestamosEnviados: 0,
-            prestamosRecibidos: 0,
+            prestamosActivos: 0,
+            prestamosOtorgados: 0,
           };
           observer.next(this.conteos);
         },
