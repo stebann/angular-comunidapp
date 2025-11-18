@@ -57,11 +57,7 @@ export class MisGestionesComponent implements OnInit {
     }
 
     if (this.activeTab) {
-      const alreadyLoaded = this.checkIfDataAlreadyLoaded(this.activeTab);
-
-      if (!alreadyLoaded) {
-        this.loadDataForTab(this.activeTab);
-      }
+      this.loadDataForTab(this.activeTab);
     }
   }
 
@@ -81,6 +77,23 @@ export class MisGestionesComponent implements OnInit {
   }
 
   loadDataForTab(tab: string): void {
+    switch (tab) {
+      case 'solicitudes-recibidas':
+        this.misGestionesService.getSolicitudesRecibidas().subscribe();
+        break;
+      case 'solicitudes-enviadas':
+        this.misGestionesService.getSolicitudesEnviadas().subscribe();
+        break;
+      case 'prestamos-activos':
+        this.misGestionesService.getPrestamosActivos().subscribe();
+        break;
+      case 'prestamos-otorgados':
+        this.misGestionesService.getPrestamosOtorgados().subscribe();
+        break;
+    }
+  }
+
+  forceLoadDataForTab(tab: string): void {
     switch (tab) {
       case 'solicitudes-recibidas':
         this.misGestionesService.getSolicitudesRecibidas().subscribe();
@@ -211,8 +224,8 @@ export class MisGestionesComponent implements OnInit {
     // Recargar datos cuando se cierra el modal con éxito
     ref.onClose.subscribe((result) => {
       if (result === 'success' && this.activeTab) {
-        // Recargar los datos del tab activo
-        this.loadDataForTab(this.activeTab);
+        // Forzar la recarga de los datos del tab activo
+        this.forceLoadDataForTab(this.activeTab);
         // Recargar los conteos
         this.misGestionesService.getConteosUsuario().subscribe();
       }

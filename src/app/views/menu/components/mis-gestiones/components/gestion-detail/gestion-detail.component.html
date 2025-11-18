@@ -165,7 +165,7 @@
             </app-button>
             <app-button
               *ngIf="mostrarBotonesAceptarRechazar()"
-              type="success"
+                type="primary"
               size="sm"
               icon="pi pi-check"
               (clicked)="onAcceptRequest()"
@@ -204,7 +204,7 @@
           <ng-container *ngSwitchCase="'prestamos-otorgados'">
             <app-button
               *ngIf="mostrarBotonConfirmarDevolucion()"
-              type="success"
+              type="primary"
               size="sm"
               icon="pi pi-check-circle"
               (clicked)="onConfirmReturn()"
