@@ -91,11 +91,8 @@
     <div class="right-panel">
       <!-- Contenido scrolleable -->
       <div class="content-scrollable">
-        <!-- Descripción -->
-        <div
-          class="description-section"
-          *ngIf="descripcion && descripcion.trim()"
-        >
+        <!-- Mensaje de solicitud -->
+        <div class="message-section" *ngIf="descripcion">
           <div class="message-header">
             <h4 class="section-title">Descripción</h4>
             <div class="status-container">
@@ -114,7 +111,7 @@
             </div>
           </div>
           <div class="message-box">
-            <p class="description-text">{{ descripcion }}</p>
+            <p class="message-text">{{ descripcion }}</p>
           </div>
         </div>
 

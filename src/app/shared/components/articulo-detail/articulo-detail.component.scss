@@ -323,7 +323,7 @@ $red-700: #b91c1c;
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 1rem;
 
       .section-title {
         font-size: 0.75rem;
@@ -334,7 +334,7 @@ $red-700: #b91c1c;
         margin: 0 0 0.75rem 0;
       }
 
-      .description-section {
+      .message-section {
         .message-header {
           display: flex;
           justify-content: space-between;
@@ -362,17 +362,24 @@ $red-700: #b91c1c;
           }
         }
 
-        .description-box {
+        .message-box {
           background: $slate-50;
           border: 1px solid $slate-200;
           border-radius: 0.75rem;
           padding: 1rem;
+          margin: 0;
 
-          .description-text {
+          .message-text {
             font-size: 0.875rem;
             color: $slate-700;
             line-height: 1.625;
             margin: 0;
+          }
+
+          &.respuesta-box {
+            background: #effff6;
+            border-color: #abe3c6;
+            border-left-width: 3px;
           }
         }
       }
