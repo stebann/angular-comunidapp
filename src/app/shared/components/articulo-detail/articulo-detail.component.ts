@@ -7,7 +7,8 @@ import { Articulo, UsuarioInfo } from '../../models/articulo.model';
 import { ImageViewerService } from '../../services/image-viewer.service';
 import { ArticuloDetailService } from './services/articulo-detail.service';
 import { SolicitudMessageComponent } from './solicitud-articulo-modal/solicitud-message.component';
-import { UsuarioInfoModalComponent } from './usuario-info-modal/usuario-info-modal.component';
+import { UsuarioInfoModalComponent } from '../usuario-info-modal/usuario-info-modal.component';
+
 
 @Component({
   selector: 'app-articulo-detail',

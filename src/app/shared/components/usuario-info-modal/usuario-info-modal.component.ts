@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { UsuarioInfo } from '../../../models/articulo.model';
+import { UsuarioInfo } from '../../models/articulo.model';
+
 
 @Component({
   selector: 'app-usuario-info-modal',

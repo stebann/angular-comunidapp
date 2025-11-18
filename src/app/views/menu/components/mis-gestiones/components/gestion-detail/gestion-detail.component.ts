@@ -239,6 +239,7 @@ export class GestionDetailComponent implements OnInit {
             [EstadoTransaccion.Aceptada]: 'Solicitud aceptada exitosamente',
             [EstadoTransaccion.Rechazada]: 'Solicitud rechazada',
             [EstadoTransaccion.Devuelto]: 'Devolución confirmada exitosamente',
+            [EstadoTransaccion.Cancelado]: 'Solicitud cancelada',
           };
           this.messageService.exito(
             mensajes[estadoCodigo] || 'Estado actualizado'
@@ -268,7 +269,7 @@ export class GestionDetailComponent implements OnInit {
 
   onCancelRequest(): void {
     this.cambiarEstado(
-      EstadoTransaccion.Rechazada,
+      EstadoTransaccion.Cancelado,
       'Cancelar Solicitud',
       'pi pi-ban',
       true
@@ -297,6 +298,27 @@ export class GestionDetailComponent implements OnInit {
     // TODO: Implementar lógica para enviar recordatorio
     this.messageService.info('Recordatorio enviado al solicitante');
     this.ref.close('remind');
+  }
+
+  // Métodos de validación para mostrar/ocultar botones según estado
+  mostrarBotonesAceptarRechazar(): boolean {
+    return this.gestion?.estadoCodigo === EstadoTransaccion.Pendiente;
+  }
+
+  mostrarBotonCancelar(): boolean {
+    return this.gestion?.estadoCodigo === EstadoTransaccion.Pendiente;
+  }
+
+  mostrarBotonDevolver(): boolean {
+    return this.gestion?.estadoCodigo === EstadoTransaccion.Aceptada;
+  }
+
+  mostrarBotonConfirmarDevolucion(): boolean {
+    return this.gestion?.estadoCodigo === EstadoTransaccion.Aceptada;
+  }
+
+  mostrarBotonRecordatorio(): boolean {
+    return this.gestion?.estadoCodigo === EstadoTransaccion.Aceptada;
   }
 
   getEstadoClass(): string {

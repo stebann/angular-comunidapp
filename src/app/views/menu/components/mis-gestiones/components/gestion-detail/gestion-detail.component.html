@@ -151,24 +151,27 @@
           <!-- Solicitudes Recibidas -->
           <ng-container *ngSwitchCase="'solicitudes-recibidas'">
             <app-button
-              type="success"
-              icon="pi pi-check"
-              (clicked)="onAcceptRequest()"
-            >
-              Aceptar
-            </app-button>
-            <app-button
+              *ngIf="mostrarBotonesAceptarRechazar()"
               type="danger"
               icon="pi pi-times"
               (clicked)="onRejectRequest()"
             >
               Rechazar
             </app-button>
+            <app-button
+              *ngIf="mostrarBotonesAceptarRechazar()"
+              type="success"
+              icon="pi pi-check"
+              (clicked)="onAcceptRequest()"
+            >
+              Aceptar
+            </app-button>
           </ng-container>
 
           <!-- Solicitudes Enviadas -->
           <ng-container *ngSwitchCase="'solicitudes-enviadas'">
             <app-button
+              *ngIf="mostrarBotonCancelar()"
               type="danger"
               icon="pi pi-ban"
               (clicked)="onCancelRequest()"
@@ -180,6 +183,7 @@
           <!-- Préstamos Activos -->
           <ng-container *ngSwitchCase="'prestamos-activos'">
             <app-button
+              *ngIf="mostrarBotonDevolver()"
               type="primary"
               icon="pi pi-undo"
               (clicked)="onReturnItem()"
@@ -191,6 +195,7 @@
           <!-- Préstamos Otorgados -->
           <ng-container *ngSwitchCase="'prestamos-otorgados'">
             <app-button
+              *ngIf="mostrarBotonConfirmarDevolucion()"
               type="success"
               icon="pi pi-check-circle"
               (clicked)="onConfirmReturn()"
@@ -198,6 +203,7 @@
               Confirmar Devolución
             </app-button>
             <app-button
+              *ngIf="mostrarBotonRecordatorio()"
               type="info"
               icon="pi pi-bell"
               (clicked)="onRemindReturn()"
@@ -209,6 +215,7 @@
           <!-- Default: Aprobar Solicitud -->
           <ng-container *ngSwitchDefault>
             <app-button
+              *ngIf="mostrarBotonesAceptarRechazar()"
               type="primary"
               icon="pi pi-check"
               (clicked)="onAcceptRequest()"
