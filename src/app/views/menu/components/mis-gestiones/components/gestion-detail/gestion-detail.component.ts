@@ -14,6 +14,7 @@ import { ImageViewerService } from 'src/app/shared/services/image-viewer.service
 import { ImageUrlService } from 'src/app/core/services/image-url.service';
 import { UsuarioInfoModalComponent } from 'src/app/shared/components/usuario-info-modal/usuario-info-modal.component';
 import { UsuarioInfo } from 'src/app/shared/models/articulo.model';
+import { CalificacionModalComponent } from 'src/app/shared/components/calificacion-modal/calificacion-modal.component';
 
 @Component({
   selector: 'app-gestion-detail',
@@ -245,6 +246,7 @@ export class GestionDetailComponent implements OnInit {
             [EstadoTransaccion.Pendiente]: 'Estado actualizado a Pendiente',
             [EstadoTransaccion.Aceptada]: 'Solicitud aceptada exitosamente',
             [EstadoTransaccion.Rechazada]: 'Solicitud rechazada',
+            [EstadoTransaccion.DevolucionPendiente]: 'Devolución pendiente iniciada',
             [EstadoTransaccion.Devuelto]: 'Devolución confirmada exitosamente',
             [EstadoTransaccion.Cancelado]: 'Solicitud cancelada',
           };
@@ -285,7 +287,7 @@ export class GestionDetailComponent implements OnInit {
 
   onReturnItem(): void {
     this.cambiarEstado(
-      EstadoTransaccion.Devuelto,
+      EstadoTransaccion.DevolucionPendiente,
       'Devolver Artículo',
       'pi pi-undo',
       false
@@ -293,12 +295,32 @@ export class GestionDetailComponent implements OnInit {
   }
 
   onConfirmReturn(): void {
-    this.cambiarEstado(
-      EstadoTransaccion.Devuelto,
-      'Confirmar Devolución',
-      'pi pi-check-circle',
-      false
-    );
+    // Mostrar modal de calificación antes de confirmar la devolución
+    const ref = this.dialogService.open(CalificacionModalComponent, {
+      header: 'Confirmar Devolución',
+      width: '500px',
+      styleClass: 'p-app-modal',
+      data: {
+        usuarioId: this.gestion?.solicitante?.id || 0,
+        nombreUsuario: this.getPersonaData().nombre
+      },
+    });
+
+    // Escuchar cuando se cierra el modal para procesar la calificación
+    ref.onClose.subscribe((result) => {
+      if (result) {
+        // Aquí se enviaría la calificación al servidor
+        console.log('Calificación:', result);
+        
+        // Cambiar el estado a Devuelto después de la calificación
+        this.cambiarEstado(
+          EstadoTransaccion.Devuelto,
+          'Confirmar Devolución',
+          'pi pi-check-circle',
+          false
+        );
+      }
+    });
   }
 
   onRemindReturn(): void {
@@ -321,7 +343,7 @@ export class GestionDetailComponent implements OnInit {
   }
 
   mostrarBotonConfirmarDevolucion(): boolean {
-    return this.gestion?.estadoCodigo === EstadoTransaccion.Aceptada;
+    return this.gestion?.estadoCodigo === EstadoTransaccion.DevolucionPendiente;
   }
 
   
@@ -335,6 +357,8 @@ export class GestionDetailComponent implements OnInit {
         return 'estado-aceptada';
       case EstadoTransaccion.Rechazada:
         return 'estado-rechazada';
+      case EstadoTransaccion.DevolucionPendiente:
+        return 'estado-devolucion-pendiente';
       case EstadoTransaccion.Cancelado:
         return 'estado-cancelada';
       case EstadoTransaccion.Devuelto:
@@ -345,22 +369,21 @@ export class GestionDetailComponent implements OnInit {
   }
 
   getEstadoIcon(): string {
-    if (!this.gestion?.estadoNombre) return 'pi pi-question-circle';
+    if (!this.gestion?.estadoCodigo) return 'pi pi-question-circle';
 
-    const estado = this.gestion.estadoNombre.toLowerCase();
-
-    switch (estado) {
-      case 'disponible':
-        return 'pi pi-check-circle';
-      case 'prestado':
-        return 'pi pi-arrow-right';
-      case 'en mantenimiento':
-      case 'mantenimiento':
-        return 'pi pi-wrench';
-      case 'solicitado':
+    switch (this.gestion.estadoCodigo) {
+      case EstadoTransaccion.Pendiente:
         return 'pi pi-clock';
-      case 'no disponible':
+      case EstadoTransaccion.Aceptada:
+        return 'pi pi-check-circle';
+      case EstadoTransaccion.Rechazada:
         return 'pi pi-times-circle';
+      case EstadoTransaccion.DevolucionPendiente:
+        return 'pi pi-spin pi-spinner';
+      case EstadoTransaccion.Devuelto:
+        return 'pi pi-check';
+      case EstadoTransaccion.Cancelado:
+        return 'pi pi-ban';
       default:
         return 'pi pi-info-circle';
     }

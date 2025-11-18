@@ -17,6 +17,7 @@ export enum EstadoTransaccion {
   Pendiente = 1,
   Aceptada = 2,
   Rechazada = 3,
-  Devuelto = 4,
-  Cancelado = 5,
+  DevolucionPendiente = 4,
+  Devuelto = 5,
+  Cancelado = 6,
 }

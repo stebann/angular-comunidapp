@@ -1,0 +1,70 @@
+<div class="calificacion-modal">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      <i class="pi pi-star-fill"></i>
+      ¿Cómo fue tu experiencia?
+    </h3>
+    <p class="modal-subtitle">
+      Califica a <strong>{{ data.nombreUsuario }}</strong> por esta transacción
+    </p>
+  </div>
+
+  <div class="calificacion-form">
+    <div class="calificacion-section">
+      <label class="section-label">Calificación</label>
+      <div class="estrellas-container">
+        <i 
+          *ngFor="let estrella of estrellas" 
+          class="estrella {{ getEstrellaClass(estrella) }}"
+          [style.color]="getEstrellaColor(estrella)"
+          (click)="onCalificar(estrella)"
+          (mouseover)="onHover(estrella)"
+          (mouseleave)="onLeave()"
+        ></i>
+      </div>
+      <p class="calificacion-text">
+        <span *ngIf="calificacion === 0">Selecciona una calificación</span>
+        <span *ngIf="calificacion === 1">Mala</span>
+        <span *ngIf="calificacion === 2">Regular</span>
+        <span *ngIf="calificacion === 3">Buena</span>
+        <span *ngIf="calificacion === 4">Muy buena</span>
+        <span *ngIf="calificacion === 5">Excelente</span>
+      </p>
+    </div>
+
+    <div class="comentario-section">
+      <label class="section-label">Comentario (opcional)</label>
+      <textarea 
+        class="comentario-textarea"
+        [(ngModel)]="comentario"
+        placeholder="Ej: Excelente vecino, todo el proceso fue muy rápido y profesional..."
+        rows="4"
+        maxlength="200"
+      ></textarea>
+      <small class="field-hint">
+        <i class="pi pi-comment"></i>
+        Comparte tu experiencia con este usuario (máx. 200 caracteres)
+      </small>
+      <p class="char-count">{{ comentario.length }}/200</p>
+    </div>
+
+    <div class="modal-footer">
+      <button 
+        type="button" 
+        class="btn btn-cancel"
+        (click)="onCancel()"
+      >
+        Cancelar
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-submit"
+        [disabled]="calificacion === 0"
+        (click)="onSubmit()"
+      >
+        <i class="pi pi-check"></i>
+        Enviar Calificación
+      </button>
+    </div>
+  </div>
+</div>
