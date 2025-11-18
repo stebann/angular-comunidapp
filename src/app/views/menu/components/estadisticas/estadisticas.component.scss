@@ -20,14 +20,8 @@
         font-size: 24px;
         padding: 12px;
         border-radius: 50%;
-
-        &.fa-box,
-        &.fa-exchange-alt,
-        &.fa-heart,
-        &.fa-star {
-          background: rgba(var(--color-primary-rgb), 0.1);
-          color: var(--color-primary);
-        }
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
       }
 
       .card-content {
@@ -61,15 +55,16 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 
       i {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        background: rgba(var(--color-primary-rgb), 0.1);
-        color: var(--color-primary);
+        background: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
+        margin-right: 15px;
         flex-shrink: 0;
       }
 

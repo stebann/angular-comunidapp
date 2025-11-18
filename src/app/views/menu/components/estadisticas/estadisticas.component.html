@@ -11,138 +11,19 @@
 
 <div class="estadisticas-container">
   <div class="cards-grid">
-    <div class="stat-card recursos">
-      <i class="fas fa-box"></i>
+    <div class="stat-card" *ngFor="let item of resumenData | keyvalue" [ngClass]="item.key">
+      <i [ngClass]="item.value.icon"></i>
       <div class="card-content">
-        <h3>{{ resumenData.recursos.valor }}</h3>
-        <p>{{ resumenData.recursos.titulo }}</p>
-      </div>
-    </div>
-    <div class="stat-card intercambios">
-      <i class="fas fa-exchange-alt"></i>
-      <div class="card-content">
-        <h3>{{ resumenData.intercambios.valor }}</h3>
-        <p>{{ resumenData.intercambios.titulo }}</p>
-      </div>
-    </div>
-    <div class="stat-card favoritos">
-      <i class="fas fa-heart"></i>
-      <div class="card-content">
-        <h3>{{ resumenData.favoritos.valor }}</h3>
-        <p>{{ resumenData.favoritos.titulo }}</p>
-      </div>
-    </div>
-    <div class="stat-card reputacion">
-      <i class="fas fa-star"></i>
-      <div class="card-content">
-        <h3>{{ resumenData.reputacion.valor }}</h3>
-        <p>{{ resumenData.reputacion.titulo }}</p>
+        <h3>{{ item.value.valor }}</h3>
+        <p>{{ item.value.titulo }}</p>
       </div>
     </div>
   </div>
 </div>
 
-<div class="estadisticas-container">
-  <div class="insights-grid">
-    <div class="insight-card" *ngFor="let it of insights">
-      <i class="pi" [ngClass]="it.icon" aria-hidden="true"></i>
-      <div class="content">
-        <h5 class="value">{{ it.value }}</h5>
-        <p class="title">{{ it.title }}</p>
-        <span class="hint">{{ it.hint }}</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="estadisticas-container">
-  <div class="charts-row-60-40">
-    <div class="chart-card">
-      <h4>Actividad semanal</h4>
-      <div class="chart-body">
-        <div class="chart-area">
-          <ngx-charts-bar-vertical
-            [results]="semanaActividad"
-            [legend]="false"
-            [xAxis]="true"
-            [yAxis]="true"
-            [showXAxisLabel]="false"
-            [showYAxisLabel]="true"
-            [yAxisLabel]="'Cantidad'"
-            [view]="viewBarWeek"
-            [scheme]="colorScheme"
-            [animations]="true"
-            [showDataLabel]="true"
-            [dataLabelFormatting]="formatBarValue"
-          ></ngx-charts-bar-vertical>
-        </div>
-        <div class="custom-legend right">
-          <ng-container *ngFor="let d of semanaActividad; let i = index">
-            <span class="legend-item">
-              <span
-                class="legend-dot"
-                [style.background]="
-                  colorScheme.domain[i % colorScheme.domain.length]
-                "
-              ></span>
-              {{ d.name }}
-            </span>
-          </ng-container>
-        </div>
-      </div>
-    </div>
-    <div class="chart-card">
-      <h4>Resumen de gestiones</h4>
-      <div class="chart-body">
-        <div class="chart-area">
-          <ngx-charts-pie-chart
-            [results]="resumenGestiones"
-            [legend]="false"
-            [labels]="true"
-            [doughnut]="true"
-            [arcWidth]="0.25"
-            [view]="viewPieGestiones"
-            [scheme]="colorScheme"
-            [animations]="true"
-            [labelFormatting]="formatPieLabel"
-          ></ngx-charts-pie-chart>
-        </div>
-        <div class="custom-legend right wide">
-          <ng-container *ngFor="let d of resumenGestiones; let i = index">
-            <span class="legend-item">
-              <span
-                class="legend-dot"
-                [style.background]="
-                  colorScheme.domain[i % colorScheme.domain.length]
-                "
-              ></span>
-              {{ d.name }} — {{ d.value }} ({{
-                getResumenGestionesPercent(d.value)
-              }}%)
-            </span>
-          </ng-container>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="estadisticas-container">
-  <div class="insights-grid">
-    <div class="insight-card" *ngFor="let it of insightsExtra">
-      <i class="pi" [ngClass]="it.icon" aria-hidden="true"></i>
-      <div class="content">
-        <h5 class="value">{{ it.value }}</h5>
-        <p class="title">{{ it.title }}</p>
-        <span class="hint">{{ it.hint }}</span>
-      </div>
-    </div>
-  </div>
-</div>
 <app-generic-filter
   [form]="filtro"
   [(isOpen)]="isOpen"
-  (applyFilter)="onFiltersApplied()"
 >
   <div style="display: flex; gap: 1rem">
     <app-input-date-field
