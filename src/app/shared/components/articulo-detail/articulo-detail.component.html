@@ -191,6 +191,7 @@
       <div class="modal-footer" *ngIf="!isLoading && !isOwner && articulo">
         <app-button
           type="primary"
+          size="sm"
           icon="pi pi-shopping-cart"
           [disabled]="!estaDisponible"
           (clicked)="solicitarArticulo()"
