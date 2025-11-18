@@ -40,10 +40,11 @@
         h3 {
           margin: 0;
           font-size: clamp(18px, 2.5vw, 24px);
-          font-weight: 900;
+          font-weight: 600;
           line-height: 1.2;
           word-wrap: break-word;
           overflow-wrap: break-word;
+          color: #444444;
         }
         
         p {
@@ -153,7 +154,7 @@
         h3 {
           margin: 0;
           font-size: clamp(16px, 2.2vw, 20px);
-          font-weight: 800;
+          font-weight: 600;
           line-height: 1.2;
           color: #1f2937;
         }

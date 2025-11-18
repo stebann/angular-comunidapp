@@ -110,21 +110,9 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
     // IMPORTANTE: Forzar que Estados Artículos siempre tenga datos aunque sea todo 0
     if (this.estadosArticulosData.length === 0) {
       this.estadosArticulosData = [
-        { name: 'Disponible', value: 1 },
-        { name: 'Prestado', value: 1 },
+        { name: 'Disponible', value: 0 },
+        { name: 'Prestado', value: 0 },
       ];
-    } else {
-      // Si todos los valores son 0, asignar valores mínimos para que el gráfico sea visible
-      const totalValue = this.estadosArticulosData.reduce(
-        (sum, item) => sum + item.value,
-        0
-      );
-      if (totalValue === 0) {
-        this.estadosArticulosData = this.estadosArticulosData.map((item) => ({
-          ...item,
-          value: 1,
-        }));
-      }
     }
 
     console.log('Estados Artículos Data:', this.estadosArticulosData);
@@ -149,14 +137,14 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
             label: 'Transacciones',
             data: this.transaccionesPorEstadoData.map((d) => d.value),
             backgroundColor: [
-              'rgba(34, 197, 94, 0.8)',
-              'rgba(251, 146, 60, 0.8)',
-              'rgba(239, 68, 68, 0.8)',
+              'rgba(147, 197, 253, 0.4)',
+              'rgba(196, 181, 253, 0.4)',
+              'rgba(165, 243, 252, 0.4)',
             ],
             borderColor: [
-              'rgba(34, 197, 94, 1)',
-              'rgba(251, 146, 60, 1)',
-              'rgba(239, 68, 68, 1)',
+              'rgba(147, 197, 253, 0.8)',
+              'rgba(196, 181, 253, 0.8)',
+              'rgba(165, 243, 252, 0.8)',
             ],
             borderWidth: 2,
             borderRadius: 8,
@@ -192,7 +180,8 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
             },
             ticks: {
               font: {
-                size: 11,
+                size: 13,
+                weight: 'bold',
               },
               color: '#666',
             },
@@ -203,7 +192,8 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
             },
             ticks: {
               font: {
-                size: 11,
+                size: 13,
+                weight: 'bold',
               },
               color: '#666',
             },
@@ -237,10 +227,10 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
           {
             data: this.intercambiosPorTipoData.map((d) => d.value),
             backgroundColor: [
-              'rgba(59, 130, 246, 0.8)',
-              'rgba(168, 85, 247, 0.8)',
+              'rgba(147, 197, 253, 0.4)',
+              'rgba(196, 181, 253, 0.4)',
             ],
-            borderColor: ['rgba(59, 130, 246, 1)', 'rgba(168, 85, 247, 1)'],
+            borderColor: ['rgba(147, 197, 253, 0.8)', 'rgba(196, 181, 253, 0.8)'],
             borderWidth: 2,
             hoverOffset: 8,
           },
@@ -251,11 +241,12 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'bottom',
+            position: 'right',
             labels: {
               padding: 15,
               font: {
-                size: 11,
+                size: 16,
+                weight: 'bold',
               },
               usePointStyle: true,
               pointStyle: 'circle',
@@ -295,36 +286,29 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
     const ctx = this.articulosChart.nativeElement.getContext('2d');
 
     const config: ChartConfiguration = {
-      type: 'doughnut' as ChartType,
+      type: 'bar' as ChartType,
       data: {
         labels: this.estadosArticulosData.map((d) => d.name),
         datasets: [
           {
+            label: 'Artículos',
             data: this.estadosArticulosData.map((d) => d.value),
             backgroundColor: [
-              'rgba(34, 197, 94, 0.8)',
-              'rgba(251, 146, 60, 0.8)',
+              'rgba(147, 197, 253, 0.4)',
+              'rgba(196, 181, 253, 0.4)',
             ],
-            borderColor: ['rgba(34, 197, 94, 1)', 'rgba(251, 146, 60, 1)'],
+            borderColor: ['rgba(147, 197, 253, 0.8)', 'rgba(196, 181, 253, 0.8)'],
             borderWidth: 2,
-            hoverOffset: 8,
           },
         ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        indexAxis: 'y',
         plugins: {
           legend: {
-            position: 'bottom',
-            labels: {
-              padding: 15,
-              font: {
-                size: 11,
-              },
-              usePointStyle: true,
-              pointStyle: 'circle',
-            },
+            display: false
           },
           tooltip: {
             backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -337,6 +321,34 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
               size: 13,
             },
             cornerRadius: 8,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)',
+            },
+            ticks: {
+              font: {
+                size: 13,
+                weight: 'bold',
+              },
+              color: '#666',
+            },
+          },
+          x: {
+            beginAtZero: true,
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: {
+                size: 13,
+                weight: 'bold',
+              },
+              color: '#666',
+            },
           },
         },
       },
