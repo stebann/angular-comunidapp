@@ -12,6 +12,8 @@ import { RespuestaMessageComponent } from './respuesta-message/respuesta-message
 import { API_ENDPOINTS } from 'src/app/core/constants/api-endpoints';
 import { ImageViewerService } from 'src/app/shared/services/image-viewer.service';
 import { ImageUrlService } from 'src/app/core/services/image-url.service';
+import { UsuarioInfoModalComponent } from 'src/app/shared/components/usuario-info-modal/usuario-info-modal.component';
+import { UsuarioInfo } from 'src/app/shared/models/articulo.model';
 
 @Component({
   selector: 'app-gestion-detail',
@@ -136,6 +138,19 @@ export class GestionDetailComponent implements OnInit {
       default:
         return 'Datos del Solicitante';
     }
+  }
+
+  verInfoUsuario(usuario: UsuarioInfo): void {
+    if (!usuario) return;
+
+    this.dialogService.open(UsuarioInfoModalComponent, {
+      header: 'Información del Usuario',
+      width: '500px',
+      styleClass: 'p-app-modal',
+      data: {
+        usuario,
+      },
+    });
   }
 
   getPersonaData(): any {

@@ -19,7 +19,16 @@
   <div class="articulo-body">
     <div class="articulo-header">
       <h3 class="articulo-titulo">{{ articulo.titulo }}</h3>
-      <span class="estado-chip">{{ articulo.estadoArticuloNombre }}</span>
+      <span
+        class="status-pill"
+        [ngClass]="{
+          'estado-disponible': articulo?.estadoArticuloNombre === 'Disponible',
+          'estado-prestado': articulo?.estadoArticuloNombre === 'Prestado',
+          'estado-no-disponible': articulo?.estadoArticuloNombre !== 'Disponible' && articulo?.estadoArticuloNombre !== 'Prestado'
+        }"
+      >
+        {{ articulo.estadoArticuloNombre }}
+      </span>
     </div>
     <p class="articulo-descripcion">{{ articulo.descripcion }}</p>
 

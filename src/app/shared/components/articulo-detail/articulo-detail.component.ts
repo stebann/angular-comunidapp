@@ -217,7 +217,7 @@ export class ArticuloDetailComponent implements OnInit {
     if (!usuario) return;
 
     this.dialogService$.open(UsuarioInfoModalComponent, {
-      header: titulo,
+    header: 'Información del Usuario',
       width: '500px',
       styleClass: 'p-app-modal',
       data: {

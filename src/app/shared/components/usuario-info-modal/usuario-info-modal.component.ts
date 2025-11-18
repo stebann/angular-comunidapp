@@ -10,14 +10,12 @@ import { UsuarioInfo } from '../../models/articulo.model';
 })
 export class UsuarioInfoModalComponent {
   usuario: UsuarioInfo;
-  titulo: string;
 
   constructor(
     public config: DynamicDialogConfig,
     public ref: DynamicDialogRef
   ) {
     this.usuario = this.config.data.usuario;
-    this.titulo = this.config.data.titulo || 'Información del Usuario';
   }
 
   getInitials(nombre: string): string {
