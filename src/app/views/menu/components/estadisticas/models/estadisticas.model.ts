@@ -7,6 +7,15 @@ export interface EstadisticasUsuario {
   articulosPublicadosMes: number;
   miReputacion: number;
   tasaAceptacion: number;
+  transaccionesPorEstado: {
+    [key: string]: number;
+  };
+  intercambiosPorTipo: {
+    [key: string]: number;
+  };
+  estadosArticulos: {
+    [key: string]: number;
+  };
 }
 
 export interface EstadisticaCard {

@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EstadisticasRoutingModule } from './estadisticas-rounting.module';
 import { EstadisticasComponent } from './estadisticas.component';
@@ -11,7 +10,6 @@ import { EstadisticasComponent } from './estadisticas.component';
     CommonModule,
     SharedModule,
     EstadisticasRoutingModule,
-    NgxChartsModule,
   ],
 })
 export class EstadisticasModule {}

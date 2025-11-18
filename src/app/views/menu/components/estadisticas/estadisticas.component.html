@@ -19,6 +19,40 @@
       </div>
     </div>
   </div>
+
+  
+  <!-- Gráficos -->
+  <div class="charts-cards-row">
+    <div class="chart-card">
+      <div class="chart-header">
+        <i class="fas fa-chart-pie"></i>
+        <h3>Transacciones por Estado</h3>
+      </div>
+      <div class="chart-container">
+        <canvas #transaccionesChart></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-card">
+      <div class="chart-header">
+        <i class="fas fa-exchange-alt"></i>
+        <h3>Intercambios Recibidos vs Enviados</h3>
+      </div>
+      <div class="chart-container">
+        <canvas #intercambiosChart></canvas>
+      </div>
+    </div>
+    
+    <div class="chart-card">
+      <div class="chart-header">
+        <i class="fas fa-star"></i>
+        <h3>Estados Artículos</h3>
+      </div>
+      <div class="chart-container">
+        <canvas #articulosChart></canvas>
+      </div>
+    </div>
+  </div>
 </div>
 
 <app-generic-filter

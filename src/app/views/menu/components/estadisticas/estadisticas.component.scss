@@ -118,66 +118,58 @@
     }
   }
 
-  .charts-row-60-40 {
+  .charts-cards-row {
     display: grid;
-    grid-template-columns: 3fr 2fr; /* 60% / 40% */
-    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 
     .chart-card {
       background: white;
-      border: 1px solid var(--surface-border);
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      gap: 15px;
+      min-height: 320px;
 
-      h4 {
-        margin: 0 0 12px 0;
-        font-weight: 700;
-      }
-
-      .chart-body {
+      .chart-header {
         display: flex;
-        align-items: flex-start;
-        gap: 16px;
+        align-items: center;
+        gap: 12px;
+
+        i {
+          font-size: 22px;
+          padding: 10px;
+          border-radius: 12px;
+          background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+          color: #22c55e;
+          flex-shrink: 0;
+        }
+
+        h3 {
+          margin: 0;
+          font-size: clamp(16px, 2.2vw, 20px);
+          font-weight: 800;
+          line-height: 1.2;
+          color: #1f2937;
+        }
       }
 
-      .chart-area {
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-
-      .custom-legend {
+      .chart-container {
+        flex: 1;
         display: flex;
-        flex-direction: column;
-        gap: 8px;
-        align-items: flex-start;
-        min-width: 140px;
+        justify-content: center;
+        align-items: center;
+        min-height: 220px;
+        position: relative;
 
-        &.wide {
-          min-width: 160px;
-        }
-
-        .legend-item {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          color: var(--text-color);
-          font-weight: 600;
-          font-size: 12px;
-          white-space: nowrap;
-        }
-
-        &.right {
-          .legend-item {
-            font-size: 14px;
-          }
-        }
-
-        .legend-dot {
-          width: 10px;
-          height: 10px;
-          border-radius: 3px;
-          display: inline-block;
+        canvas {
+          max-width: 100%;
+          max-height: 100%;
         }
       }
     }
