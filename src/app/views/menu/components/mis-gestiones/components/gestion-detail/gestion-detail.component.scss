@@ -33,6 +33,67 @@ $black-50: rgba(0, 0, 0, 0.5);
     height: 100%;
   }
 
+  // Estilos globales para status-pill (aplica en todo el componente)
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid;
+
+    &.pending {
+      background: #fffbeb;
+      color: #b45309;
+      border-color: #fde68a;
+    }
+
+    // Estados de transacción
+    &.estado-pendiente {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #fbbf24;
+    }
+
+    &.estado-aceptada {
+      background: #d1fae5;
+      color: #065f46;
+      border-color: #34d399;
+    }
+
+    &.estado-rechazada {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #f87171;
+    }
+
+    &.estado-cancelada {
+      background: #f3f4f6;
+      color: #374151;
+      border-color: #9ca3af;
+    }
+
+    &.estado-completada,
+    &.estado-finalizada {
+      background: #dbeafe;
+      color: #1e40af;
+      border-color: #60a5fa;
+    }
+
+    &.estado-unknown {
+      background: #f9fafb;
+      color: #6b7280;
+      border-color: #d1d5db;
+    }
+
+    &.estado-default {
+      background: #f3f4f6;
+      color: #374151;
+      border-color: #9ca3af;
+    }
+  }
+
   // Sección izquierda - Galería
   .left-panel {
     width: 40%;
@@ -149,51 +210,46 @@ $black-50: rgba(0, 0, 0, 0.5);
         margin: 0;
       }
 
-      .status-container {
+      .category-container {
         display: flex;
         align-items: center;
         gap: 0.5rem;
 
         .status-label {
-          font-size: 0.75rem;
-          color: $slate-600;
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: $slate-700;
         }
 
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-          padding: 0.25rem 0.75rem;
-          border-radius: 9999px;
-          font-size: 0.75rem;
+        .category-value {
+          font-size: 0.875rem;
           font-weight: 500;
-          border: 1px solid;
-
-          &.pending {
-            background: $amber-50;
-            color: $amber-700;
-            border-color: $amber-200;
-          }
+          color: $slate-600;
         }
       }
+    }
 
-      .condition-container {
-        .status-label {
-          font-size: 0.75rem;
-          color: $slate-600;
-          margin-right: 0.5rem;
-        }
+    .condition-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
 
-        .condition-pill {
-          display: inline-flex;
-          align-items: center;
-          padding: 0.35rem 0.85rem;
-          border-radius: 9999px;
-          font-size: 0.8rem;
-          font-weight: 500;
-          background: $slate-100;
-          color: $slate-700;
-          border: 1px solid $slate-200;
-        }
+      .status-label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: $slate-700;
+      }
+
+      .condition-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #bfdbfe;
       }
     }
   }
@@ -261,6 +317,33 @@ $black-50: rgba(0, 0, 0, 0.5);
       }
 
       .message-section {
+        .message-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.75rem;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+
+          .section-title {
+            margin: 0;
+            flex: 1;
+          }
+
+          .status-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+
+            .status-label {
+              font-size: 0.875rem;
+              font-weight: 600;
+              color: $slate-700;
+            }
+          }
+        }
+
         .message-box {
           background: $slate-50;
           border: 1px solid $slate-200;

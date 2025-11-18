@@ -38,6 +38,41 @@ $red-700: #b91c1c;
     height: 100%;
   }
 
+  // Estilos globales para status-pill (aplica en todo el componente)
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid;
+
+    &.estado-disponible {
+      background: #f0fdf4;
+      color: #15803d;
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    &.estado-prestado {
+      background: #fff7ed;
+      color: #c2410c;
+      border-color: rgba(249, 115, 22, 0.3);
+    }
+
+    &.estado-mantenimiento {
+      background: #fef3c7;
+      color: #b45309;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    &.estado-no-disponible {
+      background: #fef2f2;
+      color: #b91c1c;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+  }
+
   // Sección izquierda - Galería
   .left-panel {
     width: 40%;
@@ -190,48 +225,33 @@ $red-700: #b91c1c;
         margin: 0;
       }
 
+      .category-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .status-label {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: $slate-700;
+        }
+
+        .category-value {
+          font-size: 0.875rem;
+          font-weight: 500;
+          color: $slate-600;
+        }
+      }
+
       .status-container {
         display: flex;
         align-items: center;
         gap: 0.5rem;
 
         .status-label {
-          font-size: 0.75rem;
-          color: $slate-600;
-        }
-
-        .status-pill {
-          display: inline-flex;
-          align-items: center;
-          padding: 0.25rem 0.75rem;
-          border-radius: 9999px;
-          font-size: 0.75rem;
-          font-weight: 500;
-          border: 1px solid;
-
-          &.estado-disponible {
-            background: $green-50;
-            color: $green-700;
-            border-color: rgba(34, 197, 94, 0.3);
-          }
-
-          &.estado-prestado {
-            background: $orange-50;
-            color: $orange-700;
-            border-color: rgba(249, 115, 22, 0.3);
-          }
-
-          &.estado-mantenimiento {
-            background: rgba(59, 130, 246, 0.1);
-            color: #1e40af;
-            border-color: rgba(59, 130, 246, 0.3);
-          }
-
-          &.estado-no-disponible {
-            background: $red-50;
-            color: $red-700;
-            border-color: rgba(239, 68, 68, 0.3);
-          }
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: $slate-700;
         }
       }
 
@@ -241,8 +261,9 @@ $red-700: #b91c1c;
         gap: 0.5rem;
 
         .status-label {
-          font-size: 0.75rem;
-          color: $slate-600;
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: $slate-700;
         }
 
         .condition-pill {
@@ -252,9 +273,21 @@ $red-700: #b91c1c;
           border-radius: 9999px;
           font-size: 0.8rem;
           font-weight: 500;
-          background: $slate-100;
+          background: #eff6ff;
+          color: #1d4ed8;
+          border: 1px solid #bfdbfe;
+        }
+      }
+
+      .estado-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .status-label {
+          font-size: 0.875rem;
+          font-weight: 600;
           color: $slate-700;
-          border: 1px solid $slate-200;
         }
       }
 
@@ -264,8 +297,9 @@ $red-700: #b91c1c;
         gap: 0.5rem;
 
         .status-label {
-          font-size: 0.75rem;
-          color: $slate-600;
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: $slate-700;
         }
 
         .price-value {
@@ -301,6 +335,33 @@ $red-700: #b91c1c;
       }
 
       .description-section {
+        .message-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.75rem;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+
+          .section-title {
+            margin: 0;
+            flex: 1;
+          }
+
+          .status-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+
+            .status-label {
+              font-size: 0.875rem;
+              font-weight: 600;
+              color: $slate-700;
+            }
+          }
+        }
+
         .description-box {
           background: $slate-50;
           border: 1px solid $slate-200;
@@ -318,6 +379,33 @@ $red-700: #b91c1c;
 
       .owner-section,
       .applicant-section {
+        .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.75rem;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+
+          .section-title {
+            margin: 0;
+            flex: 1;
+          }
+
+          .status-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+
+            .status-label {
+              font-size: 0.875rem;
+              font-weight: 600;
+              color: $slate-700;
+            }
+          }
+        }
+
         .owner-content,
         .applicant-content {
           display: flex;

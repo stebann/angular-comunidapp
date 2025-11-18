@@ -6,49 +6,12 @@ import {
 } from 'primeng/dynamicdialog';
 import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { EstadoTransaccion } from 'src/app/shared/enums/articulo.enums';
-import { Gestion } from '../../models/gestiones.model';
+import { Gestion } from '../../models/gestion.model';
 import { MisGestionesService } from '../../services/mis-gestiones.service';
 import { RespuestaMessageComponent } from './respuesta-message/respuesta-message.component';
 import { API_ENDPOINTS } from 'src/app/core/constants/api-endpoints';
 import { ImageViewerService } from 'src/app/shared/services/image-viewer.service';
 import { ImageUrlService } from 'src/app/core/services/image-url.service';
-
-type GestionDisplay = {
-  referencia: string;
-  mensaje: string;
-  mensajeRespuesta?: string;
-  producto: {
-    nombre: string;
-    tipo: string;
-    categoria: string;
-    estado: string;
-    condicion: string;
-    imagenPrincipal: string;
-    imagenes: string[];
-  };
-  solicitante: {
-    rol: string;
-    nombre: string;
-    apellido: string;
-    nombreCompleto: string;
-    telefono: string;
-    email: string;
-    id: string;
-  };
-  propietario: {
-    rol: string;
-    nombre: string;
-    apellido: string;
-    nombreCompleto: string;
-    telefono: string;
-    email: string;
-    id: string;
-  };
-  cronograma: {
-    fechaSolicitud: string;
-    devolucionEstimada: string;
-  };
-};
 
 @Component({
   selector: 'app-gestion-detail',
@@ -56,9 +19,8 @@ type GestionDisplay = {
   styleUrls: ['./gestion-detail.component.scss'],
 })
 export class GestionDetailComponent implements OnInit {
-  gestion!: Gestion;
+  gestion: Gestion | null = null;
   activeTab!: string;
-  displayData!: GestionDisplay;
   currentImageIndex: number = 0;
   solicitudId!: number;
 
@@ -88,7 +50,6 @@ export class GestionDetailComponent implements OnInit {
     this.misGestionesService.getSolicitud(this.solicitudId).subscribe({
       next: (gestion) => {
         this.gestion = gestion;
-        this.displayData = this.mapGestionToDisplay();
       },
       error: (err) => {
         console.error('Error loading gestion details:', err);
@@ -103,19 +64,21 @@ export class GestionDetailComponent implements OnInit {
   }
 
   nextImage(): void {
-    if (this.displayData.producto.imagenes.length > 1) {
+    const imagenes = this.gestion?.imagenes || [];
+    if (imagenes.length > 1) {
       this.currentImageIndex =
-        this.currentImageIndex === this.displayData.producto.imagenes.length - 1
+        this.currentImageIndex === imagenes.length - 1
           ? 0
           : this.currentImageIndex + 1;
     }
   }
 
   previousImage(): void {
-    if (this.displayData.producto.imagenes.length > 1) {
+    const imagenes = this.gestion?.imagenes || [];
+    if (imagenes.length > 1) {
       this.currentImageIndex =
         this.currentImageIndex === 0
-          ? this.displayData.producto.imagenes.length - 1
+          ? imagenes.length - 1
           : this.currentImageIndex - 1;
     }
   }
@@ -125,9 +88,10 @@ export class GestionDetailComponent implements OnInit {
   }
 
   openImageViewer(): void {
-    if (this.displayData.producto.imagenes && this.displayData.producto.imagenes.length > 0) {
+    const imagenes = this.gestion?.imagenes || [];
+    if (imagenes.length > 0) {
       this.imageViewerService.openViewer({
-        images: this.displayData.producto.imagenes,
+        images: imagenes,
         currentIndex: this.currentImageIndex,
         imageBaseUrl: API_ENDPOINTS.IMAGE_BASE_URL,
       });
@@ -137,8 +101,28 @@ export class GestionDetailComponent implements OnInit {
   getInitials(): string {
     const persona = this.getPersonaData();
     const nombre = persona.nombre || '';
-    const apellido = persona.apellido || '';
-    return (nombre.charAt(0) + apellido.charAt(0)).toUpperCase();
+    // Si el nombre contiene espacios, tomar la primera letra del nombre y del apellido
+    const partes = nombre.split(' ');
+    if (partes.length >= 2) {
+      return (partes[0].charAt(0) + partes[partes.length - 1].charAt(0)).toUpperCase();
+    }
+    // Si solo hay una palabra, tomar las primeras dos letras
+    return nombre.substring(0, Math.min(2, nombre.length)).toUpperCase();
+  }
+
+  getCurrentImage(): string {
+    const imagenes = this.gestion?.imagenes || [];
+    return imagenes[this.currentImageIndex] || '';
+  }
+
+  hasImages(): boolean {
+    const imagenes = this.gestion?.imagenes || [];
+    return imagenes.length > 0;
+  }
+
+  hasMultipleImages(): boolean {
+    const imagenes = this.gestion?.imagenes || [];
+    return imagenes.length > 1;
   }
 
   getPersonaTitle(): string {
@@ -154,16 +138,16 @@ export class GestionDetailComponent implements OnInit {
     }
   }
 
-  getPersonaData() {
+  getPersonaData(): any {
     switch (this.activeTab) {
       case 'solicitudes-enviadas':
       case 'prestamos-activos':
-        return this.displayData.propietario;
+        return this.gestion?.propietario || {};
       case 'solicitudes-recibidas':
       case 'prestamos-otorgados':
-        return this.displayData.solicitante;
+        return this.gestion?.solicitante || {};
       default:
-        return this.displayData.solicitante;
+        return this.gestion?.solicitante || {};
     }
   }
 
@@ -327,22 +311,19 @@ export class GestionDetailComponent implements OnInit {
 
   
   getEstadoClass(): string {
-    if (!this.gestion?.estadoNombre) return 'estado-unknown';
+    if (!this.gestion?.estadoCodigo) return 'estado-unknown';
 
-    const estado = this.gestion.estadoNombre.toLowerCase();
-
-    switch (estado) {
-      case 'disponible':
-        return 'estado-disponible';
-      case 'prestado':
-        return 'estado-prestado';
-      case 'en mantenimiento':
-      case 'mantenimiento':
-        return 'estado-mantenimiento';
-      case 'solicitado':
-        return 'estado-solicitado';
-      case 'no disponible':
-        return 'estado-no-disponible';
+    switch (this.gestion.estadoCodigo) {
+      case EstadoTransaccion.Pendiente:
+        return 'estado-pendiente';
+      case EstadoTransaccion.Aceptada:
+        return 'estado-aceptada';
+      case EstadoTransaccion.Rechazada:
+        return 'estado-rechazada';
+      case EstadoTransaccion.Cancelado:
+        return 'estado-cancelada';
+      case EstadoTransaccion.Devuelto:
+        return 'estado-completada';
       default:
         return 'estado-default';
     }
@@ -370,76 +351,7 @@ export class GestionDetailComponent implements OnInit {
     }
   }
 
-  private mapGestionToDisplay() {
-    const gestionData = this.gestion as any;
-    const solicitante = gestionData?.solicitante || {};
-    const propietario = gestionData?.propietario || {};
-    const imagenPrincipal = gestionData?.imagenArticulo || '';
-    const imagenes =
-      Array.isArray(gestionData?.imagenes) && gestionData.imagenes.length
-        ? gestionData.imagenes
-        : [imagenPrincipal];
-
-    return {
-      referencia: gestionData?.referencia || gestionData?.codigo || 'N/A',
-      mensaje: gestionData?.mensaje || '',
-      mensajeRespuesta: gestionData?.mensajeRespuesta || undefined,
-      producto: {
-        nombre: gestionData?.nombreArticulo || 'Sin nombre',
-        tipo: gestionData?.tipoNombre || 'Sin tipo',
-        categoria: gestionData?.categoriaNombre || 'Sin categoría',
-        estado: gestionData?.estadoNombre || 'Sin estado',
-        condicion:
-          gestionData?.condicionArticulo ||
-          gestionData?.condicion ||
-          gestionData?.estadoCondicion ||
-          'Sin condición',
-        imagenPrincipal,
-        imagenes,
-      },
-      solicitante: {
-        rol: 'Solicitante',
-        nombre: solicitante?.nombre || '',
-        apellido: solicitante?.apellido || '',
-        nombreCompleto:
-          solicitante?.nombreCompleto ||
-          [solicitante?.nombre, solicitante?.apellido]
-            .filter(Boolean)
-            .join(' ')
-            .trim() ||
-          'Sin nombre',
-        telefono: solicitante?.telefono || '',
-        email: solicitante?.email || '',
-        id: solicitante?.id || solicitante?.codigo || '',
-      },
-      propietario: {
-        rol: 'Propietario',
-        nombre: propietario?.nombre || '',
-        apellido: propietario?.apellido || '',
-        nombreCompleto:
-          propietario?.nombreCompleto ||
-          [propietario?.nombre, propietario?.apellido]
-            .filter(Boolean)
-            .join(' ')
-            .trim() ||
-          'Sin nombre',
-        telefono: propietario?.telefono || '',
-        email: propietario?.email || '',
-        id:
-          propietario?.id ||
-          propietario?.codigo ||
-          String(propietario?.propietarioId || ''),
-      },
-      cronograma: {
-        fechaSolicitud:
-          this.formatDate(gestionData?.fechaSolicitud) || '',
-        devolucionEstimada:
-          this.formatDate(gestionData?.fechaEstimadaDevolucion) || '',
-      },
-    };
-  }
-
-  private formatDate(value?: string | Date): string | undefined {
+  formatDate(value?: string | Date): string | undefined {
     if (!value) {
       return undefined;
     }
@@ -449,10 +361,10 @@ export class GestionDetailComponent implements OnInit {
       return undefined;
     }
 
-    // Formato DD/MM/YYYY como en el mockup
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
   }
 }

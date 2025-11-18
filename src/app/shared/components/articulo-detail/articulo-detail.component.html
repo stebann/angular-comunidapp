@@ -63,29 +63,13 @@
       <!-- Información del artículo -->
       <div class="product-info">
         <h3 class="product-title">{{ titulo }}</h3>
-        <p class="product-category">{{ categoriaNombre }}</p>
-
-        <div class="status-container">
-          <span class="status-label">Estado:</span>
-          <span
-            class="status-pill"
-            [ngClass]="{
-              'estado-disponible':
-                articulo?.estadoArticuloNombre === 'Disponible',
-              'estado-prestado': articulo?.estadoArticuloNombre === 'Prestado',
-              'estado-mantenimiento':
-                articulo?.estadoArticuloNombre === 'En Mantenimiento',
-              'estado-no-disponible':
-                !articulo?.estadoArticuloNombre ||
-                articulo?.estadoArticuloNombre === 'No disponible'
-            }"
-          >
-            {{ articulo?.estadoArticuloNombre || "No disponible" }}
-          </span>
+        <div class="category-container">
+          <span class="status-label"><i class="fas fa-folder"></i> Categoría:</span>
+          <span class="category-value">{{ categoriaNombre }}</span>
         </div>
 
         <div class="condition-container">
-          <span class="status-label">Condición:</span>
+          <span class="status-label"><i class="fas fa-shield-alt"></i> Condición:</span>
           <span class="condition-pill">
             {{ articulo?.condicionNombre || "No especificada" }}
           </span>
@@ -95,7 +79,7 @@
           class="price-container"
           *ngIf="articulo?.precio !== undefined && articulo?.precio !== null"
         >
-          <span class="status-label">Precio:</span>
+          <span class="status-label"><i class="fas fa-money-bill-wave"></i> Precio:</span>
           <span class="price-value">
             {{ articulo!.precio! | currency : "USD" : "symbol" : "1.2-2" }}
           </span>
@@ -112,8 +96,24 @@
           class="description-section"
           *ngIf="descripcion && descripcion.trim()"
         >
-          <h4 class="section-title">Descripción</h4>
-          <div class="description-box">
+          <div class="message-header">
+            <h4 class="section-title">Descripción</h4>
+            <div class="status-container">
+              <span
+                class="status-pill"
+                [ngClass]="{
+                  'estado-disponible':
+                    articulo?.estadoArticuloNombre === 'Disponible',
+                  'estado-prestado': articulo?.estadoArticuloNombre === 'Prestado',
+                  'estado-no-disponible':
+                    articulo?.estadoArticuloNombre !== 'Disponible' && articulo?.estadoArticuloNombre !== 'Prestado'
+                }"
+              >
+                {{ articulo?.estadoArticuloNombre || "No disponible" }}
+              </span>
+            </div>
+          </div>
+          <div class="message-box">
             <p class="description-text">{{ descripcion }}</p>
           </div>
         </div>

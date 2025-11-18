@@ -4,11 +4,11 @@
     <div class="left-panel">
       <!-- Carousel de imágenes -->
       <div class="gallery-container">
-        <div class="gallery" *ngIf="displayData.producto.imagenes.length > 0">
+        <div class="gallery" *ngIf="hasImages()">
           <img
-            [src]="imageUrlService.getImagenSrc(displayData.producto.imagenes[currentImageIndex])"
+            [src]="imageUrlService.getImagenSrc(getCurrentImage())"
             [alt]="
-              displayData.producto.nombre +
+              gestion?.nombreArticulo +
               ' - imagen ' +
               (currentImageIndex + 1)
             "
@@ -18,7 +18,7 @@
 
           <!-- Controles del carousel -->
           <button
-            *ngIf="displayData.producto.imagenes.length > 1"
+            *ngIf="hasMultipleImages()"
             type="button"
             class="gallery-nav prev"
             (click)="previousImage()"
@@ -26,7 +26,7 @@
             <i class="pi pi-chevron-left"></i>
           </button>
           <button
-            *ngIf="displayData.producto.imagenes.length > 1"
+            *ngIf="hasMultipleImages()"
             type="button"
             class="gallery-nav next"
             (click)="nextImage()"
@@ -36,12 +36,12 @@
 
           <!-- Indicadores de puntos -->
           <div
-            *ngIf="displayData.producto.imagenes.length > 1"
+            *ngIf="hasMultipleImages()"
             class="gallery-dots"
           >
             <button
               *ngFor="
-                let imagen of displayData.producto.imagenes;
+                let imagen of gestion?.imagenes;
                 let i = index
               "
               type="button"
@@ -55,20 +55,16 @@
 
       <!-- Información del artículo -->
       <div class="product-info">
-        <h3 class="product-title">{{ displayData.producto.nombre }}</h3>
-        <p class="product-category">{{ displayData.producto.categoria }}</p>
-
-        <div class="status-container">
-          <span class="status-label">Estado:</span>
-          <span class="status-pill pending">
-            {{ displayData.producto.estado }}
-          </span>
+        <h3 class="product-title">{{ gestion?.nombreArticulo }}</h3>
+        <div class="category-container">
+          <span class="status-label"><i class="fas fa-folder"></i> Categoría:</span>
+          <span class="category-value">{{ gestion?.categoriaNombre }}</span>
         </div>
 
         <div class="condition-container">
-          <span class="status-label">Condición:</span>
+          <span class="status-label"><i class="fas fa-shield-alt"></i> Condición:</span>
           <span class="condition-pill">
-            {{ displayData.producto.condicion }}
+            {{ gestion?.condicionNombre }}
           </span>
         </div>
       </div>
@@ -79,18 +75,25 @@
       <!-- Contenido scrolleable -->
       <div class="content-scrollable">
         <!-- Mensaje de solicitud -->
-        <div class="message-section" *ngIf="displayData.mensaje">
-          <h4 class="section-title">{{ getMensajeTitle() }}</h4>
+        <div class="message-section" *ngIf="gestion?.mensaje">
+          <div class="message-header">
+            <h4 class="section-title">{{ getMensajeTitle() }}</h4>
+            <div class="status-container">
+              <span class="status-pill" [ngClass]="getEstadoClass()">
+                {{ gestion?.estadoNombre }}
+              </span>
+            </div>
+          </div>
           <div class="message-box">
-            <p class="message-text">{{ displayData.mensaje }}</p>
+            <p class="message-text">{{ gestion?.mensaje }}</p>
           </div>
         </div>
 
         <!-- Mensaje de respuesta -->
-        <div class="message-section" *ngIf="displayData.mensajeRespuesta">
+        <div class="message-section" *ngIf="gestion?.mensajeRespuesta">
           <h4 class="section-title">{{ getMensajeRespuestaTitle() }}</h4>
           <div class="message-box respuesta-box">
-            <p class="message-text">{{ displayData.mensajeRespuesta }}</p>
+            <p class="message-text">{{ gestion?.mensajeRespuesta }}</p>
           </div>
         </div>
 
@@ -104,7 +107,7 @@
               </div>
               <div class="applicant-info">
                 <p class="applicant-name">
-                  {{ getPersonaData().nombreCompleto }}
+                  {{ getPersonaData().nombre }}
                 </p>
                 <p class="applicant-email">
                   {{ getPersonaData().email }}
@@ -124,7 +127,7 @@
               <div class="timeline-content">
                 <p class="timeline-label">Fecha de solicitud</p>
                 <p class="timeline-value">
-                  {{ displayData.cronograma.fechaSolicitud }}
+                  {{ formatDate(gestion?.fechaSolicitud) }}
                 </p>
               </div>
             </div>
@@ -133,7 +136,7 @@
               <div class="timeline-content">
                 <p class="timeline-label">Devolución estimada</p>
                 <p class="timeline-value">
-                  {{ displayData.cronograma.devolucionEstimada }}
+                  {{ formatDate(gestion?.fechaEstimadaDevolucion) }}
                 </p>
               </div>
             </div>

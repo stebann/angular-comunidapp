@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { GestionDetailComponent } from './components/gestion-detail/gestion-detail.component';
-import { Gestion } from './models/gestiones.model';
+import { Solicitud } from './models/solicitud.model';
 import { MisGestionesService } from './services/mis-gestiones.service';
 
 @Component({
@@ -113,7 +113,7 @@ export class MisGestionesComponent implements OnInit {
     return this.misGestionesService.prestamosOtorgados;
   }
 
-  get solicitudesActuales(): Gestion[] {
+  get solicitudesActuales(): Solicitud[] {
     switch (this.activeTab) {
       case 'solicitudes-recibidas':
         return this.solicitudesRecibidas;
@@ -128,7 +128,7 @@ export class MisGestionesComponent implements OnInit {
     }
   }
 
-  get solicitudesFiltradas(): Gestion[] {
+  get solicitudesFiltradas(): Solicitud[] {
     if (!this.searchTerm.trim()) {
       return this.solicitudesActuales || [];
     }
@@ -196,13 +196,13 @@ export class MisGestionesComponent implements OnInit {
     }
   }
 
-  openModal(gestion: Gestion): void {
+  openModal(solicitud: Solicitud): void {
     const ref = this.dialogService$.open(GestionDetailComponent, {
       header: 'Detalle de Gestión',
       width: '50vw',
       height: 'auto',
       data: {
-        solicitudId: gestion.id,
+        solicitudId: solicitud.id,
         activeTab: this.activeTab, 
       },
       styleClass: 'p-app-modal',

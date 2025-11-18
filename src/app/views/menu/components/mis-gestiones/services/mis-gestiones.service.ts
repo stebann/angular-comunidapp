@@ -4,17 +4,18 @@ import { Observable } from 'rxjs';
 import { MisGestionesAPI } from 'src/app/core/routes-api/mis_gestiones_api';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
-import { Gestion } from '../models/gestiones.model';
+import { Solicitud } from '../models/solicitud.model';
+import { Gestion } from '../models/gestion.model';
 import { MisGestionesRepository } from '../repositories/mis-gestiones-repository';
 
 @Injectable({ providedIn: 'root' })
 export class MisGestionesService extends MisGestionesRepository {
   public filtroMisGestiones: FormGroup = this.filtro();
-  public gestiones: Gestion[] = [];
-  public solicitudesRecibidas: Gestion[] = [];
-  public solicitudesEnviadas: Gestion[] = [];
-  public prestamosRecibidos: Gestion[] = [];
-  public prestamosOtorgados: Gestion[] = [];
+  public gestiones: Solicitud[] = [];
+  public solicitudesRecibidas: Solicitud[] = [];
+  public solicitudesEnviadas: Solicitud[] = [];
+  public prestamosRecibidos: Solicitud[] = [];
+  public prestamosOtorgados: Solicitud[] = [];
 
   // Propiedad para almacenar los conteos
   public conteos: {
@@ -24,7 +25,7 @@ export class MisGestionesService extends MisGestionesRepository {
     prestamosOtorgados: number;
   } = {
     solicitudesEnviadas: 0,
-    solicitudesRecibidas: 0,
+    solicitudesRecibidas: 0, 
     prestamosActivos: 0,
     prestamosOtorgados: 0,
   };
@@ -37,11 +38,11 @@ export class MisGestionesService extends MisGestionesRepository {
     return this.authService.currentState.id;
   }
 
-  getSolicitudesRecibidas(): Observable<Gestion[]> {
+  getSolicitudesRecibidas(): Observable<Solicitud[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.SolicitudesRecibidas}${usuarioId}`)
+        .get<Solicitud[]>(`${MisGestionesAPI.SolicitudesRecibidas}${usuarioId}`)
         .subscribe({
           next: (data) => {
             this.solicitudesRecibidas = data || [];
@@ -52,11 +53,11 @@ export class MisGestionesService extends MisGestionesRepository {
     });
   }
 
-  getSolicitudesEnviadas(): Observable<Gestion[]> {
+  getSolicitudesEnviadas(): Observable<Solicitud[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.SolicitudesEnviadas}${usuarioId}`)
+        .get<Solicitud[]>(`${MisGestionesAPI.SolicitudesEnviadas}${usuarioId}`)
         .subscribe({
           next: (data) => {
             this.solicitudesEnviadas = data || [];
@@ -67,11 +68,11 @@ export class MisGestionesService extends MisGestionesRepository {
     });
   }
 
-  getPrestamosActivos(): Observable<Gestion[]> {
+  getPrestamosActivos(): Observable<Solicitud[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.PrestamosActivos}${usuarioId}`)
+        .get<Solicitud[]>(`${MisGestionesAPI.PrestamosActivos}${usuarioId}`)
         .subscribe({
           next: (data) => {
             this.prestamosRecibidos = data || [];
@@ -82,11 +83,11 @@ export class MisGestionesService extends MisGestionesRepository {
     });
   }
 
-  getPrestamosOtorgados(): Observable<Gestion[]> {
+  getPrestamosOtorgados(): Observable<Solicitud[]> {
     const usuarioId = this.getCurrentUserId();
     return new Observable((observer) => {
       this.http$
-        .get<Gestion[]>(`${MisGestionesAPI.PrestamosOtorgados}${usuarioId}`)
+        .get<Solicitud[]>(`${MisGestionesAPI.PrestamosOtorgados}${usuarioId}`)
         .subscribe({
           next: (data) => {
             this.prestamosOtorgados = data || [];

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { Gestion } from 'src/app/views/menu/components/mis-gestiones/models/gestiones.model';
+import { Solicitud } from 'src/app/views/menu/components/mis-gestiones/models/solicitud.model';
 
 @Component({
   selector: 'app-solicitud-card',
@@ -7,11 +7,11 @@ import { Gestion } from 'src/app/views/menu/components/mis-gestiones/models/gest
   styleUrls: ['./solicitud-card.component.scss'],
 })
 export class SolicitudCardComponent implements OnInit {
-  @Input() solicitud: Gestion | null = null;
-  @Output() cardClicked = new EventEmitter<Gestion>();
+  @Input() solicitud: Solicitud | null = null;
+  @Output() cardClicked = new EventEmitter<Solicitud>();
   @Output() actionClicked = new EventEmitter<{
     action: string;
-    solicitud: Gestion;
+    solicitud: Solicitud;
   }>();
 
   private readonly IMAGE_BASE_URL = 'http://localhost:8080/api/articulo/imagen';
