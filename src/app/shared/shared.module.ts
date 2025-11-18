@@ -19,6 +19,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TooltipModule } from 'primeng/tooltip';
 import { FiltersService } from './services/filters.service';
+import { ImageUrlService } from '../core/services/image-url.service';
 
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ArticuloDetailComponent } from './components/articulo-detail/articulo-detail.component';
@@ -116,6 +117,6 @@ import { UsuarioInfoModalComponent } from './components/usuario-info-modal/usuar
     ChartModule,
     NgxChartsModule,
   ],
-  providers: [DialogService, ConfirmationService, FiltersService],
+  providers: [DialogService, ConfirmationService, FiltersService, ImageUrlService],
 })
 export class SharedModule {}

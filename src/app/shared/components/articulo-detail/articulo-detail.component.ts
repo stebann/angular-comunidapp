@@ -1,3 +1,5 @@
+import { API_ENDPOINTS } from '../../../core/constants/api-endpoints';
+import { ImageUrlService } from '../../../core/services/image-url.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AppMessagesServices } from 'src/app/core/services/toas.service';
@@ -24,8 +26,7 @@ export class ArticuloDetailComponent implements OnInit {
   propietarioExpanded = true;
   isLoading: boolean = true; 
 
-  private readonly IMAGE_BASE_URL = 'http://localhost:8080/api/articulo/imagen';
-
+  
   constructor(
     public config: DynamicDialogConfig,
     private articuloDetailService: ArticuloDetailService,
@@ -34,7 +35,8 @@ export class ArticuloDetailComponent implements OnInit {
     public dialogService$: DialogService,
     private misGestionesService: MisGestionesService,
     private messageService: AppMessagesServices,
-    public ref: DynamicDialogRef
+    public ref: DynamicDialogRef,
+    private imageUrlService: ImageUrlService
   ) {}
 
   get solicitudForm() {
@@ -62,7 +64,7 @@ export class ArticuloDetailComponent implements OnInit {
   }
 
   getImagenSrc(imagen: string): string {
-    return `${this.IMAGE_BASE_URL}/${imagen}`;
+    return this.imageUrlService.getImagenSrc(imagen);
   }
 
   toggleDetalles(): void {
@@ -114,7 +116,7 @@ export class ArticuloDetailComponent implements OnInit {
       this.imageViewerService.openViewer({
         images: this.articulo.imagenes,
         currentIndex: this.currentImageIndex,
-        imageBaseUrl: this.IMAGE_BASE_URL,
+        imageBaseUrl: API_ENDPOINTS.IMAGE_BASE_URL,
       });
     }
   }

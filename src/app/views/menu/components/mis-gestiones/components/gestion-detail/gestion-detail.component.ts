@@ -9,6 +9,9 @@ import { EstadoTransaccion } from 'src/app/shared/enums/articulo.enums';
 import { Gestion } from '../../models/gestiones.model';
 import { MisGestionesService } from '../../services/mis-gestiones.service';
 import { RespuestaMessageComponent } from './respuesta-message/respuesta-message.component';
+import { API_ENDPOINTS } from 'src/app/core/constants/api-endpoints';
+import { ImageViewerService } from 'src/app/shared/services/image-viewer.service';
+import { ImageUrlService } from 'src/app/core/services/image-url.service';
 
 type GestionDisplay = {
   referencia: string;
@@ -64,7 +67,9 @@ export class GestionDetailComponent implements OnInit {
     public config: DynamicDialogConfig,
     private dialogService: DialogService,
     private misGestionesService: MisGestionesService,
-    private messageService: AppMessagesServices
+    private messageService: AppMessagesServices,
+    private imageViewerService: ImageViewerService,
+    public imageUrlService: ImageUrlService
   ) {
     this.solicitudId = config?.data?.solicitudId;
     this.activeTab = (config?.data?.activeTab as string) ?? '';
@@ -119,11 +124,14 @@ export class GestionDetailComponent implements OnInit {
     this.currentImageIndex = index;
   }
 
-  getCurrentImage(): string {
-    return (
-      this.displayData.producto.imagenes[this.currentImageIndex] ||
-      this.displayData.producto.imagenPrincipal
-    );
+  openImageViewer(): void {
+    if (this.displayData.producto.imagenes && this.displayData.producto.imagenes.length > 0) {
+      this.imageViewerService.openViewer({
+        images: this.displayData.producto.imagenes,
+        currentIndex: this.currentImageIndex,
+        imageBaseUrl: API_ENDPOINTS.IMAGE_BASE_URL,
+      });
+    }
   }
 
   getInitials(): string {

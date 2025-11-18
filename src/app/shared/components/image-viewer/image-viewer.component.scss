@@ -27,10 +27,10 @@
 
 .image-viewer-content {
   position: relative !important;
-  width: 90vw !important;
-  height: 90vh !important;
-  max-width: 1400px !important;
-  max-height: 90vh !important;
+  width: 60vw !important;
+  height: 70vh !important;
+  max-width: 900px !important;
+  max-height: 70vh !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -40,13 +40,13 @@
 }
 
 .viewer-image {
-  max-width: 100% !important;
-  max-height: 100% !important;
-  width: auto !important;
-  height: auto !important;
-  object-fit: contain !important;
-  border-radius: var(--border-radius-md);
-  display: block !important;
+  max-width: 50vw;
+  max-height: 60vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .close-viewer-btn {
@@ -78,7 +78,7 @@
 }
 
 .viewer-nav-btn {
-  position: absolute !important;
+  position: fixed !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   background: rgba(255, 255, 255, 0.2) !important;
@@ -91,7 +91,7 @@
   justify-content: center !important;
   cursor: pointer !important;
   transition: all 0.2s;
-  z-index: 100000 !important;
+  z-index: 100001 !important;
   backdrop-filter: blur(10px);
 
   i {
@@ -111,15 +111,43 @@
 }
 
 .prev-viewer-btn {
-  left: 2rem !important;
+  left: 3rem !important;
 }
 
 .next-viewer-btn {
+  right: 3rem !important;
+}
+
+.close-viewer-btn {
+  position: fixed !important;
+  top: 2rem !important;
   right: 2rem !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: none !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s;
+  z-index: 100002 !important;
+  backdrop-filter: blur(10px);
+
+  i {
+    font-size: 1.25rem;
+    color: white;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.1);
+  }
 }
 
 .viewer-counter {
-  position: absolute !important;
+  position: fixed !important;
   bottom: 2rem !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
@@ -130,6 +158,6 @@
   font-size: var(--font-size-base) !important;
   font-weight: 500 !important;
   backdrop-filter: blur(10px);
-  z-index: 100000 !important;
+  z-index: 100001 !important;
 }
 
