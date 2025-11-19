@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnDestroy,
@@ -18,7 +17,7 @@ Chart.register(...registerables);
   templateUrl: './predictivo.component.html',
   styleUrls: ['./predictivo.component.scss'],
 })
-export class PredictivoComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PredictivoComponent implements OnInit, OnDestroy {
   modelosPredictivos: ModelosPredictivos | null = null;
   Math = Math;
   userInfo = this.authService.currentState;
@@ -41,10 +40,6 @@ export class PredictivoComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadDashboard();
   }
 
-  ngAfterViewInit(): void {
-    // Los gráficos se crearán cuando los datos estén disponibles
-  }
-
   ngOnDestroy(): void {
     if (this.tendenciaChartInstance) {
       this.tendenciaChartInstance.destroy();
@@ -63,6 +58,15 @@ export class PredictivoComponent implements OnInit, AfterViewInit, OnDestroy {
     const first = parts[0]?.[0] ?? '';
     const last = parts.length > 1 ? parts[parts.length - 1][0] : '';
     return (first + last).toUpperCase();
+  }
+
+  formatUserName(name: string | undefined): string {
+    if (!name) return 'Usuario';
+    return name
+      .trim()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
   }
 
   loadDashboard(): void {
