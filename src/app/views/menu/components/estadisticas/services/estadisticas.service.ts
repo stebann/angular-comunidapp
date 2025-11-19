@@ -56,7 +56,7 @@ export class EstadisticasService extends EstadisticasRepository {
         icon: 'fas fa-calendar-alt',
       },
       miReputacion: {
-        valor: Math.round(data.miReputacion * 100) / 100,
+        valor: Math.round(data.miReputacion * 10) / 10,
         titulo: 'Mi Reputación',
         icon: 'fas fa-star',
       },

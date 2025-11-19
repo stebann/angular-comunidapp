@@ -25,7 +25,10 @@ export class AdminUsuariosComponent implements OnInit {
 
   cargarUsuarios(): void {
     this.usuarioService.getUsuarios().subscribe((usuarios: any) => {
-      this.usuarios = usuarios;
+      this.usuarios = usuarios.map((usuario: Usuario) => ({
+        ...usuario,
+        ratingPromedio: Math.round(usuario.ratingPromedio * 10) / 10,
+      }));
     });
   }
 

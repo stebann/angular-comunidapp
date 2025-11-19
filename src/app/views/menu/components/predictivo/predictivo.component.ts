@@ -90,8 +90,8 @@ export class PredictivoComponent implements OnInit, OnDestroy {
     if (obj === null || obj === undefined) return obj;
 
     if (typeof obj === 'number') {
-      // Redondear a 2 decimales
-      return Math.round(obj * 100) / 100;
+      // Redondear a 1 decimal
+      return Math.round(obj * 10) / 10;
     }
 
     if (Array.isArray(obj)) {
