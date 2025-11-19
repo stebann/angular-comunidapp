@@ -74,7 +74,7 @@ export class PredictivoComponent implements OnInit, OnDestroy {
 
     this.predictivoService.getDashboardCompleto(usuarioId).subscribe({
       next: (data: ModelosPredictivos) => {
-        this.modelosPredictivos = data;
+        this.modelosPredictivos = this.roundNumbers(data);
 
         setTimeout(() => {
           this.createCharts();
@@ -84,6 +84,31 @@ export class PredictivoComponent implements OnInit, OnDestroy {
         console.error('Error al cargar dashboard predictivo:', error);
       },
     });
+  }
+
+  private roundNumbers(obj: any): any {
+    if (obj === null || obj === undefined) return obj;
+
+    if (typeof obj === 'number') {
+      // Redondear a 2 decimales
+      return Math.round(obj * 100) / 100;
+    }
+
+    if (Array.isArray(obj)) {
+      return obj.map((item) => this.roundNumbers(item));
+    }
+
+    if (typeof obj === 'object') {
+      const rounded: any = {};
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          rounded[key] = this.roundNumbers(obj[key]);
+        }
+      }
+      return rounded;
+    }
+
+    return obj;
   }
 
   createCharts(): void {

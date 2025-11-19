@@ -34,7 +34,7 @@ export interface ModeloCumplimientoPrestamos {
   datosGrafico: {
     tasaCumplimientoPorcentaje: number;
     tasaRetrasoPorcentaje: number;
-    prestamosTotal: number;
+    prestamosTotales: number;
     prestamosCumplidos: number;
     prestamosRetrasados: number;
     retrasoPromedioDias: number;
