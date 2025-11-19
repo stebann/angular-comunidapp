@@ -21,6 +21,7 @@ Chart.register(...registerables);
 export class PredictivoComponent implements OnInit, AfterViewInit, OnDestroy {
   modelosPredictivos: ModelosPredictivos | null = null;
   Math = Math;
+  userInfo = this.authService.currentState;
 
   // ViewChilds para gráficos Chart.js
   @ViewChild('tendenciaChart') tendenciaChart!: ElementRef;
@@ -51,6 +52,17 @@ export class PredictivoComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.radarChartInstance) {
       this.radarChartInstance.destroy();
     }
+  }
+
+  get userInitials(): string {
+    const name = this.userInfo?.nombre?.trim();
+    if (!name) {
+      return 'US';
+    }
+    const parts = name.split(' ').filter(Boolean);
+    const first = parts[0]?.[0] ?? '';
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : '';
+    return (first + last).toUpperCase();
   }
 
   loadDashboard(): void {

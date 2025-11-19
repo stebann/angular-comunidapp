@@ -117,6 +117,26 @@
     }
 
     .user-card {
+      .score-layout {
+        display: flex;
+        gap: 24px;
+        align-items: stretch;
+        flex-wrap: wrap;
+      }
+
+      .score-card {
+        flex: 1 1 320px;
+        min-width: 280px;
+      }
+
+      .score-side {
+        flex: 1 1 320px;
+        min-width: 280px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
       .score-card {
         gap: 20px;
         width: 100%;
@@ -143,6 +163,44 @@
 
         .detail-row {
           flex: 1 1 180px;
+        }
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px;
+        border-radius: 14px;
+        background: rgba(var(--color-primary-rgb), 0.08);
+        border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+
+        .user-avatar {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: var(--color-primary);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 20px;
+        }
+
+        .user-meta {
+          h5 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-primary-900);
+          }
+
+          p {
+            margin: 2px 0 0;
+            font-size: 13px;
+            color: #475569;
+          }
         }
       }
     }
