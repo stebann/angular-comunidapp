@@ -81,7 +81,62 @@
       }
 
       .card-content {
-        padding: 20px;
+        padding: 16px 18px 18px;
+      }
+    }
+  }
+
+  .section-usuario {
+    .models-grid {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      align-items: stretch;
+    }
+
+    .model-card {
+      min-height: auto;
+    }
+
+    .user-card {
+      .score-card {
+        gap: 20px;
+
+        .score-circle {
+          width: 120px;
+          height: 120px;
+        }
+
+        .score-svg .score-bg,
+        .score-svg .score-progress {
+          stroke-width: 10;
+        }
+
+        .score-info {
+          gap: 6px;
+        }
+      }
+
+      .score-details {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .activity-card {
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .sparkline-container {
+        margin-bottom: 0;
+
+        .sparkline-canvas {
+          height: 120px;
+        }
+      }
+
+      .heatmap-container {
+        margin-bottom: 0;
       }
     }
   }

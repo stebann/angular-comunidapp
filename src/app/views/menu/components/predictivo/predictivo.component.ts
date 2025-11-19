@@ -20,8 +20,7 @@ Chart.register(...registerables);
 })
 export class PredictivoComponent implements OnInit, AfterViewInit, OnDestroy {
   modelosPredictivos: ModelosPredictivos | null = null;
-  loading = true;
-  Math = Math; // Exponer Math para usar en el template
+  Math = Math;
 
   // ViewChilds para gráficos Chart.js
   @ViewChild('tendenciaChart') tendenciaChart!: ElementRef;
@@ -56,18 +55,17 @@ export class PredictivoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadDashboard(): void {
     const usuarioId = this.authService.currentState.id;
-    this.loading = true;
+
     this.predictivoService.getDashboardCompleto(usuarioId).subscribe({
       next: (data: ModelosPredictivos) => {
         this.modelosPredictivos = data;
-        this.loading = false;
+
         setTimeout(() => {
           this.createCharts();
         }, 100);
       },
       error: (error: any) => {
         console.error('Error al cargar dashboard predictivo:', error);
-        this.loading = false;
       },
     });
   }

@@ -5,7 +5,263 @@
   </h2>
 </app-search-header>
 
-<div class="predictivo-container" *ngIf="!loading && modelosPredictivos">
+<div class="predictivo-container" *ngIf="modelosPredictivos">
+  <!-- MODELOS USUARIO -->
+  <section class="section-usuario">
+    <h3 class="section-title">
+      <i class="fas fa-user"></i>
+      Modelos por Usuario
+    </h3>
+
+    <div class="models-grid">
+      <!-- Modelo 5: Confiabilidad Usuario (Score Card) -->
+      <div
+        class="model-card user-card"
+        *ngIf="modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario"
+      >
+        <div class="card-header">
+          <i class="fas fa-shield-alt"></i>
+          <div>
+            <h4>
+              {{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                  .nombre
+              }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                  .descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="score-card">
+            <div class="score-circle">
+              <svg class="score-svg" viewBox="0 0 120 120">
+                <circle class="score-bg" cx="60" cy="60" r="54"></circle>
+                <circle
+                  class="score-progress"
+                  cx="60"
+                  cy="60"
+                  r="54"
+                  [style.stroke-dasharray]="2 * Math.PI * 54"
+                  [style.stroke-dashoffset]="
+                    2 *
+                    Math.PI *
+                    54 *
+                    (1 -
+                      modelosPredictivos.modelosUsuario
+                        .modelo5ConfiabilidadUsuario.datosGrafico
+                        .confiabilidadScore /
+                        100)
+                  "
+                ></circle>
+              </svg>
+              <div class="score-center">
+                <span class="score-number">{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.confiabilidadScore
+                }}</span>
+                <span class="score-label">Score</span>
+              </div>
+            </div>
+            <div class="score-info">
+              <div class="score-category">
+                <span class="category-label">Categoría:</span>
+                <span class="category-value">{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.categoriaConfiabilidad
+                }}</span>
+              </div>
+              <div class="score-percentil">
+                <span class="percentil-label">Percentil:</span>
+                <span class="percentil-value"
+                  >{{
+                    modelosPredictivos.modelosUsuario
+                      .modelo5ConfiabilidadUsuario.datosGrafico
+                      .percentilComparativo
+                  }}%</span
+                >
+              </div>
+              <p class="percentil-desc">
+                {{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.descripcionPercentil
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="score-details">
+            <div class="detail-row">
+              <span class="detail-label">Rating Promedio:</span>
+              <span class="detail-value">{{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario.datosGrafico.detalles.ratingPromedio.toFixed(
+                  1
+                )
+              }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Transacciones:</span>
+              <span class="detail-value"
+                >{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.detalles.transaccionesCompletadas
+                }}
+                /
+                {{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.detalles.transaccionesTotales
+                }}</span
+              >
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Tasa Cumplimiento:</span>
+              <span class="detail-value"
+                >{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.detalles.tasaCumplimiento
+                }}%</span
+              >
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Días Antigüedad:</span>
+              <span class="detail-value">{{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                  .datosGrafico.detalles.diasAntiguedad
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modelo 6: Inactividad Usuario (Spark Line + Heatmap) -->
+      <div
+        class="model-card activity-card"
+        *ngIf="modelosPredictivos.modelosUsuario.modelo6InactividadUsuario"
+      >
+        <div class="card-header">
+          <i class="fas fa-chart-area"></i>
+          <div>
+            <h4>
+              {{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .nombre
+              }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="prediccion-header">
+            <div
+              class="prediccion-badge"
+              [ngClass]="
+                'prediccion-' +
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario.datosGrafico.prediccion.toLowerCase()
+              "
+            >
+              <i
+                class="fas"
+                [ngClass]="
+                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                    .datosGrafico.prediccion === 'ACTIVO'
+                    ? 'fa-check-circle'
+                    : 'fa-times-circle'
+                "
+              ></i>
+              <span>{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.prediccion
+              }}</span>
+            </div>
+            <div class="confianza-badge">
+              Confianza:
+              {{
+                (
+                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                    .datosGrafico.confianzaPrediccion * 100
+                ).toFixed(0)
+              }}%
+            </div>
+          </div>
+
+          <div class="sparkline-container">
+            <h5>Actividad Últimos 30 Días</h5>
+            <canvas #sparklineCanvas class="sparkline-canvas"></canvas>
+          </div>
+
+          <div class="heatmap-container">
+            <h5>Actividad por Mes (Últimos 12 Meses)</h5>
+            <div class="heatmap-grid">
+              <div
+                class="heatmap-cell"
+                *ngFor="
+                  let mes of modelosPredictivos.modelosUsuario
+                    .modelo6InactividadUsuario.datosGrafico.heatmap12Meses
+                "
+                [style.background-color]="getHeatmapColor(mes.intensidad)"
+                [title]="mes.mes + ': ' + mes.actividadPromedio.toFixed(1)"
+              >
+                <span class="heatmap-month">{{ mes.mes.substring(0, 3) }}</span>
+                <span class="heatmap-value">{{
+                  mes.actividadPromedio.toFixed(1)
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="actividad-stats">
+            <div class="actividad-stat">
+              <span class="stat-label">Transacciones (último mes):</span>
+              <span class="stat-value">{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.transaccionesUltimoMes
+              }}</span>
+            </div>
+            <div class="actividad-stat">
+              <span class="stat-label">Días sin actividad:</span>
+              <span class="stat-value">{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.diasSinActividad
+              }}</span>
+            </div>
+            <div class="actividad-stat">
+              <span class="stat-label">Artículos activos:</span>
+              <span class="stat-value">{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.articulosActivos
+              }}</span>
+            </div>
+            <div class="actividad-stat">
+              <span class="stat-label">Tendencia 30 días:</span>
+              <span
+                class="stat-value"
+                [style.color]="
+                  getTendenciaColor(
+                    modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                      .datosGrafico.tendencia30Dias
+                  )
+                "
+              >
+                {{
+                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                    .datosGrafico.tendencia30Dias
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- MODELOS GLOBALES -->
   <section class="section-global">
     <h3 class="section-title">
@@ -265,265 +521,4 @@
       </div>
     </div>
   </section>
-
-  <!-- MODELOS USUARIO -->
-  <section class="section-usuario">
-    <h3 class="section-title">
-      <i class="fas fa-user"></i>
-      Modelos por Usuario
-    </h3>
-
-    <div class="models-grid">
-      <!-- Modelo 5: Confiabilidad Usuario (Score Card) -->
-      <div
-        class="model-card"
-        *ngIf="modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario"
-      >
-        <div class="card-header">
-          <i class="fas fa-shield-alt"></i>
-          <div>
-            <h4>
-              {{
-                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                  .nombre
-              }}
-            </h4>
-            <p>
-              {{
-                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                  .descripcion
-              }}
-            </p>
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="score-card">
-            <div class="score-circle">
-              <svg class="score-svg" viewBox="0 0 120 120">
-                <circle class="score-bg" cx="60" cy="60" r="54"></circle>
-                <circle
-                  class="score-progress"
-                  cx="60"
-                  cy="60"
-                  r="54"
-                  [style.stroke-dasharray]="2 * Math.PI * 54"
-                  [style.stroke-dashoffset]="
-                    2 *
-                    Math.PI *
-                    54 *
-                    (1 -
-                      modelosPredictivos.modelosUsuario
-                        .modelo5ConfiabilidadUsuario.datosGrafico
-                        .confiabilidadScore /
-                        100)
-                  "
-                ></circle>
-              </svg>
-              <div class="score-center">
-                <span class="score-number">{{
-                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                    .datosGrafico.confiabilidadScore
-                }}</span>
-                <span class="score-label">Score</span>
-              </div>
-            </div>
-            <div class="score-info">
-              <div class="score-category">
-                <span class="category-label">Categoría:</span>
-                <span class="category-value">{{
-                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                    .datosGrafico.categoriaConfiabilidad
-                }}</span>
-              </div>
-              <div class="score-percentil">
-                <span class="percentil-label">Percentil:</span>
-                <span class="percentil-value"
-                  >{{
-                    modelosPredictivos.modelosUsuario
-                      .modelo5ConfiabilidadUsuario.datosGrafico
-                      .percentilComparativo
-                  }}%</span
-                >
-              </div>
-              <p class="percentil-desc">
-                {{
-                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                    .datosGrafico.descripcionPercentil
-                }}
-              </p>
-            </div>
-          </div>
-          <div class="score-details">
-            <div class="detail-row">
-              <span class="detail-label">Rating Promedio:</span>
-              <span class="detail-value">{{
-                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario.datosGrafico.detalles.ratingPromedio.toFixed(
-                  1
-                )
-              }}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Transacciones:</span>
-              <span class="detail-value"
-                >{{
-                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                    .datosGrafico.detalles.transaccionesCompletadas
-                }}
-                /
-                {{
-                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                    .datosGrafico.detalles.transaccionesTotales
-                }}</span
-              >
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Tasa Cumplimiento:</span>
-              <span class="detail-value"
-                >{{
-                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                    .datosGrafico.detalles.tasaCumplimiento
-                }}%</span
-              >
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Días Antigüedad:</span>
-              <span class="detail-value">{{
-                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
-                  .datosGrafico.detalles.diasAntiguedad
-              }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modelo 6: Inactividad Usuario (Spark Line + Heatmap) -->
-      <div
-        class="model-card full-width"
-        *ngIf="modelosPredictivos.modelosUsuario.modelo6InactividadUsuario"
-      >
-        <div class="card-header">
-          <i class="fas fa-chart-area"></i>
-          <div>
-            <h4>
-              {{
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                  .nombre
-              }}
-            </h4>
-            <p>
-              {{
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                  .descripcion
-              }}
-            </p>
-          </div>
-        </div>
-        <div class="card-content">
-          <div class="prediccion-header">
-            <div
-              class="prediccion-badge"
-              [ngClass]="
-                'prediccion-' +
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario.datosGrafico.prediccion.toLowerCase()
-              "
-            >
-              <i
-                class="fas"
-                [ngClass]="
-                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                    .datosGrafico.prediccion === 'ACTIVO'
-                    ? 'fa-check-circle'
-                    : 'fa-times-circle'
-                "
-              ></i>
-              <span>{{
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                  .datosGrafico.prediccion
-              }}</span>
-            </div>
-            <div class="confianza-badge">
-              Confianza:
-              {{
-                (
-                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                    .datosGrafico.confianzaPrediccion * 100
-                ).toFixed(0)
-              }}%
-            </div>
-          </div>
-
-          <div class="sparkline-container">
-            <h5>Actividad Últimos 30 Días</h5>
-            <canvas #sparklineCanvas class="sparkline-canvas"></canvas>
-          </div>
-
-          <div class="heatmap-container">
-            <h5>Actividad por Mes (Últimos 12 Meses)</h5>
-            <div class="heatmap-grid">
-              <div
-                class="heatmap-cell"
-                *ngFor="
-                  let mes of modelosPredictivos.modelosUsuario
-                    .modelo6InactividadUsuario.datosGrafico.heatmap12Meses
-                "
-                [style.background-color]="getHeatmapColor(mes.intensidad)"
-                [title]="mes.mes + ': ' + mes.actividadPromedio.toFixed(1)"
-              >
-                <span class="heatmap-month">{{ mes.mes.substring(0, 3) }}</span>
-                <span class="heatmap-value">{{
-                  mes.actividadPromedio.toFixed(1)
-                }}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="actividad-stats">
-            <div class="actividad-stat">
-              <span class="stat-label">Transacciones (último mes):</span>
-              <span class="stat-value">{{
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                  .datosGrafico.transaccionesUltimoMes
-              }}</span>
-            </div>
-            <div class="actividad-stat">
-              <span class="stat-label">Días sin actividad:</span>
-              <span class="stat-value">{{
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                  .datosGrafico.diasSinActividad
-              }}</span>
-            </div>
-            <div class="actividad-stat">
-              <span class="stat-label">Artículos activos:</span>
-              <span class="stat-value">{{
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                  .datosGrafico.articulosActivos
-              }}</span>
-            </div>
-            <div class="actividad-stat">
-              <span class="stat-label">Tendencia 30 días:</span>
-              <span
-                class="stat-value"
-                [style.color]="
-                  getTendenciaColor(
-                    modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                      .datosGrafico.tendencia30Dias
-                  )
-                "
-              >
-                {{
-                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                    .datosGrafico.tendencia30Dias
-                }}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<div class="loading-container" *ngIf="loading">
-  <div class="spinner"></div>
-  <p>Cargando modelos predictivos...</p>
 </div>
