@@ -10,7 +10,7 @@
   <section class="section-usuario">
     <h3 class="section-title">
       <i class="fas fa-user"></i>
-      Modelos por Usuario
+      Análisis de Usuario
     </h3>
 
     <div class="models-grid">
@@ -159,41 +159,43 @@
           </div>
         </div>
         <div class="card-content">
-          <div class="prediccion-header">
-            <div
-              class="prediccion-badge"
-              [ngClass]="
-                'prediccion-' +
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario.datosGrafico.prediccion.toLowerCase()
-              "
-            >
-              <i
-                class="fas"
+          <div class="sparkline-header">
+            <h5>Actividad Últimos 30 Días</h5>
+            <div class="sparkline-meta">
+              <div
+                class="prediccion-badge"
                 [ngClass]="
-                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                    .datosGrafico.prediccion === 'ACTIVO'
-                    ? 'fa-check-circle'
-                    : 'fa-times-circle'
+                  'prediccion-' +
+                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario.datosGrafico.prediccion.toLowerCase()
                 "
-              ></i>
-              <span>{{
-                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                  .datosGrafico.prediccion
-              }}</span>
-            </div>
-            <div class="confianza-badge">
-              Confianza:
-              {{
-                (
+              >
+                <i
+                  class="fas"
+                  [ngClass]="
+                    modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                      .datosGrafico.prediccion === 'ACTIVO'
+                      ? 'fa-check-circle'
+                      : 'fa-times-circle'
+                  "
+                ></i>
+                <span>{{
                   modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
-                    .datosGrafico.confianzaPrediccion * 100
-                ).toFixed(0)
-              }}%
+                    .datosGrafico.prediccion
+                }}</span>
+              </div>
+              <div class="confianza-badge">
+                Confianza:
+                {{
+                  (
+                    modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                      .datosGrafico.confianzaPrediccion * 100
+                  ).toFixed(0)
+                }}%
+              </div>
             </div>
           </div>
 
           <div class="sparkline-container">
-            <h5>Actividad Últimos 30 Días</h5>
             <canvas #sparklineCanvas class="sparkline-canvas"></canvas>
           </div>
 
@@ -266,7 +268,7 @@
   <section class="section-global">
     <h3 class="section-title">
       <i class="fas fa-globe"></i>
-      Modelos Globales
+      Análisis Global
     </h3>
 
     <div class="models-grid">
