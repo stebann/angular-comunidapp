@@ -1,0 +1,529 @@
+<app-search-header [showSearchInput]="false">
+  <h2 style="margin: 0; font-size: 24px; font-weight: 600">
+    <i class="fas fa-chart-line" style="margin-right: 8px; color: #3b82f6"></i>
+    Módulo Predictivo
+  </h2>
+</app-search-header>
+
+<div class="predictivo-container" *ngIf="!loading && modelosPredictivos">
+  <!-- MODELOS GLOBALES -->
+  <section class="section-global">
+    <h3 class="section-title">
+      <i class="fas fa-globe"></i>
+      Modelos Globales
+    </h3>
+
+    <div class="models-grid">
+      <!-- Modelo 1: Éxito de Venta (Funnel) -->
+      <div
+        class="model-card"
+        *ngIf="modelosPredictivos.modelosGlobales.modelo1ExitoVenta"
+      >
+        <div class="card-header">
+          <i class="fas fa-funnel-dollar"></i>
+          <div>
+            <h4>
+              {{ modelosPredictivos.modelosGlobales.modelo1ExitoVenta.nombre }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosGlobales.modelo1ExitoVenta.descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="funnel-container">
+            <div
+              class="funnel-item"
+              *ngFor="
+                let categoria of modelosPredictivos.modelosGlobales
+                  .modelo1ExitoVenta.datosGrafico.porCategoria;
+                let i = index
+              "
+            >
+              <div
+                class="funnel-bar"
+                [style.width.%]="categoria.tasaExito"
+                [style.background]="getFunnelColor(i)"
+              >
+                <span class="funnel-label">{{
+                  categoria.categoriaNombre
+                }}</span>
+                <span class="funnel-value">{{ categoria.tasaExito }}%</span>
+              </div>
+              <div class="funnel-details">
+                <span
+                  >{{ categoria.cantidadVendidos }} /
+                  {{ categoria.cantidadArticulos }} vendidos</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="summary-box">
+            <div class="summary-item">
+              <span class="summary-label">Tasa Éxito General:</span>
+              <span class="summary-value"
+                >{{
+                  modelosPredictivos.modelosGlobales.modelo1ExitoVenta
+                    .tasaExitoGeneral
+                }}%</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modelo 2: Cumplimiento Préstamos (Gauge) -->
+      <div
+        class="model-card"
+        *ngIf="modelosPredictivos.modelosGlobales.modelo2CumplimientoPrestamos"
+      >
+        <div class="card-header">
+          <i class="fas fa-tachometer-alt"></i>
+          <div>
+            <h4>
+              {{
+                modelosPredictivos.modelosGlobales.modelo2CumplimientoPrestamos
+                  .nombre
+              }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosGlobales.modelo2CumplimientoPrestamos
+                  .descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="gauge-container">
+            <canvas #gaugeCanvas class="gauge-canvas"></canvas>
+            <div class="gauge-center">
+              <span class="gauge-value"
+                >{{
+                  modelosPredictivos.modelosGlobales
+                    .modelo2CumplimientoPrestamos.datosGrafico
+                    .tasaCumplimientoPorcentaje
+                }}%</span
+              >
+              <span class="gauge-label">Cumplimiento</span>
+            </div>
+          </div>
+          <div class="gauge-stats">
+            <div class="stat-item">
+              <span class="stat-label">Total:</span>
+              <span class="stat-value">{{
+                modelosPredictivos.modelosGlobales.modelo2CumplimientoPrestamos
+                  .datosGrafico.prestamosTotal
+              }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Cumplidos:</span>
+              <span class="stat-value success">{{
+                modelosPredictivos.modelosGlobales.modelo2CumplimientoPrestamos
+                  .datosGrafico.prestamosCumplidos
+              }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Retrasados:</span>
+              <span class="stat-value danger">{{
+                modelosPredictivos.modelosGlobales.modelo2CumplimientoPrestamos
+                  .datosGrafico.prestamosRetrasados
+              }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Retraso Promedio:</span>
+              <span class="stat-value"
+                >{{
+                  modelosPredictivos.modelosGlobales.modelo2CumplimientoPrestamos.datosGrafico.retrasoPromedioDias.toFixed(
+                    1
+                  )
+                }}
+                días</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modelo 3: Tendencia Categorías (Line Chart) -->
+      <div
+        class="model-card full-width"
+        *ngIf="modelosPredictivos.modelosGlobales.modelo3TendenciaCategorias"
+      >
+        <div class="card-header">
+          <i class="fas fa-chart-line"></i>
+          <div>
+            <h4>
+              {{
+                modelosPredictivos.modelosGlobales.modelo3TendenciaCategorias
+                  .nombre
+              }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosGlobales.modelo3TendenciaCategorias
+                  .descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="chart-container">
+            <canvas #tendenciaChart></canvas>
+          </div>
+          <div class="tendencia-badges">
+            <div
+              class="tendencia-badge"
+              *ngFor="
+                let categoria of modelosPredictivos.modelosGlobales
+                  .modelo3TendenciaCategorias.datosGrafico.categorias
+              "
+            >
+              <i
+                [class]="getTendenciaIcon(categoria.tendencia)"
+                [style.color]="getTendenciaColor(categoria.tendencia)"
+              ></i>
+              <span class="badge-label">{{ categoria.categoriaNombre }}</span>
+              <span
+                class="badge-value"
+                [style.color]="getTendenciaColor(categoria.tendencia)"
+              >
+                {{ categoria.variacionPorcentaje > 0 ? "+" : ""
+                }}{{ categoria.variacionPorcentaje.toFixed(1) }}%
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modelo 4: Demanda Condiciones (Radar) -->
+      <div
+        class="model-card full-width"
+        *ngIf="modelosPredictivos.modelosGlobales.modelo4DemandaCondiciones"
+      >
+        <div class="card-header">
+          <i class="fas fa-spider"></i>
+          <div>
+            <h4>
+              {{
+                modelosPredictivos.modelosGlobales.modelo4DemandaCondiciones
+                  .nombre
+              }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosGlobales.modelo4DemandaCondiciones
+                  .descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="chart-container">
+            <canvas #radarChart></canvas>
+          </div>
+          <div class="condiciones-grid">
+            <div
+              class="condicion-card"
+              *ngFor="
+                let condicion of modelosPredictivos.modelosGlobales
+                  .modelo4DemandaCondiciones.datosGrafico.condiciones
+              "
+            >
+              <div class="condicion-header">
+                <h5>{{ condicion.condicionNombre }}</h5>
+                <span
+                  class="demanda-badge"
+                  [ngClass]="'demanda-' + condicion.nivelDemanda.toLowerCase()"
+                >
+                  {{ condicion.nivelDemanda }}
+                </span>
+              </div>
+              <div class="condicion-stats">
+                <div class="condicion-stat">
+                  <span class="stat-label">Tasa Venta:</span>
+                  <span class="stat-value">{{ condicion.tasaVenta }}%</span>
+                </div>
+                <div class="condicion-stat">
+                  <span class="stat-label">Precio Promedio:</span>
+                  <span class="stat-value"
+                    >${{ condicion.precioPromedio.toLocaleString() }}</span
+                  >
+                </div>
+                <div class="condicion-stat">
+                  <span class="stat-label">Días Promedio:</span>
+                  <span class="stat-value"
+                    >{{ condicion.diasVentaPromedio.toFixed(1) }} días</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODELOS USUARIO -->
+  <section class="section-usuario">
+    <h3 class="section-title">
+      <i class="fas fa-user"></i>
+      Modelos por Usuario
+    </h3>
+
+    <div class="models-grid">
+      <!-- Modelo 5: Confiabilidad Usuario (Score Card) -->
+      <div
+        class="model-card"
+        *ngIf="modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario"
+      >
+        <div class="card-header">
+          <i class="fas fa-shield-alt"></i>
+          <div>
+            <h4>
+              {{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                  .nombre
+              }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                  .descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="score-card">
+            <div class="score-circle">
+              <svg class="score-svg" viewBox="0 0 120 120">
+                <circle class="score-bg" cx="60" cy="60" r="54"></circle>
+                <circle
+                  class="score-progress"
+                  cx="60"
+                  cy="60"
+                  r="54"
+                  [style.stroke-dasharray]="2 * Math.PI * 54"
+                  [style.stroke-dashoffset]="
+                    2 *
+                    Math.PI *
+                    54 *
+                    (1 -
+                      modelosPredictivos.modelosUsuario
+                        .modelo5ConfiabilidadUsuario.datosGrafico
+                        .confiabilidadScore /
+                        100)
+                  "
+                ></circle>
+              </svg>
+              <div class="score-center">
+                <span class="score-number">{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.confiabilidadScore
+                }}</span>
+                <span class="score-label">Score</span>
+              </div>
+            </div>
+            <div class="score-info">
+              <div class="score-category">
+                <span class="category-label">Categoría:</span>
+                <span class="category-value">{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.categoriaConfiabilidad
+                }}</span>
+              </div>
+              <div class="score-percentil">
+                <span class="percentil-label">Percentil:</span>
+                <span class="percentil-value"
+                  >{{
+                    modelosPredictivos.modelosUsuario
+                      .modelo5ConfiabilidadUsuario.datosGrafico
+                      .percentilComparativo
+                  }}%</span
+                >
+              </div>
+              <p class="percentil-desc">
+                {{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.descripcionPercentil
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="score-details">
+            <div class="detail-row">
+              <span class="detail-label">Rating Promedio:</span>
+              <span class="detail-value">{{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario.datosGrafico.detalles.ratingPromedio.toFixed(
+                  1
+                )
+              }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Transacciones:</span>
+              <span class="detail-value"
+                >{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.detalles.transaccionesCompletadas
+                }}
+                /
+                {{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.detalles.transaccionesTotales
+                }}</span
+              >
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Tasa Cumplimiento:</span>
+              <span class="detail-value"
+                >{{
+                  modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                    .datosGrafico.detalles.tasaCumplimiento
+                }}%</span
+              >
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Días Antigüedad:</span>
+              <span class="detail-value">{{
+                modelosPredictivos.modelosUsuario.modelo5ConfiabilidadUsuario
+                  .datosGrafico.detalles.diasAntiguedad
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modelo 6: Inactividad Usuario (Spark Line + Heatmap) -->
+      <div
+        class="model-card full-width"
+        *ngIf="modelosPredictivos.modelosUsuario.modelo6InactividadUsuario"
+      >
+        <div class="card-header">
+          <i class="fas fa-chart-area"></i>
+          <div>
+            <h4>
+              {{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .nombre
+              }}
+            </h4>
+            <p>
+              {{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .descripcion
+              }}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="prediccion-header">
+            <div
+              class="prediccion-badge"
+              [ngClass]="
+                'prediccion-' +
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario.datosGrafico.prediccion.toLowerCase()
+              "
+            >
+              <i
+                class="fas"
+                [ngClass]="
+                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                    .datosGrafico.prediccion === 'ACTIVO'
+                    ? 'fa-check-circle'
+                    : 'fa-times-circle'
+                "
+              ></i>
+              <span>{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.prediccion
+              }}</span>
+            </div>
+            <div class="confianza-badge">
+              Confianza:
+              {{
+                (
+                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                    .datosGrafico.confianzaPrediccion * 100
+                ).toFixed(0)
+              }}%
+            </div>
+          </div>
+
+          <div class="sparkline-container">
+            <h5>Actividad Últimos 30 Días</h5>
+            <canvas #sparklineCanvas class="sparkline-canvas"></canvas>
+          </div>
+
+          <div class="heatmap-container">
+            <h5>Actividad por Mes (Últimos 12 Meses)</h5>
+            <div class="heatmap-grid">
+              <div
+                class="heatmap-cell"
+                *ngFor="
+                  let mes of modelosPredictivos.modelosUsuario
+                    .modelo6InactividadUsuario.datosGrafico.heatmap12Meses
+                "
+                [style.background-color]="getHeatmapColor(mes.intensidad)"
+                [title]="mes.mes + ': ' + mes.actividadPromedio.toFixed(1)"
+              >
+                <span class="heatmap-month">{{ mes.mes.substring(0, 3) }}</span>
+                <span class="heatmap-value">{{
+                  mes.actividadPromedio.toFixed(1)
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="actividad-stats">
+            <div class="actividad-stat">
+              <span class="stat-label">Transacciones (último mes):</span>
+              <span class="stat-value">{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.transaccionesUltimoMes
+              }}</span>
+            </div>
+            <div class="actividad-stat">
+              <span class="stat-label">Días sin actividad:</span>
+              <span class="stat-value">{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.diasSinActividad
+              }}</span>
+            </div>
+            <div class="actividad-stat">
+              <span class="stat-label">Artículos activos:</span>
+              <span class="stat-value">{{
+                modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                  .datosGrafico.articulosActivos
+              }}</span>
+            </div>
+            <div class="actividad-stat">
+              <span class="stat-label">Tendencia 30 días:</span>
+              <span
+                class="stat-value"
+                [style.color]="
+                  getTendenciaColor(
+                    modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                      .datosGrafico.tendencia30Dias
+                  )
+                "
+              >
+                {{
+                  modelosPredictivos.modelosUsuario.modelo6InactividadUsuario
+                    .datosGrafico.tendencia30Dias
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="loading-container" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Cargando modelos predictivos...</p>
+</div>

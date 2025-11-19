@@ -63,6 +63,13 @@ const routes: Routes = [
         (m) => m.AdminArticulosModule
       ),
   },
+  {
+    path: 'predictivo',
+    loadChildren: () =>
+      import('./components/predictivo/predictivo.module').then(
+        (m) => m.PredictivoModule
+      ),
+  },
 ];
 
 @NgModule({
