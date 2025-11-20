@@ -1,43 +1,49 @@
 <aside class="sidebar" [class.sidebar-collapsed]="isCollapsed">
   <nav class="sidebar-nav">
     <ul class="nav-list">
-      <li class="nav-item" *ngFor="let item of menuItems">
-        <a
-          [routerLink]="['/app', item.ruta]"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          class="nav-link"
-          [title]="item.nombre"
-          (click)="onMenuItemClick(item)"
-        >
-          <i [class]="item.icono"></i>
-          <span *ngIf="!isCollapsed">{{ item.nombre }}</span>
-          <i
-            *ngIf="item.children && !isCollapsed"
-            class="fas fa-chevron-down expand-icon"
-            [class.rotate]="item.expanded"
-          ></i>
-        </a>
+      <ng-container *ngFor="let item of _menuItems">
+        <li class="nav-item" [class.has-children]="item.children?.length">
+          <!-- Parent menu item -->
+          <a
+            [routerLink]="item.children?.length ? null : ['/app', item.ruta]"
+            [routerLinkActive]="!item.children?.length ? 'active' : ''"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-link"
+            [class.parent-active]="isItemActive(item)"
+            [title]="item.nombre"
+            (click)="onMenuItemClick(item, $event)"
+          >
+            <i [class]="item.icono"></i>
+            <span *ngIf="!isCollapsed" class="menu-text">{{ item.nombre }}</span>
+            <i
+              *ngIf="item.children?.length && !isCollapsed"
+              class="fas fa-chevron-down expand-icon"
+              [class.rotate]="item.expanded"
+            ></i>
+          </a>
 
-        <!-- Submenú desplegable -->
-        <ul
-          *ngIf="item.children && item.expanded && !isCollapsed"
-          class="sub-nav-list"
-        >
-          <li class="nav-item" *ngFor="let child of item.children">
-            <a
-              href="#"
-              (click)="$event.preventDefault(); onMenuItemClick(child)"
-              [class.active]="child.active"
-              class="nav-link sub-nav-link"
-              [title]="child.nombre"
-            >
-              <i [class]="child.icono"></i>
-              <span>{{ child.nombre }}</span>
-            </a>
-          </li>
-        </ul>
-      </li>
+          <!-- Submenu -->
+          <ul
+            *ngIf="item.children?.length && (item.expanded || isCollapsed)"
+            class="sub-nav-list"
+            [class.show]="item.expanded && !isCollapsed"
+          >
+            <li class="nav-item" *ngFor="let child of item.children">
+              <a
+                [routerLink]="['/app', child.ruta]"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                class="nav-link sub-nav-link"
+                [title]="child.nombre"
+                (click)="onMenuItemClick(child, $event)"
+              >
+                <i [class]="child.icono"></i>
+                <span *ngIf="!isCollapsed" class="menu-text">{{ child.nombre }}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
     </ul>
   </nav>
 

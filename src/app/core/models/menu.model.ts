@@ -5,4 +5,11 @@ export interface MenuDTO {
   icono: string;
   orden: number;
   porDefecto?: boolean;
+  hijos?: MenuDTO[];
+}
+
+export interface MenuItem extends MenuDTO {
+  active?: boolean;
+  expanded?: boolean;
+  children?: MenuItem[];
 }

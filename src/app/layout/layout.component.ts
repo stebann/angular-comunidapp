@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MenuDTO } from '../core/models/menu.model';
+import { MenuDTO, MenuItem } from '../core/models/menu.model';
 import { AuthService } from '../core/services/auth.service';
-import { MenuItem } from './menu/menu.component';
 
 @Component({
   selector: 'app-layout',
@@ -70,11 +69,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
       item.expanded = !item.expanded;
     } else {
       // Si no tiene hijos, navegar y marcar como activo
-      this.menuItems.forEach((i) => {
+      this.menuItems.forEach((i: MenuItem) => {
         i.active = false;
         // También desactivar todos los hijos
         if (i.children) {
-          i.children.forEach((child) => (child.active = false));
+          i.children.forEach((child: MenuItem) => (child.active = false));
         }
       });
       item.active = true;
@@ -86,17 +85,34 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   private updateActiveMenuItem() {
     const currentRoute = this.router.url;
-    this.menuItems.forEach((item) => {
-      if (item.children) {
-        // Para elementos con hijos, verificar si algún hijo está activo
-        item.children.forEach((child) => {
-          child.active = currentRoute.includes(child.ruta ?? '');
+    
+    const updateItemActiveState = (item: any) => {
+      let isActive = false;
+      
+      // Procesar hijos primero (bottom-up)
+      if (item.children && item.children.length > 0) {
+        item.children.forEach((child: any) => {
+          if (updateItemActiveState(child)) {
+            isActive = true;
+          }
         });
-        // Si algún hijo está activo, expandir el padre
-        item.expanded = item.children.some((child) => child.active);
-      } else {
-        item.active = currentRoute.includes(item.ruta ?? '');
       }
-    });
+      
+      // Verificar si la ruta actual coincide con este ítem
+      const routeMatch = item.ruta && currentRoute.includes(`/${item.ruta}`);
+      
+      // Actualizar el estado activo
+      item.active = routeMatch || isActive;
+      
+      // Si es un padre con hijos activos, expandirlo
+      if (item.children && item.children.length > 0) {
+        item.expanded = item.children.some((child: any) => child.active || child.expanded);
+      }
+      
+      return item.active;
+    };
+    
+    // Procesar todos los ítems del menú
+    this.menuItems.forEach(updateItemActiveState);
   }
 }
