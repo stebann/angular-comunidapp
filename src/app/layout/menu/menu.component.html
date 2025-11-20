@@ -14,7 +14,9 @@
             (click)="onMenuItemClick(item, $event)"
           >
             <i [class]="item.icono"></i>
-            <span *ngIf="!isCollapsed" class="menu-text">{{ item.nombre }}</span>
+            <span *ngIf="!isCollapsed" class="menu-text">{{
+              item.nombre
+            }}</span>
             <i
               *ngIf="item.children?.length && !isCollapsed"
               class="fas fa-chevron-down expand-icon"
@@ -31,14 +33,15 @@
             <li class="nav-item" *ngFor="let child of item.children">
               <a
                 [routerLink]="['/app', child.ruta]"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
+                [class.active]="child.active"
                 class="nav-link sub-nav-link"
                 [title]="child.nombre"
                 (click)="onMenuItemClick(child, $event)"
               >
                 <i [class]="child.icono"></i>
-                <span *ngIf="!isCollapsed" class="menu-text">{{ child.nombre }}</span>
+                <span *ngIf="!isCollapsed" class="menu-text">{{
+                  child.nombre
+                }}</span>
               </a>
             </li>
           </ul>
