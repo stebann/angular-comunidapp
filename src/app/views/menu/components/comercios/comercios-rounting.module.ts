@@ -1,11 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ComerciosComponent } from './comercios.component';
-import { DetalleComercioComponent } from './detalle-comercio/detalle-comercio.component';
+import { MisNegociosComponent } from './mis-negocios/mis-negocios.component';
 
 const routes: Routes = [
-  { path: '', component: ComerciosComponent },
-  { path: 'detalle/:id', component: DetalleComercioComponent },
+  {
+    path: '',
+    redirectTo: 'explorar',
+    pathMatch: 'full',
+  },
+  {
+    path: 'explorar',
+    component: ComerciosComponent,
+  },
+  {
+    path: 'mis-comercios',
+    component: MisNegociosComponent,
+  },
 ];
 
 @NgModule({
