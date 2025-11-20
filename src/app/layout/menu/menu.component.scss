@@ -141,12 +141,9 @@
     list-style: none;
     padding: 0;
     margin: 0.25rem 0 0.25rem 1.5rem;
-    max-height: 0;
-    overflow: hidden;
-    transition: none;
-
+    display: none;
+    
     &.show {
-      max-height: none;
       display: block;
     }
 
@@ -180,23 +177,9 @@
     }
   }
 
-  // Animación de entrada para elementos del menú
+  // Animaciones removidas para un despliegue instantáneo
   .nav-item {
-    animation: fadeInUp 0.5s ease forwards;
-    opacity: 0;
-    transform: translateY(20px);
-
-    @for $i from 1 through 10 {
-      &:nth-child(#{$i}) {
-        animation-delay: #{$i * 0.1}s;
-      }
-    }
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    opacity: 1;
+    transform: none;
   }
 }
