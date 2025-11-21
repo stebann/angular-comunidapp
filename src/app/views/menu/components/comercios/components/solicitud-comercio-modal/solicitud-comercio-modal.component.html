@@ -1,0 +1,79 @@
+<div class="solicitud-comercio-modal">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      <i class="pi pi-shop"></i>
+      Solicitar Comercio
+    </h3>
+    <p class="modal-subtitle">
+      Completa la información para solicitar tu comercio
+    </p>
+  </div>
+
+  <form [formGroup]="solicitudForm" class="solicitud-form">
+    <div class="form-field">
+      <app-input-field
+        formControlName="nombre"
+        label="Nombre del Comercio"
+        placeholder="Ej: Ferretería El Tornillo"
+        [required]="true"
+      ></app-input-field>
+    </div>
+
+    <div class="form-field">
+      <app-textarea-field
+        formControlName="descripcion"
+        label="Descripción"
+        placeholder="Describe tu comercio..."
+        [rows]="4"
+        [required]="true"
+      ></app-textarea-field>
+    </div>
+
+    <div class="form-field">
+      <app-input-field
+        formControlName="direccion"
+        label="Dirección"
+        placeholder="Ej: Calle 123 #45-67"
+        [required]="true"
+      ></app-input-field>
+    </div>
+
+    <div class="form-field">
+      <app-input-field
+        formControlName="telefono"
+        label="Teléfono"
+        placeholder="Ej: (1) 555 1234"
+        [required]="true"
+      ></app-input-field>
+    </div>
+
+    <div class="form-field">
+      <app-input-field
+        formControlName="horario"
+        label="Horario"
+        placeholder="Ej: Lun - Sáb: 8:00 AM - 6:00 PM"
+      ></app-input-field>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        (click)="onCancel()"
+        [disabled]="isSubmitting"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-submit"
+        (click)="onSubmit()"
+        [disabled]="!solicitudForm.valid || isSubmitting"
+      >
+        <i class="pi pi-check" *ngIf="!isSubmitting"></i>
+        <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
+        {{ isSubmitting ? "Enviando..." : "Enviar Solicitud" }}
+      </button>
+    </div>
+  </form>
+</div>

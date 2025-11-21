@@ -7,6 +7,14 @@
       [(searchTerm)]="searchTerm"
     >
       <app-button
+        type="primary"
+        size="sm"
+        icon="pi pi-plus"
+        (clicked)="openSolicitudModal()"
+      >
+        Solicitar Comercio
+      </app-button>
+      <app-button
         type="outline-primary"
         size="sm"
         icon="fas fa-sliders-h"

@@ -1,0 +1,85 @@
+.solicitud-comercio-modal {
+  .modal-header {
+    margin-bottom: 1.5rem;
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-color);
+
+      i {
+        color: var(--primary-color);
+        font-size: 1.5rem;
+      }
+    }
+
+    .modal-subtitle {
+      margin: 0;
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+    }
+  }
+
+  .solicitud-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-field {
+    width: 100%;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--surface-border);
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: none;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      i {
+        font-size: 1rem;
+      }
+    }
+
+    .btn-cancel {
+      background: var(--surface-ground);
+      color: var(--text-color);
+
+      &:hover:not(:disabled) {
+        background: var(--surface-border);
+      }
+    }
+
+    .btn-submit {
+      background: var(--primary-color);
+      color: white;
+
+      &:hover:not(:disabled) {
+        background: var(--primary-600);
+      }
+    }
+  }
+}
+

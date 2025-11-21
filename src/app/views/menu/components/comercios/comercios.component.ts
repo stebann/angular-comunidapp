@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
+import { SolicitudComercioModalComponent } from './components/solicitud-comercio-modal/solicitud-comercio-modal.component';
 import { Comercio } from './models/comercio.model';
 import { ComercioService } from './services/comercio.service';
 
@@ -21,7 +23,8 @@ export class ComerciosComponent implements OnInit {
   constructor(
     private router: Router,
     public comercioService: ComercioService,
-    private filterService: FiltersService
+    private filterService: FiltersService,
+    public dialogService$: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -74,5 +77,20 @@ export class ComerciosComponent implements OnInit {
 
   openFilters() {
     this.isOpen = true;
+  }
+
+  openSolicitudModal(): void {
+    const ref = this.dialogService$.open(SolicitudComercioModalComponent, {
+      header: 'Solicitar Comercio',
+      width: '600px',
+      styleClass: 'p-app-modal',
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result === 'success') {
+        // Opcional: recargar comercios o mostrar mensaje de éxito
+        this.comercioService.getComercios();
+      }
+    });
   }
 }
