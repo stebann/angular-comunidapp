@@ -4,10 +4,182 @@
   height: 100vh;
 }
 
+.header-section {
+  padding: 1rem 1.25rem 0;
+}
+
 .content-area {
   flex: 1;
-  padding: 1rem 1.25rem;
+  padding: 0;
   overflow-y: auto;
   min-height: 0;
 }
 
+.solicitudes-table {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid var(--surface-border);
+  overflow: hidden;
+}
+
+.table-empty {
+  width: 100%;
+  padding: 3rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  border-top: 1px solid var(--surface-border);
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 100px 150px 1fr 200px 120px;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--surface-ground);
+  border-bottom: 2px solid var(--surface-border);
+  font-weight: 700;
+  color: var(--text-color-secondary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 100px 150px 1fr 200px 120px;
+  gap: 1rem;
+  padding: 0.65rem 1.25rem;
+  border-bottom: 1px solid var(--surface-border);
+  align-items: center;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--surface-ground);
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.id-text {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.85rem;
+}
+
+.usuario-id {
+  color: var(--text-color-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.estado-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.pendiente {
+    background-color: #fff3e0;
+    color: #f57c00;
+  }
+
+  &.aprobada {
+    background-color: #e8f5e9;
+    color: #388e3c;
+  }
+
+  &.rechazada {
+    background-color: #ffebee;
+    color: #d32f2f;
+  }
+}
+
+.fecha-text {
+  color: var(--text-color-secondary);
+  font-size: 0.8rem;
+}
+
+.col-acciones {
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.btn-action {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  i {
+    font-size: 0.9rem;
+  }
+}
+
+.btn-ver {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-600);
+
+  &:hover {
+    background-color: var(--color-primary-200);
+  }
+}
+
+.btn-aprobar {
+  background-color: #e8f5e9;
+  color: #388e3c;
+
+  &:hover {
+    background-color: #c8e6c9;
+  }
+}
+
+.btn-rechazar {
+  background-color: #ffebee;
+  color: #d32f2f;
+
+  &:hover {
+    background-color: #ffcdd2;
+  }
+}
+
+@media (max-width: 1200px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 80px 120px 1fr 180px 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 80px 1fr 120px;
+
+    .col-usuario,
+    .col-fecha {
+      display: none;
+    }
+  }
+}

@@ -1,6 +1,6 @@
-<div class="admin-usuarios-container">
+<div class="admin-gestion-premium-container">
   <app-search-header
-    placeholder="Buscar solicitudes..."
+    placeholder="Buscar solicitudes por ID, usuario o estado..."
     [(searchTerm)]="searchTerm"
   >
     <app-button
@@ -12,6 +12,60 @@
       Filtros
     </app-button>
   </app-search-header>
+
+  <div class="content-area">
+    <div class="solicitudes-table">
+      <!-- Header de tabla - siempre visible -->
+      <div class="table-header">
+        <div class="col-id">ID</div>
+        <div class="col-usuario">Usuario ID</div>
+        <div class="col-estado">Estado</div>
+        <div class="col-fecha">Fecha de Solicitud</div>
+        <div class="col-acciones">Acciones</div>
+      </div>
+
+      <!-- Filas de solicitudes -->
+      <div *ngIf="solicitudesFiltradas.length > 0">
+        <div *ngFor="let solicitud of solicitudesFiltradas" class="table-row">
+          <div class="col-id">
+            <span class="id-text">#{{ solicitud.id }}</span>
+          </div>
+
+          <div class="col-usuario">
+            <span class="usuario-id">{{ solicitud.usuarioId }}</span>
+          </div>
+
+          <div class="col-estado">
+            <span
+              class="estado-badge"
+              [class]="getEstadoClass(solicitud.estadoNombre)"
+            >
+              {{ solicitud.estadoNombre }}
+            </span>
+          </div>
+
+          <div class="col-fecha">
+            <span class="fecha-text">{{
+              formatearFecha(solicitud.creadoEn)
+            }}</span>
+          </div>
+
+          <div class="col-acciones">
+            <app-opciones [items]="getOpcionesFor(solicitud)"></app-opciones>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mensaje cuando no hay solicitudes -->
+      <div *ngIf="solicitudesFiltradas.length === 0" class="table-empty">
+        <app-empty-placeholder
+          icon="file-edit"
+          title="No hay solicitudes pendientes"
+          description="No se encontraron solicitudes premium pendientes"
+        ></app-empty-placeholder>
+      </div>
+    </div>
+  </div>
 </div>
 
 <app-generic-filter
