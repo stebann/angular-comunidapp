@@ -64,6 +64,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'gestion-comercios',
+    loadChildren: () =>
+      import(
+        './components/admin-gestion-comercios/admin-gestion-comercios.module'
+      ).then((m) => m.AdminGestionComerciosModule),
+  },
+  {
     path: 'predictivo',
     loadChildren: () =>
       import('./components/predictivo/predictivo.module').then(

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ComerciosAPI } from 'src/app/core/routes-api/comercios_api';
 import { FiltrosAPI } from 'src/app/core/routes-api/filtros_api';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -15,10 +16,32 @@ export class ComercioService extends ComercioRepository {
     super();
   }
 
-  getComercios(): void {
-    this.http$.get(ComerciosAPI.Base).subscribe((response: any) => {
-      this.comercios = response.data || [];
-    });
+  getComercios(): Observable<any> {
+    return this.http$.get(ComerciosAPI.Base);
+  }
+
+  getComercioPorId(id: number): Observable<any> {
+    return this.http$.get(`${ComerciosAPI.PorId}${id}`);
+  }
+
+  crearComercio(data: any): Observable<any> {
+    return this.http$.post(ComerciosAPI.Crear, data);
+  }
+
+  crearSolicitud(data: any): Observable<any> {
+    return this.http$.post(ComerciosAPI.Solicitud, data);
+  }
+
+  getSolicitudPorId(id: number): Observable<any> {
+    return this.http$.get(`${ComerciosAPI.SolicitudPorId}${id}`);
+  }
+
+  getSolicitudesPendientes(): Observable<any> {
+    return this.http$.get(ComerciosAPI.SolicitudesPendientes);
+  }
+
+  cambiarEstadoSolicitud(id: number, data: any): Observable<any> {
+    return this.http$.post(`${ComerciosAPI.CambiarEstadoSolicitud}${id}`, data);
   }
 
   public filtrar(): void {

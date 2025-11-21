@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { ComercioService } from '../services/comercio.service';
+import { MisNegociosService } from './services/mis-negocios.service';
 
 @Component({
   selector: 'app-mis-negocios',
   templateUrl: './mis-negocios.component.html',
   styleUrls: ['./mis-negocios.component.scss'],
 })
-export class MisNegociosComponent {
+export class MisNegociosComponent implements OnInit {
   searchTerm: string = '';
   soloFavoritos: boolean = false;
   favoritos: number[] = [];
@@ -20,6 +21,7 @@ export class MisNegociosComponent {
 
   constructor(
     public comercioService: ComercioService,
+    public misNegociosService: MisNegociosService,
     private filterService: FiltersService
   ) {}
 
