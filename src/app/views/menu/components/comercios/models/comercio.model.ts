@@ -2,9 +2,8 @@ export interface Comercio {
   id: number;
   nombre: string;
   descripcion: string;
-  categoria: string;
-  ubicacion: string;
+  direccion: string;
   telefono: string;
-  imagen: string;
-  horario?: string;
+  logoUrl: string;
+  horario: string;
 }

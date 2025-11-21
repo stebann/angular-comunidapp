@@ -9,15 +9,6 @@
       <app-button
         type="outline-primary"
         size="sm"
-        [icon]="soloFavoritos ? 'fas fa-star' : 'far fa-star'"
-        (clicked)="toggleSoloFavoritos()"
-        [ngClass]="{ 'active-favorites': soloFavoritos }"
-      >
-        Favoritos
-      </app-button>
-      <app-button
-        type="outline-primary"
-        size="sm"
         icon="fas fa-sliders-h"
         (clicked)="openFilters()"
       >
@@ -36,28 +27,16 @@
         >
           <div class="comercio-imagen" (click)="abrirDetalleComercio(comercio)">
             <img
-              [src]="comercio.imagen"
+              [src]="comercio.logoUrl"
               [alt]="comercio.nombre"
               (error)="
-                comercio.imagen =
+                comercio.logoUrl =
                   'https://images.unsplash.com/photo-1529634896911-85f831d1b31a?auto=format&fit=crop&w=640&h=420&q=70'
               "
             />
           </div>
 
           <div class="comercio-info" (click)="abrirDetalleComercio(comercio)">
-            <button
-              class="favorite-btn"
-              (click)="toggleFavorito(comercio); $event.stopPropagation()"
-              [class.active]="esFavorito(comercio.id)"
-            >
-              <i
-                [class.far]="!esFavorito(comercio.id)"
-                [class.fas]="esFavorito(comercio.id)"
-                class="fa-star"
-              ></i>
-            </button>
-
             <h3 class="comercio-nombre">{{ comercio.nombre }}</h3>
 
             <p class="comercio-descripcion">{{ comercio.descripcion }}</p>
@@ -65,7 +44,7 @@
             <div class="comercio-details">
               <div class="detail-item">
                 <i class="pi pi-map-marker"></i>
-                <span>{{ comercio.ubicacion }}</span>
+                <span>{{ comercio.direccion }}</span>
               </div>
               <div class="detail-item">
                 <i class="pi pi-phone"></i>
@@ -78,7 +57,6 @@
                 <i class="pi pi-clock"></i>
                 <span>{{ comercio.horario }}</span>
               </div>
-              <span class="categoria-tag">{{ comercio.categoria }}</span>
             </div>
           </div>
         </div>

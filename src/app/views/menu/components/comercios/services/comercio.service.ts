@@ -16,8 +16,10 @@ export class ComercioService extends ComercioRepository {
     super();
   }
 
-  getComercios(): Observable<any> {
-    return this.http$.get(ComerciosAPI.Base);
+  getComercios(): void {
+    this.http$.get(ComerciosAPI.Base).subscribe((response: any) => {
+      this.comercios = response || [];
+    });
   }
 
   getComercioPorId(id: number): Observable<any> {
@@ -30,18 +32,6 @@ export class ComercioService extends ComercioRepository {
 
   crearSolicitud(data: any): Observable<any> {
     return this.http$.post(ComerciosAPI.Solicitud, data);
-  }
-
-  getSolicitudPorId(id: number): Observable<any> {
-    return this.http$.get(`${ComerciosAPI.SolicitudPorId}${id}`);
-  }
-
-  getSolicitudesPendientes(): Observable<any> {
-    return this.http$.get(ComerciosAPI.SolicitudesPendientes);
-  }
-
-  cambiarEstadoSolicitud(id: number, data: any): Observable<any> {
-    return this.http$.post(`${ComerciosAPI.CambiarEstadoSolicitud}${id}`, data);
   }
 
   public filtrar(): void {

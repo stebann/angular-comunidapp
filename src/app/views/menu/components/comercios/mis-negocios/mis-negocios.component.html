@@ -1,7 +1,7 @@
 <div class="comercios-container">
   <div class="comercios-list-view">
     <app-search-header
-      placeholder="Buscar comercios..."
+      placeholder="Buscar mis comercios..."
       [(searchTerm)]="searchTerm"
     >
       <app-button
@@ -13,6 +13,61 @@
         Filtros
       </app-button>
     </app-search-header>
+
+    <div class="content-area">
+      <div
+        *ngIf="comerciosFiltrados.length > 0; else noComercios"
+        class="comercios-grid"
+      >
+        <div
+          *ngFor="let comercio of comerciosFiltrados; trackBy: trackByFn"
+          class="comercio-card"
+        >
+          <div class="comercio-imagen" (click)="abrirDetalleComercio(comercio)">
+            <img
+              [src]="comercio.logoUrl"
+              [alt]="comercio.nombre"
+              (error)="
+                comercio.logoUrl =
+                  'https://images.unsplash.com/photo-1529634896911-85f831d1b31a?auto=format&fit=crop&w=640&h=420&q=70'
+              "
+            />
+          </div>
+
+          <div class="comercio-info" (click)="abrirDetalleComercio(comercio)">
+            <h3 class="comercio-nombre">{{ comercio.nombre }}</h3>
+
+            <p class="comercio-descripcion">{{ comercio.descripcion }}</p>
+
+            <div class="comercio-details">
+              <div class="detail-item">
+                <i class="pi pi-map-marker"></i>
+                <span>{{ comercio.direccion }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="pi pi-phone"></i>
+                <span>{{ comercio.telefono }}</span>
+              </div>
+            </div>
+
+            <div class="card-footer" *ngIf="comercio.horario">
+              <div class="detail-item">
+                <i class="pi pi-clock"></i>
+                <span>{{ comercio.horario }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noComercios>
+        <app-empty-placeholder
+          icon="fas fa-store"
+          title="No tienes comercios"
+          description="Aún no tienes comercios registrados. Crea uno nuevo para comenzar."
+        ></app-empty-placeholder>
+      </ng-template>
+    </div>
   </div>
 </div>
 
