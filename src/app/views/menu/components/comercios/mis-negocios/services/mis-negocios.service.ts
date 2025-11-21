@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ComerciosAPI } from 'src/app/core/routes-api/comercios_api';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
@@ -19,5 +20,9 @@ export class MisNegociosService {
           this.comercios = response || [];
         });
     }
+  }
+
+  crearComercio(data: any): Observable<any> {
+    return this.http$.post(ComerciosAPI.Crear, data);
   }
 }

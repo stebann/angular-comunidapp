@@ -26,17 +26,6 @@ export class ComercioService extends ComercioRepository {
     return this.http$.get(`${ComerciosAPI.PorId}${id}`);
   }
 
-  crearComercio(data: any): Observable<any> {
-    return this.http$.post(ComerciosAPI.Crear, data);
-  }
-
-  crearSolicitud(data: any | FormData): Observable<any> {
-    if (data instanceof FormData) {
-      return this.http$.postFormData(ComerciosAPI.Solicitud, data);
-    }
-    return this.http$.post(ComerciosAPI.Solicitud, data);
-  }
-
   public filtrar(): void {
     this.http$
       .post(FiltrosAPI.Buscar, this.filtroComercio.value)

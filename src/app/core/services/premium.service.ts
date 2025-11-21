@@ -7,8 +7,9 @@ import { HttpService } from './http.service';
 export class PremiumService {
   constructor(private http$: HttpService) {}
 
-  solicitarPremium(): Observable<any> {
-    return this.http$.post(PremiumAPI.Solicitar, {});
+  solicitarPremium(usuarioId: number): Observable<any> {
+    const url = `${PremiumAPI.Solicitar}?usuarioId=${usuarioId}`;
+    return this.http$.post(url, {});
   }
 
   getSolicitudesPendientes(): Observable<any> {

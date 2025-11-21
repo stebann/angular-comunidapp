@@ -2,14 +2,14 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ImageHandlerService } from 'src/app/shared/services/image-handler.service';
-import { ComercioService } from '../../services/comercio.service';
+import { MisNegociosService } from '../../services/mis-negocios.service';
 
 @Component({
-  selector: 'app-solicitud-comercio-modal',
-  templateUrl: './solicitud-comercio-modal.component.html',
-  styleUrls: ['./solicitud-comercio-modal.component.scss'],
+  selector: 'app-add-comercio-modal',
+  templateUrl: './add-comercio-modal.component.html',
+  styleUrls: ['./add-comercio-modal.component.scss'],
 })
-export class SolicitudComercioModalComponent {
+export class AddComercioModalComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;
 
   solicitudForm: FormGroup;
@@ -22,7 +22,7 @@ export class SolicitudComercioModalComponent {
   constructor(
     private ref: DynamicDialogRef,
     private fb: FormBuilder,
-    private comercioService: ComercioService,
+    private misNegociosService: MisNegociosService,
     private imageHandler: ImageHandlerService
   ) {
     this.solicitudForm = this.fb.group({
@@ -128,7 +128,7 @@ export class SolicitudComercioModalComponent {
         formData.append('imagenes', file);
       });
 
-      this.comercioService.crearSolicitud(formData).subscribe({
+      this.misNegociosService.crearComercio(formData).subscribe({
         next: () => {
           this.ref.close('success');
         },

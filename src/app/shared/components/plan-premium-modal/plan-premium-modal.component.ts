@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { PremiumService } from 'src/app/core/services/premium.service';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
 
 @Component({
   selector: 'app-plan-premium-modal',
@@ -8,8 +10,6 @@ import { PremiumService } from 'src/app/core/services/premium.service';
   styleUrls: ['./plan-premium-modal.component.scss'],
 })
 export class PlanPremiumModalComponent {
-  isSubmitting: boolean = false;
-
   planFeatures = [
     {
       icon: 'pi pi-store',
@@ -31,7 +31,9 @@ export class PlanPremiumModalComponent {
 
   constructor(
     private ref: DynamicDialogRef,
-    private premiumService: PremiumService
+    private premiumService: PremiumService,
+    private authService: AuthService,
+    private messageService: AppMessagesServices
   ) {}
 
   onCancel(): void {
@@ -39,17 +41,22 @@ export class PlanPremiumModalComponent {
   }
 
   onSubscribe(): void {
-    if (this.isSubmitting) return;
+    const usuarioId = this.authService.currentState.id;
+    if (!usuarioId) {
+      console.error('No se pudo obtener el ID del usuario');
+      return;
+    }
 
-    this.isSubmitting = true;
-
-    this.premiumService.solicitarPremium().subscribe({
+    this.premiumService.solicitarPremium(usuarioId).subscribe({
       next: () => {
+        this.messageService.exito(
+          'Tu solicitud de plan premium ha sido enviada exitosamente',
+          'Solicitud enviada'
+        );
         this.ref.close('success');
       },
       error: (error) => {
-        console.error('Error al solicitar plan premium:', error);
-        this.isSubmitting = false;
+        this.ref.close();
       },
     });
   }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { Comercio } from '../models/comercio.model';
 import { ComercioService } from '../services/comercio.service';
+import { AddComercioModalComponent } from './components/add-comercio-modal/add-comercio-modal.component';
 import { MisNegociosService } from './services/mis-negocios.service';
 
 @Component({
@@ -23,7 +25,8 @@ export class MisNegociosComponent implements OnInit {
     private router: Router,
     public comercioService: ComercioService,
     public misNegociosService: MisNegociosService,
-    private filterService: FiltersService
+    private filterService: FiltersService,
+    public dialogService$: DialogService
   ) {}
 
   ngOnInit(): void {
@@ -76,5 +79,13 @@ export class MisNegociosComponent implements OnInit {
 
   openFilters() {
     this.isOpen = true;
+  }
+
+  openCreateComercioModal(): void {
+    this.dialogService$.open(AddComercioModalComponent, {
+      header: 'Crear Comercio',
+      width: '600px',
+      styleClass: 'p-app-modal',
+    });
   }
 }

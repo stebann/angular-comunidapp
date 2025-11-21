@@ -25,23 +25,12 @@
   </div>
 
   <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-cancel"
-      (click)="onCancel()"
-      [disabled]="isSubmitting"
-    >
+    <button type="button" class="btn btn-cancel" (click)="onCancel()">
       Cancelar
     </button>
-    <button
-      type="button"
-      class="btn btn-submit"
-      (click)="onSubscribe()"
-      [disabled]="isSubmitting"
-    >
-      <i class="pi pi-check" *ngIf="!isSubmitting"></i>
-      <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
-      {{ isSubmitting ? "Enviando..." : "Solicitar Plan Premium" }}
+    <button type="button" class="btn btn-submit" (click)="onSubscribe()">
+      <i class="pi pi-check"></i>
+      Solicitar Plan Premium
     </button>
   </div>
 </div>
