@@ -51,6 +51,24 @@
   </nav>
 
   <div class="sidebar-footer">
+    <button
+      *ngIf="!isCollapsed"
+      type="button"
+      class="premium-button"
+      (click)="openPlanPremiumModal()"
+    >
+      <i class="pi pi-crown"></i>
+      <span>Adquirir Plan Premium</span>
+    </button>
+    <button
+      *ngIf="isCollapsed"
+      type="button"
+      class="premium-button-icon"
+      (click)="openPlanPremiumModal()"
+      [title]="'Comprar Plan Premium'"
+    >
+      <i class="pi pi-crown"></i>
+    </button>
     <img
       src="assets/fondos/logotipo-sinfondo.png"
       alt="ComunidApp Logo"

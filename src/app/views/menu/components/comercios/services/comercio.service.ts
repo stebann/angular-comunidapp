@@ -30,7 +30,10 @@ export class ComercioService extends ComercioRepository {
     return this.http$.post(ComerciosAPI.Crear, data);
   }
 
-  crearSolicitud(data: any): Observable<any> {
+  crearSolicitud(data: any | FormData): Observable<any> {
+    if (data instanceof FormData) {
+      return this.http$.postFormData(ComerciosAPI.Solicitud, data);
+    }
     return this.http$.post(ComerciosAPI.Solicitud, data);
   }
 

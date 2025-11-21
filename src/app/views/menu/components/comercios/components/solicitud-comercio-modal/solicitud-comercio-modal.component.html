@@ -1,79 +1,136 @@
 <div class="solicitud-comercio-modal">
-  <div class="modal-header">
-    <h3 class="modal-title">
-      <i class="pi pi-shop"></i>
-      Solicitar Comercio
-    </h3>
-    <p class="modal-subtitle">
-      Completa la información para solicitar tu comercio
-    </p>
+  <div class="modal-content">
+    <div class="left">
+      <h3 class="section-title">Imágenes del Comercio</h3>
+
+      <div
+        class="carousel-container"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          multiple
+          (change)="onArchivosSeleccionados($event)"
+          hidden
+        />
+
+        <ng-container *ngIf="previewImages.length; else emptyState">
+          <div class="carousel-main" [class.drag-over]="isDragOver">
+            <img
+              [src]="previewImages[currentImageIndex]"
+              alt="Imagen actual"
+              class="main-image"
+            />
+
+            <button
+              type="button"
+              class="nav-btn prev-btn"
+              [disabled]="currentImageIndex === 0"
+              (click)="anteriorImagen()"
+            >
+              <i class="pi pi-chevron-left"></i>
+            </button>
+
+            <button
+              type="button"
+              class="nav-btn next-btn"
+              [disabled]="currentImageIndex === previewImages.length - 1"
+              (click)="siguienteImagen()"
+            >
+              <i class="pi pi-chevron-right"></i>
+            </button>
+
+            <div class="image-counter">
+              {{ currentImageIndex + 1 }} / {{ previewImages.length }}
+            </div>
+
+            <button
+              type="button"
+              class="delete-btn"
+              (click)="eliminarImagen(currentImageIndex)"
+            >
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+        </ng-container>
+
+        <ng-template #emptyState>
+          <div
+            class="empty-state"
+            [class.drag-over]="isDragOver"
+            (click)="abrirSelectorArchivos()"
+          >
+            <i class="pi pi-upload"></i>
+            <p>Arrastra imágenes aquí<br />o haz clic para seleccionar</p>
+          </div>
+        </ng-template>
+
+        <button
+          type="button"
+          class="add-images-btn"
+          (click)="abrirSelectorArchivos()"
+          [disabled]="previewImages.length >= 5"
+        >
+          <i class="pi pi-plus"></i>
+          Agregar Imágenes ({{ previewImages.length }}/5)
+        </button>
+      </div>
+    </div>
+
+    <div class="right">
+      <form [formGroup]="solicitudForm" class="form-grid">
+        <app-input-field
+          formControlName="nombre"
+          label="Nombre del Comercio"
+          placeholder="Ej: Ferretería El Tornillo"
+          [required]="true"
+        ></app-input-field>
+
+        <app-textarea-field
+          formControlName="descripcion"
+          label="Descripción"
+          placeholder="Describe tu comercio..."
+          [rows]="4"
+          [required]="true"
+        ></app-textarea-field>
+
+        <app-input-field
+          formControlName="direccion"
+          label="Dirección"
+          placeholder="Ej: Calle 123 #45-67"
+          [required]="true"
+        ></app-input-field>
+
+        <app-input-field
+          formControlName="telefono"
+          label="Teléfono"
+          placeholder="Ej: (1) 555 1234"
+          [required]="true"
+        ></app-input-field>
+      </form>
+    </div>
   </div>
 
-  <form [formGroup]="solicitudForm" class="solicitud-form">
-    <div class="form-field">
-      <app-input-field
-        formControlName="nombre"
-        label="Nombre del Comercio"
-        placeholder="Ej: Ferretería El Tornillo"
-        [required]="true"
-      ></app-input-field>
-    </div>
-
-    <div class="form-field">
-      <app-textarea-field
-        formControlName="descripcion"
-        label="Descripción"
-        placeholder="Describe tu comercio..."
-        [rows]="4"
-        [required]="true"
-      ></app-textarea-field>
-    </div>
-
-    <div class="form-field">
-      <app-input-field
-        formControlName="direccion"
-        label="Dirección"
-        placeholder="Ej: Calle 123 #45-67"
-        [required]="true"
-      ></app-input-field>
-    </div>
-
-    <div class="form-field">
-      <app-input-field
-        formControlName="telefono"
-        label="Teléfono"
-        placeholder="Ej: (1) 555 1234"
-        [required]="true"
-      ></app-input-field>
-    </div>
-
-    <div class="form-field">
-      <app-input-field
-        formControlName="horario"
-        label="Horario"
-        placeholder="Ej: Lun - Sáb: 8:00 AM - 6:00 PM"
-      ></app-input-field>
-    </div>
-
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-cancel"
-        (click)="onCancel()"
-        [disabled]="isSubmitting"
-      >
-        Cancelar
-      </button>
-      <button
-        type="button"
-        class="btn btn-submit"
-        (click)="onSubmit()"
-        [disabled]="!solicitudForm.valid || isSubmitting"
-      >
-        <i class="pi pi-check" *ngIf="!isSubmitting"></i>
-        <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
-        {{ isSubmitting ? "Enviando..." : "Enviar Solicitud" }}
-      </button>
-    </div>
-  </form>
+  <div class="modal-footer">
+    <app-button
+      type="outline-primary"
+      (click)="onCancel()"
+      [disabled]="isSubmitting"
+    >
+      Cancelar
+    </app-button>
+    <app-button
+      type="primary"
+      (clicked)="onSubmit()"
+      [disabled]="!solicitudForm.valid || isSubmitting"
+    >
+      <i class="pi pi-check" *ngIf="!isSubmitting"></i>
+      <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
+      {{ isSubmitting ? "Enviando..." : "Enviar Solicitud" }}
+    </app-button>
+  </div>
 </div>

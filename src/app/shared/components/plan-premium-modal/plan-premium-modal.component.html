@@ -1,0 +1,47 @@
+<div class="plan-premium-modal">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      <i class="pi pi-crown"></i>
+      Plan Premium
+    </h3>
+    <p class="modal-subtitle">Solicita acceso para gestionar tus comercios</p>
+  </div>
+
+  <div class="plan-content">
+    <div class="features-list">
+      <div class="feature-item" *ngFor="let feature of planFeatures">
+        <i [class]="feature.icon"></i>
+        <div class="feature-content">
+          <span class="feature-title">{{ feature.title }}</span>
+        </div>
+      </div>
+    </div>
+
+    <small class="field-hint">
+      <i class="pi pi-info-circle"></i>
+      Un administrador revisará tu solicitud y te notificará cuando sea
+      aprobada.
+    </small>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-cancel"
+      (click)="onCancel()"
+      [disabled]="isSubmitting"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-submit"
+      (click)="onSubscribe()"
+      [disabled]="isSubmitting"
+    >
+      <i class="pi pi-check" *ngIf="!isSubmitting"></i>
+      <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
+      {{ isSubmitting ? "Enviando..." : "Solicitar Plan Premium" }}
+    </button>
+  </div>
+</div>

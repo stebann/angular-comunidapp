@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { DialogService } from 'primeng/dynamicdialog';
 import { filter } from 'rxjs/operators';
+import { PlanPremiumModalComponent } from 'src/app/shared/components/plan-premium-modal/plan-premium-modal.component';
 import { MenuItem } from '../../core/models/menu.model';
 
 @Component({
@@ -21,7 +23,7 @@ export class MenuComponent {
 
   _menuItems: MenuItem[] = [];
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private dialogService$: DialogService) {
     // Subscribe to route changes to update active states
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -154,5 +156,20 @@ export class MenuComponent {
       return item.children.some((child) => this.isItemActive(child));
     }
     return false;
+  }
+
+  openPlanPremiumModal(): void {
+    const ref = this.dialogService$.open(PlanPremiumModalComponent, {
+      header: '',
+      width: '500px',
+      styleClass: 'p-app-modal',
+      modal: true,
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result === 'success') {
+        // Opcional: mostrar mensaje de éxito
+      }
+    });
   }
 }

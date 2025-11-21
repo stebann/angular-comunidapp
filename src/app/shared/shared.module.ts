@@ -18,8 +18,8 @@ import { MenuModule } from 'primeng/menu';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TooltipModule } from 'primeng/tooltip';
-import { FiltersService } from './services/filters.service';
 import { ImageUrlService } from '../core/services/image-url.service';
+import { FiltersService } from './services/filters.service';
 
 import { ArticuloCardComponent } from './components/articulo-card/articulo-card.component';
 import { ArticuloDetailComponent } from './components/articulo-detail/articulo-detail.component';
@@ -35,6 +35,7 @@ import { InputFieldComponent } from './components/input-field/input-field.compon
 import { InputNumberFieldComponent } from './components/input-number-field/input-number-field.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { OpcionesComponent } from './components/opciones/opciones.component';
+import { PlanPremiumModalComponent } from './components/plan-premium-modal/plan-premium-modal.component';
 import { ProfileModalComponent } from './components/profile-modal/profile-modal.component';
 import { RangeFieldComponent } from './components/range-field/range-field.component';
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
@@ -62,6 +63,7 @@ import { UsuarioInfoModalComponent } from './components/usuario-info-modal/usuar
     UsuarioInfoModalComponent,
     ProfileModalComponent,
     ImageViewerComponent,
+    PlanPremiumModalComponent,
   ],
   imports: [
     CommonModule,
@@ -117,6 +119,11 @@ import { UsuarioInfoModalComponent } from './components/usuario-info-modal/usuar
     ChartModule,
     NgxChartsModule,
   ],
-  providers: [DialogService, ConfirmationService, FiltersService, ImageUrlService],
+  providers: [
+    DialogService,
+    ConfirmationService,
+    FiltersService,
+    ImageUrlService,
+  ],
 })
 export class SharedModule {}
