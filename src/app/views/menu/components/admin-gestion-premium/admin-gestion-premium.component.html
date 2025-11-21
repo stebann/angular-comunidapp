@@ -1,5 +1,22 @@
-<div class="admin-gestion-premium-container">
-  <div class="content-area">
-    <!-- Contenido aquí -->
-  </div>
+<div class="admin-usuarios-container">
+  <app-search-header
+    placeholder="Buscar solicitudes..."
+    [(searchTerm)]="searchTerm"
+  >
+    <app-button
+      type="outline-primary"
+      size="sm"
+      icon="pi pi-filter"
+      (clicked)="openFilters()"
+    >
+      Filtros
+    </app-button>
+  </app-search-header>
 </div>
+
+<app-generic-filter
+  [form]="filtro"
+  [(isOpen)]="isOpen"
+  (applyFilter)="onFiltersApplied()"
+>
+</app-generic-filter>

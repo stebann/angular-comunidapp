@@ -2,10 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PremiumAPI } from 'src/app/core/routes-api/premium_api';
 import { HttpService } from 'src/app/core/services/http.service';
+import { AdminGestionPremiumRepository } from '../repositories/admin-gestion-premium-repository';
 
 @Injectable({ providedIn: 'root' })
-export class AdminGestionPremiumService {
-  constructor(private http$: HttpService) {}
+export class AdminGestionPremiumService extends AdminGestionPremiumRepository {
+  public filtroForm = this.filtro();
+  constructor(private http$: HttpService) {
+    super();
+  }
 
   getSolicitudesPendientes(): Observable<any> {
     return this.http$.get(PremiumAPI.SolicitudesPendientes);
