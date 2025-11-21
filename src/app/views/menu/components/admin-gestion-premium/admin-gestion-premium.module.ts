@@ -2,17 +2,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { AdminGestionComerciosRoutingModule } from './admin-gestion-comercios-routing.module';
-import { AdminGestionComerciosComponent } from './admin-gestion-comercios.component';
+import { AdminGestionPremiumRoutingModule } from './admin-gestion-premium-routing.module';
+import { AdminGestionPremiumComponent } from './admin-gestion-premium.component';
 
 @NgModule({
-  declarations: [AdminGestionComerciosComponent],
+  declarations: [AdminGestionPremiumComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminGestionComerciosRoutingModule,
+    AdminGestionPremiumRoutingModule,
     SharedModule,
   ],
 })
-export class AdminGestionComerciosModule {}
+export class AdminGestionPremiumModule {}

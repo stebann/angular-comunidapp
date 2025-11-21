@@ -64,11 +64,11 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'gestion-comercios',
+    path: 'gestion-premium',
     loadChildren: () =>
       import(
-        './components/admin-gestion-comercios/admin-gestion-comercios.module'
-      ).then((m) => m.AdminGestionComerciosModule),
+        './components/admin-gestion-premium/admin-gestion-premium.module'
+      ).then((m) => m.AdminGestionPremiumModule),
   },
   {
     path: 'predictivo',
