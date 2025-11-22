@@ -22,12 +22,12 @@ export class AdminGestionPremiumComponent implements OnInit {
   }
 
   cargarSolicitudes(): void {
-    this.adminGestionPremiumService.getSolicitudesPendientes().subscribe({
+    this.adminGestionPremiumService.obtenerSolicitudesPremium().subscribe({
       next: (solicitudes: SolicitudPremium[]) => {
         this.solicitudes = solicitudes;
         this.cdr.detectChanges();
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error al cargar solicitudes:', error);
       },
     });
@@ -40,8 +40,9 @@ export class AdminGestionPremiumComponent implements OnInit {
     if (term) {
       filtradas = filtradas.filter(
         (s) =>
-          s.id.toString().includes(term) ||
-          s.usuarioId.toString().includes(term) ||
+          s.usuarioNombre.toLowerCase().includes(term) ||
+          s.usuarioEmail.toLowerCase().includes(term) ||
+          s.usuarioTelefono.toLowerCase().includes(term) ||
           s.estadoNombre.toLowerCase().includes(term)
       );
     }

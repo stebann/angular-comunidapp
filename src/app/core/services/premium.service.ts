@@ -12,8 +12,8 @@ export class PremiumService {
     return this.http$.post(url, {});
   }
 
-  getSolicitudesPendientes(): Observable<any> {
-    return this.http$.get(PremiumAPI.SolicitudesPendientes);
+  getSolicitudes(): Observable<any> {
+    return this.http$.get(PremiumAPI.Solicitudes);
   }
 
   getSolicitudesPorUsuario(usuarioId: number): Observable<any> {

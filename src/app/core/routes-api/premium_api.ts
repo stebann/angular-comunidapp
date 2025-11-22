@@ -1,6 +1,6 @@
 export enum PremiumAPI {
   Solicitar = 'premium/solicitar',
-  SolicitudesPendientes = 'premium/solicitudes/pendientes',
+  Solicitudes = 'premium/solicitudes',
   SolicitudesPorUsuario = 'premium/solicitudes/usuario/',
   CambiarEstadoSolicitud = 'premium/solicitudes/cambiar-estado/',
 }

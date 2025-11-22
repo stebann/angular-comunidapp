@@ -11,8 +11,8 @@ export class AdminGestionPremiumService extends AdminGestionPremiumRepository {
     super();
   }
 
-  getSolicitudesPendientes(): Observable<any> {
-    return this.http$.get(PremiumAPI.SolicitudesPendientes);
+  obtenerSolicitudesPremium(): Observable<any> {
+    return this.http$.get(PremiumAPI.Solicitudes);
   }
 
   getSolicitudesPorUsuario(usuarioId: number): Observable<any> {

@@ -17,22 +17,33 @@
     <div class="solicitudes-table">
       <!-- Header de tabla - siempre visible -->
       <div class="table-header">
-        <div class="col-id">ID</div>
-        <div class="col-usuario">Usuario ID</div>
+        <div class="col-nombre">Nombre</div>
+        <div class="col-correo">Correo</div>
+        <div class="col-telefono">Teléfono</div>
+        <div class="col-fecha">Fecha Solicitud</div>
         <div class="col-estado">Estado</div>
-        <div class="col-fecha">Fecha de Solicitud</div>
         <div class="col-acciones">Acciones</div>
       </div>
 
       <!-- Filas de solicitudes -->
       <div *ngIf="solicitudesFiltradas.length > 0">
         <div *ngFor="let solicitud of solicitudesFiltradas" class="table-row">
-          <div class="col-id">
-            <span class="id-text">#{{ solicitud.id }}</span>
+          <div class="col-nombre">
+            <span class="nombre-text">{{ solicitud.usuarioNombre }}</span>
           </div>
 
-          <div class="col-usuario">
-            <span class="usuario-id">{{ solicitud.usuarioId }}</span>
+          <div class="col-correo">
+            <span class="correo-text">{{ solicitud.usuarioEmail }}</span>
+          </div>
+
+          <div class="col-telefono">
+            <span class="telefono-text">{{ solicitud.usuarioTelefono }}</span>
+          </div>
+
+          <div class="col-fecha">
+            <span class="fecha-text">{{
+              formatearFecha(solicitud.creadoEn)
+            }}</span>
           </div>
 
           <div class="col-estado">
@@ -42,12 +53,6 @@
             >
               {{ solicitud.estadoNombre }}
             </span>
-          </div>
-
-          <div class="col-fecha">
-            <span class="fecha-text">{{
-              formatearFecha(solicitud.creadoEn)
-            }}</span>
           </div>
 
           <div class="col-acciones">
