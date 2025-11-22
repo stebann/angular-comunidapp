@@ -34,7 +34,7 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 180px 220px 140px 180px 1fr 120px;
+  grid-template-columns: 180px 220px 140px 180px 1fr 120px 120px;
   gap: 1rem;
   padding: 0.75rem 1.25rem;
   background: var(--surface-ground);
@@ -53,7 +53,7 @@
 
 .table-row {
   display: grid;
-  grid-template-columns: 180px 220px 140px 180px 1fr 120px;
+  grid-template-columns: 180px 220px 140px 180px 1fr 120px 120px;
   gap: 1rem;
   padding: 0.65rem 1.25rem;
   border-bottom: 1px solid var(--surface-border);
@@ -122,6 +122,10 @@
   gap: 0.5rem;
 }
 
+.col-estado {
+  justify-content: center;
+}
+
 .btn-action {
   width: 36px;
   height: 36px;
@@ -173,7 +177,7 @@
 @media (max-width: 1200px) {
   .table-header,
   .table-row {
-    grid-template-columns: 160px 200px 160px 1fr 110px;
+    grid-template-columns: 160px 200px 1fr 120px 110px;
     
     .col-telefono {
       display: none;

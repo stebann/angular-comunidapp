@@ -70,8 +70,6 @@ export class AdminUsuariosComponent implements OnInit {
 
   verDetalles(usuario: Usuario): void {}
 
-  editarUsuario(usuario: Usuario): void {}
-
   suspenderUsuario(usuario: Usuario): void {}
 
   activarUsuario(usuario: Usuario): void {}
@@ -82,11 +80,6 @@ export class AdminUsuariosComponent implements OnInit {
         icon: 'pi pi-eye',
         label: 'Ver',
         command: () => this.verDetalles(usuario),
-      },
-      {
-        icon: 'pi pi-pencil',
-        label: 'Editar',
-        command: () => this.editarUsuario(usuario),
       },
       {
         icon: 'pi pi-ban',

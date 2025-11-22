@@ -26,6 +26,7 @@
         <div class="col-email">Email</div>
         <div class="col-telefono">Teléfono</div>
         <div class="col-rating">Rating</div>
+        <div class="col-spacer"></div>
         <div class="col-rol">Rol</div>
         <div class="col-acciones">Acciones</div>
       </div>
@@ -65,6 +66,8 @@
             <i class="pi pi-star-fill"></i> {{ usuario.ratingPromedio }}
           </span>
         </div>
+
+        <div class="col-spacer"></div>
 
         <div class="col-rol">
           <span class="rol-badge" [class]="usuario.rol.nombre.toLowerCase()">
