@@ -31,13 +31,6 @@ export class AdminGestionPremiumComponent implements OnInit {
 
     this.menuItems = [
       {
-        icon: 'pi pi-eye',
-        label: 'Ver',
-        command: () => {
-          this.verDetalles();
-        },
-      },
-      {
         icon: 'pi pi-check',
         label: 'Aprobar',
         command: () => {
@@ -95,11 +88,6 @@ export class AdminGestionPremiumComponent implements OnInit {
   }
 
   onFiltersApplied(): void {}
-
-  verDetalles(): void {
-    if (!this.solicitudSeleccionada) return;
-    console.log('Ver detalles:', this.solicitudSeleccionada);
-  }
 
   aprobarSolicitud(): void {
     if (!this.solicitudSeleccionada) return;
