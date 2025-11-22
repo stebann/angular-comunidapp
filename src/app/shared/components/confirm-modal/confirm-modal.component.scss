@@ -1,0 +1,38 @@
+.confirm-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  gap: 1.5rem;
+}
+
+.confirm-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--color-primary-100);
+  
+  i {
+    font-size: 2rem;
+    color: var(--color-primary-600);
+  }
+}
+
+.confirm-message {
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-color);
+  max-width: 400px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}

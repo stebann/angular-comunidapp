@@ -19,7 +19,14 @@ export class AdminGestionPremiumService extends AdminGestionPremiumRepository {
     return this.http$.get(`${PremiumAPI.SolicitudesPorUsuario}${usuarioId}`);
   }
 
-  cambiarEstadoSolicitud(id: number, data: any): Observable<any> {
-    return this.http$.post(`${PremiumAPI.CambiarEstadoSolicitud}${id}`, data);
+  cambiarEstadoSolicitud(
+    id: number,
+    adminId: number,
+    estado: number
+  ): Observable<any> {
+    return this.http$.post(
+      `${PremiumAPI.CambiarEstadoSolicitud}${id}?adminId=${adminId}&estado=${estado}`,
+      {}
+    );
   }
 }

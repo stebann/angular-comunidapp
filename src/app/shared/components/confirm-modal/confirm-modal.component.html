@@ -1,0 +1,27 @@
+<div class="confirm-modal">
+  <div class="confirm-icon">
+    <i [class]="icon"></i>
+  </div>
+  
+  <div class="confirm-message">
+    {{ message }}
+  </div>
+  
+  <div class="confirm-actions">
+    <app-button
+      type="secondary"
+      size="md"
+      (clicked)="onCancel()"
+    >
+      {{ cancelLabel }}
+    </app-button>
+    
+    <app-button
+      type="primary"
+      size="md"
+      (clicked)="onAccept()"
+    >
+      {{ acceptLabel }}
+    </app-button>
+  </div>
+</div>

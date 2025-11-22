@@ -26,6 +26,7 @@ import { ArticuloDetailComponent } from './components/articulo-detail/articulo-d
 import { SolicitudMessageComponent } from './components/articulo-detail/solicitud-articulo-modal/solicitud-message.component';
 
 import { ButtonComponent } from './components/button/button.component';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { DropdownFieldComponent } from './components/dropdown-field/dropdown-field.component';
 import { GenericFilterComponent } from './components/generic-filter/generic-filter.component';
@@ -64,6 +65,7 @@ import { UsuarioInfoModalComponent } from './components/usuario-info-modal/usuar
     ProfileModalComponent,
     ImageViewerComponent,
     PlanPremiumModalComponent,
+    ConfirmModalComponent,
   ],
   imports: [
     CommonModule,

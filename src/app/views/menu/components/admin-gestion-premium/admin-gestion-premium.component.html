@@ -56,7 +56,9 @@
           </div>
 
           <div class="col-acciones">
-            <app-opciones [items]="getOpcionesFor(solicitud)"></app-opciones>
+            <div (click)="$event.stopPropagation(); solicitudSeleccionada = solicitud">
+              <app-opciones [items]="menuItems"></app-opciones>
+            </div>
           </div>
         </div>
       </div>
