@@ -123,7 +123,6 @@
           </div>
         </div>
 
-
         <div class="row-fields">
           <div class="field-group">
             <app-dropdown-field
@@ -168,7 +167,7 @@
       (clicked)="crearArticulo()"
       [disabled]="!canSave"
     >
-      Guardar
+      {{ isEditing ? "Actualizar" : "Guardar" }}
     </app-button>
   </div>
 </div>

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmModalService } from 'src/app/core/services/confirm-modal.service';
 import { ImageUrlService } from 'src/app/core/services/image-url.service';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import {
   ArticuloComercio,
   CategoriaArticulo,
@@ -30,6 +31,7 @@ export class DetalleComercioComponent implements OnInit {
   esDueno: boolean = false;
   menuItems: any[] = [];
   origen: string = 'explorar';
+  articuloSeleccionado: ArticuloComercio | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +39,8 @@ export class DetalleComercioComponent implements OnInit {
     private comercioService: ComercioService,
     private imageUrlService: ImageUrlService,
     private dialogService: DialogService,
-    private confirmModalService: ConfirmModalService
+    private confirmModalService: ConfirmModalService,
+    private toastService: AppMessagesServices
   ) {}
 
   ngOnInit() {
@@ -58,12 +61,12 @@ export class DetalleComercioComponent implements OnInit {
       {
         icon: 'pi pi-pencil',
         label: 'Editar',
-        command: () => this.editarArticulo(),
+        command: () => this.editarArticulo(this.articuloSeleccionado),
       },
       {
         icon: 'pi pi-trash',
         label: 'Eliminar',
-        command: () => this.eliminarArticulo(),
+        command: () => this.eliminarArticulo(this.articuloSeleccionado),
       },
     ];
 
@@ -79,11 +82,17 @@ export class DetalleComercioComponent implements OnInit {
       this.origen = queryParams['origen'] || 'explorar';
     });
 
+    // Inicializar menuItems (se actualizarán dinámicamente cuando se abre el menú)
     this.menuItems = [
       {
         icon: 'pi pi-pencil',
         label: 'Editar',
-        command: () => this.editarArticulo(),
+        command: () => this.editarArticulo(this.articuloSeleccionado),
+      },
+      {
+        label: 'Eliminar',
+        icon: 'pi pi-trash',
+        command: () => this.eliminarArticulo(this.articuloSeleccionado),
       },
     ];
   }
@@ -184,6 +193,23 @@ export class DetalleComercioComponent implements OnInit {
     console.log('Abrir detalle de artículo:', articulo);
   }
 
+  onMenuOpened(articulo: ArticuloComercio): void {
+    this.articuloSeleccionado = articulo;
+    // Actualizar los menuItems con el artículo seleccionado
+    this.menuItems = [
+      {
+        icon: 'pi pi-pencil',
+        label: 'Editar',
+        command: () => this.editarArticulo(this.articuloSeleccionado),
+      },
+      {
+        label: 'Eliminar',
+        icon: 'pi pi-trash',
+        command: () => this.eliminarArticulo(this.articuloSeleccionado),
+      },
+    ];
+  }
+
   agregarArticulo(): void {
     const ref = this.dialogService.open(ModalArticuloComercioComponent, {
       header: 'Agregar Artículo',
@@ -239,8 +265,18 @@ export class DetalleComercioComponent implements OnInit {
   }
 
   eliminarCategoria(categoria: CategoriaArticulo): void {
-    if (!categoria.id) {
-      console.error('No se puede eliminar: ID de categoría no válido');
+    // Validar si la categoría tiene artículos asociados
+    const articulosEnCategoria =
+      this.comercio?.articulos?.filter(
+        (articulo) =>
+          articulo.categoriaArticuloComercioNombre === categoria.nombre
+      ) || [];
+
+    if (articulosEnCategoria.length > 0) {
+      this.toastService.advertencia(
+        `No se puede eliminar la categoría "${categoria.nombre}" porque tiene ${articulosEnCategoria.length} artículo(s) asociado(s). Por favor, elimina o mueve los artículos primero.`,
+        'No se puede eliminar'
+      );
       return;
     }
 
@@ -256,20 +292,62 @@ export class DetalleComercioComponent implements OnInit {
         if (confirmed) {
           this.comercioService
             .eliminarCategoriaComercio(this.comercioId, categoria.id)
-            .subscribe((response) => {
+            .subscribe(() => {
+              this.toastService.exito(
+                'Categoría eliminada correctamente',
+                'Éxito'
+              );
               this.cargarComercio();
             });
         }
       });
   }
 
-  editarArticulo(): void {
-    console.log('Editar artículo - TODO: Implementar');
-    // TODO: Implementar edición de artículo
+  editarArticulo(articulo: ArticuloComercio | null): void {
+    if (!articulo || !articulo.id) {
+      return;
+    }
+
+    const ref = this.dialogService.open(ModalArticuloComercioComponent, {
+      header: 'Editar Artículo',
+      width: '1200px',
+      styleClass: 'p-app-modal',
+      data: {
+        comercioId: this.comercioId,
+        articuloId: articulo.id,
+        isEditing: true,
+      },
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result?.success) {
+        this.toastService.exito('Artículo actualizado correctamente', 'Éxito');
+        this.cargarComercio();
+      }
+    });
   }
 
-  eliminarArticulo(): void {
-    console.log('Eliminar artículo - TODO: Implementar');
-    // TODO: Implementar eliminación de artículo
+  eliminarArticulo(articulo: ArticuloComercio | null): void {
+    this.confirmModalService
+      .confirm({
+        message: `¿Estás seguro de que deseas eliminar el artículo "${articulo?.titulo}"?`,
+        title: 'Confirmar eliminación',
+        acceptLabel: 'Eliminar',
+        cancelLabel: 'Cancelar',
+        icon: 'pi pi-exclamation-triangle',
+      })
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.comercioService
+            .eliminarArticuloComercio(this.comercioId, articulo?.id || 0)
+            .subscribe(() => {
+              this.toastService.exito(
+                'Artículo eliminado correctamente',
+                'Éxito'
+              );
+              this.cargarComercio();
+            });
+        }
+      });
   }
 }

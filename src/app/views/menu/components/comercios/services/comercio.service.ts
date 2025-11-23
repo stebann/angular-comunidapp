@@ -28,6 +28,14 @@ export class ComercioService extends ComercioRepository {
     return this.http$.get(`${ComerciosAPI.PorId}${id}`);
   }
 
+  getArticuloComercioPorId(
+    comercioId: number,
+    articuloId: number
+  ): Observable<any> {
+    const url = `${ComerciosAPI.CrearArticulo}${comercioId}/articulos/${articuloId}`;
+    return this.http$.get(url);
+  }
+
   public filtrar(): void {
     this.http$
       .post(FiltrosAPI.Buscar, this.filtroComercio.value)
@@ -83,5 +91,36 @@ export class ComercioService extends ComercioRepository {
   ): Observable<any> {
     const url = `${ComerciosAPI.CrearCategoria}${comercioId}/categorias/${categoriaId}`;
     return this.http$.delete(url);
+  }
+
+  eliminarArticuloComercio(
+    comercioId: number,
+    articuloId: number
+  ): Observable<any> {
+    const url = `${ComerciosAPI.CrearArticulo}${comercioId}/articulos/${articuloId}`;
+    return this.http$.delete(url);
+  }
+
+  actualizarArticuloComercio(
+    comercioId: number,
+    articuloId: number,
+    imagenes: File[]
+  ): Observable<any> {
+    const url = `${ComerciosAPI.CrearArticulo}${comercioId}/articulos/${articuloId}`;
+
+    const formData = new FormData();
+    const formValues = this.formArticuloComercio.value;
+
+    Object.keys(formValues).forEach((key) => {
+      if (key !== 'imagenes' && formValues[key] != null) {
+        formData.append(key, formValues[key]);
+      }
+    });
+
+    imagenes.forEach((file) => {
+      formData.append('imagenes', file, file.name);
+    });
+
+    return this.http$.putFormData(url, formData);
   }
 }

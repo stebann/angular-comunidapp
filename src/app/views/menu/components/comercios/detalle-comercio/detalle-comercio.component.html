@@ -27,6 +27,7 @@
     <!-- Derecha: Botones de acción -->
     <div class="header-right">
       <app-button
+        *ngIf="esDueno"
         type="primary"
         size="sm"
         icon="pi pi-plus"
@@ -92,6 +93,7 @@
       <div class="categorias-header">
         <h3 class="categorias-title">Categorías</h3>
         <button
+          *ngIf="esDueno"
           class="icon-btn-add"
           (click)="agregarCategoria()"
           title="Agregar categoría"
@@ -119,6 +121,7 @@
           <i class="pi pi-folder"></i>
           <span>{{ categoria.nombre }}</span>
           <div
+            *ngIf="esDueno"
             class="categoria-actions"
             (click)="
               $event.stopPropagation(); categoriaSeleccionadaObj = categoria
@@ -139,9 +142,10 @@
         <app-comercio-card-detalle
           *ngFor="let articulo of articulosFiltrados"
           [comercio]="articulo"
-          [esDueno]="true"
+          [esDueno]="esDueno"
           [menuItems]="menuItems"
           (cardClicked)="abrirModalArticulo($event)"
+          (menuOpened)="onMenuOpened($event)"
         ></app-comercio-card-detalle>
       </div>
 
