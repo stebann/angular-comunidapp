@@ -57,10 +57,15 @@
   <div class="main-layout-detalle">
     <!-- Sidebar izquierdo: Header + Categorías -->
     <aside class="sidebar-comercio">
-      <button class="info-btn-sidebar" (click)="abrirModalInfo()">
-        <i class="pi pi-info-circle"></i>
+      <app-button
+        type="outline-primary"
+        size="sm"
+        icon="pi pi-info-circle"
+        class="info-btn-sidebar"
+        (clicked)="abrirModalInfo()"
+      >
         Info
-      </button>
+      </app-button>
 
       <div class="comercio-header">
         <div class="comercio-avatar">
@@ -87,7 +92,7 @@
       <div class="categorias-header">
         <h3 class="categorias-title">Categorías</h3>
         <button
-          class="add-categoria-btn"
+          class="icon-btn-add"
           (click)="agregarCategoria()"
           title="Agregar categoría"
         >
@@ -105,15 +110,17 @@
           <span>Todas</span>
         </button>
 
-        <button
-          *ngFor="let categoria of categorias"
-          class="categoria-item"
+        <div *ngFor="let categoria of comercio.categorias" class="categoria-item"
           [class.active]="categoriaSeleccionada === categoria.nombre"
-          (click)="seleccionarCategoria(categoria.nombre)"
-        >
-          <i class="pi pi-tag"></i>
+          (click)="seleccionarCategoria(categoria.nombre)">
+          <i class="pi pi-folder"></i>
           <span>{{ categoria.nombre }}</span>
-        </button>
+          <div class="categoria-actions" (click)="$event.stopPropagation(); categoriaSeleccionadaObj = categoria">
+            <app-opciones
+              [items]="opcionesCategoria"
+            ></app-opciones>
+          </div>
+        </div>
       </div>
     </aside>
 

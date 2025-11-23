@@ -30,12 +30,17 @@
     </app-button>
     <app-button
       type="primary"
-      (clicked)="crearCategoria()"
+      (clicked)="guardarCategoria()"
       [disabled]="!categoriaForm.valid || isSubmitting"
     >
       <i class="pi pi-check" *ngIf="!isSubmitting"></i>
       <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
-      {{ isSubmitting ? "Creando..." : "Crear Categoría" }}
+      <span *ngIf="!isEditing">
+        {{ isSubmitting ? "Creando..." : "Crear Categoría" }}
+      </span>
+      <span *ngIf="isEditing">
+        {{ isSubmitting ? "Guardando..." : "Guardar Cambios" }}
+      </span>
     </app-button>
   </div>
 </div>

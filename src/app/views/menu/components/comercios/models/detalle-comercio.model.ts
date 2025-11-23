@@ -9,7 +9,7 @@ export interface DetalleComercio {
   sitioWeb?: string;
   tieneEnvio?: boolean;
   categoriaNombre?: string;
-  categoriasArticulos: CategoriaArticulo[];
+  categorias: CategoriaArticulo[];
   articulos: ArticuloComercio[];
 }
 

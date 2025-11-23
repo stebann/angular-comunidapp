@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ImageUrlService } from 'src/app/core/services/image-url.service';
+import { HttpClient } from '@angular/common/http';
+import { ConfirmModalService } from 'src/app/core/services/confirm-modal.service';
 import {
   ArticuloComercio,
   CategoriaArticulo,
@@ -23,16 +25,32 @@ export class DetalleComercioComponent implements OnInit {
   soloFavoritosArticulos: boolean = false;
   favoritosArticulos: number[] = [];
   categoriaSeleccionada: string = 'Todas';
+  categoriaSeleccionadaObj: any = null;
+  opcionesCategoria: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private comercioService: ComercioService,
     private imageUrlService: ImageUrlService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private confirmModalService: ConfirmModalService,
   ) {}
 
   ngOnInit() {
+    this.opcionesCategoria = [
+      {
+        icon: 'pi pi-pencil',
+        label: 'Editar',
+        command: () => this.editarCategoria(this.categoriaSeleccionadaObj),
+      },
+      {
+        icon: 'pi pi-trash',
+        label: 'Eliminar',
+        command: () => this.eliminarCategoria(this.categoriaSeleccionadaObj),
+      },
+    ];
+
     this.route.params.subscribe((params) => {
       this.comercioId = +params['id'];
       if (this.comercioId) {
@@ -46,11 +64,11 @@ export class DetalleComercioComponent implements OnInit {
       (response: DetalleComercio) => {
         this.comercio = response;
         if (
-          this.comercio?.categoriasArticulos &&
-          this.comercio.categoriasArticulos.length > 0
+          this.comercio?.categorias &&
+          this.comercio.categorias.length > 0
         ) {
           this.categoriaSeleccionada =
-            this.comercio.categoriasArticulos[0].nombre;
+            this.comercio.categorias[0].nombre;
         }
       },
       (error) => {
@@ -61,7 +79,7 @@ export class DetalleComercioComponent implements OnInit {
   }
 
   get categorias(): CategoriaArticulo[] {
-    return this.comercio?.categoriasArticulos || [];
+    return this.comercio?.categorias || [];
   }
 
   get articulosFiltrados(): ArticuloComercio[] {
@@ -162,6 +180,48 @@ export class DetalleComercioComponent implements OnInit {
     ref.onClose.subscribe((result) => {
       if (result?.success) {
         this.cargarComercio();
+      }
+    });
+  }
+
+  editarCategoria(categoria: CategoriaArticulo): void {
+    console.log('Editando categoría:', categoria);
+    const ref = this.dialogService.open(ModalCategoriaComercioComponent, {
+      header: 'Editar Categoría',
+      width: '500px',
+      styleClass: 'p-app-modal',
+      data: {
+        comercioId: this.comercioId,
+        categoria: categoria,
+        isEditing: true,
+      },
+    });
+
+    ref.onClose.subscribe((result) => {
+      if (result?.success) {
+        this.cargarComercio();
+      }
+    });
+  }
+
+  eliminarCategoria(categoria: CategoriaArticulo): void {
+    if (!categoria.id) {
+      console.error('No se puede eliminar: ID de categoría no válido');
+      return;
+    }
+
+    this.confirmModalService.confirm({
+      message: `¿Estás seguro de que deseas eliminar la categoría "${categoria.nombre}"?`,
+      title: 'Confirmar eliminación',
+      acceptLabel: 'Eliminar',
+      cancelLabel: 'Cancelar',
+      icon: 'pi pi-exclamation-triangle'
+    }).subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.comercioService.eliminarCategoriaComercio(this.comercioId, categoria.id).subscribe((response) => {
+
+            this.cargarComercio();
+          });
       }
     });
   }
