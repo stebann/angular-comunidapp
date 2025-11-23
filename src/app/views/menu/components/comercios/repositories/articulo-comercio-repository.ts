@@ -1,8 +1,8 @@
 import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
 } from '@angular/forms';
 
 export class ArticuloComercioRepository {
@@ -18,7 +18,7 @@ export class ArticuloComercioRepository {
       ]),
       categoriaCodigo: new FormControl(null, [Validators.required]),
       condicionCodigo: new FormControl(null, [Validators.required]),
-      tipoTransaccionCodigo: new FormControl(null, [Validators.required]),
+      tipoTransaccionCodigo: new FormControl(1, [Validators.required]), // 1 = Venta por defecto
       precio: new FormControl(null, [Validators.min(0)]),
       categoriaComercioId: new FormControl(null, [Validators.required]),
       imagenes: new FormControl([]),

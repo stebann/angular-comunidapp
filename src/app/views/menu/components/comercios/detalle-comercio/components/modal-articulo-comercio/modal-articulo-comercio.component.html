@@ -123,15 +123,30 @@
           </div>
         </div>
 
-        <app-dropdown-field
-          label="Categoría Comercio"
-          formControlName="categoriaComercioId"
-          [options]="categoriasArticulosComercio"
-          [required]="true"
-          placeholder="Selecciona la categoría del comercio"
-          class="full-width"
-        >
-        </app-dropdown-field>
+
+        <div class="row-fields">
+          <div class="field-group">
+            <app-dropdown-field
+              label="Categoría Comercio"
+              formControlName="categoriaComercioId"
+              [options]="categoriasArticulosComercio"
+              [required]="true"
+              placeholder="Selecciona la categoría del comercio"
+            >
+            </app-dropdown-field>
+          </div>
+
+          <div class="field-group">
+            <app-input-number-field
+              label="Precio"
+              formControlName="precio"
+              [required]="false"
+              placeholder="0"
+              [min]="0"
+            >
+            </app-input-number-field>
+          </div>
+        </div>
 
         <app-textarea-field
           label="Descripción"
@@ -140,35 +155,6 @@
           formControlName="descripcion"
           placeholder="Describe el artículo, su estado y características..."
         ></app-textarea-field>
-
-        <div class="row-fields">
-          <div class="field-group">
-            <app-dropdown-field
-              label="Tipo de Transacción"
-              formControlName="tipoTransaccionCodigo"
-              [options]="tiposTransaccion"
-              [required]="true"
-              placeholder="Selecciona el tipo"
-            >
-            </app-dropdown-field>
-          </div>
-
-          <div
-            class="field-group"
-            *ngIf="
-              form.get('tipoTransaccionCodigo')?.value === tipoTransaccionVenta
-            "
-          >
-            <app-input-number-field
-              label="Precio"
-              formControlName="precio"
-              [required]="true"
-              placeholder="0"
-              [min]="0"
-            >
-            </app-input-number-field>
-          </div>
-        </div>
       </form>
     </div>
   </div>

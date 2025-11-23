@@ -68,12 +68,19 @@ export class ComercioService extends ComercioRepository {
     return this.http$.post(url, categoria);
   }
 
-  actualizarCategoriaComercio(comercioId: number, categoriaId: number, categoria: any): Observable<any> {
+  actualizarCategoriaComercio(
+    comercioId: number,
+    categoriaId: number,
+    categoria: any
+  ): Observable<any> {
     const url = `${ComerciosAPI.CrearCategoria}${comercioId}/categorias/${categoriaId}`;
     return this.http$.put(url, categoria);
   }
 
-  eliminarCategoriaComercio(comercioId: number, categoriaId: number): Observable<any> {
+  eliminarCategoriaComercio(
+    comercioId: number,
+    categoriaId: number
+  ): Observable<any> {
     const url = `${ComerciosAPI.CrearCategoria}${comercioId}/categorias/${categoriaId}`;
     return this.http$.delete(url);
   }

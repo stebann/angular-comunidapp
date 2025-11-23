@@ -1,7 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { TipoTransaccion } from 'src/app/shared/enums/articulo.enums';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { ImageHandlerService } from 'src/app/shared/services/image-handler.service';
@@ -17,9 +15,7 @@ export class ModalArticuloComercioComponent implements OnInit {
 
   categorias: FilterOption[] = [];
   condiciones: FilterOption[] = [];
-  tiposTransaccion: FilterOption[] = [];
   categoriasArticulosComercio: FilterOption[] = [];
-  tipoTransaccionVenta = TipoTransaccion.Venta;
 
   isDragOver = false;
   previewImages: string[] = [];
@@ -42,7 +38,6 @@ export class ModalArticuloComercioComponent implements OnInit {
   ngOnInit(): void {
     this.loadFilters();
     this.loadCategoriasArticulosComercio();
-    this.setupPrecioValidation();
     // Resetear el formulario para crear nuevo artículo
     this.comercioService.formArticuloComercio.reset();
   }
@@ -68,32 +63,6 @@ export class ModalArticuloComercioComponent implements OnInit {
       .subscribe(
         (condiciones: FilterOption[]) => (this.condiciones = condiciones)
       );
-
-    this.filtersService
-      .getTiposTransaccion()
-      .subscribe((tipos: FilterOption[]) => {
-        this.tiposTransaccion = tipos;
-        this.updatePrecioValidation();
-      });
-  }
-
-  private setupPrecioValidation(): void {
-    this.form.get('tipoTransaccionCodigo')?.valueChanges.subscribe(() => {
-      this.updatePrecioValidation();
-    });
-  }
-
-  private updatePrecioValidation(): void {
-    const tipoTransaccionCodigo = this.form.get('tipoTransaccionCodigo')?.value;
-    const precioControl = this.form.get('precio');
-
-    if (tipoTransaccionCodigo === TipoTransaccion.Venta) {
-      precioControl?.setValidators([Validators.required, Validators.min(0)]);
-    } else {
-      precioControl?.clearValidators();
-      precioControl?.setValue(null);
-    }
-    precioControl?.updateValueAndValidity();
   }
 
   get form() {
