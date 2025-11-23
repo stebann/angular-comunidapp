@@ -34,6 +34,12 @@ export class FiltersService {
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
+  getCategoriasComercios(): Observable<FilterOption[]> {
+    return this.http
+      .get<IFilter[]>(FiltrosAPI.CategoriasComercios)
+      .pipe(map((data) => this.mapToFilterOptions(data || [])));
+  }
+
   private mapToFilterOptions(data: IFilter[]): FilterOption[] {
     return data.map((item) => ({
       value: item.codigo,

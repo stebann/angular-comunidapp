@@ -84,7 +84,7 @@ export class MisNegociosComponent implements OnInit {
   openCreateComercioModal(): void {
     this.dialogService$.open(AddComercioModalComponent, {
       header: 'Crear Comercio',
-      width: '600px',
+      width: '1200px',
       styleClass: 'p-app-modal',
     });
   }

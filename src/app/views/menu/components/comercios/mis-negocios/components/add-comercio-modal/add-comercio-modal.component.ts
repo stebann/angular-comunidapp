@@ -1,6 +1,8 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { FilterOption } from 'src/app/shared/models/filter-models';
+import { FiltersService } from 'src/app/shared/services/filters.service';
 import { ImageHandlerService } from 'src/app/shared/services/image-handler.service';
 import { MisNegociosService } from '../../services/mis-negocios.service';
 
@@ -9,27 +11,31 @@ import { MisNegociosService } from '../../services/mis-negocios.service';
   templateUrl: './add-comercio-modal.component.html',
   styleUrls: ['./add-comercio-modal.component.scss'],
 })
-export class AddComercioModalComponent {
+export class AddComercioModalComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
 
-  solicitudForm: FormGroup;
   isSubmitting: boolean = false;
   isDragOver = false;
   previewImages: string[] = [];
   currentImageIndex = 0;
+  categoriasComercios: FilterOption[] = [];
   private readonly MAX_IMAGES = 5;
 
   constructor(
     private ref: DynamicDialogRef,
-    private fb: FormBuilder,
-    private misNegociosService: MisNegociosService,
-    private imageHandler: ImageHandlerService
-  ) {
-    this.solicitudForm = this.fb.group({
-      nombre: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
-      direccion: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
+    public misNegociosService: MisNegociosService,
+    private imageHandler: ImageHandlerService,
+    private filtersService: FiltersService,
+    private authService: AuthService
+  ) {}
+
+  get comercioForm() {
+    return this.misNegociosService.formComercio;
+  }
+
+  ngOnInit(): void {
+    this.filtersService.getCategoriasComercios().subscribe((categorias) => {
+      this.categoriasComercios = categorias;
     });
   }
 
@@ -106,7 +112,7 @@ export class AddComercioModalComponent {
   }
 
   async onSubmit(): Promise<void> {
-    if (this.solicitudForm.valid && !this.isSubmitting) {
+    if (this.comercioForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
 
       // Convertir imágenes a Files si hay
@@ -117,23 +123,13 @@ export class AddComercioModalComponent {
         );
       }
 
-      const formData = new FormData();
-      formData.append('nombre', this.solicitudForm.value.nombre);
-      formData.append('descripcion', this.solicitudForm.value.descripcion);
-      formData.append('direccion', this.solicitudForm.value.direccion);
-      formData.append('telefono', this.solicitudForm.value.telefono);
-
-      // Agregar imágenes al FormData
-      imagenes.forEach((file, index) => {
-        formData.append('imagenes', file);
-      });
-
-      this.misNegociosService.crearComercio(formData).subscribe({
+      const usuarioId = this.authService.currentState.id;
+      this.misNegociosService.crearComercio(imagenes, usuarioId).subscribe({
         next: () => {
           this.ref.close('success');
         },
         error: (error) => {
-          console.error('Error al crear solicitud:', error);
+          console.error('Error al crear comercio:', error);
           this.isSubmitting = false;
         },
       });
