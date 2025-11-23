@@ -1,0 +1,38 @@
+<div class="comercio-card" (click)="onCardClick()">
+  <div class="comercio-media">
+    <div class="media-wrapper">
+      <img [src]="getImagenSrc()" [alt]="comercio.alt || comercio.titulo" />
+
+      <div
+        class="action-menu"
+        *ngIf="esDueno && menuItems.length > 0"
+        (click)="$event.stopPropagation(); menuOpened.emit(comercio)"
+      >
+        <app-opciones [items]="menuItems" [color]="'white'"></app-opciones>
+      </div>
+    </div>
+  </div>
+
+  <div class="comercio-body">
+    <div class="comercio-header">
+      <h3 class="comercio-titulo">{{ comercio.titulo }}</h3>
+    </div>
+    <p class="comercio-descripcion">{{ comercio.descripcion }}</p>
+
+    <div class="comercio-meta">
+      <div class="meta-left">
+        <span class="categoria">
+          <i class="pi pi-tag categoria-icon" aria-hidden="true"></i>
+          {{ comercio.categoriaNombre }}
+        </span>
+        <span class="tipo">{{ comercio.condicionNombre }}</span>
+      </div>
+
+      <div class="meta-right" *ngIf="comercio.precio > 0">
+        <span class="precio">
+          {{ comercio.precio | currency : "USD" : "symbol" : "1.2-2" }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

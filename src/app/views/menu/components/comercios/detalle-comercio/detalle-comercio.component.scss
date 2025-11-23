@@ -142,11 +142,11 @@
     top: 1.5rem;
     right: 1rem;
     z-index: 10;
-    
+
     ::ng-deep button {
       border-color: var(--color-primary) !important;
       color: var(--color-primary) !important;
-      
+
       &:hover {
         background-color: var(--color-primary) !important;
         color: white !important;
@@ -322,6 +322,10 @@
         color: var(--color-primary) !important;
         font-size: 1.2rem !important;
         cursor: pointer;
+        background: transparent !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
       }
 
       &:hover:not(.active) {

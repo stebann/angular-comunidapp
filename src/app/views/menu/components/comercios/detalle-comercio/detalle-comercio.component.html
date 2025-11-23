@@ -110,15 +110,21 @@
           <span>Todas</span>
         </button>
 
-        <div *ngFor="let categoria of comercio.categorias" class="categoria-item"
+        <div
+          *ngFor="let categoria of comercio.categorias"
+          class="categoria-item"
           [class.active]="categoriaSeleccionada === categoria.nombre"
-          (click)="seleccionarCategoria(categoria.nombre)">
+          (click)="seleccionarCategoria(categoria.nombre)"
+        >
           <i class="pi pi-folder"></i>
           <span>{{ categoria.nombre }}</span>
-          <div class="categoria-actions" (click)="$event.stopPropagation(); categoriaSeleccionadaObj = categoria">
-            <app-opciones
-              [items]="opcionesCategoria"
-            ></app-opciones>
+          <div
+            class="categoria-actions"
+            (click)="
+              $event.stopPropagation(); categoriaSeleccionadaObj = categoria
+            "
+          >
+            <app-opciones [items]="opcionesCategoria"></app-opciones>
           </div>
         </div>
       </div>
@@ -130,11 +136,13 @@
         *ngIf="articulosFiltrados.length > 0; else noArticulos"
         class="articulos-grid"
       >
-        <app-articulo-card
+        <app-comercio-card-detalle
           *ngFor="let articulo of articulosFiltrados"
-          [articulo]="articulo"
+          [comercio]="articulo"
+          [esDueno]="true"
+          [menuItems]="menuItems"
           (cardClicked)="abrirModalArticulo($event)"
-        ></app-articulo-card>
+        ></app-comercio-card-detalle>
       </div>
 
       <ng-template #noArticulos>

@@ -97,7 +97,9 @@ export class MisNegociosComponent implements OnInit {
   }
 
   abrirDetalleComercio(comercio: Comercio): void {
-    this.router.navigate(['/app/comercios/detalle', comercio.id]);
+    this.router.navigate(['/app/comercios/detalle', comercio.id], {
+      queryParams: { esDueno: true, origen: 'mis-negocios' },
+    });
   }
 
   onFiltersApplied(): void {}

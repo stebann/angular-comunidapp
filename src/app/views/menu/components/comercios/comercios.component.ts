@@ -80,7 +80,9 @@ export class ComerciosComponent implements OnInit {
   }
 
   abrirDetalleComercio(comercio: Comercio): void {
-    this.router.navigate(['/app/comercios/detalle', comercio.id]);
+    this.router.navigate(['/app/comercios/detalle', comercio.id], {
+      queryParams: { esDueno: false, origen: 'explorar' },
+    });
   }
 
   openFilters() {
@@ -94,6 +96,5 @@ export class ComerciosComponent implements OnInit {
       styleClass: 'p-app-modal',
       modal: true,
     });
-
   }
 }

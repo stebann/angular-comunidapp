@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
-import { ImageUrlService } from 'src/app/core/services/image-url.service';
-import { HttpClient } from '@angular/common/http';
 import { ConfirmModalService } from 'src/app/core/services/confirm-modal.service';
+import { ImageUrlService } from 'src/app/core/services/image-url.service';
 import {
   ArticuloComercio,
   CategoriaArticulo,
@@ -27,6 +26,10 @@ export class DetalleComercioComponent implements OnInit {
   categoriaSeleccionada: string = 'Todas';
   categoriaSeleccionadaObj: any = null;
   opcionesCategoria: any[] = [];
+  opcionesArticulo: any[] = [];
+  esDueno: boolean = false;
+  menuItems: any[] = [];
+  origen: string = 'explorar';
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +37,7 @@ export class DetalleComercioComponent implements OnInit {
     private comercioService: ComercioService,
     private imageUrlService: ImageUrlService,
     private dialogService: DialogService,
-    private confirmModalService: ConfirmModalService,
+    private confirmModalService: ConfirmModalService
   ) {}
 
   ngOnInit() {
@@ -51,29 +54,56 @@ export class DetalleComercioComponent implements OnInit {
       },
     ];
 
+    this.opcionesArticulo = [
+      {
+        icon: 'pi pi-pencil',
+        label: 'Editar',
+        command: () => this.editarArticulo(),
+      },
+      {
+        icon: 'pi pi-trash',
+        label: 'Eliminar',
+        command: () => this.eliminarArticulo(),
+      },
+    ];
+
     this.route.params.subscribe((params) => {
       this.comercioId = +params['id'];
       if (this.comercioId) {
         this.cargarComercio();
       }
     });
+
+    this.route.queryParams.subscribe((queryParams) => {
+      this.esDueno = queryParams['esDueno'] === 'true';
+      this.origen = queryParams['origen'] || 'explorar';
+    });
+
+    this.menuItems = [
+      {
+        icon: 'pi pi-pencil',
+        label: 'Editar',
+        command: () => this.editarArticulo(),
+      },
+    ];
   }
 
   cargarComercio(): void {
     this.comercioService.getComercioPorId(this.comercioId).subscribe(
       (response: DetalleComercio) => {
         this.comercio = response;
-        if (
-          this.comercio?.categorias &&
-          this.comercio.categorias.length > 0
-        ) {
-          this.categoriaSeleccionada =
-            this.comercio.categorias[0].nombre;
+        if (this.comercio?.categorias && this.comercio.categorias.length > 0) {
+          this.categoriaSeleccionada = this.comercio.categorias[0].nombre;
         }
       },
       (error) => {
         console.error('Error al cargar el comercio:', error);
-        this.router.navigate(['/app/comercios']);
+        const origen = this.route.snapshot.queryParams['origen'] || 'explorar';
+        if (origen === 'mis-negocios') {
+          this.router.navigate(['/app/comercios/mis-comercios']);
+        } else {
+          this.router.navigate(['/app/comercios/explorar']);
+        }
       }
     );
   }
@@ -135,7 +165,11 @@ export class DetalleComercioComponent implements OnInit {
   }
 
   cerrarDetalle(): void {
-    this.router.navigate(['/app/comercios']);
+    if (this.origen === 'mis-negocios') {
+      this.router.navigate(['/app/comercios/mis-comercios']);
+    } else {
+      this.router.navigate(['/app/comercios/explorar']);
+    }
   }
 
   toggleSoloFavoritosArticulos(): void {
@@ -210,19 +244,32 @@ export class DetalleComercioComponent implements OnInit {
       return;
     }
 
-    this.confirmModalService.confirm({
-      message: `¿Estás seguro de que deseas eliminar la categoría "${categoria.nombre}"?`,
-      title: 'Confirmar eliminación',
-      acceptLabel: 'Eliminar',
-      cancelLabel: 'Cancelar',
-      icon: 'pi pi-exclamation-triangle'
-    }).subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.comercioService.eliminarCategoriaComercio(this.comercioId, categoria.id).subscribe((response) => {
+    this.confirmModalService
+      .confirm({
+        message: `¿Estás seguro de que deseas eliminar la categoría "${categoria.nombre}"?`,
+        title: 'Confirmar eliminación',
+        acceptLabel: 'Eliminar',
+        cancelLabel: 'Cancelar',
+        icon: 'pi pi-exclamation-triangle',
+      })
+      .subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.comercioService
+            .eliminarCategoriaComercio(this.comercioId, categoria.id)
+            .subscribe((response) => {
+              this.cargarComercio();
+            });
+        }
+      });
+  }
 
-            this.cargarComercio();
-          });
-      }
-    });
+  editarArticulo(): void {
+    console.log('Editar artículo - TODO: Implementar');
+    // TODO: Implementar edición de artículo
+  }
+
+  eliminarArticulo(): void {
+    console.log('Eliminar artículo - TODO: Implementar');
+    // TODO: Implementar eliminación de artículo
   }
 }

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ComerciosRoutingModule } from './comercios-rounting.module';
 import { ComerciosComponent } from './comercios.component';
+import { ComercioCardDetalleComponent } from './components/comercio-card-detalle/comercio-card-detalle.component';
 import { ComercioCardComponent } from './components/comercio-card/comercio-card.component';
 import { ModalArticuloComercioComponent } from './detalle-comercio/components/modal-articulo-comercio/modal-articulo-comercio.component';
 import { ModalCategoriaComercioComponent } from './detalle-comercio/components/modal-categoria-comercio/modal-categoria-comercio.component';
@@ -18,6 +19,7 @@ import { MisNegociosComponent } from './mis-negocios/mis-negocios.component';
     MisNegociosComponent,
     AddComercioModalComponent,
     ComercioCardComponent,
+    ComercioCardDetalleComponent,
     ModalArticuloComercioComponent,
     ModalCategoriaComercioComponent,
   ],
