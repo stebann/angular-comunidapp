@@ -30,38 +30,12 @@
         *ngIf="comerciosFiltrados.length > 0; else noComercios"
         class="comercios-grid"
       >
-        <div
+        <app-comercio-card
           *ngFor="let comercio of comerciosFiltrados; trackBy: trackByFn"
-          class="comercio-card"
-        >
-          <div class="comercio-imagen" (click)="abrirDetalleComercio(comercio)">
-            <img [src]="getImagenSrc(comercio)" [alt]="comercio.nombre" />
-          </div>
-
-          <div class="comercio-info" (click)="abrirDetalleComercio(comercio)">
-            <h3 class="comercio-nombre">{{ comercio.nombre }}</h3>
-
-            <p class="comercio-descripcion">{{ comercio.descripcion }}</p>
-
-            <div class="comercio-details">
-              <div class="detail-item">
-                <i class="pi pi-map-marker"></i>
-                <span>{{ comercio.direccion }}</span>
-              </div>
-              <div class="detail-item">
-                <i class="pi pi-phone"></i>
-                <span>{{ comercio.telefono }}</span>
-              </div>
-            </div>
-
-            <div class="card-footer" *ngIf="comercio.horario">
-              <div class="detail-item">
-                <i class="pi pi-clock"></i>
-                <span>{{ comercio.horario }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          [comercio]="comercio"
+          [cardType]="'comercios'"
+          (cardClicked)="abrirDetalleComercio($event)"
+        ></app-comercio-card>
       </div>
 
       <ng-template #noComercios>

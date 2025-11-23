@@ -7,6 +7,7 @@ import { ComerciosComponent } from './comercios.component';
 import { DetalleComercioComponent } from './detalle-comercio/detalle-comercio.component';
 import { AddComercioModalComponent } from './mis-negocios/components/add-comercio-modal/add-comercio-modal.component';
 import { MisNegociosComponent } from './mis-negocios/mis-negocios.component';
+import { ComercioCardComponent } from './components/comercio-card/comercio-card.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MisNegociosComponent } from './mis-negocios/mis-negocios.component';
     DetalleComercioComponent,
     MisNegociosComponent,
     AddComercioModalComponent,
+    ComercioCardComponent,
   ],
   imports: [
     CommonModule,

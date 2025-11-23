@@ -4,6 +4,10 @@ export interface Comercio {
   descripcion: string;
   direccion: string;
   telefono: string;
+  email?: string;
   imagenes: string[];
-  horario: string;
+  horario?: string;
+  sitioWeb?: string;
+  tieneEnvio?: boolean;
+  categoriaNombre?: string;
 }

@@ -17,6 +17,8 @@ import { MisNegociosService } from './services/mis-negocios.service';
 export class MisNegociosComponent implements OnInit {
   searchTerm: string = '';
   isOpen: boolean = false;
+  comercioSeleccionado: Comercio | null = null;
+  menuItems: any[] = [];
 
   categorias: FilterOption[] = [];
   condiciones: FilterOption[] = [];
@@ -45,6 +47,23 @@ export class MisNegociosComponent implements OnInit {
     this.filterService
       .getTiposTransaccion()
       .subscribe((tipos) => (this.tiposTransaccion = tipos));
+
+    this.menuItems = [
+      {
+        label: 'Editar',
+        icon: 'pi pi-pencil',
+        command: () => {
+          this.onEdit();
+        },
+      },
+      {
+        label: 'Eliminar',
+        icon: 'pi pi-trash',
+        command: () => {
+          this.onRemove();
+        },
+      },
+    ];
   }
 
   get comercios(): Comercio[] {
@@ -93,5 +112,17 @@ export class MisNegociosComponent implements OnInit {
       width: '1200px',
       styleClass: 'p-app-modal',
     });
+  }
+
+  onEdit(): void {
+    if (!this.comercioSeleccionado) return;
+    // TODO: Implementar edición de comercio
+    console.log('Editar comercio:', this.comercioSeleccionado);
+  }
+
+  onRemove(): void {
+    if (!this.comercioSeleccionado) return;
+    // TODO: Implementar eliminación de comercio
+    console.log('Eliminar comercio:', this.comercioSeleccionado);
   }
 }

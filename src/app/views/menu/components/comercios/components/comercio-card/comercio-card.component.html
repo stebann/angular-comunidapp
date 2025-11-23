@@ -1,0 +1,52 @@
+<div class="comercio-card" (click)="onCardClick()">
+  <div class="comercio-imagen" (click)="onCardClick()">
+    <img [src]="getImagenSrc()" [alt]="comercio.nombre" />
+    <div class="categoria-badge">{{ comercio.categoriaNombre }}</div>
+    <div
+      class="action-menu"
+      *ngIf="esDueno"
+      (click)="$event.stopPropagation(); menuOpened.emit(comercio)"
+    >
+      <app-opciones [items]="menuItems" [color]="'white'"></app-opciones>
+    </div>
+  </div>
+
+  <div class="comercio-info">
+    <div class="info-header" (click)="onCardClick()">
+      <h3 class="comercio-nombre">{{ comercio.nombre }}</h3>
+      <p class="comercio-descripcion">{{ comercio.descripcion }}</p>
+    </div>
+
+    <div class="comercio-details">
+      <div class="details-row">
+        <div class="details-column">
+          <div class="detail-item">
+            <i class="pi pi-map-marker"></i>
+            <span [title]="comercio.direccion">{{ comercio.direccion }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="pi pi-phone"></i>
+            <span>{{ comercio.telefono }}</span>
+          </div>
+        </div>
+        <div class="details-column">
+          <div class="detail-item">
+            <i class="pi pi-envelope"></i>
+            <span [title]="comercio.email">{{ comercio.email }}</span>
+          </div>
+          <div class="detail-item" *ngIf="comercio.sitioWeb">
+            <i class="pi pi-globe"></i>
+            <span [title]="comercio.sitioWeb">{{ comercio.sitioWeb }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer" *ngIf="comercio.horario">
+      <div class="horario-item">
+        <i class="pi pi-clock"></i>
+        <span>{{ comercio.horario }}</span>
+      </div>
+    </div>
+  </div>
+</div>

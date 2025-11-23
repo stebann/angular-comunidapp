@@ -1,0 +1,181 @@
+.comercio-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--surface-border);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.comercio-imagen {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  cursor: pointer;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .categoria-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: rgba(0, 0, 0, 0.55);
+    color: #ffffff;
+    padding: 0.38rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    z-index: 10;
+    box-shadow: none;
+  }
+
+  .action-menu {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    display: inline-flex;
+    align-items: center;
+    z-index: 10;
+  }
+}
+
+.comercio-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.info-header {
+  cursor: pointer;
+}
+
+.comercio-nombre {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-color);
+  line-height: 1.3;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--surface-border);
+  flex-wrap: wrap;
+}
+
+.horario-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-color-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+
+  i {
+    color: var(--primary-color);
+    font-size: 0.8rem;
+  }
+}
+
+.comercio-descripcion {
+  margin: 0;
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.comercio-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+.details-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.details-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 0;
+  white-space: nowrap;
+
+  i {
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    min-width: 1rem;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+}
+
+// Responsive
+@media (max-width: 1200px) {
+  .comercio-imagen {
+    height: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .comercio-imagen {
+    height: 140px;
+  }
+
+  .comercio-nombre {
+    font-size: 1rem;
+  }
+
+  .comercio-descripcion {
+    font-size: 0.8rem;
+  }
+
+  .detail-item {
+    font-size: 0.75rem;
+  }
+}
