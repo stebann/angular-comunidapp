@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
+import { ImageUrlService } from 'src/app/core/services/image-url.service';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { Comercio } from '../models/comercio.model';
@@ -26,7 +27,8 @@ export class MisNegociosComponent implements OnInit {
     public comercioService: ComercioService,
     public misNegociosService: MisNegociosService,
     private filterService: FiltersService,
-    public dialogService$: DialogService
+    public dialogService$: DialogService,
+    private imageUrlService: ImageUrlService
   ) {}
 
   ngOnInit(): void {
@@ -69,6 +71,10 @@ export class MisNegociosComponent implements OnInit {
 
   trackByFn(index: number, comercio: Comercio): number {
     return comercio.id;
+  }
+
+  getImagenSrc(comercio: Comercio): string {
+    return this.imageUrlService.getImagenFromArray(comercio?.imagenes);
   }
 
   abrirDetalleComercio(comercio: Comercio): void {

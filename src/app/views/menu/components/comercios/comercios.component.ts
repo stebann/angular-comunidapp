@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { ImageUrlService } from 'src/app/core/services/image-url.service';
 import { PlanPremiumModalComponent } from 'src/app/shared/components/plan-premium-modal/plan-premium-modal.component';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
@@ -26,7 +27,8 @@ export class ComerciosComponent implements OnInit {
     public comercioService: ComercioService,
     private filterService: FiltersService,
     public dialogService$: DialogService,
-    public authService: AuthService
+    public authService: AuthService,
+    private imageUrlService: ImageUrlService
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +74,10 @@ export class ComerciosComponent implements OnInit {
   }
 
   onFiltersApplied(): void {}
+
+  getImagenSrc(comercio: Comercio): string {
+    return this.imageUrlService.getImagenFromArray(comercio?.imagenes);
+  }
 
   abrirDetalleComercio(comercio: Comercio): void {
     this.router.navigate(['/app/comercios/detalle', comercio.id]);

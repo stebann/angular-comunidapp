@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ImageUrlService } from 'src/app/core/services/image-url.service';
 import { ImageHandlerService } from '../../services/image-handler.service';
 
 @Component({
@@ -13,20 +14,13 @@ export class ArticuloCardComponent {
   @Output() cardClicked = new EventEmitter<any>();
   @Output() menuOpened = new EventEmitter<any>();
 
-  constructor(private imageHandler: ImageHandlerService) {}
+  constructor(
+    private imageHandler: ImageHandlerService,
+    private imageUrlService: ImageUrlService
+  ) {}
 
   getImagenSrc(): string {
-    if (this.articulo?.imagenes && this.articulo.imagenes.length > 0) {
-      const imageName = this.articulo.imagenes[0];
-      if (imageName.startsWith('http')) {
-        return imageName;
-      }
-      return `http://localhost:8080/api/articulo/imagen/${imageName}`;
-    }
-    return (
-      'https://picsum.photos/600/400?random=' +
-      (Math.floor(Math.random() * 1000) + 1)
-    );
+    return this.imageUrlService.getImagenFromArray(this.articulo?.imagenes);
   }
 
   onCardClick() {

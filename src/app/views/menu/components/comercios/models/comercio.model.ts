@@ -4,6 +4,6 @@ export interface Comercio {
   descripcion: string;
   direccion: string;
   telefono: string;
-  logoUrl: string;
+  imagenes: string[];
   horario: string;
 }

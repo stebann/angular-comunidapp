@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ImageUrlService } from 'src/app/core/services/image-url.service';
 import { Solicitud } from 'src/app/views/menu/components/mis-gestiones/models/solicitud.model';
 
 @Component({
@@ -14,9 +15,7 @@ export class SolicitudCardComponent implements OnInit {
     solicitud: Solicitud;
   }>();
 
-  private readonly IMAGE_BASE_URL = 'http://localhost:8080/api/articulo/imagen';
-
-  constructor() {}
+  constructor(private imageUrlService: ImageUrlService) {}
 
   ngOnInit(): void {}
 
@@ -37,7 +36,7 @@ export class SolicitudCardComponent implements OnInit {
     if (!this.solicitud) return 'estado-pendiente';
     const estado = this.solicitud.estadoNombre?.toLowerCase();
     if (!estado) return 'estado-pendiente';
-    
+
     if (estado.includes('acept')) return 'estado-aceptada';
     if (estado.includes('rechaz')) return 'estado-rechazada';
     if (estado.includes('cancel')) return 'estado-cancelada';
@@ -47,23 +46,25 @@ export class SolicitudCardComponent implements OnInit {
 
   getEstadoLabel(): string {
     if (!this.solicitud?.estadoNombre) return 'Pendiente';
-    
+
     const estado = this.solicitud.estadoNombre.toLowerCase();
-    
+
     // Textos cortos para cada estado
     if (estado.includes('devolucion')) return 'P. Devolución';
     if (estado.includes('acept')) return 'Activa';
     if (estado.includes('rechaz')) return 'Rechazada';
     if (estado.includes('cancel')) return 'Cancelada';
     if (estado.includes('devuelto')) return 'Devuelto';
-    
+
     return this.solicitud.estadoNombre;
   }
 
   getTipoIcon(): string {
     if (!this.solicitud) return 'pi pi-file';
     // tipoCodigo: 1 = Venta, 2 = Préstamo
-    return this.solicitud.tipoCodigo === 1 ? 'pi pi-shopping-cart' : 'pi pi-refresh';
+    return this.solicitud.tipoCodigo === 1
+      ? 'pi pi-shopping-cart'
+      : 'pi pi-refresh';
   }
 
   getTipoLabel(): string {
@@ -76,7 +77,9 @@ export class SolicitudCardComponent implements OnInit {
   }
 
   get mostrarPrecio(): boolean {
-    return this.solicitud?.tipoCodigo === 1 && (this.solicitud?.precio ?? 0) > 0;
+    return (
+      this.solicitud?.tipoCodigo === 1 && (this.solicitud?.precio ?? 0) > 0
+    );
   }
 
   getPrecioFormateado(): string {
@@ -86,7 +89,7 @@ export class SolicitudCardComponent implements OnInit {
   getFechaFormateada(): string {
     if (!this.solicitud?.fechaSolicitud) return '';
     const fecha = new Date(this.solicitud.fechaSolicitud);
-    
+
     return fecha.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
@@ -94,10 +97,9 @@ export class SolicitudCardComponent implements OnInit {
     });
   }
 
-
   getImagenSrc(): string | null {
     if (!this.solicitud?.imagenArticulo) return null;
-    return `${this.IMAGE_BASE_URL}/${this.solicitud.imagenArticulo}`;
+    return this.imageUrlService.getImagenSrc(this.solicitud.imagenArticulo);
   }
 
   getAvatarSrc(): string | null {
@@ -111,13 +113,15 @@ export class SolicitudCardComponent implements OnInit {
   getUsuarioIniciales(): string {
     const nombre = this.solicitud?.solicitante?.nombre || '';
     if (!nombre) return 'U';
-    
+
     // Para nombres compuestos, tomar la primera letra del primer nombre y primer apellido
     const partes = nombre.trim().split(' ');
     if (partes.length >= 2) {
-      return (partes[0].charAt(0) + partes[partes.length - 1].charAt(0)).toUpperCase();
+      return (
+        partes[0].charAt(0) + partes[partes.length - 1].charAt(0)
+      ).toUpperCase();
     }
-    
+
     return nombre.charAt(0).toUpperCase();
   }
 }

@@ -32,14 +32,7 @@
           class="comercio-card"
         >
           <div class="comercio-imagen" (click)="abrirDetalleComercio(comercio)">
-            <img
-              [src]="comercio.logoUrl"
-              [alt]="comercio.nombre"
-              (error)="
-                comercio.logoUrl =
-                  'https://images.unsplash.com/photo-1529634896911-85f831d1b31a?auto=format&fit=crop&w=640&h=420&q=70'
-              "
-            />
+            <img [src]="getImagenSrc(comercio)" [alt]="comercio.nombre" />
           </div>
 
           <div class="comercio-info" (click)="abrirDetalleComercio(comercio)">

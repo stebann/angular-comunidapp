@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 export interface ImageHandlerConfig {
-  baseUrl?: string; // URL base para construir URLs de imágenes (ej: 'http://localhost:8080/api/articulo/imagen')
+  baseUrl?: string; // URL base para construir URLs de imágenes (ej: 'http://localhost:8080/api/archivos/imagen')
   maxImages?: number; // Máximo de imágenes permitidas
 }
 
