@@ -1,0 +1,41 @@
+<div class="modal-categoria-comercio">
+  <div class="modal-content">
+    <form [formGroup]="categoriaForm" class="form-container">
+      <app-input-field
+        formControlName="nombre"
+        label="Nombre de la Categoría"
+        placeholder="Ej: Electrónica, Ropa, Hogar..."
+        [required]="true"
+      >
+      </app-input-field>
+
+      <app-textarea-field
+        formControlName="descripcion"
+        label="Descripción"
+        placeholder="Describe la categoría..."
+        [rows]="4"
+        [required]="true"
+      >
+      </app-textarea-field>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <app-button
+      type="outline-primary"
+      (click)="cerrarModal()"
+      [disabled]="isSubmitting"
+    >
+      Cancelar
+    </app-button>
+    <app-button
+      type="primary"
+      (clicked)="crearCategoria()"
+      [disabled]="!categoriaForm.valid || isSubmitting"
+    >
+      <i class="pi pi-check" *ngIf="!isSubmitting"></i>
+      <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
+      {{ isSubmitting ? "Creando..." : "Crear Categoría" }}
+    </app-button>
+  </div>
+</div>

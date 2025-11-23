@@ -3,4 +3,6 @@ export enum ComerciosAPI {
   PorId = 'comercios/',
   PorUsuario = 'comercios/usuario/',
   Crear = 'comercios/crear',
+  CrearArticulo = 'comercios/',
+  CrearCategoria = 'comercios/',
 }

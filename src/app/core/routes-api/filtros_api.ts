@@ -5,4 +5,5 @@ export enum FiltrosAPI {
   Buscar = 'filtros/buscar',
   Roles = 'filtros/roles',
   CategoriasComercios = 'filtros/categorias-comercios',
+  CategoriasArticulosComercio = 'filtros/comercio/',
 }

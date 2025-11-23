@@ -88,17 +88,12 @@ export class ComerciosComponent implements OnInit {
   }
 
   openPlanPremiumModal(): void {
-    const ref = this.dialogService$.open(PlanPremiumModalComponent, {
+    this.dialogService$.open(PlanPremiumModalComponent, {
       header: '',
       width: '500px',
       styleClass: 'p-app-modal',
       modal: true,
     });
 
-    ref.onClose.subscribe((result) => {
-      if (result === 'success') {
-        // Opcional: mostrar mensaje de éxito
-      }
-    });
   }
 }

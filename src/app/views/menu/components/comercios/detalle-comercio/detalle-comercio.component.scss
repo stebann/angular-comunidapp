@@ -204,14 +204,76 @@
       color: var(--primary-color);
       font-weight: 600;
     }
+
+    .comercio-contacto {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+      margin-top: 0.5rem;
+
+      .contacto-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-color-secondary);
+        font-size: 0.8rem;
+        font-weight: 500;
+
+        i {
+          color: var(--primary-color);
+          font-size: 0.85rem;
+          min-width: 1rem;
+        }
+
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
   }
 
   .categorias-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+
     .categorias-title {
       margin: 0;
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-color);
+    }
+
+    .add-categoria-btn {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+
+      i {
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        background: var(--primary-600);
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
     }
   }
 

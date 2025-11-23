@@ -40,6 +40,16 @@ export class FiltersService {
       .pipe(map((data) => this.mapToFilterOptions(data || [])));
   }
 
+  getCategoriasArticulosComercio(
+    comercioId: number
+  ): Observable<FilterOption[]> {
+    return this.http
+      .get<IFilter[]>(
+        `${FiltrosAPI.CategoriasArticulosComercio}${comercioId}/categorias-articulos`
+      )
+      .pipe(map((data) => this.mapToFilterOptions(data || [])));
+  }
+
   private mapToFilterOptions(data: IFilter[]): FilterOption[] {
     return data.map((item) => ({
       value: item.codigo,
