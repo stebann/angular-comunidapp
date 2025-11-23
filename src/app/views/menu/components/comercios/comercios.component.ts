@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { PlanPremiumModalComponent } from 'src/app/shared/components/plan-premium-modal/plan-premium-modal.component';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
@@ -24,7 +25,8 @@ export class ComerciosComponent implements OnInit {
     private router: Router,
     public comercioService: ComercioService,
     private filterService: FiltersService,
-    public dialogService$: DialogService
+    public dialogService$: DialogService,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {

@@ -7,6 +7,7 @@
       [(searchTerm)]="searchTerm"
     >
       <app-button
+        *ngIf="!authService.hasPremium()"
         type="primary"
         size="sm"
         icon="pi pi-crown"

@@ -105,6 +105,16 @@ export class AuthService {
     return Boolean(storedUser?.id && storedUser?.nombre !== '');
   }
 
+  /** Verifica si el usuario tiene un permiso específico */
+  hasPermission(permission: string): boolean {
+    return this.currentState.permisos?.includes(permission) ?? false;
+  }
+
+  /** Verifica si el usuario tiene plan premium */
+  hasPremium(): boolean {
+    return this.hasPermission('PREMIUM');
+  }
+
   /** Logout */
   logout() {
     // Primero limpiar el estado
