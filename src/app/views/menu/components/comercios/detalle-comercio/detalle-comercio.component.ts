@@ -98,11 +98,44 @@ export class DetalleComercioComponent implements OnInit {
   }
 
   cargarComercio(): void {
+    // Guardar la categoría seleccionada actual antes de recargar
+    const categoriaAnterior = this.categoriaSeleccionada;
+
     this.comercioService.getComercioPorId(this.comercioId).subscribe(
       (response: DetalleComercio) => {
         this.comercio = response;
-        if (this.comercio?.categorias && this.comercio.categorias.length > 0) {
-          this.categoriaSeleccionada = this.comercio.categorias[0].nombre;
+
+        // Intentar restaurar la categoría seleccionada anterior
+        if (categoriaAnterior && categoriaAnterior !== 'Todas') {
+          // Verificar si la categoría anterior todavía existe
+          const categoriaExiste = this.comercio?.categorias?.some(
+            (cat) => cat.nombre === categoriaAnterior
+          );
+
+          if (categoriaExiste) {
+            // Restaurar la categoría seleccionada anterior
+            this.categoriaSeleccionada = categoriaAnterior;
+          } else {
+            // Si la categoría fue eliminada, seleccionar "Todas" o la primera disponible
+            this.categoriaSeleccionada = 'Todas';
+          }
+        } else {
+          // Si no había categoría seleccionada o era "Todas", mantener o establecer "Todas"
+          if (
+            !this.categoriaSeleccionada ||
+            this.categoriaSeleccionada === 'Todas'
+          ) {
+            this.categoriaSeleccionada = 'Todas';
+          } else {
+            // Verificar si la categoría actual todavía existe
+            const categoriaExiste = this.comercio?.categorias?.some(
+              (cat) => cat.nombre === this.categoriaSeleccionada
+            );
+
+            if (!categoriaExiste) {
+              this.categoriaSeleccionada = 'Todas';
+            }
+          }
         }
       },
       (error) => {
