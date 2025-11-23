@@ -97,32 +97,32 @@
           placeholder="Selecciona una categoría"
           [options]="categoriasComercios"
           [required]="true"
-          class="full-width"
         ></app-dropdown-field>
-
-        <app-textarea-field
-          formControlName="descripcion"
-          label="Descripción"
-          placeholder="Describe tu comercio..."
-          [rows]="4"
-          [required]="false"
-          class="full-width"
-        ></app-textarea-field>
-
-        <app-input-field
-          formControlName="direccion"
-          label="Dirección"
-          placeholder="Ej: Calle 123 #45-67"
-          [required]="false"
-        ></app-input-field>
 
         <app-input-field
           formControlName="telefono"
           label="Teléfono"
           placeholder="Ej: (1) 555 1234"
           type="tel"
-          [required]="false"
+          [required]="true"
         ></app-input-field>
+
+        <app-input-field
+          formControlName="direccion"
+          label="Dirección"
+          placeholder="Ej: Calle 123 #45-67"
+          [required]="false"
+          class="full-width"
+        ></app-input-field>
+
+        <app-textarea-field
+          formControlName="descripcion"
+          label="Descripción"
+          placeholder="Describe tu comercio..."
+          [rows]="4"
+          [required]="true"
+          class="full-width"
+        ></app-textarea-field>
 
         <app-input-field
           formControlName="email"

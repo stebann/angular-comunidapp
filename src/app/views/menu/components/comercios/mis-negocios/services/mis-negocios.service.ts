@@ -33,13 +33,13 @@ export class MisNegociosService extends MisNegociosRepository {
     const formValues = this.formComercio.value;
 
     Object.keys(formValues).forEach((key) => {
-      if (formValues[key] != null) {
+      if (key !== 'imagenes' && formValues[key] != null) {
         formData.append(key, formValues[key]);
       }
     });
 
     imagenes.forEach((file) => {
-      formData.append('imagenes', file);
+      formData.append('imagenes', file, file.name);
     });
 
     return this.http$.postFormData(url, formData);
