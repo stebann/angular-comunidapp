@@ -21,23 +21,53 @@
   </nav>
 
   <main class="hero-section" id="top">
+    <!-- Fondo animado con elementos geométricos -->
+    <div class="hero-background">
+      <div class="bg-element bg-circle-1"></div>
+      <div class="bg-element bg-circle-2"></div>
+      <div class="bg-element bg-circle-3"></div>
+      <div class="bg-element bg-line-1"></div>
+      <div class="bg-element bg-line-2"></div>
+    </div>
+    
     <div class="hero-content">
-      <h1>
-        Comparte Más, Desperdicia<br />
-        Menos.
-      </h1>
-      <h2 class="subtitle">Conecta Tu Comunidad.</h2>
-      <p class="description">
-        Comunidapp es la plataforma para compartir recursos, desde herramientas
-        hasta libros, fomentando un vecindario más fuerte y sostenible.
-      </p>
-      <div class="cta-buttons">
-        <button class="primary-btn" (click)="navigateToRegister()">
-          Comienza Gratis
-        </button>
-        <button class="secondary-btn" (click)="navigateToAbout()">
-          Saber Más
-        </button>
+      <div class="hero-wrapper">
+        <div class="hero-logo-side">
+          <div class="logo-container">
+            <!-- Elementos decorativos alrededor del logo -->
+            <div class="floating-icon icon-1">
+              <i class="fas fa-recycle"></i>
+            </div>
+            <div class="floating-icon icon-2">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <div class="floating-icon icon-3">
+              <i class="fas fa-leaf"></i>
+            </div>
+            
+            <img src="assets/fondos/logo-sin-fondo.png" alt="Comunidapp" class="hero-logo" />
+          </div>
+        </div>
+        <div class="hero-text-side">
+          <div class="text-badge">🌍 Comparte con tu comunidad</div>
+          <h1 class="hero-title">
+            Comparte Más, Desperdicia<br />
+            Menos.
+          </h1>
+          <h2 class="subtitle">Conecta Tu Comunidad.</h2>
+          <p class="description">
+            Comunidapp es la plataforma para compartir recursos, desde herramientas
+            hasta libros, fomentando un vecindario más fuerte y sostenible.
+          </p>
+          <div class="cta-buttons">
+            <button class="primary-btn" (click)="navigateToRegister()">
+              Comienza Gratis
+            </button>
+            <button class="secondary-btn" (click)="navigateToAbout()">
+              Saber Más
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </main>

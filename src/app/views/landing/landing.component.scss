@@ -1,11 +1,7 @@
 .landing-container {
   min-height: 100vh;
   background-color: var(--color-white);
-  background: linear-gradient(
-    135deg,
-    var(--color-primary-50) 0%,
-    var(--color-white) 100%
-  );
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.04) 30%, var(--color-white) 70%, var(--color-white) 100%);
   scroll-behavior: smooth;
 }
 
@@ -111,13 +107,122 @@ a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
-  text-align: center;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+}
+
+.hero-background {
+  display: none;
 }
 
 .hero-content {
-  margin-bottom: 4rem;
+  width: 100%;
+  margin-bottom: 0;
+}
 
-  h1 {
+.hero-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.hero-logo-side {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  
+  .logo-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .hero-logo {
+      height: 400px;
+      width: auto;
+      object-fit: contain;
+      position: relative;
+      z-index: 2;
+      filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.1));
+      transition: transform 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+    
+    .floating-icon {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      z-index: 3;
+      left: 50%;
+      top: 50%;
+      margin-left: -40px;
+      margin-top: -40px;
+      
+      i {
+        background: linear-gradient(135deg, var(--green-start), var(--green-end));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      
+      &.icon-1 {
+        animation: rotate-icon-1 25s linear infinite;
+      }
+      
+      &.icon-2 {
+        animation: rotate-icon-2 25s linear infinite;
+      }
+      
+      &.icon-3 {
+        animation: rotate-icon-3 25s linear infinite;
+      }
+    }
+  }
+}
+
+.hero-text-side {
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  
+  .text-badge {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--green-start);
+    margin-bottom: 1.5rem;
+    animation: slide-in-right 0.8s ease-out;
+    backdrop-filter: blur(10px);
+  }
+  
+  .hero-title {
     font-size: 3.5rem;
     font-weight: 800;
     background: linear-gradient(
@@ -130,6 +235,11 @@ a {
     color: transparent;
     margin-bottom: 1rem;
     line-height: 1.2;
+    animation: slide-in-right 0.8s ease-out;
+    
+    @media (max-width: 768px) {
+      font-size: 2.5rem;
+    }
   }
 
   .subtitle {
@@ -140,15 +250,162 @@ a {
     color: transparent;
     margin-bottom: 1.5rem;
     font-weight: 700;
+    animation: slide-in-right 0.8s ease-out 0.1s both;
+    
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+    }
   }
 
   .description {
     font-size: 1.2rem;
     color: var(--color-primary-900);
-    max-width: 800px;
-    margin: 0 auto 2rem;
+    margin-bottom: 2rem;
     line-height: 1.6;
     opacity: 0.85;
+    animation: slide-in-right 0.8s ease-out 0.2s both;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+  
+  .cta-buttons {
+    animation: slide-in-right 0.8s ease-out 0.3s both;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+@keyframes float-up {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.3;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes orbit-1 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(20px, -20px);
+  }
+  50% {
+    transform: translate(10px, 20px);
+  }
+  75% {
+    transform: translate(-15px, 10px);
+  }
+}
+
+@keyframes orbit-2 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-20px, 15px);
+  }
+  50% {
+    transform: translate(-10px, -20px);
+  }
+  75% {
+    transform: translate(15px, -10px);
+  }
+}
+
+@keyframes orbit-3 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(15px, 20px);
+  }
+  50% {
+    transform: translate(-20px, 10px);
+  }
+  75% {
+    transform: translate(10px, -15px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(-400px) rotate(-45deg);
+  }
+  100% {
+    transform: translateY(400px) rotate(-45deg);
+  }
+}
+
+@keyframes rotate-around {
+  0% {
+    transform: rotate(0deg) translateX(220px);
+  }
+  100% {
+    transform: rotate(360deg) translateX(220px);
+  }
+}
+
+@keyframes rotate-icon-1 {
+  0% {
+    transform: rotate(0deg) translateX(220px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(220px) rotate(-360deg);
+  }
+}
+
+@keyframes rotate-icon-2 {
+  0% {
+    transform: rotate(120deg) translateX(220px) rotate(-120deg);
+  }
+  100% {
+    transform: rotate(480deg) translateX(220px) rotate(-480deg);
+  }
+}
+
+@keyframes rotate-icon-3 {
+  0% {
+    transform: rotate(240deg) translateX(220px) rotate(-240deg);
+  }
+  100% {
+    transform: rotate(600deg) translateX(220px) rotate(-600deg);
   }
 }
 
