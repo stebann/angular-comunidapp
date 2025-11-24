@@ -307,10 +307,9 @@ select {
   .p-dialog-header .p-dialog-header-icon {
     color: var(--color-white) !important;
     opacity: 1;
-    background: transparent !important;
-    outline: none !important;
-    box-shadow: none !important;
   }
+}
+
   .p-dialog-header .p-dialog-header-icon:focus {
     outline: none !important;
     box-shadow: none !important;
@@ -342,4 +341,3 @@ select {
       }
     }
   }
-}

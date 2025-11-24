@@ -12,6 +12,7 @@ import {
 import { ComercioService } from '../services/comercio.service';
 import { ModalArticuloComercioComponent } from './components/modal-articulo-comercio/modal-articulo-comercio.component';
 import { ModalCategoriaComercioComponent } from './components/modal-categoria-comercio/modal-categoria-comercio.component';
+import { ModalInfoComercioComponent } from './components/modal-info-comercio/modal-info-comercio.component';
 
 @Component({
   selector: 'app-detalle-comercio',
@@ -219,7 +220,14 @@ export class DetalleComercioComponent implements OnInit {
   }
 
   abrirModalInfo(): void {
-    console.log('Abrir modal con info completa del negocio');
+    this.dialogService.open(ModalInfoComercioComponent, {
+      header: 'Información del Comercio',
+      width: '550px',
+      styleClass: 'p-app-modal',
+      data: {
+        comercio: this.comercio,
+      },
+    });
   }
 
   abrirModalArticulo(articulo: ArticuloComercio): void {

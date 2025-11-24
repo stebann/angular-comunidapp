@@ -29,7 +29,7 @@ export class ModalCategoriaComercioComponent implements OnInit {
     this.comercioId = this.config.data?.comercioId || 0;
     this.isEditing = this.config.data?.isEditing || false;
     this.categoriaId = this.config.data?.categoria?.id || 0;
-    
+
     this.categoriaForm = this.fb.group({
       nombre: new FormControl(null, [
         Validators.required,
@@ -37,7 +37,7 @@ export class ModalCategoriaComercioComponent implements OnInit {
       ]),
       descripcion: new FormControl(null, [
         Validators.required,
-        Validators.minLength(10),
+        Validators.minLength(5),
       ]),
     });
   }
@@ -61,7 +61,11 @@ export class ModalCategoriaComercioComponent implements OnInit {
 
       if (this.isEditing) {
         this.comercioService
-          .actualizarCategoriaComercio(this.comercioId, this.categoriaId, this.categoriaForm.value)
+          .actualizarCategoriaComercio(
+            this.comercioId,
+            this.categoriaId,
+            this.categoriaForm.value
+          )
           .subscribe({
             next: (response) => {
               this.ref.close({ success: true, data: response });

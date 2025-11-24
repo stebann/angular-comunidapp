@@ -8,6 +8,7 @@ import { ComercioCardDetalleComponent } from './components/comercio-card-detalle
 import { ComercioCardComponent } from './components/comercio-card/comercio-card.component';
 import { ModalArticuloComercioComponent } from './detalle-comercio/components/modal-articulo-comercio/modal-articulo-comercio.component';
 import { ModalCategoriaComercioComponent } from './detalle-comercio/components/modal-categoria-comercio/modal-categoria-comercio.component';
+import { ModalInfoComercioComponent } from './detalle-comercio/components/modal-info-comercio/modal-info-comercio.component';
 import { DetalleComercioComponent } from './detalle-comercio/detalle-comercio.component';
 import { AddComercioModalComponent } from './mis-negocios/components/add-comercio-modal/add-comercio-modal.component';
 import { MisNegociosComponent } from './mis-negocios/mis-negocios.component';
@@ -22,6 +23,7 @@ import { MisNegociosComponent } from './mis-negocios/mis-negocios.component';
     ComercioCardDetalleComponent,
     ModalArticuloComercioComponent,
     ModalCategoriaComercioComponent,
+    ModalInfoComercioComponent,
   ],
   imports: [
     CommonModule,
