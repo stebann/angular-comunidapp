@@ -10,6 +10,7 @@ import {
   DetalleComercio,
 } from '../models/detalle-comercio.model';
 import { ComercioService } from '../services/comercio.service';
+import { ArticuloComercioDetailComponent } from './components/articulo-comercio-detail/articulo-comercio-detail.component';
 import { ModalArticuloComercioComponent } from './components/modal-articulo-comercio/modal-articulo-comercio.component';
 import { ModalCategoriaComercioComponent } from './components/modal-categoria-comercio/modal-categoria-comercio.component';
 import { ModalInfoComercioComponent } from './components/modal-info-comercio/modal-info-comercio.component';
@@ -231,7 +232,14 @@ export class DetalleComercioComponent implements OnInit {
   }
 
   abrirModalArticulo(articulo: ArticuloComercio): void {
-    console.log('Abrir detalle de artículo:', articulo);
+    this.dialogService.open(ArticuloComercioDetailComponent, {
+      header: 'Detalle del Artículo',
+      width: '1100px',
+      styleClass: 'p-app-modal',
+      data: {
+        articulo: articulo,
+      },
+    });
   }
 
   onMenuOpened(articulo: ArticuloComercio): void {

@@ -6,6 +6,7 @@ import { ComerciosRoutingModule } from './comercios-rounting.module';
 import { ComerciosComponent } from './comercios.component';
 import { ComercioCardDetalleComponent } from './components/comercio-card-detalle/comercio-card-detalle.component';
 import { ComercioCardComponent } from './components/comercio-card/comercio-card.component';
+import { ArticuloComercioDetailComponent } from './detalle-comercio/components/articulo-comercio-detail/articulo-comercio-detail.component';
 import { ModalArticuloComercioComponent } from './detalle-comercio/components/modal-articulo-comercio/modal-articulo-comercio.component';
 import { ModalCategoriaComercioComponent } from './detalle-comercio/components/modal-categoria-comercio/modal-categoria-comercio.component';
 import { ModalInfoComercioComponent } from './detalle-comercio/components/modal-info-comercio/modal-info-comercio.component';
@@ -21,6 +22,7 @@ import { MisNegociosComponent } from './mis-negocios/mis-negocios.component';
     AddComercioModalComponent,
     ComercioCardComponent,
     ComercioCardDetalleComponent,
+    ArticuloComercioDetailComponent,
     ModalArticuloComercioComponent,
     ModalCategoriaComercioComponent,
     ModalInfoComercioComponent,

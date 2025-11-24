@@ -119,8 +119,8 @@
         <div class="owner-section" *ngIf="articulo?.propietario">
           <h4 class="section-title">Propietario</h4>
           <div class="owner-content">
-            <div class="owner-header">
-              <div class="avatar">
+            <div class="user-card">
+              <div class="user-avatar">
                 <img
                   *ngIf="articulo?.propietario?.foto"
                   [src]="articulo!.propietario!.foto"
@@ -134,17 +134,23 @@
                   {{ getInitials(propietarioNombre) }}
                 </span>
               </div>
-              <div class="owner-info">
-                <p class="owner-name">{{ propietarioNombre }}</p>
-                <p class="owner-email">{{ propietarioEmail }}</p>
+              <div class="user-details">
+                <h5 class="user-name">{{ propietarioNombre }}</h5>
+                <div class="user-info-grid">
+                  <div class="info-item">
+                    <i class="pi pi-envelope"></i>
+                    <span>{{ propietarioEmail }}</span>
+                  </div>
+                  <div class="info-item" *ngIf="propietarioTelefono">
+                    <i class="pi pi-phone"></i>
+                    <span>{{ propietarioTelefono }}</span>
+                  </div>
+                  <div class="info-item full-width" *ngIf="propietarioDireccion">
+                    <i class="pi pi-map-marker"></i>
+                    <span>{{ propietarioDireccion }}</span>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                class="btn-link"
-                (click)="verInfoUsuario(articulo!.propietario, 'Propietario')"
-              >
-                Ver más
-              </button>
             </div>
           </div>
         </div>
@@ -156,8 +162,8 @@
         >
           <h4 class="section-title">Solicitante</h4>
           <div class="applicant-content">
-            <div class="applicant-header">
-              <div class="avatar">
+            <div class="user-card">
+              <div class="user-avatar">
                 <img
                   *ngIf="articulo?.solicitante?.foto"
                   [src]="articulo!.solicitante!.foto"
@@ -171,17 +177,23 @@
                   {{ getInitials(solicitanteNombre) }}
                 </span>
               </div>
-              <div class="applicant-info">
-                <p class="applicant-name">{{ solicitanteNombre }}</p>
-                <p class="applicant-email">{{ solicitanteEmail }}</p>
+              <div class="user-details">
+                <h5 class="user-name">{{ solicitanteNombre }}</h5>
+                <div class="user-info-grid">
+                  <div class="info-item">
+                    <i class="pi pi-envelope"></i>
+                    <span>{{ solicitanteEmail }}</span>
+                  </div>
+                  <div class="info-item" *ngIf="solicitanteTelefono">
+                    <i class="pi pi-phone"></i>
+                    <span>{{ solicitanteTelefono }}</span>
+                  </div>
+                  <div class="info-item full-width" *ngIf="solicitanteDireccion">
+                    <i class="pi pi-map-marker"></i>
+                    <span>{{ solicitanteDireccion }}</span>
+                  </div>
+                </div>
               </div>
-              <button
-                type="button"
-                class="btn-link"
-                (click)="verInfoUsuario(articulo!.solicitante, 'Solicitante')"
-              >
-                Ver más
-              </button>
             </div>
           </div>
         </div>

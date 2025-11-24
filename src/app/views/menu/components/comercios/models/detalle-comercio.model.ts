@@ -24,7 +24,9 @@ export interface ArticuloComercio {
   titulo: string;
   descripcion: string;
   categoriaCodigo: number;
+  categoriaNombre: string;
   condicionCodigo: number;
+  condicionNombre: string;
   tipoTransaccionCodigo: number;
   precio: number;
   imagenes: string[];

@@ -1,0 +1,103 @@
+<div class="modal-articulo">
+  <div class="modal-content">
+    <div class="left">
+      <h3 class="section-title">Imágenes del Artículo</h3>
+
+      <!-- Carrusel principal -->
+      <div class="carousel-container">
+        <ng-container *ngIf="articulo as art">
+          <ng-container *ngIf="art.imagenes && art.imagenes.length > 0; else emptyState">
+            <div class="carousel-main">
+              <img
+                [src]="getImagenSrc(art.imagenes[currentImageIndex])"
+                [alt]="titulo + ' - imagen ' + (currentImageIndex + 1)"
+                class="main-image"
+                (click)="openImageViewer()"
+              />
+
+              <!-- Botones de navegación -->
+              <button
+                *ngIf="art.imagenes.length > 1"
+                type="button"
+                class="nav-btn prev-btn"
+                [disabled]="!canGoPrev()"
+                (click)="prevImage()"
+              >
+                <i class="pi pi-chevron-left"></i>
+              </button>
+
+              <button
+                *ngIf="art.imagenes.length > 1"
+                type="button"
+                class="nav-btn next-btn"
+                [disabled]="!canGoNext()"
+                (click)="nextImage()"
+              >
+                <i class="pi pi-chevron-right"></i>
+              </button>
+
+              <!-- Contador -->
+              <div class="image-counter">
+                {{ currentImageIndex + 1 }} / {{ art.imagenes.length }}
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+
+        <ng-template #emptyState>
+          <div class="empty-state">
+            <i class="pi pi-image"></i>
+            <p>Sin fotos disponibles</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="info-grid">
+        <!-- Título -->
+        <div class="info-field full-width">
+          <label class="info-label">Nombre del Artículo</label>
+          <div class="info-value">{{ titulo }}</div>
+        </div>
+
+        <!-- Categoría y Condición -->
+        <div class="row-fields">
+          <div class="field-group">
+            <label class="info-label">Categoría</label>
+            <div class="info-value">{{ articulo?.categoriaNombre || 'No especificada' }}</div>
+          </div>
+
+          <div class="field-group">
+            <label class="info-label">Condición</label>
+            <div class="info-value">{{ condicionNombre }}</div>
+          </div>
+        </div>
+
+        <!-- Categoría Comercio y Precio -->
+        <div class="row-fields">
+          <div class="field-group">
+            <label class="info-label">Categoría Comercio</label>
+            <div class="info-value">{{ categoriaNombre }}</div>
+          </div>
+
+          <div class="field-group">
+            <label class="info-label">Precio</label>
+            <div class="info-value price-value" *ngIf="precio !== undefined && precio !== null">
+              {{ precio | currency : "USD" : "symbol" : "1.2-2" }}
+            </div>
+            <div class="info-value" *ngIf="precio === undefined || precio === null">
+              No especificado
+            </div>
+          </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="info-field full-width">
+          <label class="info-label">Descripción</label>
+          <div class="info-value description">{{ descripcion || 'Sin descripción' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
