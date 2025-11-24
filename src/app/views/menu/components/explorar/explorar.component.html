@@ -34,36 +34,38 @@
 </div>
 
 <app-generic-filter
-  [form]="filtro"
   [(isOpen)]="isOpen"
   (applyFilter)="onFiltersApplied()"
+  (clearFilter)="clearFilters()"
 >
-  <div style="display: flex; gap: 1rem">
-    <app-input-date-field
-      formControlName="fechaDesde"
-      label="Fecha inicio"
-    ></app-input-date-field>
-    <app-input-date-field
-      formControlName="fechaHasta"
-      label="Fecha fin"
-    ></app-input-date-field>
-  </div>
+  <form *ngIf="filtro" [formGroup]="filtro">
+    <div style="display: flex; gap: 1rem">
+      <app-input-date-field
+        formControlName="fechaDesde"
+        label="Fecha inicio"
+      ></app-input-date-field>
+      <app-input-date-field
+        formControlName="fechaHasta"
+        label="Fecha fin"
+      ></app-input-date-field>
+    </div>
 
-  <app-dropdown-field
-    label="Categoría"
-    formControlName="categoriaId"
-    [options]="categorias"
-  ></app-dropdown-field>
+    <app-dropdown-field
+      label="Categoría"
+      formControlName="categoriaId"
+      [options]="categorias"
+    ></app-dropdown-field>
 
-  <app-dropdown-field
-    label="Estado"
-    formControlName="estadoId"
-    [options]="condiciones"
-  ></app-dropdown-field>
+    <app-dropdown-field
+      label="Estado"
+      formControlName="estadoId"
+      [options]="condiciones"
+    ></app-dropdown-field>
 
-  <app-dropdown-field
-    label="Tipo de Transacción"
-    formControlName="tipoTransaccionId"
-    [options]="tiposTransaccion"
-  ></app-dropdown-field>
+    <app-dropdown-field
+      label="Tipo de Transacción"
+      formControlName="tipoTransaccionId"
+      [options]="tiposTransaccion"
+    ></app-dropdown-field>
+  </form>
 </app-generic-filter>

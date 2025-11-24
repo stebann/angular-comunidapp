@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-generic-filter',
@@ -7,19 +6,17 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./generic-filter.component.scss'],
 })
 export class GenericFilterComponent {
-  @Input() form!: FormGroup;
   @Input() isOpen: boolean = false;
-  @Output() applyFilter = new EventEmitter<FormGroup>();
+  @Output() applyFilter = new EventEmitter<void>();
+  @Output() clearFilter = new EventEmitter<void>();
   @Output() isOpenChange = new EventEmitter<boolean>();
 
   applyFilters(): void {
-    if (this.form.valid) {
-      this.applyFilter.emit(this.form);
-    }
+    this.applyFilter.emit();
   }
 
   clearFilters(): void {
-    this.form.reset();
+    this.clearFilter.emit();
   }
 
   closeSidebar(): void {

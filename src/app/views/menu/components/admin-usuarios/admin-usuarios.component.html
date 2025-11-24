@@ -90,15 +90,3 @@
     </ng-template>
   </div>
 </div>
-
-<app-generic-filter
-  [form]="filtro"
-  [(isOpen)]="isOpen"
-  (applyFilter)="onFiltersApplied()"
->
-  <app-dropdown-field
-    label="Rol"
-    formControlName="rol"
-    [options]="rolesOptionsForDropdown"
-  ></app-dropdown-field>
-</app-generic-filter>

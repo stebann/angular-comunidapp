@@ -54,19 +54,3 @@
     </div>
   </div>
 </div>
-
-<app-generic-filter
-  [form]="filtro"
-  [(isOpen)]="isOpen"
->
-  <div style="display: flex; gap: 1rem">
-    <app-input-date-field
-      formControlName="fechaInicio"
-      label="Fecha inicio"
-    ></app-input-date-field>
-    <app-input-date-field
-      formControlName="fechaFin"
-      label="Fecha fin"
-    ></app-input-date-field>
-  </div>
-</app-generic-filter>

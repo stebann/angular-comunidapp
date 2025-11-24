@@ -42,6 +42,7 @@ import { RangeFieldComponent } from './components/range-field/range-field.compon
 import { SearchHeaderComponent } from './components/search-header/search-header.component';
 import { TextareaFieldComponent } from './components/textarea-field/textarea-field.component';
 import { UsuarioInfoModalComponent } from './components/usuario-info-modal/usuario-info-modal.component';
+import { SafeFormControlNameDirective } from './directives/safe-form-control-name.directive';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { UsuarioInfoModalComponent } from './components/usuario-info-modal/usuar
     ImageViewerComponent,
     PlanPremiumModalComponent,
     ConfirmModalComponent,
+    SafeFormControlNameDirective,
   ],
   imports: [
     CommonModule,
