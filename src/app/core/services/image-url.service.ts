@@ -15,13 +15,15 @@ export class ImageUrlService {
       return this.getPlaceholderImage();
     }
 
-    // Si ya es una URL completa, retornarla tal cual
+    // Si ya es una URL completa (Cloudinary), retornarla tal cual
     if (imagen.startsWith('http')) {
       return imagen;
     }
 
-    // Construir la URL usando el endpoint unificado
-    return `${API_ENDPOINTS.IMAGE_BASE_URL}/${imagen}`;
+    // Si no es una URL completa, es un dato viejo o inválido
+    // Usar placeholder en lugar de construir URL local
+    console.warn('Imagen local detectada, usando placeholder:', imagen);
+    return this.getPlaceholderImage();
   }
 
   /**

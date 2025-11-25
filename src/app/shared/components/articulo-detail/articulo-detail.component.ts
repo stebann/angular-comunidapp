@@ -64,7 +64,8 @@ export class ArticuloDetailComponent implements OnInit {
   }
 
   getImagenSrc(imagen: string): string {
-    return this.imageUrlService.getImagenSrc(imagen);
+    const result = this.imageUrlService.getImagenSrc(imagen);
+    return result;
   }
 
   toggleDetalles(): void {

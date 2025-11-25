@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { ImageUrlService } from '../../../core/services/image-url.service';
 import { ImageViewerService } from '../../services/image-viewer.service';
 
 @Component({
@@ -21,7 +22,10 @@ export class ImageViewerComponent implements OnInit {
   translateY = 0;
   dragSensitivity = 0.7; 
 
-  constructor(private imageViewerService: ImageViewerService) {}
+  constructor(
+    private imageViewerService: ImageViewerService,
+    private imageUrlService: ImageUrlService
+  ) {}
 
   ngOnInit(): void {
     this.imageViewerService.viewerState.subscribe((state) => {
@@ -40,10 +44,10 @@ export class ImageViewerComponent implements OnInit {
   }
 
   getImageSrc(image: string): string {
-    if (this.imageBaseUrl) {
-      return `${this.imageBaseUrl}/${image}`;
-    }
-    return image;
+    console.log('ImageViewer getImageSrc llamado con:', image);
+    const result = this.imageUrlService.getImagenSrc(image);
+    console.log('ImageViewer getImageSrc retornando:', result);
+    return result;
   }
 
   nextImage(): void {

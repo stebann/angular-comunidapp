@@ -115,7 +115,6 @@ export class MisArticulosComponent implements OnInit {
   }
 
   onRemove(): void {
-    // Validar que el artículo esté disponible
     if (
       this.articuloSeleccionado!.estadoArticuloCodigo !==
       EstadoArticulo.Disponible
@@ -142,9 +141,6 @@ export class MisArticulosComponent implements OnInit {
               this.articulosService.getMisArticulos(usuario.id);
               this.articuloSeleccionado = null;
             },
-            (error) => {
-              console.error('Error al eliminar artículo:', error);
-            }
           );
       },
     });
