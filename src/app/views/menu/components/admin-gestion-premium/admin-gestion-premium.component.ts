@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { ConfirmModalService } from 'src/app/core/services/confirm-modal.service';
 import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { EstadoSolicitudPremium } from './enums/estado-solicitud-premium.enum';
 import { SolicitudPremium } from './models/solicitud-premium.model';
@@ -16,41 +16,18 @@ export class AdminGestionPremiumComponent implements OnInit {
   searchTerm: string = '';
   isOpen: boolean = false;
   solicitudSeleccionada: SolicitudPremium | null = null;
-  menuItems: any[] = [];
+  opcionesCache: Map<number, any[]> = new Map();
 
   constructor(
     public adminGestionPremiumService: AdminGestionPremiumService,
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
-    private confirmModal: ConfirmModalService,
+    private confirmationService: ConfirmationService,
     private appMessages: AppMessagesServices
   ) {}
 
   ngOnInit(): void {
     this.cargarSolicitudes();
-
-    this.menuItems = [
-      {
-        icon: 'pi pi-check',
-        label: 'Aprobar',
-        command: () => {
-          this.aprobarSolicitud();
-        },
-        visible: () =>
-          this.solicitudSeleccionada?.estadoCodigo ===
-          EstadoSolicitudPremium.Pendiente,
-      },
-      {
-        icon: 'pi pi-times',
-        label: 'Rechazar',
-        command: () => {
-          this.rechazarSolicitud();
-        },
-        visible: () =>
-          this.solicitudSeleccionada?.estadoCodigo ===
-          EstadoSolicitudPremium.Pendiente,
-      },
-    ];
   }
 
   cargarSolicitudes(): void {
@@ -58,6 +35,7 @@ export class AdminGestionPremiumComponent implements OnInit {
       .obtenerSolicitudesPremium()
       .subscribe((solicitudes: SolicitudPremium[]) => {
         this.solicitudes = solicitudes;
+        this.opcionesCache.clear();
         this.cdr.detectChanges();
       });
   }
@@ -92,71 +70,170 @@ export class AdminGestionPremiumComponent implements OnInit {
   aprobarSolicitud(): void {
     if (!this.solicitudSeleccionada) return;
 
-    this.confirmModal
-      .confirm({
-        title: 'Confirmar Aprobación',
-        message: `¿Estás seguro de que deseas aprobar la solicitud premium de ${this.solicitudSeleccionada.usuarioNombre}?`,
-        icon: 'pi pi-check-circle',
-        acceptLabel: 'Aprobar',
-        cancelLabel: 'Cancelar',
-      })
-      .subscribe((confirmed) => {
-        if (confirmed && this.solicitudSeleccionada) {
-          const adminId = this.authService.currentState.id;
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas aprobar la solicitud premium de ${this.solicitudSeleccionada.usuarioNombre}?`,
+      header: 'Confirmar Aprobación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (!this.solicitudSeleccionada) return;
+        const adminId = this.authService.currentState.id;
 
-          this.adminGestionPremiumService
-            .cambiarEstadoSolicitud(
-              this.solicitudSeleccionada.id,
-              adminId,
-              EstadoSolicitudPremium.Aceptada
-            )
-            .subscribe(() => {
-              this.appMessages.exito(
-                `Solicitud de ${
-                  this.solicitudSeleccionada!.usuarioNombre
-                } aprobada exitosamente`,
-                'Solicitud Aprobada'
-              );
-              this.cargarSolicitudes();
-              this.solicitudSeleccionada = null;
-            });
-        }
-      });
+        this.adminGestionPremiumService
+          .cambiarEstadoSolicitud(
+            this.solicitudSeleccionada.id,
+            adminId,
+            EstadoSolicitudPremium.Aceptada
+          )
+          .subscribe(() => {
+            this.appMessages.exito(
+              `Solicitud de ${
+                this.solicitudSeleccionada!.usuarioNombre
+              } aprobada exitosamente`,
+              'Solicitud Aprobada'
+            );
+            this.cargarSolicitudes();
+            this.solicitudSeleccionada = null;
+          });
+      },
+    });
+  }
+
+  aprobarSolicitudFor(solicitud: SolicitudPremium): void {
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas aprobar la solicitud premium de ${solicitud.usuarioNombre}?`,
+      header: 'Confirmar Aprobación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const adminId = this.authService.currentState.id;
+
+        this.adminGestionPremiumService
+          .cambiarEstadoSolicitud(
+            solicitud.id,
+            adminId,
+            EstadoSolicitudPremium.Aceptada
+          )
+          .subscribe(() => {
+            this.appMessages.exito(
+              `Solicitud de ${solicitud.usuarioNombre} aprobada exitosamente`,
+              'Solicitud Aprobada'
+            );
+            this.cargarSolicitudes();
+          });
+      },
+    });
   }
 
   rechazarSolicitud(): void {
     if (!this.solicitudSeleccionada) return;
 
-    this.confirmModal
-      .confirm({
-        title: 'Confirmar Rechazo',
-        message: `¿Estás seguro de que deseas rechazar la solicitud premium de ${this.solicitudSeleccionada.usuarioNombre}?`,
-        icon: 'pi pi-times-circle',
-        acceptLabel: 'Rechazar',
-        cancelLabel: 'Cancelar',
-      })
-      .subscribe((confirmed) => {
-        if (confirmed && this.solicitudSeleccionada) {
-          const adminId = this.authService.currentState.id;
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas rechazar la solicitud premium de ${this.solicitudSeleccionada.usuarioNombre}?`,
+      header: 'Confirmar Rechazo',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (!this.solicitudSeleccionada) return;
+        const adminId = this.authService.currentState.id;
 
-          this.adminGestionPremiumService
-            .cambiarEstadoSolicitud(
-              this.solicitudSeleccionada.id,
-              adminId,
-              EstadoSolicitudPremium.Rechazada
-            )
-            .subscribe(() => {
-              this.appMessages.exito(
-                `Solicitud de ${
-                  this.solicitudSeleccionada!.usuarioNombre
-                } rechazada`,
-                'Solicitud Rechazada'
-              );
-              this.cargarSolicitudes();
-              this.solicitudSeleccionada = null;
-            });
-        }
-      });
+        this.adminGestionPremiumService
+          .cambiarEstadoSolicitud(
+            this.solicitudSeleccionada.id,
+            adminId,
+            EstadoSolicitudPremium.Rechazada
+          )
+          .subscribe(() => {
+            this.appMessages.exito(
+              `Solicitud de ${
+                this.solicitudSeleccionada!.usuarioNombre
+              } rechazada`,
+              'Solicitud Rechazada'
+            );
+            this.cargarSolicitudes();
+            this.solicitudSeleccionada = null;
+          });
+      },
+    });
+  }
+
+  rechazarSolicitudFor(solicitud: SolicitudPremium): void {
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas rechazar la solicitud premium de ${solicitud.usuarioNombre}?`,
+      header: 'Confirmar Rechazo',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const adminId = this.authService.currentState.id;
+
+        this.adminGestionPremiumService
+          .cambiarEstadoSolicitud(
+            solicitud.id,
+            adminId,
+            EstadoSolicitudPremium.Rechazada
+          )
+          .subscribe(() => {
+            this.appMessages.exito(
+              `Solicitud de ${solicitud.usuarioNombre} rechazada`,
+              'Solicitud Rechazada'
+            );
+            this.cargarSolicitudes();
+          });
+      },
+    });
+  }
+
+  suspenderSolicitud(): void {
+    if (!this.solicitudSeleccionada) return;
+
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas suspender la solicitud premium de ${this.solicitudSeleccionada.usuarioNombre}?`,
+      header: 'Confirmar Suspensión',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        if (!this.solicitudSeleccionada) return;
+        const adminId = this.authService.currentState.id;
+
+        this.adminGestionPremiumService
+          .cambiarEstadoSolicitud(
+            this.solicitudSeleccionada.id,
+            adminId,
+            EstadoSolicitudPremium.Suspendida
+          )
+          .subscribe(() => {
+            this.appMessages.exito(
+              `Solicitud de ${
+                this.solicitudSeleccionada!.usuarioNombre
+              } suspendida`,
+              'Solicitud Suspendida'
+            );
+            this.cargarSolicitudes();
+            this.solicitudSeleccionada = null;
+          });
+      },
+    });
+  }
+
+  suspenderSolicitudFor(solicitud: SolicitudPremium): void {
+    console.log('suspenderSolicitudFor llamado con:', solicitud);
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas suspender la solicitud premium de ${solicitud.usuarioNombre}?`,
+      header: 'Confirmar Suspensión',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        const adminId = this.authService.currentState.id;
+
+        this.adminGestionPremiumService
+          .cambiarEstadoSolicitud(
+            solicitud.id,
+            adminId,
+            EstadoSolicitudPremium.Suspendida
+          )
+          .subscribe(() => {
+            this.appMessages.exito(
+              `Solicitud de ${solicitud.usuarioNombre} suspendida`,
+              'Solicitud Suspendida'
+            );
+            this.cargarSolicitudes();
+          });
+      },
+    });
   }
 
   formatearFecha(fecha: string): string {
@@ -178,6 +255,42 @@ export class AdminGestionPremiumComponent implements OnInit {
       return 'aprobada';
     if (estado.includes('rechazada') || estado.includes('rechazado'))
       return 'rechazada';
+    if (estado.includes('suspendida') || estado.includes('suspendido'))
+      return 'suspendida';
     return '';
+  }
+
+  getOpcionesFor(solicitud: SolicitudPremium): any[] {
+    if (this.opcionesCache.has(solicitud.id)) {
+      return this.opcionesCache.get(solicitud.id)!;
+    }
+
+    const opciones: any[] = [];
+
+    if (solicitud.estadoCodigo === EstadoSolicitudPremium.Pendiente) {
+      opciones.push(
+        {
+          icon: 'pi pi-check',
+          label: 'Aprobar',
+          command: (() => this.aprobarSolicitudFor(solicitud)).bind(this),
+        },
+        {
+          icon: 'pi pi-times',
+          label: 'Rechazar',
+          command: (() => this.rechazarSolicitudFor(solicitud)).bind(this),
+        }
+      );
+    }
+
+    if (solicitud.estadoCodigo === EstadoSolicitudPremium.Aceptada) {
+      opciones.push({
+        icon: 'pi pi-pause',
+        label: 'Suspender',
+        command: (() => this.suspenderSolicitudFor(solicitud)).bind(this),
+      });
+    }
+
+    this.opcionesCache.set(solicitud.id, opciones);
+    return opciones;
   }
 }
