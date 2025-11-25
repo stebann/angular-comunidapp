@@ -294,7 +294,6 @@ export class DetalleComercioComponent implements OnInit {
   }
 
   editarCategoria(categoria: CategoriaArticulo): void {
-    console.log('Editando categoría:', categoria);
     const ref = this.dialogService.open(ModalCategoriaComercioComponent, {
       header: 'Editar Categoría',
       width: '500px',

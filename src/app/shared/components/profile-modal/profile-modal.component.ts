@@ -34,11 +34,6 @@ export class ProfileModalComponent implements OnInit {
       reader.onload = () => {
         const base64 = reader.result as string;
 
-        console.log(
-          '✅ Imagen cargada en base64:',
-          base64.substring(0, 40) + '...'
-        );
-
         this.profileService.formUsuario.patchValue({
           avatarUrl: base64,
         });

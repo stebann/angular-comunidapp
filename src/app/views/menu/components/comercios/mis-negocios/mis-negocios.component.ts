@@ -119,12 +119,10 @@ export class MisNegociosComponent implements OnInit {
   onEdit(): void {
     if (!this.comercioSeleccionado) return;
     // TODO: Implementar edición de comercio
-    console.log('Editar comercio:', this.comercioSeleccionado);
   }
 
   onRemove(): void {
     if (!this.comercioSeleccionado) return;
     // TODO: Implementar eliminación de comercio
-    console.log('Eliminar comercio:', this.comercioSeleccionado);
   }
 }

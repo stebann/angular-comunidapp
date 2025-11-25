@@ -44,9 +44,7 @@ export class ImageViewerComponent implements OnInit {
   }
 
   getImageSrc(image: string): string {
-    console.log('ImageViewer getImageSrc llamado con:', image);
     const result = this.imageUrlService.getImagenSrc(image);
-    console.log('ImageViewer getImageSrc retornando:', result);
     return result;
   }
 

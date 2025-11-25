@@ -309,8 +309,6 @@ export class GestionDetailComponent implements OnInit {
     // Escuchar cuando se cierra el modal para procesar la calificación
     ref.onClose.subscribe((result) => {
       if (result) {
-        console.log('Calificación:', result);
-        
         // Enviar calificación al servidor
         this.misGestionesService.confirmarDevolucion(
           this.gestion?.id || 0,
@@ -319,7 +317,6 @@ export class GestionDetailComponent implements OnInit {
           result.comentario || ''
         ).subscribe({
           next: (response) => {
-            console.log('Devolución confirmada:', response);
             
             // Mostrar mensaje de éxito
             this.messageService.exito('Devolución confirmada correctamente');

@@ -114,9 +114,6 @@ export class EstadisticasComponent implements OnInit, AfterViewInit {
         { name: 'Prestado', value: 0 },
       ];
     }
-
-    console.log('Estados Artículos Data:', this.estadosArticulosData);
-    console.log('Intercambios Data:', this.intercambiosPorTipoData);
   }
 
   createCharts(): void {

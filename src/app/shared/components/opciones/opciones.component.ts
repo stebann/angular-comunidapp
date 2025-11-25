@@ -13,12 +13,8 @@ export class OpcionesComponent {
   eventValue: Event | undefined;
 
   ejecutarFuncion(funcion: any, target: any) {
-    console.log('ejecutarFuncion llamado', funcion);
     if (funcion) {
-      console.log('Ejecutando función...');
       funcion();
-    } else {
-      console.log('La función es null o undefined');
     }
     this.overlayPanel.toggle({ currentTarget: target });
   }
