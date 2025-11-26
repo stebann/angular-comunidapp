@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { ImageModerationService } from 'src/app/core/services/image-moderation.service';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { TipoTransaccion } from 'src/app/shared/enums/articulo.enums';
 import { FilterOption } from '../../../../../../shared/models/filter-models';
 import { FiltersService } from '../../../../../../shared/services/filters.service';
@@ -33,7 +35,9 @@ export class ModalArticuloComponent implements OnInit {
     private filtersService: FiltersService,
     private articulosService: MisArticulosService,
     private authService: AuthService,
-    private imageHandler: ImageHandlerService
+    private imageHandler: ImageHandlerService,
+    private imageModeration: ImageModerationService,
+    private appMessages: AppMessagesServices
   ) {}
 
   ngOnInit(): void {
@@ -225,11 +229,24 @@ export class ModalArticuloComponent implements OnInit {
       .filter((f) => f.type.startsWith('image/'))
       .slice(0, espacioDisponible);
 
-    const base64Images = await this.imageHandler.filesToBase64(
-      archivosParaAgregar
-    );
+    // Validar imágenes antes de agregarlas
+    for (const file of archivosParaAgregar) {
+      const isValid = await this.imageModeration
+        .validateImage(file)
+        .toPromise();
 
-    this.previewImages.push(...base64Images);
+      if (!isValid) {
+        this.appMessages.advertencia(
+          'No se puede subir esta imagen. Contiene contenido inapropiado (violento, sexual, etc.).',
+          'Imagen rechazada'
+        );
+        continue; // Saltar esta imagen
+      }
+
+      // Si es válida, convertir a base64 y agregar
+      const base64Images = await this.imageHandler.filesToBase64([file]);
+      this.previewImages.push(...base64Images);
+    }
   }
 
   private adjustImageIndex(): void {

@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { ImageModerationService } from 'src/app/core/services/image-moderation.service';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { ImageHandlerService } from 'src/app/shared/services/image-handler.service';
@@ -31,7 +33,9 @@ export class AddComercioModalComponent implements OnInit {
     public misNegociosService: MisNegociosService,
     private imageHandler: ImageHandlerService,
     private filtersService: FiltersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private imageModeration: ImageModerationService,
+    private appMessages: AppMessagesServices
   ) {}
 
   get comercioForm() {
@@ -92,11 +96,24 @@ export class AddComercioModalComponent implements OnInit {
       .filter((f) => f.type.startsWith('image/'))
       .slice(0, espacioDisponible);
 
-    const base64Images = await this.imageHandler.filesToBase64(
-      archivosParaAgregar
-    );
+    // Validar imágenes antes de agregarlas
+    for (const file of archivosParaAgregar) {
+      const isValid = await this.imageModeration
+        .validateImage(file)
+        .toPromise();
 
-    this.previewImages.push(...base64Images);
+      if (!isValid) {
+        this.appMessages.advertencia(
+          'No se puede subir esta imagen. Contiene contenido inapropiado (violento, sexual, etc.).',
+          'Imagen rechazada'
+        );
+        continue; // Saltar esta imagen
+      }
+
+      // Si es válida, convertir a base64 y agregar
+      const base64Images = await this.imageHandler.filesToBase64([file]);
+      this.previewImages.push(...base64Images);
+    }
   }
 
   eliminarImagen(index: number): void {

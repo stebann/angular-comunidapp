@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { API_ENDPOINTS } from 'src/app/core/constants/api-endpoints';
+import { ImageModerationService } from 'src/app/core/services/image-moderation.service';
 import { ImageUrlService } from 'src/app/core/services/image-url.service';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { ImageHandlerService } from 'src/app/shared/services/image-handler.service';
@@ -35,7 +37,9 @@ export class ModalArticuloComercioComponent implements OnInit {
     private filtersService: FiltersService,
     public comercioService: ComercioService,
     private imageHandler: ImageHandlerService,
-    private imageUrlService: ImageUrlService
+    private imageUrlService: ImageUrlService,
+    private imageModeration: ImageModerationService,
+    private appMessages: AppMessagesServices
   ) {
     // Obtener comercioId y articuloId del config
     this.comercioId = this.config.data?.comercioId || 0;
@@ -285,11 +289,24 @@ export class ModalArticuloComercioComponent implements OnInit {
       .filter((f) => f.type.startsWith('image/'))
       .slice(0, espacioDisponible);
 
-    const base64Images = await this.imageHandler.filesToBase64(
-      archivosParaAgregar
-    );
+    // Validar imágenes antes de agregarlas
+    for (const file of archivosParaAgregar) {
+      const isValid = await this.imageModeration
+        .validateImage(file)
+        .toPromise();
 
-    this.previewImages.push(...base64Images);
+      if (!isValid) {
+        this.appMessages.advertencia(
+          'No se puede subir esta imagen. Contiene contenido inapropiado (violento, sexual, etc.).',
+          'Imagen rechazada'
+        );
+        continue; // Saltar esta imagen
+      }
+
+      // Si es válida, convertir a base64 y agregar
+      const base64Images = await this.imageHandler.filesToBase64([file]);
+      this.previewImages.push(...base64Images);
+    }
   }
 
   private adjustImageIndex(): void {
