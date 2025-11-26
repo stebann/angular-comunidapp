@@ -580,26 +580,40 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-top: 20px;
+    margin-top: 16px;
 
     .detail-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-      background: #f8fafc;
-      border-radius: 8px;
+      flex-direction: column;
+      gap: 6px;
+      padding: 12px;
+      background: linear-gradient(135deg, #f8fafc 0%, #f0fdfa 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(var(--color-primary-rgb), 0.1);
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: rgba(var(--color-primary-rgb), 0.3);
+        box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.08);
+      }
 
       .detail-label {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 600;
-        color: #475569;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        i {
+          font-size: 14px;
+        }
       }
 
       .detail-value {
         font-size: 16px;
         font-weight: 700;
-        color: #0f172a;
+        color: #1f2937;
       }
     }
   }
@@ -728,22 +742,56 @@
 
     .actividad-stat {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px;
-      background: #f8fafc;
-      border-radius: 8px;
+      flex-direction: column;
+      gap: 8px;
+      padding: 14px;
+      background: linear-gradient(135deg, #f8fafc 0%, #f0fdfa 100%);
+      border-radius: 12px;
+      border: 1px solid rgba(var(--color-primary-rgb), 0.1);
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: rgba(var(--color-primary-rgb), 0.3);
+        box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.08);
+      }
 
       .stat-label {
-        font-size: 16px;
+        font-size: 13px;
         font-weight: 600;
-        color: #475569;
+        color: #6b7280;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        i {
+          font-size: 14px;
+        }
       }
 
       .stat-value {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
-        color: #0f172a;
+        color: #1f2937;
+      }
+    }
+  }
+
+  // Prediction Info
+  .prediction-info {
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(16, 185, 129, 0.08));
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+
+    .prediction-description {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #374151;
+
+      strong {
+        font-weight: 700;
+        color: var(--color-primary-dark);
       }
     }
   }

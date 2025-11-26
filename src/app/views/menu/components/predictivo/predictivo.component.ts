@@ -417,60 +417,7 @@ export class PredictivoComponent implements OnInit, OnDestroy {
   }
 
   createSparklineChart(): void {
-    if (!this.modelosPredictivos?.modelosUsuario.modelo6InactividadUsuario) {
-      return;
-    }
-
-    const modelo =
-      this.modelosPredictivos.modelosUsuario.modelo6InactividadUsuario;
-    const datos = modelo.datosGrafico.sparkLineUltimos30;
-
-    if (!this.sparklineCanvas || datos.length === 0) return;
-
-    const canvas = this.sparklineCanvas.nativeElement;
-    const ctx = canvas.getContext('2d');
-
-    // Ajustar tamaño del canvas
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
-
-    const width = rect.width;
-    const height = rect.height;
-    const padding = 20;
-
-    // Limpiar canvas
-    ctx.clearRect(0, 0, width, height);
-
-    // Calcular valores máximos
-    const maxActividad = Math.max(...datos.map((d) => d.actividad), 1);
-    const stepX = (width - padding * 2) / (datos.length - 1);
-    const stepY = (height - padding * 2) / maxActividad;
-
-    // Dibujar línea
-    ctx.beginPath();
-    ctx.strokeStyle = '#3b82f6';
-    ctx.lineWidth = 2;
-    ctx.moveTo(padding, height - padding - datos[0].actividad * stepY);
-
-    datos.forEach((dato, index) => {
-      const x = padding + index * stepX;
-      const y = height - padding - dato.actividad * stepY;
-      ctx.lineTo(x, y);
-    });
-
-    ctx.stroke();
-
-    // Dibujar puntos
-    ctx.fillStyle = '#3b82f6';
-    datos.forEach((dato, index) => {
-      const x = padding + index * stepX;
-      const y = height - padding - dato.actividad * stepY;
-      ctx.beginPath();
-      ctx.arc(x, y, 3, 0, Math.PI * 2);
-      ctx.fill();
-    });
+    // Sparkline chart no es necesario con la nueva estructura simplificada
+    // El modelo6 ahora solo contiene predicción y confianza
   }
 }

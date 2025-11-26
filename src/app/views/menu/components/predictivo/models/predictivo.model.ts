@@ -90,33 +90,13 @@ export interface ModeloConfiabilidad {
   usuarioNombre: string;
   graficoTipo: string;
   datosGrafico: {
-    confiabilidadScore: number;
     categoriaConfiabilidad: string;
-    percentilComparativo: number;
-    descripcionPercentil: string;
-    detalles: DetallesConfiabilidad;
-    componentesScore: ComponentesScore;
+    confiabilidadScore: number;
+    cantidadArticulosActivos: number;
+    velocidadVentaPromedio: number;
+    calificacionPromedioVentas: number;
+    precioPromedioArticulos: number;
   };
-}
-
-export interface DetallesConfiabilidad {
-  ratingPromedio: number;
-  transaccionesTotales: number;
-  transaccionesCompletadas: number;
-  tasaCumplimiento: number;
-  prestamosATiempo: number;
-  transaccionesRetrasadas: number;
-  diasAntiguedad: number;
-  calificacionesPromedio: number;
-  tendencia: string;
-}
-
-export interface ComponentesScore {
-  ratingContribucion: number;
-  transaccionesContribucion: number;
-  cumplimientoContribucion: number;
-  antiguedadContribucion: number;
-  calificacionesContribucion: number;
 }
 
 export interface ModeloInactividad {
@@ -128,24 +108,11 @@ export interface ModeloInactividad {
   datosGrafico: {
     prediccion: string;
     confianzaPrediccion: number;
-    transaccionesUltimoMes: number;
-    diasSinActividad: number;
-    articulosActivos: number;
-    tendencia30Dias: string;
-    sparkLineUltimos30: DatoDia[];
-    heatmap12Meses: DatoMes[];
+    diasDesdeUltimaActividad: number;
+    articulosPublicadosUltimoMes: number;
+    frecuenciaConexionSemanal: number;
+    tasaTransaccionesCompletadas: number;
   };
-}
-
-export interface DatoDia {
-  dia: number;
-  actividad: number;
-}
-
-export interface DatoMes {
-  mes: string;
-  actividadPromedio: number;
-  intensidad: string;
 }
 
 // Modelo completo de respuesta
