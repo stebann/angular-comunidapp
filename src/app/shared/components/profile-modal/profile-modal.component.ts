@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ProfileService } from './services/profile.service';
@@ -11,8 +11,7 @@ export class ProfileModalComponent implements OnInit {
   constructor(
     public profileService: ProfileService,
     public ref: DynamicDialogRef,
-    public authService: AuthService,
-    private cdr: ChangeDetectorRef
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -24,24 +23,6 @@ export class ProfileModalComponent implements OnInit {
 
   get form() {
     return this.profileService.formUsuario;
-  }
-
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64 = reader.result as string;
-
-        this.profileService.formUsuario.patchValue({
-          avatarUrl: base64,
-        });
-
-        this.cdr.detectChanges();
-      };
-      reader.readAsDataURL(file);
-    }
   }
 
   getInitials(fullName: string): string {
@@ -59,7 +40,24 @@ export class ProfileModalComponent implements OnInit {
   }
 
   onSave(): void {
-    if (this.form.valid) {
+    if (!this.form.valid) {
+      return;
     }
+
+    const currentState = this.authService.currentState;
+    if (!currentState?.id) {
+      return;
+    }
+
+    this.profileService.update(currentState.id).subscribe((usuario) => {
+      // Actualizar datos básicos en el AuthService para reflejar cambios en el topbar
+      this.authService.setAuth({
+        id: currentState.id,
+        nombre: usuario?.nombreCompleto ?? currentState.nombre,
+        email: usuario?.email ?? currentState.email,
+      });
+
+      this.ref.close('success');
+    });
   }
 }

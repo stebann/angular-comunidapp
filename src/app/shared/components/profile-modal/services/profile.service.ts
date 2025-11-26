@@ -12,12 +12,27 @@ export class ProfileService extends ProfileRepository {
     super();
   }
 
-  update(): Observable<any> {
-    return this.http$.put(UsuarioAPI.Base, this.formUsuario.value);
+  update(id: number): Observable<any> {
+    const url = `${UsuarioAPI.PorId}${id}`;
+
+    const formData = new FormData();
+    const formValues = this.formUsuario.value;
+
+    // Agregar solo los campos necesarios (sin avatarUrl)
+    Object.keys(formValues).forEach((key) => {
+      if (key !== 'avatarUrl') {
+        const value = formValues[key];
+        if (value !== null && value !== undefined) {
+          formData.append(key, value);
+        }
+      }
+    });
+
+    return this.http$.putFormData(url, formData);
   }
 
   usuarioById(id: number): any {
-    this.http$.get(`${UsuarioAPI.Base}/${id}`).subscribe((usuario) => {
+    this.http$.get(`${UsuarioAPI.PorId}${id}`).subscribe((usuario) => {
       this.formUsuario.patchValue(usuario);
     });
   }

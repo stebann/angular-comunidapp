@@ -44,4 +44,32 @@ export class MisNegociosService extends MisNegociosRepository {
 
     return this.http$.postFormData(url, formData);
   }
+
+  actualizarComercio(
+    comercioId: number,
+    imagenes: File[],
+    usuarioId: number
+  ): Observable<any> {
+    const url = `${ComerciosAPI.PorId}${comercioId}?usuarioId=${usuarioId}`;
+
+    const formData = new FormData();
+    const formValues = this.formComercio.value;
+
+    Object.keys(formValues).forEach((key) => {
+      if (key !== 'imagenes' && formValues[key] != null) {
+        formData.append(key, formValues[key]);
+      }
+    });
+
+    imagenes.forEach((file) => {
+      formData.append('imagenes', file, file.name);
+    });
+
+    return this.http$.putFormData(url, formData);
+  }
+
+  eliminarComercio(comercioId: number, usuarioId: number): Observable<any> {
+    const url = `${ComerciosAPI.PorId}${comercioId}?usuarioId=${usuarioId}`;
+    return this.http$.delete(url);
+  }
 }

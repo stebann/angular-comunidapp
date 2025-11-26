@@ -163,7 +163,15 @@
     >
       <i class="pi pi-check" *ngIf="!isSubmitting"></i>
       <i class="pi pi-spinner pi-spin" *ngIf="isSubmitting"></i>
-      {{ isSubmitting ? "Creando..." : "Crear Comercio" }}
+      {{
+        isSubmitting
+          ? isEditMode
+            ? "Actualizando..."
+            : "Creando..."
+          : isEditMode
+          ? "Actualizar Comercio"
+          : "Crear Comercio"
+      }}
     </app-button>
   </div>
 </div>

@@ -62,11 +62,6 @@ export class TopbarComponent implements OnInit, OnDestroy {
         action: () => this.goToProfile(),
       },
       {
-        label: 'Configuración',
-        icon: 'pi pi-cog',
-        action: () => this.goToSettings(),
-      },
-      {
         label: 'Cerrar Sesión',
         icon: 'pi pi-sign-out',
         action: () => this.logout(),

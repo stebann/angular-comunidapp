@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
@@ -21,8 +21,13 @@ export class AddComercioModalComponent implements OnInit {
   categoriasComercios: FilterOption[] = [];
   private readonly MAX_IMAGES = 5;
 
+  get isEditMode(): boolean {
+    return !!this.config.data?.comercioId;
+  }
+
   constructor(
     private ref: DynamicDialogRef,
+    private config: DynamicDialogConfig,
     public misNegociosService: MisNegociosService,
     private imageHandler: ImageHandlerService,
     private filtersService: FiltersService,
@@ -37,6 +42,8 @@ export class AddComercioModalComponent implements OnInit {
     this.filtersService.getCategoriasComercios().subscribe((categorias) => {
       this.categoriasComercios = categorias;
     });
+
+    this.loadExistingImages();
   }
 
   onCancel(): void {
@@ -115,24 +122,39 @@ export class AddComercioModalComponent implements OnInit {
     if (this.comercioForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
 
-      // Convertir imágenes a Files si hay
-      let imagenes: File[] = [];
-      if (this.previewImages.length > 0) {
-        imagenes = await this.imageHandler.previewImagesToFiles(
-          this.previewImages
-        );
-      }
+      // Convertir todas las imágenes del preview (existentes + nuevas) a Files
+      const imagenes = await this.imageHandler.previewImagesToFiles(
+        this.previewImages
+      );
 
       const usuarioId = this.authService.currentState.id;
-      this.misNegociosService.crearComercio(imagenes, usuarioId).subscribe({
+      const comercioId = this.config.data?.comercioId as number | undefined;
+
+      const request$ = comercioId
+        ? this.misNegociosService.actualizarComercio(
+            comercioId,
+            imagenes,
+            usuarioId
+          )
+        : this.misNegociosService.crearComercio(imagenes, usuarioId);
+
+      request$.subscribe({
         next: () => {
+          this.misNegociosService.getComerciosPorUsuario();
           this.ref.close('success');
         },
         error: (error) => {
-          console.error('Error al crear comercio:', error);
+          console.error('Error al guardar comercio:', error);
           this.isSubmitting = false;
         },
       });
+    }
+  }
+
+  private loadExistingImages(): void {
+    const imagenes = this.config.data?.imagenes as string[] | undefined;
+    if (imagenes && imagenes.length > 0) {
+      this.previewImages = this.imageHandler.loadImagesForPreview(imagenes);
     }
   }
 }

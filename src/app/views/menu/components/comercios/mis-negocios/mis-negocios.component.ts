@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ImageUrlService } from 'src/app/core/services/image-url.service';
+import { AppMessagesServices } from 'src/app/core/services/toas.service';
 import { FilterOption } from 'src/app/shared/models/filter-models';
 import { FiltersService } from 'src/app/shared/services/filters.service';
 import { Comercio } from '../models/comercio.model';
@@ -30,7 +33,10 @@ export class MisNegociosComponent implements OnInit {
     public misNegociosService: MisNegociosService,
     private filterService: FiltersService,
     public dialogService$: DialogService,
-    private imageUrlService: ImageUrlService
+    private imageUrlService: ImageUrlService,
+    private confirmationService: ConfirmationService,
+    private authService: AuthService,
+    private appMessages: AppMessagesServices
   ) {}
 
   ngOnInit(): void {
@@ -109,6 +115,7 @@ export class MisNegociosComponent implements OnInit {
   }
 
   openCreateComercioModal(): void {
+    this.misNegociosService.formComercio.reset();
     this.dialogService$.open(AddComercioModalComponent, {
       header: 'Crear Comercio',
       width: '1200px',
@@ -118,11 +125,58 @@ export class MisNegociosComponent implements OnInit {
 
   onEdit(): void {
     if (!this.comercioSeleccionado) return;
-    // TODO: Implementar edición de comercio
+
+    this.comercioService
+      .getComercioPorId(this.comercioSeleccionado.id)
+      .subscribe((comercio) => {
+        // Rellenar formulario con los datos del comercio
+        this.misNegociosService.formComercio.patchValue({
+          nombre: comercio.nombre,
+          descripcion: comercio.descripcion,
+          direccion: comercio.direccion,
+          telefono: comercio.telefono,
+          email: comercio.email,
+          sitioWeb: comercio.sitioWeb,
+          tieneEnvio: comercio.tieneEnvio,
+          categoriaId: comercio.categoriaId,
+        });
+
+        this.dialogService$.open(AddComercioModalComponent, {
+          header: 'Editar Comercio',
+          width: '1200px',
+          styleClass: 'p-app-modal',
+          data: {
+            comercioId: comercio.id,
+            imagenes: comercio.imagenes,
+          },
+        });
+      });
   }
 
   onRemove(): void {
     if (!this.comercioSeleccionado) return;
-    // TODO: Implementar eliminación de comercio
+
+    const usuario = this.authService.currentState;
+    if (!usuario || !usuario.id) {
+      this.appMessages.error(
+        'No se pudo obtener la información del usuario.',
+        'Error'
+      );
+      return;
+    }
+
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que deseas eliminar el comercio "${this.comercioSeleccionado.nombre}"?`,
+      header: 'Confirmar eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.misNegociosService
+          .eliminarComercio(this.comercioSeleccionado!.id, usuario.id)
+          .subscribe(() => {
+            this.misNegociosService.getComerciosPorUsuario();
+            this.comercioSeleccionado = null;
+          });
+      },
+    });
   }
 }
