@@ -17,7 +17,10 @@ export class AdminGuard implements CanActivate {
     const currentUser = this.authService.currentState;
 
     // Verificar si está autenticado y es admin
-    if (this.authService.isAuthenticated() && currentUser.rol === 'ADMIN') {
+    // El backend envía el rol en minúsculas ("admin", "usuario", etc.),
+    // por eso normalizamos a minúsculas antes de comparar.
+    const rol = currentUser?.rol?.toLowerCase();
+    if (this.authService.isAuthenticated() && rol === 'admin') {
       return true;
     }
 
